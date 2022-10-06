@@ -1,5 +1,5 @@
 import BaseLayout from "../components/Layout/BaseLayout";
-import { Button, Col, Divider, Input, Modal, Row, Select, Spin } from "antd";
+import { Badge, Button, Col, Divider, Input, Modal, Row, Select, Spin } from "antd";
 import Head from "next/head";
 import { useContext, useEffect, useState } from "react";
 import css from "./style.module.css";
@@ -125,15 +125,18 @@ export default function Home(props) {
               </Select></span>
 
                 <div className={css.Popcss}>
-                  <div className={css.PopCirc}>   
+                  {/* <div className={css.PopCirc}>   
                   <CheckOutlined style={{fontSize: "37px", color: "37px"}}/>
-                  </div>
+                  </div> */}
                   <div className={css.TitleCirc}>
-                    <div>{orgIdState}</div>
-                    <div> descript text text text</div>
-                  </div>
-                    <div> hi</div>
-                  <div className={css.BtnPop}> <Button style={{background: "#7de97d", fontWeight: "500"}} size="large" onClick={()=> router.push("/items")}>Go to items</Button></div>
+                    <div className={css.TitleFlex}>
+ <Badge color="green" style={{paddingRight: "10px"}}/> {orgIdState}
+                    </div>
+                    <div className={css.Circle}><CheckOutlined style={{fontSize: "12px", color: "#4d5057"}}/></div>
+                    {/* <div> descript text text text</div> */}
+                  </div> 
+                  <div className={css.BtnPop}> 
+                  <Button style={{ fontWeight: "500", color: "red"}} size="middle" type="text" onClick={()=> router.push("/items")}>Go to items <ArrowRightOutlined /> </Button></div>
                 </div>
               {/* {orgIdState === t("There is no organization id!!") ? "" : 
               <div> 
