@@ -21,7 +21,7 @@ export default function Home(props) {
   const [orgError, setOrgError] = useState("");
   const [spin, setSpin] = useState(false);
   const router = useRouter();
-  
+  //amraa
   useEffect(() => {
     basketContext.MenuKey();
     basketContext.basketStateFunc();
@@ -132,7 +132,7 @@ export default function Home(props) {
                     <div>{orgIdState}</div>
                     <div> descript text text text</div>
                   </div>
-                  
+                    <div> hi</div>
                   <div className={css.BtnPop}> <Button style={{background: "#7de97d", fontWeight: "500"}} size="large" onClick={()=> router.push("/items")}>Go to items</Button></div>
                 </div>
               {/* {orgIdState === t("There is no organization id!!") ? "" : 
