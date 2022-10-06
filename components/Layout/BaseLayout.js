@@ -61,14 +61,14 @@ export default function BaseLayout(props) {
   }, [props]);
 
   // Locize Loading...
-  if (!ready)
-    return (
-      <div className={css.Spinner}>
-        <div className={css.TitleCenter}>
-          <Spin size="large" /> 
-        </div>
-      </div>
-    );
+  // if (!ready)
+  //   return (
+  //     <div className={css.Spinner}>
+  //       <div className={css.TitleCenter}>
+  //         <Spin size="large" /> 
+  //       </div>
+  //     </div>
+  //   );
   const getItem = (label, key, icon, children, type) => {
     if (label.key === "1") {
       basketContext.MenuKey("1");

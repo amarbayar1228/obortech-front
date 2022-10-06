@@ -1,5 +1,5 @@
 import BaseLayout from "../components/Layout/BaseLayout";
-import { Button, Divider, Input, Modal, Select, Spin } from "antd";
+import { Button, Col, Divider, Input, Modal, Row, Select, Spin } from "antd";
 import Head from "next/head";
 import { useContext, useEffect, useState } from "react";
 import css from "./style.module.css";
@@ -143,7 +143,7 @@ export default function Home(props) {
               {/* { spin ? <Spin className={css.SpinCss}/> : orgError === "" ? "" :  <div className={css.OrgError}>{orgError}</div>} */}
  
           </div> 
-        </div>
+        </div> 
       </BaseLayout>
     </div>
   );

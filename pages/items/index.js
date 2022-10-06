@@ -148,9 +148,11 @@ const Items = () => {
                 )}
               </div> 
             </div>
+            <div style={{width: "100%", background: "rgb(30 41 59)", height: "250px"}}></div>
           </>
+          
         )}
-        <div style={{width: "100%", background: "rgb(30 41 59)", height: "250px"}}></div>
+      
       </div>
     </BaseLayout>
   );
