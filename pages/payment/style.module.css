@@ -13,7 +13,7 @@
 
 .ItemSize {
   width: 100%;
-  background: #f0f2f5;
+  background: #fff;
   padding: 5px;
   border-radius: 5px;
   display: flex;
@@ -21,6 +21,7 @@
   /* justify-content: center; */
   flex-flow: wrap;
   overflow-y: auto;
+  /* justify-content: center; */
 }
 
 .ItemSize::-webkit-scrollbar {
@@ -46,11 +47,25 @@
   text-transform: uppercase;
   padding: 10px;
   margin: 10px;
-  width: 357px;
+  width: 300px;
   /* height: 198px; */
 }
 
 .Items2 {
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%);
+  font-size: 14px;
+  box-shadow: 1px 2px 3px 2px #ccc;
+  border-radius: 5px;
+  text-transform: uppercase;
+  padding: 10px;
+  margin: 10px;
+  width: 300px;
+  /* height: 198px; */
+}
+
+/* .Items2 {
   display: flex;
   flex-direction: column;
   background: #fff;
@@ -60,9 +75,8 @@
   text-transform: uppercase;
   padding: 10px;
   margin: 10px;
-  width: 266px;
-  /* height: 328px; */
-}
+  width: 266px; 
+} */
 
 .groupCss {
   height: 117px;
@@ -76,10 +90,28 @@
 
 .ItemZurag {
   width: 65px;
-  background-color: #ccc;
   border-radius: 5px;
   padding: 5px;
   height: 55px;
+}
+
+.grpBackColor {
+  width: 65px;
+  display: flex;
+  /* background: #dbdbdb; */
+  height: 55px;
+  background: linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%);
+  /* align-content: center; */
+  justify-content: center;
+  align-items: center;
+
+}
+
+.PgrCss {
+  width: 25px;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  text-align: center;
 }
 
 .BankItem {
@@ -99,7 +131,29 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
+}
 
+.DescripOver {
+  /* text-left text-gray-500 -mt-2 capitalize */
+  text-align: left;
+  color: #6f8391;
+  font-size: 13px;
+  text-transform: lowercase;
+  margin-top: -5px;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  width: 170px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+}
+
+.TitleOver {
+  white-space: nowrap;
+  width: 170px;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .Descrip {
@@ -241,7 +295,7 @@
 .Reminder {
   width: 360px;
   margin-left: 10px;
-  background-color: #f0f2f5;
+  background-color: #fff;
   border-radius: 10px;
   box-shadow: 1px 3px 8px 1px #9e9e9e;
   padding: 10px;
@@ -252,15 +306,27 @@
   flex-direction: column;
   /* width: 60%; */
   width: 100%;
-  background: #f0f2f5;
+  /* background: #f0f2f5; */
   border-radius: 10px;
   box-shadow: 1px 3px 8px 1px #9e9e9e;
-  max-height: 530px;
+  height: 530px;
   justify-content: space-between;
-
+  overflow-y: auto;
 }
 
-.OrderCss {}
+
+.ItemTotal::-webkit-scrollbar {
+  width: 5px;
+}
+
+.ItemTotal::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.ItemTotal::-webkit-scrollbar-thumb {
+  background-color: red;
+  border-radius: 10px;
+}
 
 .TotalPayment {
   display: flex;
@@ -534,8 +600,14 @@
 .ItemsSolo {
   display: flex;
   height: 100%;
-  flex-direction: column;
   align-items: center;
+}
+
+.ItemSoloGroup {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  background: linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%);
 }
 
 .ItemGroupD {

@@ -30,8 +30,7 @@ const BacketComponent = (props) => {
   };
   const totalPriceFunction = () => {
     let totalPirce2 = 0;
-    basketContext.basketState.forEach((element) => {
-      console.log("totalPriceFunctin: ", element);
+    basketContext.basketState.forEach((element) => { 
       totalPirce2 += element.cnt * element.itemPriceTotal;
     });
     // setTotalPriceState(totalPirce2);
@@ -44,6 +43,11 @@ const BacketComponent = (props) => {
           <Empty description={<span style={{ fontSize: "18px", fontWeight: "500" }}>{t("basketEmpty")}</span>}/>
         </div>
       ) : (
+        <> 
+        <div className={css.OrgIdCss}>
+          <div>Organization name: </div>
+          <div>{basketContext.orgId === undefined ? "" : basketContext.orgId}</div>
+        </div>
         <div className={css.BasketScroll}>
           {basketContext.basketState.map((e, i) => (
             <div className={e.img === undefined ? css.grpBackColor : css.BasketItem} key={i}>
@@ -67,6 +71,7 @@ const BacketComponent = (props) => {
             </div>
           ))}
         </div>
+        </>
       )}
       <div className={css.Orderbtns}>
         <div className={css.BtnOrder}>

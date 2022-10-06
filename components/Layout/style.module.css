@@ -23,6 +23,11 @@
     border-bottom: 1px solid #e6e6e6;
 }
 
+.FlexPro {
+    display: flex;
+    align-items: center;
+}
+
 .HeaderItem {
     display: flex;
 }
@@ -188,7 +193,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 18px;
-    width: 60px;
+    width: 80px;
 }
 
 .BasketPop3 {

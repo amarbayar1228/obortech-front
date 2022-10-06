@@ -30,8 +30,10 @@ export const BasketItem = (props) => {
   const toggle = () => {
     setCollapsed(!collapsed);
   };
-const orgIdLocal = () =>{
-  setOrgId(localStorage.getItem("orgId"))
+const orgIdLocal = (orgId) =>{ 
+  // setOrgId(localStorage.getItem("orgId"))
+  setOrgId(orgId);
+  console.log("orgId: ", orgId);
 }
   const removeBasketStorage = () => {
     localStorage.removeItem("basket");

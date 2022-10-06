@@ -98,3 +98,15 @@
     border-radius: 50%;
     text-align: center;
 }
+
+.OrgIdCss {
+    display: flex;
+    justify-content: space-between;
+    background: red;
+    padding: 3px 10px;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 500;
+
+}

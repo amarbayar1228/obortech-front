@@ -1,5 +1,5 @@
 import BaseLayout from "../components/Layout/BaseLayout";
-import { Badge, Button, Col, Divider, Input, Modal, Row, Select, Spin } from "antd";
+import { Badge, Button, Col, Divider, Input, Modal, Radio, Row, Select, Spin } from "antd";
 import Head from "next/head";
 import { useContext, useEffect, useState } from "react";
 import css from "./style.module.css";
@@ -20,12 +20,14 @@ export default function Home(props) {
   const [orgIdState, setOrgIdState] = useState("");
   const [orgError, setOrgError] = useState("");
   const [spin, setSpin] = useState(false);
+  const [radioS,setRadioS] = useState("");
+  const [value, setValue] = useState("");
   const router = useRouter();
   //amraa
   useEffect(() => {
     basketContext.MenuKey();
     basketContext.basketStateFunc();
-  
+     
     tokenFunc();
    
   }, []);
@@ -40,6 +42,7 @@ export default function Home(props) {
   } 
   }
   const onSearch = (value) => {
+    setRadioS("");
     setSpin(true);
     setOrgError("");
     console.log("input value:", value);
@@ -58,11 +61,11 @@ export default function Home(props) {
       axios.post("/api/post/Gate", body).then((res)=>{ 
         console.log(res.data);
         if(res.data.data){
-          sessionStorage.setItem("orgId", res.data.data.map.name)
+          // sessionStorage.setItem("orgId", res.data.data.map.name)
           setOrgIdState(res.data.data.map.name);
-          localStorage.setItem("orgId", res.data.data.map.name);
-          setOrgError("");
-          basketContext.orgIdLocal();
+          // localStorage.setItem("orgId", res.data.data.map.name);
+          setOrgError(""); 
+          // basketContext.orgIdLocal(res.data.data.map.name);
           setSpin(false);
         }else {
           console.log("orgID bhq" );
@@ -86,6 +89,7 @@ export default function Home(props) {
   
       onOk() {
         console.log('OK');
+        basketContext.orgIdLocal(value);
         router.push("/items")
       },
   
@@ -104,6 +108,13 @@ export default function Home(props) {
     }
 
   };
+
+  const onChangeRadio = (e) =>{
+    console.log("radio: ", e.target.value);
+    setRadioS("a");
+    setValue(e.target.value)
+    
+  }
   return (
     <div>
       <Head>
@@ -118,11 +129,12 @@ export default function Home(props) {
             <Search placeholder={t("Enter your organization ID")} allowClear  size="large" onSearch={onSearch} enterButton />
 
               {orgIdState === "" ? spin ? <Spin className={css.SpinCss}/> : orgError === "" ? "" :  <div className={css.OrgError}>{orgError}</div> : 
-              <>{spin ? <Spin className={css.SpinCss}/> : <div className={css.OrgIdCss}>{t("Organization name")} :
-              <span className={css.SpanCss}>
+              <>{spin ? <Spin className={css.SpinCss}/> : 
+              <div className={css.OrgIdCss}>
+                {/* {t("Organization name")} : <span className={css.SpanCss}>
               <Select defaultValue={orgIdState} style={{marginLeft: "10px",width: 150, fontSize: "17px"}}onChange={handleChange}>
                 <Option value="0">{orgIdState}</Option> 
-              </Select></span>
+              </Select></span> */}
 
                 <div className={css.Popcss}>
                   {/* <div className={css.PopCirc}>   
@@ -130,13 +142,16 @@ export default function Home(props) {
                   </div> */}
                   <div className={css.TitleCirc}>
                     <div className={css.TitleFlex}>
- <Badge color="green" style={{paddingRight: "10px"}}/> {orgIdState}
+                    <Radio.Group onChange={onChangeRadio}>
+                      <Radio value={orgIdState}>{orgIdState}</Radio> 
+                    </Radio.Group>
+                        {/* <Badge color="green" style={{paddingRight: "10px"}}/> {orgIdState} */}
                     </div>
-                    <div className={css.Circle}><CheckOutlined style={{fontSize: "12px", color: "#4d5057"}}/></div>
-                    {/* <div> descript text text text</div> */}
+                    {/* <div className={css.Circle}><CheckOutlined style={{fontSize: "12px", color: "#4d5057"}}/></div>  */}
                   </div> 
-                  <div className={css.BtnPop}> 
-                  <Button style={{ fontWeight: "500", color: "red"}} size="middle" type="text" onClick={()=> router.push("/items")}>Go to items <ArrowRightOutlined /> </Button></div>
+                  {radioS === "a" ? <div className={css.BtnPop}> 
+                    <Button style={{ fontWeight: "500", color: "red"}} size="middle" type="text" onClick={()=> showConfirm()}>Next <ArrowRightOutlined /> </Button></div> : ""}
+                  
                 </div>
               {/* {orgIdState === t("There is no organization id!!") ? "" : 
               <div> 

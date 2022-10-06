@@ -211,8 +211,8 @@ export default function BaseLayout(props) {
         </div>
 {/* Moblie ============================================================= */}
         <div className={css.MenuMobile}>
-          <div className={ admin == "1" || admin == "2" || basketContext.orgId == "0"? css.MenuHoverIconAdminNo : css.MenuHoverIcon}>
-            {admin == "1" || admin == "2" || basketContext.orgId == "0" ? null : (
+          <div className={ admin == "1" || admin == "2" || basketContext.orgId == undefined? css.MenuHoverIconAdminNo : css.MenuHoverIcon}>
+            {admin == "1" || admin == "2" || basketContext.orgId == undefined ? null : (
               <div className={ router.pathname == "/payment" ? css.PopoverStyle2 : css.PopoverStyle1}>
                 {basketContext.basketState.length === 0 ? (
                   <div className={css.BasketPopNone}> </div>
@@ -243,7 +243,7 @@ export default function BaseLayout(props) {
               <div className={css.ProfileBackground}>
                 <Popover content={changeProfile}>
                   <Button type="link" className={css.IconsMenu} size="small">
-                    <div className={router.pathname == "/profile" ? css.ProfileCss : "flex items-center"}>
+                    <div className={router.pathname == "/profile" ? css.ProfileCss : css.FlexPro}>
                       <UserOutlined />
                       <span className={css.ProfileText}>
                         {admin === "0" ? basketContext.userInfoProfile === undefined ? "" : basketContext.userInfoProfile.email
@@ -272,7 +272,7 @@ export default function BaseLayout(props) {
                   <HomeOutlined /> {t("homeName")}
                 </Button>
               </div>
-              {basketContext.orgId == "0" ? "" : 
+              {basketContext.orgId == undefined ? "" : 
               <div className={router.pathname == "/items" ? css.ActiveMenu : ""}>
                 <Button onClick={() => router.push("/items")} type="link" className={css.IconsMenu}>
                   <AppstoreAddOutlined /> Item </Button>
@@ -305,7 +305,7 @@ export default function BaseLayout(props) {
               </Button>
             </Tooltip>
           </div>
-          {basketContext.orgId === "0"? "" : 
+          {basketContext.orgId === undefined ? "" : 
            <div className={router.pathname == "/items" ? css.Active : ""}>
            <Tooltip title={"items"}>
              <Button onClick={() => router.push("/items")} type="link" className={css.Icons}>
@@ -331,7 +331,7 @@ export default function BaseLayout(props) {
               </Tooltip>
             </div>) : ("")}
 
-          {admin == "1" || admin == "2" || basketContext.orgId == "0" ? ("") : (
+          {admin == "1" || admin == "2" || basketContext.orgId == undefined ? ("") : (
             <div className={router.pathname == "/payment" ? css.PopoverStyle2 : css.PopoverStyle1}>
               {basketContext.basketState.length === 0 ? (
                 <div className={css.BasketPopNone}> </div>
@@ -343,10 +343,7 @@ export default function BaseLayout(props) {
               <Tooltip title={t("basketName")}>
                 <Popover
                   content={<BacketComponent />}
-                  title={
-                    <div className={css.BasketHeader}>
-                      <ShoppingCartOutlined style={{ paddingRight: "5px", fontSize: "18px" }}/>{t("basketName")}
-                    </div>} 
+                  title={<div className={css.BasketHeader}><ShoppingCartOutlined style={{ paddingRight: "5px", fontSize: "18px" }}/>{t("basketName")}</div>} 
                   trigger="click" open={visible} onOpenChange={handleVisibleChange}>
                   <Button type="link" className={router.pathname == "/payment" ? css.ActiveBasket : css.Icons}>
                     <ShoppingCartOutlined />
@@ -361,7 +358,7 @@ export default function BaseLayout(props) {
               <div className={css.ProfileBackground}>
                 <Popover content={changeProfile}>
                   <Button type="link" className={css.Icons}>
-                    <div className={ router.pathname == "/profile" ? css.ProfileCss : "flex items-center"}><UserOutlined />
+                    <div className={ router.pathname == "/profile" ? css.ProfileCss : css.FlexPro}><UserOutlined />
                       <span className={css.ProfileText}>
                         {admin === "0" ? basketContext.userInfoProfile === undefined ? "" : basketContext.userInfoProfile.email
                           : admin === "1" ? "Admin" : admin === "2" ? "Operator " : ""}
