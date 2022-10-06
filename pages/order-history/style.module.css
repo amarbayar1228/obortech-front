@@ -1,0 +1,318 @@
+.BasketItem {
+    display: flex;
+    width: 98%;
+    padding: 5px;
+    background: var(--whiteGray);
+    /* align-items: center; */
+    margin: 5px;
+    border-radius: 5px;
+    flex-direction: column;
+}
+
+.Zurag {
+    width: 50px;
+}
+
+.Descrip {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 14px;
+}
+
+.Title {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 500;
+}
+
+.Price {
+    display: flex;
+    justify-content: space-between;
+}
+
+.OrderTitle {
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.SpinCss {
+    display: flex;
+    margin: 50px;
+    flex-direction: column;
+    align-items: center;
+    font-size: 22px;
+    padding: 10px;
+}
+
+.BasketId {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-weight: 700;
+    background-color: rgb(5, 150, 105);
+    ;
+}
+
+.ItemCont {
+    display: flex;
+    width: 100%;
+    padding: 10px;
+    background: #fff;
+    /* border-top: 0px solid #fff; */
+    border-bottom: 3px solid #ccc;
+    border-radius: 10px;
+}
+
+.ScrollHistory {
+    height: auto;
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #92a5c1;
+    border-radius: 5px;
+}
+
+.OrderScroll {
+    overflow-y: auto;
+    max-height: 716px;
+    background-color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.OrderScroll::-webkit-scrollbar {
+    width: 5px;
+}
+
+.OrderScroll::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.OrderScroll::-webkit-scrollbar-thumb {
+    background-color: red;
+    border-radius: 10px;
+}
+
+.ItemScroll {
+    overflow-y: auto;
+    height: 200px;
+    background-color: #fff;
+}
+
+.ItemScroll::-webkit-scrollbar {
+    width: 5px;
+}
+
+.ItemScroll::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.ItemScroll::-webkit-scrollbar-thumb {
+    background-color: red;
+    border-radius: 10px;
+}
+
+.BasketItem2 {
+    display: flex;
+    width: 96%;
+    padding: 5px;
+    background: var(--whiteGray);
+    align-items: center;
+    margin: 5px;
+    font-weight: 500;
+    border-radius: 5px;
+}
+
+.Zurag2 {
+    width: 63px;
+    padding: 5px;
+}
+
+.Descrip2 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 14px;
+}
+
+.Title2 {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 500;
+}
+
+.ItemTitle2 {
+    text-transform: uppercase;
+}
+
+.Price2 {
+    display: flex;
+    justify-content: space-between;
+}
+
+.ScrollHistory::-webkit-scrollbar {
+    width: 5px;
+}
+
+.ScrollHistory::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.ScrollHistory::-webkit-scrollbar-thumb {
+    background-color: red;
+    border-radius: 10px;
+}
+
+.TotalPriceCss {
+    background: #fff;
+    color: rgb(5, 150, 105);
+    /* display: flex; */
+    text-align: right;
+    padding: 3px 14px;
+    border-radius: 10px;
+    font-weight: 500;
+    text-transform: capitalize;
+    font-size: 17px;
+
+}
+
+.BorderInsentive {
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    background: rgb(5, 150, 105);
+    margin: 11px;
+}
+
+.OrgIdCss {
+    background: rgb(5, 150, 105);
+    color: #fff;
+}
+
+.OrderHdrCss {
+    display: flex;
+    justify-content: space-between;
+}
+
+.OrderItem {
+    display: flex;
+    align-items: center;
+    border: 1px solid rgb(223 223 223);
+    /* width: 100%; */
+    margin: 10px;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.orderImg {
+    width: 70px;
+    /* background-color: #fafafa; */
+    border-radius: 10px;
+    text-align: center;
+    /* padding: 10px; */
+    color: rgb(6 78 59);
+    margin-right: 5px;
+}
+
+.orderImg2 {
+    width: 40px;
+    /* background-color: #fafafa; */
+    border-radius: 10px;
+    text-align: center;
+    /* padding: 10px; */
+    color: rgb(6 78 59);
+    margin-right: 5px;
+}
+
+.GroupItemcs {
+    font-weight: 500;
+    text-transform: uppercase;
+    text-align: center;
+    /* font-size: 20px; */
+    /* background: rgb(230, 242, 255); */
+    color: rgb(17 24 39);
+    border-radius: 10px;
+}
+
+.orderDetailcss {
+    font-size: 17px;
+    font-weight: 500;
+    width: 82%;
+    padding-left: 7px;
+}
+
+.Titlecss {}
+
+.DescriptionCss {
+    color: #6f8391;
+    text-align: justify;
+    margin-top: -3px;
+    font-size: 14px;
+}
+
+.Pricecss {
+    display: flex;
+    color: rgb(220 38 38);
+    border-radius: 10px;
+    background: rgb(254 242 242);
+    padding: 0px 10px;
+}
+
+.OrderCnt {
+    display: flex;
+    justify-content: space-between;
+}
+
+.CntCss {
+    border-radius: 18px;
+    padding: 6px;
+    height: 26px;
+    width: 26px;
+    display: flex;
+    background: rgb(243 244 246);
+    color: rgb(107 114 128);
+    align-items: center;
+    justify-content: center;
+}
+
+.TotalPricecc {
+    display: flex;
+    justify-content: space-between;
+}
+
+.TotalPricecc2 {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.TableColumn {
+    font-weight: 500;
+    color: red;
+}
+
+.OrderDetailsHide {
+    border-radius: 10px;
+    margin: 10px 5px;
+    /* padding: 10px; */
+    overflow-y: auto;
+    box-shadow: 0px 1px 4px 0px rgb(209 213 219);
+    height: 200px;
+}
+
+.OrderDetailsHide::-webkit-scrollbar {
+    width: 5px;
+}
+
+.OrderDetailsHide::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.OrderDetailsHide::-webkit-scrollbar-thumb {
+    background-color: rgb(111, 104, 104);
+    border-radius: 10px;
+}

@@ -1,0 +1,99 @@
+.InvoiceBorder {
+    background-color: #fff;
+    padding: 20px;
+    margin: -18px auto;
+    font-weight: 500;
+    font-size: 14px;
+    width: 595px;
+}
+
+.Header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid red;
+    /* padding-bottom: 10px; */
+    margin-bottom: 20px;
+    width: 545px;
+}
+
+.InvoiceTable {
+    display: flex;
+    width: 100%;
+}
+
+.Contract1 {
+    width: 50%;
+    margin-right: 20px;
+}
+
+.InvoiceDate {
+    display: flex;
+    background-color: red;
+    color: #fff;
+    padding-left: 5px;
+}
+
+.InvoiceLayout {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1.9px solid rgb(242 119 119);
+    padding-left: 5px;
+}
+
+.Contract2 {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    width: 50%;
+}
+
+.ContractLayout {
+    margin-bottom: 20px;
+}
+
+
+.Sector {
+    display: flex;
+    flex-direction: column;
+}
+
+.PayState {
+    background-color: #9e9e9e;
+    color: #000;
+    padding-left: 5px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.SectorText {
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+}
+
+.IconCaretRight {
+    display: flex;
+    align-items: center;
+    color: red;
+}
+
+.ItemLayout {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+    padding-left: 5px;
+}
+
+.ContractItemTotalT {}
+
+.ContractItemTotalBorder {
+    display: flex;
+    width: 30%;
+    justify-content: flex-end;
+}
+
+.ContractItemText {
+    width: 70%;
+    border-right: 1px solid #ccc;
+}

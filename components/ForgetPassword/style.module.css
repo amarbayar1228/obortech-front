@@ -1,0 +1,7 @@
+.Back{
+    display: flex;
+    align-items: center;
+}
+.Title{
+    padding-left: 10px;
+}

@@ -1,0 +1,99 @@
+.StateCss {
+   display: flex;
+}
+
+.StateIconCss {
+   display: flex;
+   align-items: center;
+   margin-right: 5px;
+   font-weight: 500;
+}
+
+.Split {
+   display: flex;
+}
+
+.SplitSize {
+   width: 100%;
+   margin: 10px 0px;
+   height: 630px;
+   overflow-y: auto;
+   text-transform: capitalize;
+}
+
+.SplitSize::-webkit-scrollbar {
+   width: 5px;
+}
+
+.SplitSize::-webkit-scrollbar-track {
+   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.SplitSize::-webkit-scrollbar-thumb {
+   background-color: var(--gray1);
+   border-radius: 10px;
+}
+
+.Cont1 {
+
+   /* margin-left: 20px;
+   margin-right: 20px;
+   border-radius: 2px;
+   padding: 11px;
+   background: #f9f9f9;
+   box-shadow: 0px 1px 4px 2px #ccc; */
+}
+
+.Title2 {
+   color: #727272;
+}
+
+.SpinCss {
+   display: flex;
+   margin: 50px;
+   flex-direction: column;
+   align-items: center;
+   font-size: 16px;
+   padding: 10px;
+}
+
+.InfoComp {
+   font-weight: 500;
+   font-size: 18px;
+}
+
+.CpName {
+   font-size: 16px;
+   font-weight: 500;
+}
+
+.AlertInfo {
+   font-weight: 500;
+}
+
+.InvinationCss {
+   background: rgb(230, 242, 255);
+   color: rgb(24, 119, 242);
+   font-weight: 500;
+   border-color: rgb(230, 242, 255);
+}
+
+.InvinationCss:hover {
+   background: rgb(206, 229, 253);
+   color: rgb(24, 119, 242);
+   font-weight: 500;
+   border-color: rgb(230, 242, 255);
+}
+
+.RejectBtn {
+   background-color: rgb(239 68 68);
+   border-color: rgb(239 68 68);
+   color: rgb(254 242 242);
+   margin-left: 10px;
+}
+
+.RejectBtn:hover {
+   background-color: rgb(220 38 38);
+   border-color: rgb(220 38 38);
+   color: rgb(254 242 242);
+}

@@ -1,0 +1,64 @@
+.ImageCss{
+    
+    width: 130px;
+    height: 160px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px 1px #b7b2b2;
+}
+.Cont{
+    display: flex;
+    position: relative;
+    /* background: #f0f2f5; */
+    width: 550px;
+    padding: 16px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+.Cont2{
+    margin-right: 10px;
+}
+.Title{
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+    border-bottom: 1px solid #ccc;
+}
+.desc{
+    width: 350px;
+}
+.Descrip{
+    display: flex;
+    justify-content: space-between;
+}
+.TitleSize{
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    display: flex;
+    flex-direction: column;
+}
+.TitleChild{
+    color: #656565;
+    text-transform: lowercase;
+}
+.Username{
+    font-size: 14px;
+    text-transform: uppercase;
+    text-align: center;
+    padding-top: 5px;
+    font-weight: 500;
+}
+.EditCss{
+    position: absolute;
+    right: 10px;
+}
+.SpinCss{
+    display: flex;
+    margin: 50px auto;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    font-size: 22px;
+    padding: 10px;
+}

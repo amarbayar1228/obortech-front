@@ -1,0 +1,357 @@
+.Toggle {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+
+}
+
+.Toggle button {
+    width: 100%;
+    transform: rotate(180deg);
+    animation-duration: 5s
+}
+
+.Header {
+    display: flex;
+    padding-left: 50px;
+    padding-right: 66px;
+    width: 100%;
+    background-color: #fff;
+    align-items: center;
+    height: 60px;
+    justify-content: space-between;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.HeaderItem {
+    display: flex;
+}
+
+.Logo {
+    width: 120px;
+}
+
+.Menu {
+    display: flex;
+    width: 100%;
+    height: 50px;
+    justify-content: flex-end;
+}
+
+.MenuItemStyle {
+    display: flex;
+    justify-content: center;
+}
+
+.Spinner {
+    position: absolute;
+    top: 40%;
+    left: 40%;
+}
+
+.TitleCenter {
+    display: flex;
+    flex-direction: column;
+}
+
+.BasketHeader {
+    display: flex;
+    align-items: center;
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.HeaderStyle {
+    display: flex;
+    align-items: center;
+    /* background: green; */
+    /* text-align: center; */
+    margin: 0px auto;
+    width: 93%;
+    justify-content: center;
+}
+
+.PopoverStyle1 {
+    position: relative;
+
+}
+
+.PopoverStyle2 {
+    position: relative;
+    border-bottom: 2px solid red;
+    margin-bottom: -14px;
+}
+
+.BasketPopNone {
+    display: none;
+}
+
+.BasketPop {
+    position: absolute;
+    background: red;
+    font-size: 11px;
+    color: #fff;
+    border-radius: 10px;
+    width: 15px;
+    display: flex;
+    height: 15px;
+    right: 5px;
+    align-items: center;
+    justify-content: center;
+}
+
+/* @keyframes basketPopAnimation {
+    0%  {transform: scale(1); background: red;}
+    50% {transform: scale(1.5); background: green;}
+    100% {transform: scale(1); background: red;}
+  } */
+.LanguageStyle {
+    display: flex;
+    flex-direction: column;
+}
+
+.LanguageBtn {
+    display: flex;
+    font-size: 16px;
+    font-weight: 500;
+    align-items: center;
+}
+
+.LanguageBtn:hover {
+    color: var(--red);
+}
+
+.ActiveLang {
+    color: red;
+}
+
+.Icons {
+    display: flex;
+    font-size: 22px;
+    align-items: center;
+}
+
+.Icons:hover {
+    color: var(--red);
+}
+
+.Active {
+    border-bottom: 2px solid var(--red);
+    margin-bottom: -14px;
+}
+
+.Active button {
+    color: var(--red);
+}
+
+.ActiveBasket {
+    display: flex;
+    font-size: 22px;
+    align-items: center;
+    color: red;
+}
+
+.ProfileBackground {
+    background: #f9f9f9;
+    border-radius: 10px;
+    margin-top: 2px;
+    width: 100%;
+    max-width: 150px;
+    display: flex;
+}
+
+
+.ProfileLastname {
+    font-size: 15px;
+    color: #fff;
+}
+
+.ProfileCss {
+    display: flex;
+    align-items: center;
+    color: red;
+    font-size: 17px;
+}
+
+/* //border-b-2 border-red-500 -mb-3.5 */
+.ProfileBackCss {
+    border-bottom: 1px solid red;
+    margin-bottom: -3.2px;
+}
+
+/* .text-base text-left font-medium pl-1.5 overflow-hidden whitespace-nowrap text-ellipsis w-24	max-w-xs */
+.ProfileText {
+    padding-left: 5px;
+    font-weight: 500;
+    overflow: hidden;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 18px;
+    width: 60px;
+}
+
+.BasketPop3 {
+    position: absolute;
+    background: red;
+    font-size: 11px;
+    color: #fff;
+    border-radius: 10px;
+    width: 15px;
+    display: flex;
+    /* top: 6px; */
+    height: 15px;
+    right: 5px;
+    /* left: 17px; */
+    align-items: center;
+    justify-content: center;
+}
+
+.MenuMobile {
+    display: none;
+}
+
+.MenuCont {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.ActiveMenu {
+    /* border-bottom: 2px solid var(--red);
+    margin-bottom: -14px; */
+}
+
+.ActiveMenu button {
+    color: var(--red);
+}
+
+.IconsMenu {
+    display: flex;
+    font-size: 18px;
+    align-items: center;
+    font-weight: 500;
+}
+
+.IconsMenu:hover {
+    color: var(--red);
+}
+
+.ImageLogo {
+    width: 130px;
+    cursor: pointer;
+}
+
+.ImgLogo {
+    width: 130px;
+    height: 30px;
+}
+
+.MenuHoverIcon {
+    background-color: red;
+}
+
+.MenuHoverIcon2 button:hover {
+    background-color: #f1f1f1;
+}
+
+.Flag {
+    height: 23px;
+    display: block;
+    object-fit: contain;
+}
+
+@media only screen and (max-width: 1024px) {
+    .MenuHoverIcon {
+        display: flex;
+        background: #f1f1f1;
+        border: 1px solid #fff;
+        border-radius: 18px;
+        padding: 7px 2px;
+        align-items: center;
+        margin-right: 5px;
+    }
+
+    .BasketPop {
+        z-index: 1;
+        right: -3px;
+        top: -11px;
+    }
+
+    .MenuHoverIconAdminNo {
+        background: #fff;
+    }
+
+    .ImageLogo {
+        display: flex;
+        /* height: 31px; */
+        /* background-color: #ccc; */
+        align-items: center;
+    }
+
+    .HeaderItem {
+        display: none;
+    }
+
+    .MenuMobile {
+        display: flex;
+        align-items: center;
+    }
+
+    .Header {
+        padding-left: 5px;
+        padding-right: 15px;
+    }
+
+    .ProfileBackground {
+        padding: 5px;
+        width: 100%;
+        max-width: 110px;
+    }
+
+    .Logo {
+        display: flex;
+        align-items: center;
+        width: 150px;
+    }
+
+    .ActiveMenu2 {
+        background: #f1f1f1;
+        border: 1px solid #fff;
+        border-radius: 50%;
+        padding: 7px 8px;
+    }
+
+    .ActiveMenu2 button {
+        display: flex;
+        background: #f1f1f1;
+        border: none;
+        color: var(--red);
+        align-items: center;
+        justify-content: center;
+    }
+
+    .ActiveMenu2 button:hover {
+        background: #f1f1f1;
+    }
+
+    .MenuHoverIcon2 {
+        background: #f1f1f1;
+        border: 1px solid #fff;
+        border-radius: 50%;
+        padding: 7px 8px;
+    }
+
+    .MenuHoverIcon2 button {
+        display: flex;
+        background: #f1f1f1;
+        border: none;
+        color: var(--red);
+        align-items: center;
+        justify-content: center;
+    }
+
+    .MenuHoverIcon2 button:hover {
+        background-color: #f1f1f1;
+    }
+}

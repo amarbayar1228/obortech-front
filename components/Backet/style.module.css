@@ -1,0 +1,100 @@
+.Basket {
+    width: 250px;
+}
+
+.BasketItem {
+    display: flex;
+    width: 96%;
+    padding: 5px;
+    background: #f5f5f5;
+    align-items: center;
+    margin: 5px;
+    font-weight: 500;
+    border-radius: 5px;
+}
+
+.ItemTitle {
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 145px;
+    text-overflow: ellipsis;
+}
+
+.Descrip {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 14px;
+}
+
+.Zurag {
+    display: flex;
+    justify-content: center;
+    width: 50px;
+}
+
+.Title {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 500;
+}
+
+.Price {
+    display: flex;
+    justify-content: space-between;
+}
+
+.Orderbtns {
+    border-top: 1px solid #ccc;
+    width: 100%;
+}
+
+.BtnOrder {
+    display: flex;
+    margin-top: 5px;
+    justify-content: flex-end;
+}
+
+.BasketScroll {
+    overflow-y: auto;
+    height: 200px;
+}
+
+.BasketScroll::-webkit-scrollbar {
+    width: 5px;
+}
+
+.BasketScroll::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.BasketScroll::-webkit-scrollbar-thumb {
+    background-color: red;
+    border-radius: 10px;
+}
+
+.OrderIcon {
+    display: flex;
+    align-items: center;
+}
+
+.grpBackColor {
+    display: flex;
+    width: 96%;
+    padding: 5px;
+    background: linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%);
+    align-items: center;
+    margin: 5px;
+    font-weight: 500;
+    border-radius: 5px;
+}
+
+.PgrCss {
+    width: 25px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    text-align: center;
+}
