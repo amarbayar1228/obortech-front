@@ -1,11 +1,7 @@
-import { Button, Empty, Input, message, Modal, notification } from "antd";
-import React, { useContext, useEffect, useState } from "react";
+import { Button, Empty, Input, message, Modal } from "antd";
+import React, { useContext, useState } from "react";
 import css from "./style.module.css";
-import {
-  EditOutlined,
-  AppleOutlined,
-  CaretRightOutlined,
-} from "@ant-design/icons";
+import {EditOutlined,AppleOutlined,CaretRightOutlined} from "@ant-design/icons";
 import axios from "axios";
 import { withSuccess } from "antd/lib/modal/confirm";
 import BasketContext from "../../context/basketContext/BasketContext";
@@ -26,8 +22,7 @@ const GroupItemEdit = (props) => {
     setGroupItemsGbm(props.pkId.gbm);
     setTotalPrice(props.pkId.price);
     setIsModalVisible(true);
-    setOnChangePriceD([]);
- 
+    setOnChangePriceD([]); 
     const body = {
       func: "getGroups",
       pkId: props.pkId.pkId,

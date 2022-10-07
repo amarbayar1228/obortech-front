@@ -43,7 +43,7 @@ pkId: props.item,
                                 </div>
                                 <div className={css.Ddescrip}>
                                     <div className={css.Dtitle}>{e.title}</div>
-                                    <div className={css.Ddescrip2}>{e.decription} bhq</div>
+                                    <div className={css.Ddescrip2}>{e.decription}{e.description}</div>
                                     <div className={css.Dprice}> {e.itemPriceD}$</div>
                                 </div>
                                 </div>

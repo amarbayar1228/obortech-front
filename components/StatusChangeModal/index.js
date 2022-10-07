@@ -13,6 +13,7 @@ const StatusChangeModal = (props) => {
     setValue(e.target.value);
   };
   const showModal = () => {
+    console.log("pkId", props);
     if (props.pkId == undefined) {
       setValue(props.addItemStatus.status);
     } else {
@@ -22,16 +23,28 @@ const StatusChangeModal = (props) => {
   };
 
   const handleOk = () => {
+    //item state
     if (props.pkId == undefined) {
       console.log("item state", props);
       console.log("value: ", value);
+      console.log("addItemStatus: ", props.addItemStatus);
       console.log("others: ", othersState);
       const body = {
         func: "setItemStatus",
         pkId: props.addItemStatus.pkId,
         status: value,
         others: othersState,
-      };
+      }; 
+      axios
+        .post("/api/post/Gate", body)
+        .then((res) => { 
+          message.success("Success");
+          props.addItemGetItems();
+          setIsModalVisible(false);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       // axios.post("/api/post/item/updateStateItem", body).then(
       //   (res) => {
       //     message.success("Success");
@@ -43,8 +56,9 @@ const StatusChangeModal = (props) => {
       //   }
       // );
     } else {
-      console.log("group items state: ", props.pkId.pkId);
-      console.log("state others: ", othersState);
+      //Group state
+      // console.log("group items state: ", props.pkId.pkId);
+      // console.log("state others: ", othersState);
       const body = {
         func: "setGroupStatus",
         pkId: props.pkId.pkId,

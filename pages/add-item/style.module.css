@@ -28,25 +28,23 @@
     flex-flow: wrap;
 }
 
-.BaraaDiv {
+/* .BaraaDiv {
     position: relative;
     background-color: #fff;
     width: 140px;
     height: 155px;
     box-sizing: border-box;
-    margin: 8px;
-    /* border: 2px solid #ccc; */
-    box-shadow: 4px 2px 13px 2px #c1c4c8;
-    /* box-shadow: 4px 2px 13px 2px #f3f3f3; */
+    margin: 8px; 
+    box-shadow: 4px 2px 13px 2px #c1c4c8; 
     border-radius: 10px;
     transition: 0.3s;
-}
+} */
 
 .BaraaDiv2 {
     position: relative;
-    background-color: #c0c0c0;
-    width: 140px;
-    height: 155px;
+    background-color: #e5e5e5;
+    width: 183px;
+    height: 183px;
     box-sizing: border-box;
     margin: 8px;
     cursor: no-drop;

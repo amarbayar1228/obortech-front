@@ -21,7 +21,9 @@ const AddAdmin = () => {
   const [incentivePercentState, setIncentivePercentState] = useState([]);
   const [incentPkId, setIncentPkId] = useState("");
   const [formAddadmin] = Form.useForm();
-  const showModal = () => {
+  const showModal = (a) => {
+    console.log("neeesen: ", a);
+    setDialogState(a);
     setIsModalVisible(true);
   };
 

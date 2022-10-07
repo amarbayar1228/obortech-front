@@ -11,14 +11,13 @@ useEffect(()=>{
 getGroupDetailsFunc();    
 },[])
  
-const getGroupDetailsFunc = () =>{ 
-    console.log("blsn");
+const getGroupDetailsFunc = () =>{  
 const body = {
 func: "getGroups", 
 pkId: props.items};
 axios.post("/api/post/Gate", body).then((res) => {  
 if (res.data.data.itemList == undefined) 
-    {console.log("hoosn push")} 
+    {console.log("")} 
 else {   
 setGitemDetails(res.data.data.itemList);}
 }).catch((err) => {console.log("err", err)});

@@ -1,4 +1,4 @@
-import {Button,Drawer,Input,message,Modal,Space,Tabs,Spin,Select,Badge,Tooltip,Upload,Image,Empty,Form,InputNumber, Popconfirm, Typography, Switch } from "antd";
+import {Button,Drawer,Input,message,Modal,Space,Tabs,Spin,Select,Badge,Tooltip,Upload,Image,Empty,Form,InputNumber, Popconfirm, Typography, Switch, notification } from "antd";
 import React, { useEffect, useState } from "react";
 import BaseLayout from "../../components/Layout/BaseLayout"; 
 import css from "./style.module.css";
@@ -47,6 +47,7 @@ const AddBasket = (props) => {
   const [ellipsis, setEllipsis] = useState(true);
   const [groupIndex, setGroupIndex] = useState();
   const [cssGroup, setCssGroup] = useState("");
+  const [too, setToo] = useState(0);
   useEffect(() => {
     getItems();
     getGroupItems();
@@ -60,6 +61,10 @@ const AddBasket = (props) => {
       }).catch((err)=>{console.log("err")});   
   };
   const showDrawer = (data) => {
+    setToo(1);
+    console.log("drawer pkId: ", data.pkId);
+    console.log("drawer title: ", data.title);
+  
     setImgNullText("");
     setIdpk(data.pkId);
     setEditItemTitle(data.title);
@@ -75,12 +80,16 @@ const AddBasket = (props) => {
         thumbUrl: "data:image/png;base64," + data.img,
       }, 
     ]);
+    
     setVisible(true);
   };
 
   const onClose = () => {
-    console.log("close");
-    formEdit.resetFields();
+    
+    setToo(0);
+    // formEdit.resetFields();
+    
+    console.log("close"); 
     setVisible(false);
   };
   const onSave = async (id) => {
@@ -162,17 +171,7 @@ const AddBasket = (props) => {
       })
       .catch((err) => {
         message.error(err);
-      });
-
-    // axios
-    // .post("/api/post/item/list")
-    // .then((res) => {
-    //   setState(false);
-    //   setItemData(res.data);
-    // })
-    // .catch((err) => {
-    //   message.error(err);
-    // });
+      }); 
   };
   const handleOk = async () => { 
     // setIsModalVisible(false);
@@ -244,7 +243,7 @@ const AddBasket = (props) => {
     let baseImg = values.img.file.thumbUrl.split("base64,")[1]; 
     const data = {
       func: "newItem", title: values.itemName, description: values.descrip, 
-      quantity: 0, price: values.price, cnt: 1, img: baseImg, others: "-", status: 1,
+      quantity: 0, price: values.price, cnt: 1, img: baseImg, others: "-", status: 0,
     };
     axios.post("/api/post/Gate", data).then((res) => {
         formAddItem.resetFields();  
@@ -260,17 +259,45 @@ const AddBasket = (props) => {
   }
   const  onFinishEdit= (values) =>{ 
     console.log("values: ", values);
-    console.log("state: ", fileListUpdate);
-    console.log("editStatus: ", editStatus);
+    // console.log("state: ", fileListUpdate);
+    // console.log("editStatus: ", editStatus);
+    // console.log("idPk: ", idPk);
     if(fileListUpdate[0]){ 
       let baseImg = fileListUpdate[0].thumbUrl.split("base64,")[1]; 
       setImgNullText("");
-      console.log("url: ", baseImg);
+    
+    const body ={
+        func: "editItem",
+        pkId: idPk,
+        title: values.title,
+        description: values.descrip,
+        price: values.price,
+        img: baseImg, 
+    }
+     axios.post("/api/post/Gate", body).then((res) => {
+        formEdit.resetFields();  
+        setVisible(false);
+        console.log("err: ", res.data);
+        if(res.data.error){
+          notification.error({
+            message: res.data.error,
+            description:
+              'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
+          });
+        }else{
+          message.success("Success");
+        }
+       
+          
+        getItems();
+      }).catch((err) => {console.log("err", err)}); 
+
+
     }else{
       message.error("Please input your Image!");
       setImgNullText("Please input your Image!");
-    } 
-  
+    }  
+
     // const data = {
     //   func: "newItem", title: values.itemName, description: values.descrip, 
     //   quantity: 0, price: values.price, cnt: 1, img: baseImg, others: "-", status: editStatus,
@@ -308,9 +335,10 @@ const AddBasket = (props) => {
         setCssGroup(i);  
       } 
   }
-  const funcDetailGroup = (a)=>{
-    console.log("object",a);
-  }
+ const onFieldsChangeFunc = (a, b) =>{
+  console.log("onFieldsChangeFunc:", a);  
+  console.log("onFieldsChangeFuncb:", b);
+ }
 
   return (
     <BaseLayout pageName="add-item">
@@ -321,12 +349,11 @@ const AddBasket = (props) => {
 {/* + Item Add ====================================================================================================================> */}
               <div className={css.BaraaNemeh}>
                 <Button type="dashed" shape="round" onClick={showModal}>+ {t("addItem")}</Button>
-                <Modal title={t("addItem")} footer={null} visible={isModalVisible} onOk={handleOk} cancelText={t("addItemModalCancelBtn")} okText={t("addItemModalOkBtn")} onCancel={handleCancel}>
+                <Modal title={t("addItem")} footer={null} open={isModalVisible} onOk={handleOk} cancelText={t("addItemModalCancelBtn")} okText={t("addItemModalOkBtn")} onCancel={handleCancel}>
                   <div>
                   <Form form={formAddItem} name="normal_login" className={css.LoginForm}
                         labelCol={{span: 6,}} wrapperCol={{span: 16,}} initialValues={{remember: true,}}
-                        onFinish={onFinishAddItem}
-                        onFinishFailed={onFinishFailedAddItem}>
+                        onFinish={onFinishAddItem} onFinishFailed={onFinishFailedAddItem}>
                          <Form.Item label={t("itemName")} name="itemName" rules={[{required: true,message: "Please input your First name!"}]}>
                           <Input placeholder={t("itemName")}/>
                         </Form.Item>
@@ -354,24 +381,25 @@ const AddBasket = (props) => {
                {/* Item edit ====================================================================================================================> */}
               <div>
                 <Drawer title={t("editItem")} placement={placement} width={500} onClose={onClose} open={visible}>
-                     <Form form={formEdit} name="normal_login" className={css.LoginForm}
+                     <Form form={formEdit} name="normal_login" className={css.LoginForm}  
                         labelCol={{span: 6,}} wrapperCol={{span: 16,}}
-                        initialValues={{remember: true,
-                          itemName: editItemTitle,
+                        onFieldsChange={onFieldsChangeFunc}
+                        initialValues={{ 
+                          title: editItemTitle,
                           descrip: editItemDescription,
                           price: editItemPrice,
                           img: fileListUpdate,
-                        }}
+                        }} 
                         onFinish={onFinishEdit} onFinishFailed={onFinishFailedEdit}>
-                         <Form.Item label={t("itemName")} name="itemName" rules={[{required: true,message: "Please input your First name!"}]}>
+                         <Form.Item label={t("itemName")} name={"title"}   rules={[{required: true,message: "Please input your First name!"}]}>
                           <Input placeholder={t("itemName")} allowClear/>
                         </Form.Item>
-                        <Form.Item label={t("itemDescription")} name="descrip"
-                          rules={[{required: true,message: "Please input your description!",},]}>
+                        <Form.Item label={t("itemDescription")} name={"descrip"}
+                          rules={[{required: true,message: "Please input your description!"}]}>
                           <TextArea placeholder={t("itemDescription")} allowClear showCount/>
                         </Form.Item> 
                         <Form.Item label={t("itemPrice")} name="price"
-                          rules={[{  type: 'number', required: true, message: "Please input your price!",},]}>
+                          rules={[{  type: 'number', required: true, message: "Please input your price!",}]}>
                           <InputNumber style={{width: "100px"}} formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                           parser={(value) => value.replace(/\$\s?|(,*)/g, '')} placeholder={t("itemPrice")}/>
                         </Form.Item> 
@@ -380,7 +408,11 @@ const AddBasket = (props) => {
                               <Upload fileList={fileListUpdate} onPreview={onPreview} listType="picture-card" onChange={onChangeImageUpdate} >
                               {fileListUpdate.length < 1 && "+ Image"}</Upload> <span className={css.ImgErr}>{imgNullText}</span>
                         </Form.Item>  
-                        <Form.Item><div className={css.Ok}><Button type="primary">Save</Button></div></Form.Item>
+                        <div> 
+                          <Button onClick={()=> formEdit.resetFields()}>Reset</Button></div>
+                        <Form.Item>
+                          <div ><Button type="primary" htmlType="submit" className="login-form-button">Send</Button></div>
+                        </Form.Item> 
                       </Form> 
                 </Drawer>
               </div>

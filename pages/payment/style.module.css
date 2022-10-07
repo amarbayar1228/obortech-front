@@ -47,7 +47,7 @@
   text-transform: uppercase;
   padding: 10px;
   margin: 10px;
-  width: 300px;
+  /* width: 300px; */
   /* height: 198px; */
 }
 
@@ -61,7 +61,7 @@
   text-transform: uppercase;
   padding: 10px;
   margin: 10px;
-  width: 300px;
+  /* width: 300px; */
   /* height: 198px; */
 }
 
@@ -100,7 +100,6 @@
   display: flex;
   /* background: #dbdbdb; */
   height: 55px;
-  background: linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%);
   /* align-content: center; */
   justify-content: center;
   align-items: center;
