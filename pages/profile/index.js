@@ -77,112 +77,116 @@ const Profile = () => {
       <BaseLayout pageName="profile">
         <div>
           <Divider> Profile</Divider>
-          <div className={css.Cont}>
-            <div className={css.EditCss}>
-              {basketContext.userInfoProfile.state === 2 || basketContext.userInfoProfile.isSuperAdmin === 1 || basketContext.userInfoProfile.isSuperAdmin === 2  ? 
-              <Button type="dashed" shape="circle" onClick={showModal}>
-                <EditOutlined />
-              </Button>
-              : ""}
-              <Modal footer={false} title="Edit" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-                <div>
-                  <Form name="basic" labelCol={{span: 8,}}wrapperCol={{span: 16,}}
-                    initialValues={{
-                      lastname: inputLastname,
-                      firstname: inputFirstname,
-                      email: inputEmail,
-                      phone: inputPhone,
-                      address: inputAddress,
-                      jobtitle: inputJobtitle,
-                    }}
-                    onFinish={onFinishEditForm}
-                    onFinishFailed={onFinishFailedEdit}
-                    autoComplete="off"
-                  >
-                    <Form.Item label="Last name" name="lastname"
-                      rules={[{required: true,message: "Please input your Last name!",},]}>
-                      <Input allowClear />
-                    </Form.Item>
-                    <Form.Item label="First name" name="firstname"
-                      rules={[{required: true,message: "Please input your First name!",},]}><Input allowClear />
-                    </Form.Item>
-
-                    <Form.Item label="Email" name="email"
-                      rules={[{ type: "email", required: true, message: "Please input your Email!",},]}>
-                      <Input allowClear />
-                    </Form.Item> 
-                    <Form.Item label="Job title" name="jobtitle"
-                      rules={[{ required: true,message: "Please input your Job title!"}]}>
-                      <Input allowClear />
-                    </Form.Item>
-                    <Form.Item label="Phone number" name="phone" rules={[{required: true,message: "Please input your Phone number!",},]}><Input type="number" />
-                    </Form.Item>
-                    <Form.Item label="Address" name="address" rules={[{required: true, message: "Please input your Address!",},]}>
-                      <TextArea showCount allowClear maxLength={100} style={{height: 50,}}/></Form.Item>
-                    <Form.Item wrapperCol={{offset: 8,span: 16,}}><Button type="primary" htmlType="submit">Save</Button></Form.Item>
-                  </Form>
-                </div>
-              </Modal>
-            </div>
-            <>
+          {basketContext.userInfoProfile === undefined ? <Empty /> : 
+              <div className={css.Cont}>
+            
+              <div className={css.EditCss}>
+                {basketContext.userInfoProfile.state === 2 || basketContext.userInfoProfile.isSuperAdmin === 1 || basketContext.userInfoProfile.isSuperAdmin === 2  ? 
+                <Button type="dashed" shape="circle" onClick={showModal}>
+                  <EditOutlined />
+                </Button>
+                : ""}
+                <Modal footer={false} title="Edit" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                  <div>
+                    <Form name="basic" labelCol={{span: 8,}}wrapperCol={{span: 16,}}
+                      initialValues={{
+                        lastname: inputLastname,
+                        firstname: inputFirstname,
+                        email: inputEmail,
+                        phone: inputPhone,
+                        address: inputAddress,
+                        jobtitle: inputJobtitle,
+                      }}
+                      onFinish={onFinishEditForm}
+                      onFinishFailed={onFinishFailedEdit}
+                      autoComplete="off"
+                    >
+                      <Form.Item label="Last name" name="lastname"
+                        rules={[{required: true,message: "Please input your Last name!",},]}>
+                        <Input allowClear />
+                      </Form.Item>
+                      <Form.Item label="First name" name="firstname"
+                        rules={[{required: true,message: "Please input your First name!",},]}><Input allowClear />
+                      </Form.Item>
+  
+                      <Form.Item label="Email" name="email"
+                        rules={[{ type: "email", required: true, message: "Please input your Email!",},]}>
+                        <Input allowClear />
+                      </Form.Item> 
+                      <Form.Item label="Job title" name="jobtitle"
+                        rules={[{ required: true,message: "Please input your Job title!"}]}>
+                        <Input allowClear />
+                      </Form.Item>
+                      <Form.Item label="Phone number" name="phone" rules={[{required: true,message: "Please input your Phone number!",},]}><Input type="number" />
+                      </Form.Item>
+                      <Form.Item label="Address" name="address" rules={[{required: true, message: "Please input your Address!",},]}>
+                        <TextArea showCount allowClear maxLength={100} style={{height: 50,}}/></Form.Item>
+                      <Form.Item wrapperCol={{offset: 8,span: 16,}}><Button type="primary" htmlType="submit">Save</Button></Form.Item>
+                    </Form>
+                  </div>
+                </Modal>
+              </div>
               <>
-                {basketContext.userInfoProfile === undefined ? (
-                  <Empty />
-                ) : (
-                  <>
-                    <div className={css.Cont2}>
-                      <div className={css.ImageCss}></div>
-                      <div className={css.Username}>
-                        {basketContext.userInfoProfile.lastname}{" "}
-                        {basketContext.userInfoProfile.firstname}
-                      </div>
-                    </div>
-                    <div className={css.desc}>
-                      <div className={css.Title}> Information</div>
-                      <div className={css.Descrip}>
-                        <div className={css.TitleSize}>
-                          Name:
-                          <span className={css.TitleChild}>
-                            {basketContext.userInfoProfile.lastname}{" "}
-                            {basketContext.userInfoProfile.firstname}
-                          </span>
+                <>
+                  {basketContext.userInfoProfile === undefined ? (
+                    <Empty />
+                  ) : (
+                    <>
+                      <div className={css.Cont2}>
+                        <div className={css.ImageCss}></div>
+                        <div className={css.Username}>
+                          {basketContext.userInfoProfile.lastname}{" "}
+                          {basketContext.userInfoProfile.firstname}
                         </div>
                       </div>
-                      <div className={css.Descrip}>
-                        <div className={css.TitleSize}>
-                          Email{" "}
-                          <span className={css.TitleChild}>
-                            {basketContext.userInfoProfile.email}
-                          </span>
+                      <div className={css.desc}>
+                        <div className={css.Title}> Information</div>
+                        <div className={css.Descrip}>
+                          <div className={css.TitleSize}>
+                            Name:
+                            <span className={css.TitleChild}>
+                              {basketContext.userInfoProfile.lastname}{" "}
+                              {basketContext.userInfoProfile.firstname}
+                            </span>
+                          </div>
                         </div>
-                        <div className={css.TitleSize}>
-                          Phone
-                          <span className={css.TitleChild}>
-                            +
-                            {basketContext.userInfoProfile.phone === null
-                              ? "Null"
-                              : basketContext.userInfoProfile.phone}
-                          </span>
-                        </div>
-                      </div> 
-                      <div className={css.Descrip}>
-                        <div className={css.TitleSize}> Address:
-                          <span className={css.TitleChild}>
-                            {basketContext.userInfoProfile.address === null ? "Null" : basketContext.userInfoProfile.address}
-                          </span>
-                        </div>
-                        <div className={css.TitleSize}> Jobtitle
-                          <span className={css.TitleChild}>
-                            + {basketContext.userInfoProfile.phone === null ? "Null" : basketContext.userInfoProfile.phone}
-                          </span>
-                        </div>
-                      </div>  
-                    </div>
-                  </>
-                )}
+                        <div className={css.Descrip}>
+                          <div className={css.TitleSize}>
+                            Email{" "}
+                            <span className={css.TitleChild}>
+                              {basketContext.userInfoProfile.email}
+                            </span>
+                          </div>
+                          <div className={css.TitleSize}>
+                            Phone
+                            <span className={css.TitleChild}>
+                              +
+                              {basketContext.userInfoProfile.phone === null
+                                ? "Null"
+                                : basketContext.userInfoProfile.phone}
+                            </span>
+                          </div>
+                        </div> 
+                        <div className={css.Descrip}>
+                          <div className={css.TitleSize}> Address:
+                            <span className={css.TitleChild}>
+                              {basketContext.userInfoProfile.address === null ? "Null" : basketContext.userInfoProfile.address}
+                            </span>
+                          </div>
+                          <div className={css.TitleSize}> Jobtitle
+                            <span className={css.TitleChild}>
+                              + {basketContext.userInfoProfile.phone === null ? "Null" : basketContext.userInfoProfile.phone}
+                            </span>
+                          </div>
+                        </div>  
+                      </div>
+                    </>
+                  )}
+                </>
               </>
-            </>
-          </div>
+            </div>
+          }
+      
         </div>
       </BaseLayout>
     </div>

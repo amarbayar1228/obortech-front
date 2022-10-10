@@ -1,6 +1,7 @@
 import BaseLayout from "../../components/Layout/BaseLayout";
 import { Button, Carousel, Empty, Image, message, Spin } from "antd";
-import { React, useContext, useEffect, useState } from "react";
+import React from "react";
+import {useContext, useEffect, useState } from "react";
 import css from "./style.module.css";
 import {ShoppingCartOutlined, PlusCircleOutlined} from "@ant-design/icons";
 import axios from "axios";
@@ -97,63 +98,65 @@ const Items = () => {
   
   return (
     <BaseLayout pageName="items" addItemStyle={addItemStyle} style={{ maxWidth: "100%" }}>
-      <div className={css.ScrollItemsCont}><div>
-          <Carousel>
-            <div><h3 className={css.BackgrounImg} style={{background: "url(/img/obBack1.png) no-repeat"}}>
-              {/* <Image alt="Obertech" preview={false} className={css.bImg} src="/img/obBack1.png"/> */}
-              </h3></div>
-            <div><h3 className={css.BackgrounImg} style={{background: "url(/img/obBack3.png) no-repeat"}}></h3></div>
-            <div><h3 className={css.BackgrounImg} style={{background: "url(/img/obBack2.png) no-repeat"}}></h3></div>
-          </Carousel></div>
-        {spinState === true ? (<div><Spin className={css.SpinCss} tip="" size="large"></Spin></div>) : (
-          <>
-            {itemData === undefined ? <Empty /> : (
-              <div className={css.ItemSection}>
-                {itemData.map((iData, index) => (
-                  <div className={css.Item} key={index}>
-                    <div className={css.ItemLogo}><Image preview={false} alt="Obertech" src="/img/OBORTECH_logo_V_clean.svg"/></div>
-                    <div className={css.ItemPic}>
-                      <Image preview={false} alt="Obertech" src={"data:image/png;base64," + iData.img} className={css.ImgItem}/>
-                      <div className={css.BtnPlus}><Button type="link" shape="circle" size="large" onClick={() => SagsandNemeh(iData, index)} icon={<ShoppingCartOutlined />}></Button></div>
-                    </div>
-                    <div className={css.ContText}>
-                      <div className={css.ItemTitle1}> {iData.title}</div>
-                      <div className={css.ItemDescriptionText}>{iData.description}</div>
-                      <div className={css.ItemPrice}>{iData.price.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,")}$</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-            {/* Groupt items ===========================================================================================================*/}
-            <div className={css.Package}> <div className={css.PackageLine}></div> <div className={css.PackageTitle}>Package items</div></div>
-            <div className={css.GroupLayoutCss}> 
-              <div>
-                {groupState1 === undefined ? ("item bhq") : (
-                  <>
-                    {groupState1.map((e, gst1) => (
-                      <div key={gst1}>
-                        <div className={css.GroupPackage}>
-                          <div className={css.GroupPackageHdr}> <div className={css.PackageName}>Package</div>
-                            <div className={css.GroupPackageTitle}>
-                              <div className={css.Gphtitle}>{e.title}</div> <div className={css.Gphdescrip}> {e.description}</div>
-                              <div className={css.Gphprice}><span>Package price: </span><span>{e.price}$</span></div>
-                            </div>
-                            <div className={css.GrpBtn}><Button type="link" shape="circle" size="large" danger icon={<ShoppingCartOutlined />}    onClick={() => groupBasketAdd(e, gst1)}></Button></div>
-                          </div><ItemDetails item={e.pkId}/>
-                        </div>
-                      </div>
-                    ))}
-                  </>
-                )}
-              </div> 
-            </div>
-            <div style={{width: "100%", background: "rgb(30 41 59)", height: "250px"}}></div>
-          </>
-          
-        )}
-      
+      {basketContext.orgId === undefined ? <Empty style={{marginTop: "100px"}}/> :  
+       <div className={css.ScrollItemsCont}><div>
+       <Carousel>
+         <div><h3 className={css.BackgrounImg} style={{background: "url(/img/obBack1.png) no-repeat"}}>
+           {/* <Image alt="Obertech" preview={false} className={css.bImg} src="/img/obBack1.png"/> */}
+           </h3></div>
+         <div><h3 className={css.BackgrounImg} style={{background: "url(/img/obBack3.png) no-repeat"}}></h3></div>
+         <div><h3 className={css.BackgrounImg} style={{background: "url(/img/obBack2.png) no-repeat"}}></h3></div>
+       </Carousel></div>
+     {spinState === true ? (<div><Spin className={css.SpinCss} tip="" size="large"></Spin></div>) : (
+       <>
+         {itemData === undefined ? <Empty /> : (
+           <div className={css.ItemSection}>
+             {itemData.map((iData, index) => (
+               <div className={css.Item} key={index}>
+                 <div className={css.ItemLogo}><Image preview={false} alt="Obertech" src="/img/OBORTECH_logo_V_clean.svg"/></div>
+                 <div className={css.ItemPic}>
+                   <Image preview={false} alt="Obertech" src={"data:image/png;base64," + iData.img} className={css.ImgItem}/>
+                   <div className={css.BtnPlus}><Button type="link" shape="circle" size="large" onClick={() => SagsandNemeh(iData, index)} icon={<ShoppingCartOutlined />}></Button></div>
+                 </div>
+                 <div className={css.ContText}>
+                   <div className={css.ItemTitle1}> {iData.title}</div>
+                   <div className={css.ItemDescriptionText}>{iData.description}</div>
+                   <div className={css.ItemPrice}>{iData.price.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,")}$</div>
+                 </div>
+               </div>
+             ))}
+           </div>
+         )}
+         {/* Groupt items ===========================================================================================================*/}
+         <div className={css.Package}> <div className={css.PackageLine}></div> <div className={css.PackageTitle}>Package items</div></div>
+         <div className={css.GroupLayoutCss}> 
+           <div>
+             {groupState1 === undefined ? ("item bhq") : (
+               <>
+                 {groupState1.map((e, gst1) => (
+                   <div key={gst1}>
+                     <div className={css.GroupPackage}>
+                       <div className={css.GroupPackageHdr}> <div className={css.PackageName}>Package</div>
+                         <div className={css.GroupPackageTitle}>
+                           <div className={css.Gphtitle}>{e.title}</div> <div className={css.Gphdescrip}> {e.description}</div>
+                           <div className={css.Gphprice}><span>Package price: </span><span>{e.price}$</span></div>
+                         </div>
+                         <div className={css.GrpBtn}><Button type="link" shape="circle" size="large" danger icon={<ShoppingCartOutlined />}    onClick={() => groupBasketAdd(e, gst1)}></Button></div>
+                       </div><ItemDetails item={e.pkId}/>
+                     </div>
+                   </div>
+                 ))}
+               </>
+             )}
+           </div> 
+         </div>
+         <div style={{width: "100%", background: "rgb(30 41 59)", height: "250px"}}></div>
+       </>
+       
+     )}
+   
       </div>
+      } 
     </BaseLayout>
   );
 };

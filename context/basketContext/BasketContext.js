@@ -41,13 +41,13 @@ const orgIdLocal = (orgId) =>{
     basketStateFunc();
   };
   const routerFunction = () => {
-    if(router.pathname == "/items"){
-      if(orgId === ""){
-          router.push("/");
-      }else{
-        router.push("/items");
-      }
-    }
+    // if(router.pathname == "/items"){
+    //   if(orgId === ""){
+    //       router.push("/");
+    //   }else{
+    //     router.push("/items");
+    //   }
+    // }
 
     if (router.pathname == "/login") {
       if (localStorage.getItem("username")) {
