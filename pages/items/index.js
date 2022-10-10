@@ -6,7 +6,9 @@ import css from "./style.module.css";
 import {ShoppingCartOutlined, PlusCircleOutlined} from "@ant-design/icons";
 import axios from "axios";
 import BasketContext from "../../context/basketContext/BasketContext";
-import "swiper/css"; import "swiper/css/free-mode"; import "swiper/css/pagination"; 
+// import "swiper/css"; 
+// import "swiper/css/free-mode"; 
+// import "swiper/css/pagination"; 
 import ItemDetails from "../../components/ItemDetails";
 const Items = () => {
   const [itemData, setItemData] = useState([]);
