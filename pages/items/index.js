@@ -144,7 +144,8 @@ const Items = () => {
                            <div className={css.Gphprice}><span>Package price: </span><span>{e.price}$</span></div>
                          </div>
                          <div className={css.GrpBtn}><Button type="link" shape="circle" size="large" danger icon={<ShoppingCartOutlined />}    onClick={() => groupBasketAdd(e, gst1)}></Button></div>
-                       </div><ItemDetails item={e.pkId}/>
+                       </div>
+                       {/* <ItemDetails item={e.pkId}/> */}
                      </div>
                    </div>
                  ))}
