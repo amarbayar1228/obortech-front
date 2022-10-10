@@ -579,15 +579,15 @@ const segmentFuncUser = (a) => {
                                   </div> 
                                 </div>
                               }>
-                              <Descriptions title="User Info" layout="vertical" bordered>
+                              <Descriptions title="User Info" layout="vertical" bordered size="small">
                                 <Descriptions.Item label="Last Name">{e.lastname}</Descriptions.Item>
                                 <Descriptions.Item label="First Name">{e.firstname}</Descriptions.Item>
                                 <Descriptions.Item label="Email">{e.email}</Descriptions.Item>
                                 <Descriptions.Item label="Phone">{e.phone}</Descriptions.Item>
                                 <Descriptions.Item label="Address" span={2}>{e.address}</Descriptions.Item>
                               </Descriptions>
-                              <div><Button type="dashed" onClick={() => userAcceptFunc(e)}>Accept</Button>
-                                <Button onClick={() => userCanceledFunc(e)} type="primary" danger>Cancel</Button></div>
+                              <div style={{marginTop: "10px"}}><Button type="dashed" onClick={() => userAcceptFunc(e)}>Accept</Button>
+                                <Button onClick={() => userCanceledFunc(e)} type="primary" danger style={{marginLeft: "10px"}}>Cancel</Button></div>
                             </Panel>
                           ))}
                         </Collapse>
@@ -611,7 +611,7 @@ const segmentFuncUser = (a) => {
                                   </div> 
                                 </div>
                               }>
-                              <Descriptions title="User Info" layout="vertical" bordered>
+                              <Descriptions title="User Info" layout="vertical" bordered size="small">
                                 <Descriptions.Item label="Last Name">{e.lastname}</Descriptions.Item>
                                 <Descriptions.Item label="First Name">{e.firstname}</Descriptions.Item>
                                 <Descriptions.Item label="Email">{e.email}</Descriptions.Item>
@@ -735,7 +735,7 @@ const segmentFuncUser = (a) => {
                                   }
                                 >
                                 <div className={css.Cont1}>
-                                  <Descriptions title="" layout="vertical" bordered className={css.InfoComp}  size="middle">
+                                  <Descriptions title="" layout="vertical" bordered className={css.InfoComp} size="small">
                                     <Descriptions.Item label="Company name:"><div className={css.CpName}>{e.companyName}</div></Descriptions.Item>
                                     <Descriptions.Item label="Web site:">{e.website}</Descriptions.Item>
                                     <Descriptions.Item label="Country">{e.country}</Descriptions.Item>
@@ -889,7 +889,7 @@ const segmentFuncUser = (a) => {
                                         </div> 
                                       </div>}>
                                     <div className={css.Cont1}>
-                                      <Descriptions title="" layout="vertical"bordered>
+                                      <Descriptions title="" layout="vertical"bordered size="small">
                                         <Descriptions.Item label="Company name:">{e.companyName}</Descriptions.Item>
                                         <Descriptions.Item label="Website:">{e.website}</Descriptions.Item>
                                         <Descriptions.Item label="Country">{e.country}</Descriptions.Item>

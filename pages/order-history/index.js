@@ -108,11 +108,23 @@ const OrderHistory = () => {
   };
   const getOders = () =>{
     setLoading(true);
-    const body = {
+    const body = {}
+    console.log("profile", basketContext.userInfoProfile);
+    if(basketContext.userInfoProfile.isSuperAdmin === 0){
+      body = {
+      func:"getOrderUserID",
+      d1: basketContext.todayDateState,
+      d2: basketContext.todayDateState,
+      pkId: localStorage.getItem("pkId")
+    }
+  }else {
+    body = {
       func:"getOrders",
       d1: basketContext.todayDateState,
-      d2: basketContext.todayDateState
-    } 
+      d2: basketContext.todayDateState, 
+    }
+  } 
+
     axios.post("/api/post/Gate", body).then((res)=>{
       setLoading(false);
       console.log("res: ", res);
@@ -334,12 +346,22 @@ const dateOnchange = (a,b) =>{
 const searchDate = () =>{
   setLoading(true);
   console.log("date1: ",date1);
-  console.log("date2: ",date2);
-   const body = {
+  console.log("date2: ",date2); 
+ const body = {}
+ if(basketContext.userInfoProfile.isSuperAdmin === 0){
+    body = {
+    func:"getOrderUserID",
+    d1: date1,
+    d2: date2,
+    pkId: localStorage.getItem("pkId")
+  }
+}else {
+  body = {
     func:"getOrders",
     d1: date1,
     d2: date2,
-  } 
+  }
+}  
   axios.post("/api/post/Gate", body).then((res)=>{ 
     console.log("res date change: ", res.data.data);
     if(res.data.data[0]){
@@ -522,7 +544,7 @@ const groupDeitalsFunc = (data, index) =>{
             ))}
           </div>
         </Modal>
-        
+            {/* ------------------------------end--------------------------------------------------------------------- */}
         {spinState === false ? (
           <div>
             <Spin className={css.SpinCss} tip="Loading..." size="large"></Spin>
@@ -770,7 +792,7 @@ const groupDeitalsFunc = (data, index) =>{
             </Collapse>
           </div>
         )}
-        
+        {/* ------------------------------end--------------------------------------------------------------------- */}
           <div style={{marginBottom: "10px"}}>
             <RangePicker 
                   showToday

@@ -83,7 +83,7 @@ const UserAcceptAdmin = () => {
                         </div>
                       }>
                       <div className={css.Cont1}>
-                        <Descriptions title="User Info" layout="vertical" bordered size="middle">
+                        <Descriptions title="User Info" layout="vertical" bordered size="small">
                           <Descriptions.Item label="Last Name">{e.lastname}</Descriptions.Item>
                           <Descriptions.Item label="First Name">{e.firstname}</Descriptions.Item>
                           <Descriptions.Item label="Email">{e.email}</Descriptions.Item>
