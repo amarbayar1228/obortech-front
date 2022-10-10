@@ -15,6 +15,7 @@ export const BasketItem = (props) => {
   const [orgId, setOrgId] = useState("");
   const router = useRouter();
   useEffect(() => {  
+    console.log("context: ");
     basketStateFunc();
     routerFunction();
     MenuKey();
@@ -92,6 +93,7 @@ const orgIdLocal = (orgId) =>{
       }
     }
   };
+
   var basketLocal = [];
   const basketStateFunc = (a) => {
     basketLocal = JSON.parse(localStorage.getItem("basket")) ?? [];
@@ -163,6 +165,7 @@ const orgIdLocal = (orgId) =>{
           console.log(err);
         });
     } else {
+      console.log("null");
     }
     // if (localStorage.getItem("pkId")) {
     //   const body = {

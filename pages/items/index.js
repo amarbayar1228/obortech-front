@@ -1,7 +1,8 @@
+
+import {useContext, useEffect, useState } from "react";
 import BaseLayout from "../../components/Layout/BaseLayout";
 import { Button, Carousel, Empty, Image, message, Spin } from "antd";
-import React from "react";
-import {useContext, useEffect, useState } from "react";
+
 import css from "./style.module.css";
 import {ShoppingCartOutlined, PlusCircleOutlined} from "@ant-design/icons";
 import axios from "axios";
@@ -17,6 +18,7 @@ const Items = () => {
   const [spinState, setSpinState] = useState(true); 
   const [groupState1, setGroupState1] = useState([]);
   useEffect(() => {
+    console.log("items");
     basketContext.MenuKey();
     basketContext.basketStateFunc();
     popFunc();
@@ -145,7 +147,7 @@ const Items = () => {
                          </div>
                          <div className={css.GrpBtn}><Button type="link" shape="circle" size="large" danger icon={<ShoppingCartOutlined />}    onClick={() => groupBasketAdd(e, gst1)}></Button></div>
                        </div>
-                       {/* <ItemDetails item={e.pkId}/> */}
+                       <ItemDetails item={e.pkId}/>
                      </div>
                    </div>
                  ))}
