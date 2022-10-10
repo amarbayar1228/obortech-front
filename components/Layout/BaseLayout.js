@@ -211,8 +211,8 @@ export default function BaseLayout(props) {
         </div>
 {/* Moblie ============================================================= */}
         <div className={css.MenuMobile}>
-          <div className={ admin == "1" || admin == "2" || basketContext.orgId == undefined? css.MenuHoverIconAdminNo : css.MenuHoverIcon}>
-            {admin == "1" || admin == "2" || basketContext.orgId == undefined ? null : (
+          <div className={ admin == "1" || admin == "2" ? css.MenuHoverIconAdminNo : css.MenuHoverIcon}>
+            {admin == "1" || admin == "2" ? null : (
               <div className={ router.pathname == "/payment" ? css.PopoverStyle2 : css.PopoverStyle1}>
                 {basketContext.basketState.length === 0 ? (
                   <div className={css.BasketPopNone}> </div>
@@ -272,11 +272,11 @@ export default function BaseLayout(props) {
                   <HomeOutlined /> {t("homeName")}
                 </Button>
               </div>
-              {basketContext.orgId == undefined ? "" : 
+            
               <div className={router.pathname == "/items" ? css.ActiveMenu : ""}>
                 <Button onClick={() => router.push("/items")} type="link" className={css.IconsMenu}>
                   <AppstoreAddOutlined /> Item </Button>
-              </div>}
+              </div>
               
               {localPkId ? (
                 <div className={
@@ -305,14 +305,14 @@ export default function BaseLayout(props) {
               </Button>
             </Tooltip>
           </div>
-          {basketContext.orgId === undefined ? "" : 
+        
            <div className={router.pathname == "/items" ? css.Active : ""}>
            <Tooltip title={"items"}>
              <Button onClick={() => router.push("/items")} type="link" className={css.Icons}>
                <AppstoreAddOutlined />
              </Button>
            </Tooltip>
-         </div>}
+         </div>
          
 
           {localPkId ? (
@@ -331,7 +331,7 @@ export default function BaseLayout(props) {
               </Tooltip>
             </div>) : ("")}
 
-          {admin == "1" || admin == "2" || basketContext.orgId == undefined ? ("") : (
+          {admin == "1" || admin == "2" ? ("") : (
             <div className={router.pathname == "/payment" ? css.PopoverStyle2 : css.PopoverStyle1}>
               {basketContext.basketState.length === 0 ? (
                 <div className={css.BasketPopNone}> </div>
