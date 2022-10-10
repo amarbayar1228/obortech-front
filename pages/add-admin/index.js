@@ -93,7 +93,7 @@ const AddAdmin = () => {
             if(i == 0){
               content = <div>
                   <div>
-                    <Button type="dashed" shape="round" onClick={() => showModal("add")} style={{fontSize: "15px", fontWeight: "500", marginBottom: "10px"}}>+ Add admin</Button>
+                    <Button type="dashed" shape="round" onClick={() => showModal("add")} style={{fontSize: "14px", fontWeight: "500", marginBottom: "10px"}}>+ Add admin</Button>
                     <Modal title="Add operator" open={isModalVisible} onCancel={handleCancel} footer={null}>
                     <div>
                     {dialogState === "add" ? (
@@ -128,7 +128,7 @@ const AddAdmin = () => {
                   <div>
                     <Collapse>
                       {adminList.map((e, i) => (
-                        <Panel header={<div style={{fontSize: "14px", fontWeight: "500", textTransform: "uppercase"}}> {e.firstname}</div>}key={i}>
+                        <Panel header={<div style={{fontSize: "14px", fontWeight: "500", textTransform: "capitalize"}}> {e.firstname}</div>}key={i}>
                            <Descriptions title="Operator Info" layout="vertical" bordered   extra={<Button type="primary">Edit</Button>}  size="middle">
                             <Descriptions.Item label="First name">{e.firstname}</Descriptions.Item>
                             <Descriptions.Item label="Last name">{e.lastname}</Descriptions.Item>

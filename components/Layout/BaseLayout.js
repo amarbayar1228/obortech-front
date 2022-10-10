@@ -34,7 +34,7 @@ export default function BaseLayout(props) {
     setLocalPkid(localStorage.getItem("pkId"));
     // localStorage.setItem("orgId", "0");
     setAdmin(localStorage.getItem("isSuperAdmin")); 
- 
+    
     if (localStorage.getItem("token")) {
       setLocalStorageUserId(localStorage.getItem("token"));
     } else {

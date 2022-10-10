@@ -1,14 +1,4 @@
-import {
-  Badge,
-  Button,
-  Checkbox,
-  Form,
-  Image,
-  Input,
-  message,
-  Modal,
-  Tooltip,
-} from "antd";
+import {Badge,Button,Checkbox,Form,Image,Input,message,Modal,Tooltip} from "antd";
 import TextArea from "antd/lib/input/TextArea";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -221,11 +211,10 @@ const GroupItemsInsert = (props) => {
       <Modal title="Item choose" open={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null} >
         <div>
           <div>
-            <Button
-              onClick={showModalCheck} style={{ background: "#e6f2ff", color: "#1877f2", borderColor: "#e6f2ff"}}>
+            <Button onClick={showModalCheck} style={{ background: "#e6f2ff", color: "#1877f2", borderColor: "#e6f2ff"}}>
               + Package
             </Button> 
-            <Modal title="Check box" open={isModalVisibleCheck} onOk={handleOkCheck} onCancel={handleCancelCheck} >
+            <Modal title="Package" open={isModalVisibleCheck} onOk={handleOkCheck} onCancel={handleCancelCheck} footer={null} >
               <div style={{fontSize: "15px"}}>  
                 <Form form={formSave} name="normal_login" className={css.LoginForm}
                         labelCol={{span: 6,}} wrapperCol={{span: 16,}}
