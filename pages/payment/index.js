@@ -11,6 +11,7 @@ import {
   Col,
   Radio,
   Form,
+  Spin,
 } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import BaseLayout from "../../components/Layout/BaseLayout";
@@ -49,11 +50,13 @@ const Payment = () => {
   const [usdStateTarget, setUsdTargetState] = useState(0);
   const [tugrugStateTarget, setTugrugTargetState] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [itemSpin, setItemSpin] = useState(false);
   const [groupDetails, setGroupDetails] = useState([]);
   const [orgIdRadio, setOrgIdRadio] = useState("");
   const [formOrgId] = Form.useForm();
   const [checkFalse, setCheckFalse] = useState(false);
   const showModalItem = (item) => {
+    setItemSpin(true);
     console.log("item: ", item);
     const body = {
       func: "getGroups", 
@@ -61,7 +64,11 @@ const Payment = () => {
       axios.post("/api/post/Gate", body).then((res) => {  
       if (res.data.data.itemList == undefined) 
           {console.log("")} 
-      else {  setIsModalOpen(true); setGroupDetails(res.data.data.itemList); console.log(res.data.data.itemList);}
+      else {  
+        setIsModalOpen(true);
+        setItemSpin(false);
+        setGroupDetails(res.data.data.itemList); 
+        console.log(res.data.data.itemList);}
       }).catch((err) => {console.log("err", err)});
    
   }; 
@@ -284,35 +291,37 @@ const onFinishFailedOrgId = (errInfo)=>{
                               <div>{e.price} {e.itemPriceTotal}$</div>
                             </div>
                             {e.img === undefined ? <div><Button style={{width: "100%", marginTop: "5px"}} size="middle" type="primary" shape="round" 
-                            onClick={()=>showModalItem(e.pkId)}> Items</Button>
-                            <Modal title="Package items" open={isModalOpen} onOk={handleOkItem} onCancel={handleCancelItem}>
-                              <div>{groupDetails.map((e, i)=>(
-                               
-                                 <div className={css.BasketItem} key={i}>
-                                  <div className={css.Zurag2}>
-                                    <Image
-                                      alt="Obertech"
-                                      preview={false}
-                                      src={"data:image/png;base64," + e.img}
-                                    />
+                            onClick={()=>showModalItem(e.pkId)}> Items </Button>
+                              <Modal title="Package items" open={isModalOpen} onOk={handleOkItem} onCancel={handleCancelItem} footer={null}>
+                            <div>
+                              {groupDetails.map((e, i)=>( 
+                              <div className={css.BasketItem} key={i}>
+                                <div className={css.Zurag2}>
+                                  <Image
+                                    alt="Obertech"
+                                    preview={false}
+                                    src={"data:image/png;base64," + e.img}
+                                  />
+                                </div>
+                                <div className={css.Descrip2}>
+                                  <div className={css.Title2}>
+                                    <div className={css.ItemTitle2}>{e.title}</div>
                                   </div>
-                                  <div className={css.Descrip2}>
-                                    <div className={css.Title2}>
-                                      <div className={css.ItemTitle2}>{e.title}</div>
-                                    </div>
-                                    <div className={css.Price2}>
-                                      <div> Qty: {e.itemCnt}</div>
-                                      <div> {e.itemPriceD}$</div>
-                                    </div>
+                                  <div className={css.Price2}>
+                                    <div> Qty: {e.itemCnt}</div>
+                                    <div> {e.itemPriceD}$</div>
                                   </div>
-                                </div> 
-                              ))}</div> 
-                            </Modal>
+                                </div>
+                              </div> 
+                            ))}</div> 
+                          </Modal>
                               </div> : ""}
                           </div>
+                         
                         </div> 
                       </div>
                     ))}
+                   {itemSpin ?  <div className={css.Spinner}> <Spin  size="large"/> </div>: ""} 
                   </div>
                   <div className={css.TotalStyle}>
                     <div className={css.OrderCss}> 
@@ -335,15 +344,21 @@ const onFinishFailedOrgId = (errInfo)=>{
         <div style={{ background: "#fff", padding: "15px",fontSize: "15px",}}>
         <div className={css.HanshRate}>
           <div className={css.HanshLayout}>
-            <div className={css.RateHdr}>
+            {/* <div className={css.RateHdr}>
               <div className={css.RateTitle}> Rate</div>
               <div className={css.RateLine}> </div>
-            </div>
+            </div> */}
             {basketContext.hanshnuud.map((e, i) => (
               <div key={i} className={css.HanshCss}>
-                <div className={css.CodeCsss}>{e.code_}</div>
-                <div className={css.CodeCsss}>{e.paymentName} </div>
-                <div className={css.CodeCsss}> rate: {e.rate}$</div>
+                {/* <div> {e.code_}</div> */}
+                <div style={{paddingRight: "10px"}}> 
+                  {e.code_ === "USD" ?  <Image alt="Obertech" preview={false} style={{position: "relative",width: "20px",height: "20px",objectFit: "inherit"}}
+                   src="/img/united-kingdom.png"/> 
+                  : e.code_ === "TUG" ? <Image alt="Obertech" preview={false} style={{position: "relative",width: "20px", height: "20px",objectFit: "inherit"}} src="/img/mongolia.png"/> 
+                  : e.code_ === "COIN" ? <Image alt="Obertech" preview={false} style={{position: "relative",width: "20px",height: "20px",objectFit: "inherit"}} src="/img/HeaderLogo.png"/> : "" } 
+              </div>
+                <div>{e.paymentName} </div>
+                <div style={{paddingLeft: "4px"}}> - {e.rate}{e.code_ === "USD" ? "$" : e.code_ === "TUG" ? "₮" : e.code_ === "COIN" ? "OBOT" : ""}</div>
               </div>
             ))}
           </div>
@@ -354,7 +369,27 @@ const onFinishFailedOrgId = (errInfo)=>{
               <div className={css.RateLine}> </div>
             </div>
             <div className={css.RateL}>
-              <div className={css.RateCont}>
+               
+               <div className={css.PayLayout}>
+                <div> 
+                  <div>MNT</div>
+                  <div>100% MNT</div>
+                </div>
+               </div>
+
+               <div className={css.PayLayout}>
+                <div> 
+                  <div>USD</div>
+                  <div>100% MNT</div>
+                </div>
+               </div>
+               <div className={css.PayLayout}>
+                <div> 
+                  <div>USD/TOKEN</div>
+                  <div>60% USD/40% token</div>
+                </div>
+               </div>
+              {/* <div className={css.RateCont}>
                 <div className={css.RateLayout}>
                   <span className={css.CoinTitle}>Coin: </span>
                   <InputNumber style={{ width: "150px" }} defaultValue={0}
@@ -392,7 +427,9 @@ const onFinishFailedOrgId = (errInfo)=>{
                 ) : (
                   usdStateTarget + coinStateTarget + tugrugStateTarget
                 )}
-              </div>
+              </div> */}
+
+
             </div>
           </div>
         </div> 
@@ -530,7 +567,7 @@ const onFinishFailedOrgId = (errInfo)=>{
                 {current === steps.length - 1 && (
                   <>
                     <Button icon={<ShoppingCartOutlined />} type="primary" onClick={orderOrgId2}>Done</Button>
-                    <Modal title="OrgID" visible={isModalVisibleOrgId2} onOk={handleOkOrgId2} onCancel={handleCancelOrgId2}> 
+                    <Modal title="OrgID" open={isModalVisibleOrgId2} onOk={handleOkOrgId2} onCancel={handleCancelOrgId2}> 
                       {/* <Input onChange={(e) => setOrgIdInput2(e.target.value)}placeholder="OrgId"/> */}
                       <div>Org ID choose: </div>
                       {/* <Radio.Group onChange={orgIdChoose} > 

@@ -491,7 +491,7 @@ const AddBasket = (props) => {
                               </div> 
                                 <div className={css.CollapseCss}> 
                                   <div className={css.OrgIDCss}>
-                                    <Button style={{display: "flex",alignItems: "center",background: "#e6f2ff",color: "#1877f2",fontWeight: "500",  fontSize: "15px",borderColor: "#e6f2ff",textAlign: "left",width: "100%",}}
+                                    <Button className={css.BtnDG}
                                       onClick={() => groupItemsDetials(e, i)}>
                                         {groupItemBtn === true ? (itemScrollCss === i ? (<CaretRightOutlined rotate={90} />) 
                                         : (<CaretRightOutlined />)) 

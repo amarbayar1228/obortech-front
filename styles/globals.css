@@ -95,6 +95,42 @@ a:hover {
   color: #000;
 }
 
+.ant-btn-link:hover,
+.ant-btn-link:focus {
+  color: red;
+}
+
+.ant-steps-item-finish .ant-steps-item-icon {
+  border-color: #4D5057;
+}
+
+.ant-steps-item-finish .ant-steps-item-icon>.ant-steps-icon {
+  color: #4D5057;
+}
+
+.ant-steps-item-finish>.ant-steps-item-container>.ant-steps-item-content>.ant-steps-item-title::after {
+  background-color: #4D5057;
+}
+
+.ant-steps-item-process>.ant-steps-item-container>.ant-steps-item-icon {
+  background: #4D5057;
+  border-color: #4D5057;
+}
+
+.ant-modal-header {
+  background: #4D5057;
+  border-bottom: 1px solid #06053a;
+  color: #fff;
+}
+
+.ant-modal-title {
+  color: #fff;
+}
+
+.ant-modal-close-x {
+  color: #fff;
+}
+
 .ant-menu>.ant-menu-item:hover,
 .ant-menu>.ant-menu-submenu:hover,
 .ant-menu>.ant-menu-item-active,
@@ -182,8 +218,7 @@ body {
   background-color: rgb(255, 255, 255);
   z-index: 9999;
 
-}
-
+} 
 .spinner {
   position: absolute;
   left: 50%;

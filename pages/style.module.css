@@ -207,10 +207,13 @@
 }
 
 .OrgError {
-    margin-top: 10px;
+    margin-top: 30px;
     color: red;
     font-size: 18px;
+    padding: 10px 0px;
+    box-shadow: 1px 1px 5px 2px #e7e7e7;
     text-align: center;
+    border-radius: 10px;
 }
 
 .Popcss {
@@ -224,21 +227,6 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 70px;
-}
-
-.PopCirc {
-    background-color: #7de97d;
-    display: flex;
-    align-items: center;
-    width: 80px;
-    height: 80px;
-    position: absolute;
-    color: #fff;
-    margin-top: -40px;
-    margin-left: 110px;
-    border-radius: 50%;
-    justify-content: center;
 }
 
 .TitleCirc {
@@ -251,31 +239,30 @@
     height: 30px;
 }
 
-.BtnPop {
+/* .BtnPop {
     display: flex;
     justify-content: flex-end;
     margin-right: 17px;
     margin-bottom: 10px;
-}
+} */
 
 .TitleFlex {
     display: flex;
     align-items: center;
-}
-
-.Circle {
-    border: 1px solid #4d5057;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
+    padding-left: 20px;
+    padding-top: 7px;
+    padding-bottom: 7px;
 }
 
 .Colcss {
     background-color: #4d5057;
     padding: 10px;
     margin: 10px;
+}
+
+.RadioFrame {
+    text-align: left;
+    width: 450px;
+    font-weight: 600;
+    font-size: 15px;
 }

@@ -22,7 +22,7 @@ export const BasketItem = (props) => {
     getUserProfileFunction();
     HanshFunc();
     todayDate();
-    orgIdLocal();
+    orgIdLocal(); 
   }, []);
 
   const onCollapse = (e) => {
@@ -95,7 +95,7 @@ const orgIdLocal = (orgId) =>{
   };
 
   var basketLocal = [];
-  const basketStateFunc = (a) => {
+  const basketStateFunc = (a) => { 
     basketLocal = JSON.parse(localStorage.getItem("basket")) ?? [];
     basketLocal.forEach((element) => {
       element.product.forEach((p, i) => {
@@ -111,8 +111,7 @@ const orgIdLocal = (orgId) =>{
     });
     // totalPriceFunction();
   };
-  const increase = (i, totalPriceFunction) => {
-    console.log("increase: ", basketState[i]);
+  const increase = (i, totalPriceFunction) => { 
     basketState[i].cnt = basketState[i].cnt + 1;
     setBasketState([...basketState]);
     totalPriceFunction();
@@ -137,14 +136,14 @@ const orgIdLocal = (orgId) =>{
     });
     setBasketState(basketState);
     localStorage.setItem("basket", JSON.stringify(b));
-    message.success("Item was removed.");
     totalPriceFunction();
+    message.success("Item was removed.");
+  
     basketStateFunc();
   };
   const totalPriceFunction2 = () => {
     let totalPirce2 = 0;
-    basketState.forEach((element) => {
-      console.log("element basket: ", element);
+    basketState.forEach((element) => { 
       totalPirce2 += element.cnt * element.itemPriceTotal;
     });
     setTotalPriceState(totalPirce2);
@@ -182,7 +181,7 @@ const orgIdLocal = (orgId) =>{
     // } else {
     // }
   };
-
+  
   const HanshFunc = () => {
     const body = {
       func: "getRate",

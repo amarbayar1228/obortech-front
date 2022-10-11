@@ -196,6 +196,24 @@
     border-radius: 5px;
 }
 
+.BtnDG {
+    display: flex;
+    align-items: center;
+    background: #4d5057;
+    color: #fff;
+    font-weight: 500;
+    font-size: 15px;
+    border-color: #e6f2ff;
+    text-align: left;
+    width: 100%;
+}
+
+.BtnDG:hover {
+    background: #4d5057;
+    color: #fff;
+    border-color: #4d5057;
+}
+
 .Zurag2 {
     width: 63px;
     padding: 5px;

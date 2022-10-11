@@ -83,7 +83,8 @@ export default function Home(props) {
   };
   const showConfirm = () => {
     confirm({
-      title: 'Do you want to go to item Page?', icon: <ExclamationCircleOutlined />, content: 'Some descriptions',
+      title: 'Your chosen organization id?', icon: <ExclamationCircleOutlined />,
+      content: <div style={{display: "flex", alignItems: "center"}}>Organization ID: <div style={{fontWeight: "700", paddingLeft: "5px"}}>{value} </div></div>,
   
       onOk() { 
         basketContext.orgIdLocal(value);
@@ -104,8 +105,7 @@ export default function Home(props) {
 
   };
 
-  const onChangeRadio = (e) =>{
-    console.log("radio: ", e.target.value);
+  const onChangeRadio = (e) =>{ 
     setRadioS("a");
     setValue(e.target.value)
     
@@ -120,7 +120,7 @@ export default function Home(props) {
       <BaseLayout pageName="home" addItemStyle={addItemStyle}>
         <div className={css.SearchCss}>
           <div className={css.SearchInput}>
-            <Divider>{t("Search of organizations")}</Divider>
+            <Divider style={{fontSize: "18px", color: "#000"}}>{t("Search of organizations")}</Divider>
             <Search placeholder={t("Enter your organization ID")} allowClear  size="large" onSearch={onSearch} enterButton />
 
               {orgIdState === "" ? spin ? <Spin className={css.SpinCss}/> : orgError === "" ? "" :  <div className={css.OrgError}>{orgError}</div> : 
@@ -131,29 +131,18 @@ export default function Home(props) {
                 <Option value="0">{orgIdState}</Option> 
               </Select></span> */}
 
-                <div className={css.Popcss}>
-                  {/* <div className={css.PopCirc}>   
-                  <CheckOutlined style={{fontSize: "37px", color: "37px"}}/>
-                  </div> */}
-                  <div className={css.TitleCirc}>
-                    <div className={css.TitleFlex}>
-                    <Radio.Group onChange={onChangeRadio}>
-                      <Radio value={orgIdState}>{orgIdState}</Radio> 
-                    </Radio.Group>
-                        {/* <Badge color="green" style={{paddingRight: "10px"}}/> {orgIdState} */}
-                    </div>
-                    {/* <div className={css.Circle}><CheckOutlined style={{fontSize: "12px", color: "#4d5057"}}/></div>  */}
-                  </div> 
-                  {radioS === "a" ? <div className={css.BtnPop}> 
-                    <Button style={{ fontWeight: "500", color: "red"}} size="middle" type="text" onClick={()=> showConfirm()}>Next <ArrowRightOutlined /> </Button></div> : ""}
-                  
-                </div>
-              {/* {orgIdState === t("There is no organization id!!") ? "" : 
-              <div> 
-                <Button onClick={()=> router.push("/items")} style={{fontSize: "15px", fontWeight: "500", textTransform: "uppercase", marginTop: "10px"}}>go to Item page <ArrowRightOutlined /> </Button> </div>} */}
-              </div>}</>} 
-
-              {/* { spin ? <Spin className={css.SpinCss}/> : orgError === "" ? "" :  <div className={css.OrgError}>{orgError}</div>} */}
+                <div className={css.Popcss}>  
+                  <div className={css.TitleFlex}>
+                    <Radio.Group onChange={onChangeRadio}> 
+                      <Radio value={orgIdState}>
+                        <div className={css.RadioFrame}>  {orgIdState}</div>
+                      </Radio>  
+                    </Radio.Group> 
+                  </div>   
+                </div> 
+                {radioS === "a" ? <div className={css.BtnPop}> 
+                    <Button  style={{ fontWeight: "500", color: "red", width: "100%"}} size="large" type="dashed" onClick={()=> showConfirm()}>Continue <ArrowRightOutlined /> </Button></div> : ""} 
+              </div>}</>}  
  
           </div> 
         </div> 

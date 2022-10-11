@@ -10,8 +10,9 @@ const BacketComponent = (props) => {
   const { t } = useTranslation("basket");
   const router = useRouter();
   const [loadings, setLoadings] = useState([]);
+  const [totalPrice, setTotalPriceState] = useState(0);
   useEffect(() => {
-    basketContext.basketStateFunc();
+    basketContext.basketStateFunc(); 
   }, []);
   const paymentRoute = (index) => {
     router.push("/payment");
@@ -28,39 +29,39 @@ const BacketComponent = (props) => {
       });
     }, 6000);
   };
-  const totalPriceFunction = () => {
-    let totalPirce2 = 0;
-    basketContext.basketState.forEach((element) => { 
-      totalPirce2 += element.cnt * element.itemPriceTotal;
-    });
-    // setTotalPriceState(totalPirce2);
-  };
+  // const totalPriceFunction = () => {
+  //   let price = 0;
+  //   basketContext.basketState.forEach((element) => { 
+  //     console.log("delete: ", element);
+  //     price += element.cnt * element.price;
+  //   });
+  //    setTotalPriceState(price);
+  // };
 
   return (
     <div className={css.Basket}>
       {basketContext.basketState.length === 0 ? (
         <div> 
-          <Empty description={<span style={{ fontSize: "18px", fontWeight: "500" }}>{t("basketEmpty")}</span>}/>
+          <Empty description={<span style={{ fontSize: "15px", fontWeight: "600"}}>{t("basketEmpty")}</span>}/> 
         </div>
       ) : (
         <> 
-        <div className={css.OrgIdCss}>
-          <div>Organization name: </div>
-          <div>{basketContext.orgId === undefined ? "" : basketContext.orgId}</div>
-        </div>
+        {/* <div className={css.OrgIdCss}>
+          <div>Organization ID: </div>
+          <div className={css.OrgOver}>{basketContext.orgId === undefined ? "" : basketContext.orgId}</div>
+        </div> */}
         <div className={css.BasketScroll}>
           {basketContext.basketState.map((e, i) => (
             <div className={e.img === undefined ? css.grpBackColor : css.BasketItem} key={i}>
               <div className={css.Zurag}>
-                {e.img === undefined ? <div className={css.PgrCss}>P</div> : <Image alt="Obertech" preview={false} src={"data:image/png;base64," + e.img} />}
-                
+                {e.img === undefined ? <div className={css.PgrCss}>P</div> : <Image alt="Obertech" preview={false} src={"data:image/png;base64," + e.img} />} 
               </div>
               <div className={css.Descrip}>
                 <div className={css.Title}>
                   <div className={css.ItemTitle}>{e.title}</div>
                   <div>
-                    <Button type="default" size="small" shape="circle" onClick={() =>basketContext.basketItemDelete(i, totalPriceFunction)}
-                      icon={<CloseOutlined style={{ fontSize: "10px", fontWeight: "500" }}/>}></Button>
+                    <Button className={css.CloseBtn} type="default" size="small" shape="circle" onClick={() =>basketContext.basketItemDelete(i, totalPriceFunction)}
+                      icon={<CloseOutlined style={{ fontSize: "10px", fontWeight: "500"}}/>}></Button>
                   </div>
                 </div>
                 <div className={css.Price}>
@@ -73,7 +74,7 @@ const BacketComponent = (props) => {
         </div>
         </>
       )}
-      <div className={css.Orderbtns}>
+      <div className={css.Orderbtns}> 
         <div className={css.BtnOrder}>
           <Button className={css.OrderIcon} type="primary" icon={<ShoppingCartOutlined style={{ fontSize: "18px" }} />} loading={loadings[1]} size="small" 
           onClick={() => paymentRoute(1)}>Order</Button>

@@ -33,7 +33,7 @@
 }
 
 .Logo {
-    width: 120px;
+    width: 270px;
 }
 
 .Menu {
@@ -62,8 +62,10 @@
 .BasketHeader {
     display: flex;
     align-items: center;
-    font-size: 17px;
+    font-size: 15px;
     font-weight: 500;
+    font-weight: 600;
+    justify-content: space-between;
 }
 
 .HeaderStyle {
@@ -96,10 +98,13 @@
     background: red;
     font-size: 11px;
     color: #fff;
+    top: -5px;
     border-radius: 10px;
-    width: 15px;
+    /* width: 15px; */
+    padding: 0px 5px;
     display: flex;
-    height: 15px;
+    /* height: 15px; */
+    z-index: 1;
     right: 5px;
     align-items: center;
     justify-content: center;
@@ -243,7 +248,9 @@
 }
 
 .ImageLogo {
-    width: 130px;
+    display: flex;
+    align-items: center;
+    /* width: 130px; */
     cursor: pointer;
 }
 
@@ -264,6 +271,28 @@
     height: 23px;
     display: block;
     object-fit: contain;
+}
+
+.OrgIdText {
+    background-color: rgb(247 247 247);
+    padding-left: 13px;
+    padding-top: 2px;
+    margin-left: 10px;
+    width: 240px;
+    border-radius: 10px;
+    display: flex;
+    height: 21px;
+    font-weight: 600;
+    font-size: 13px;
+    color: rgb(156 163 175);
+    align-items: center;
+}
+
+.OrgIdText2 {
+    background-color: rgb(247 247 247);
+    color: rgb(246, 60, 60);
+    border-radius: 5px;
+    padding: 0px 10px;
 }
 
 @media only screen and (max-width: 1024px) {

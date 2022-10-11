@@ -94,6 +94,7 @@ const Items = () => {
         localStorage.setItem("basket", JSON.stringify(basketA));
         popFunc();
         basketContext.basketStateFunc();
+        
         message.success("Added to cart!");
         basketContext.totalPriceFunction2();
       }
