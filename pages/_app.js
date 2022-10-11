@@ -1,6 +1,6 @@
 import { ConfigProvider, Spin } from "antd";
 import "../styles/globals.css";
-import "antd/dist/antd.variable.min.css";
+// import "antd/dist/antd.variable.min.css";
 import { appWithTranslation } from "next-i18next";
 import nextI18NextConfig from "../next-i18next.config.js";
 import { BasketItem } from "../context/basketContext/BasketContext";
@@ -10,7 +10,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps }) {
-  ConfigProvider.config({theme: {primaryColor: "#4D5057"}});
+  // ConfigProvider.config({theme: {primaryColor: "#4D5057"}});
+  
   function Loading() {
     const router = useRouter(); 
     const [loading, setLoading] = useState(false); 

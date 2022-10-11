@@ -83,21 +83,16 @@ export default function Home(props) {
   };
   const showConfirm = () => {
     confirm({
-      title: 'Do you want to go to item Page?',
-      icon: <ExclamationCircleOutlined />,
-      content: 'Some descriptions',
+      title: 'Do you want to go to item Page?', icon: <ExclamationCircleOutlined />, content: 'Some descriptions',
   
-      onOk() {
-        console.log('OK');
+      onOk() { 
         basketContext.orgIdLocal(value);
         router.push("/items")
       },
   
       onCancel() {
         setOrgError("");
-        setOrgIdState("");
-        console.log('Cancel');
-
+        setOrgIdState(""); 
       },
     });
   };
