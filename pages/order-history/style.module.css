@@ -116,9 +116,9 @@
     width: 5px;
 }
 
-.OrderScroll::-webkit-scrollbar-track {
+/* .OrderScroll::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-}
+} */
 
 .OrderScroll::-webkit-scrollbar-thumb {
     background-color: red;
@@ -135,9 +135,9 @@
     width: 5px;
 }
 
-.ItemScroll::-webkit-scrollbar-track {
+/* .ItemScroll::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-}
+} */
 
 .ItemScroll::-webkit-scrollbar-thumb {
     background-color: red;
@@ -188,9 +188,9 @@
     width: 5px;
 }
 
-.ScrollHistory::-webkit-scrollbar-track {
+/* .ScrollHistory::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-}
+} */
 
 .ScrollHistory::-webkit-scrollbar-thumb {
     background-color: red;
@@ -281,7 +281,9 @@
     padding-left: 7px;
 }
 
-.Titlecss {}
+.Titlecss {
+    font-size: 14px;
+}
 
 .DescriptionCss {
     color: #6f8391;
