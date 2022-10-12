@@ -10,13 +10,13 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps }) {
-  // ConfigProvider.config({theme: {primaryColor: "#4D5057"}});
-  
+  // ConfigProvider.config({theme: {primaryColor: "#4D5057"}}); 
   function Loading() {
     const router = useRouter(); 
     const [loading, setLoading] = useState(false); 
-    useEffect(() => {
-        console.log("index");
+ 
+    useEffect(() => { 
+        // page loading..
         const handleStart = (url) => (url !== router.asPath) && setLoading(true);
         const handleComplete = (url) => (url === router.asPath) && setTimeout(() =>{setLoading(false)},5000);
   

@@ -1,18 +1,4 @@
-import {
-  Input,
-  Button,
-  message,
-  Empty,
-  Steps,
-  Modal,
-  Image,
-  InputNumber,
-  Row,
-  Col,
-  Radio,
-  Form,
-  Spin,
-} from "antd";
+import {Input,Button,message,Empty,Steps,Modal,Image,InputNumber,Row,Col,Radio,Form,Spin} from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import BaseLayout from "../../components/Layout/BaseLayout";
 import css from "./style.module.css";
@@ -21,13 +7,7 @@ import { WalletOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import BasketContext from "../../context/basketContext/BasketContext";
 import axios from "axios";
-import {
-  CaretRightOutlined,
-  ShoppingCartOutlined,
-  BankOutlined,
-  CaretUpOutlined,
-  CaretDownOutlined,
-} from "@ant-design/icons";
+import {CaretRightOutlined,ShoppingCartOutlined,BankOutlined,CaretUpOutlined,CaretDownOutlined} from "@ant-design/icons";
 // import jsPDF from "jspdf"; 
 import { Tabs } from "antd"; 
 const { TabPane } = Tabs;
@@ -85,24 +65,15 @@ const Payment = () => {
     setCurrent(current - 1);
   };
   useEffect(() => {
-    dateFunction();
     totalPriceFunction();
+    dateFunction();
+    // totalPriceFunction();
   }, []);
 
-  const totalPriceFunction = () => {
-    let itemPrice = 0;
-    let result = 0;
-    basketContext.basketState.forEach((element) => {
-      if (element.itemPriceTotal == undefined) { 
-        result = element.price;
-      } else {
-        result = element.itemPriceTotal;
-      }
-      itemPrice += element.cnt * result; 
-    });
-    setTotalPriceState(itemPrice);
-  };
+
   const dateFunction = () => {
+    console.log("date time: ");
+    
     const mounths = ["01","02","03","04","05","06","07","08","09","10","11","12"];
     var date = new Date();
     setDateState(date.getFullYear() + "/" + mounths[date.getMonth()] + "/" + date.getDate()); 
@@ -110,12 +81,27 @@ const Payment = () => {
     datePlus.setDate(datePlus.getDate() + 30);
     setDatePlusState(datePlus.getFullYear() +"/" +mounths[datePlus.getMonth()] +"/" +datePlus.getDate()); 
   };  
+  const totalPriceFunction = () => {
+    console.log("total");
+    let itemPrice = 0;
+    let result = 0; 
+     basketContext.basketState.forEach((element) => {
+      if (element.itemPriceTotal == undefined) { 
+        result = element.price;
+      } else {
+        result = element.itemPriceTotal;
+      }
+      itemPrice += element.cnt * result; 
+    })
+    setTotalPriceState(itemPrice);
+  };
   const orderOrgId2 = () => {
     const rs = usdStateTarget + coinStateTarget + tugrugStateTarget;
      
     setDollarResult(rs);
     setIsModalVisibleOrgId2(true);
   };
+
   
   const handleOkOrgId2 = () => {
     // console.log("orgIdInput2: ", orgIdInput2);
@@ -235,14 +221,10 @@ const Payment = () => {
     console.log("usdState: ", usdStateTarget);
     console.log("tugrugState: ", tugrugStateTarget);
   };
-const orgIdChoose = (e) =>{
-
+const orgIdChoose = (e) =>{ 
   console.log("e.target: ", e.target.value); 
   setOrgIdRadio(e.target.value);
-}
-const  BlurFunc = (a) =>{
-  console.log("Blur Func: ", a.target.checked);
-}
+} 
 const  onFinishOrgId= (values) =>{ 
   console.log("values: ", values);
  

@@ -18,10 +18,10 @@ const Items = () => {
   const [spinState, setSpinState] = useState(true); 
   const [groupState1, setGroupState1] = useState([]);
   useEffect(() => {
-    console.log("items");
-    basketContext.MenuKey();
-    basketContext.basketStateFunc();
-    popFunc();
+    // console.log("items");
+    // basketContext.MenuKey();
+    // basketContext.basketStateFunc();
+    // popFunc();
     getItems();
     getGroupItemsS1();
   }, []);
@@ -94,7 +94,7 @@ const Items = () => {
         localStorage.setItem("basket", JSON.stringify(basketA));
         popFunc();
         basketContext.basketStateFunc();
-        
+
         message.success("Added to cart!");
         basketContext.totalPriceFunction2();
       }

@@ -25,8 +25,8 @@ export default function Home(props) {
   const router = useRouter();
   //amraa
   useEffect(() => {
-    basketContext.MenuKey();
-    basketContext.basketStateFunc(); 
+    // basketContext.MenuKey();
+    // basketContext.basketStateFunc(); 
     tokenFunc(); 
   }, []);
   const tokenFunc = () =>{

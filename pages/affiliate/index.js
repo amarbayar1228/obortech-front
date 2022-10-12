@@ -11,7 +11,7 @@ import UserAcceptAdmin from "../../components/UserAcceptAdmin";
 const { TabPane } = Tabs;
 const { Panel } = Collapse;
 const { confirm } = Modal;
-const { Option } = Select;
+const { Option } = Select; 
 const Affiliate = () => {
   const [data, setData] = useState([]);
   const [getCompany, setGetCompany] = useState([]);
@@ -73,20 +73,6 @@ const Affiliate = () => {
       .catch((err) => {
         console.log(err);
       });
-    // axios
-    //   .post("/api/post/company/companySentIncentive", body)
-    //   .then((res) => {
-    //     message.success("Success");
-    //     getUsers();
-    //     getCompanyUser();
-    //     getUserAcceptAll();
-    //     getCompanyAcceptAll();
-
-    //     confirmCompanyList();
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
   }; 
   const handleCancelIncentive = () => {
     setIsModalVisibleIncentive(false);
@@ -116,6 +102,7 @@ const Affiliate = () => {
   };
 
   const handleOk2 = (e) => { 
+    console.log("Reject model: ", e);
     const body = {
       func: "setCompany",
       pkId: e.PkId,
@@ -136,50 +123,47 @@ const Affiliate = () => {
   };
 
   const invitationBtn = (e) => {
-    const body = {
-      func: "setCompany",
-      pkId: e.PkId,
-      adminPkId: localStorage.getItem("pkId"),
-      state: 6,
-      others: "-",
-      orgId: "-",
-      // pkId: e.pkId,
-      // adminToken: localStorage.getItem("pkId"),
-      // others: othersState,
-      // state: 6,
-      //shine:
-      // userToken: e.userToken
-    };
-    axios
-      .post("/api/post/Gate", body)
-      .then((res) => {
-        message.success("Success");
-        getUsers();
-        getCompanyUser();
-        getUserAcceptAll();
-        getCompanyAcceptAll();
-
-        confirmCompanyList();
-        setIsModalVisible2(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    // axios
-    //   .post("/api/post/company/companyUpdateReq", body)
-    //   .then((res) => {
-    //     message.success("Success");
-    //     getUsers();
-    //     getCompanyUser();
-    //     getUserAcceptAll();
-    //     getCompanyAcceptAll();
-
-    //     confirmCompanyList();
-    //     setIsModalVisible2(false);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    confirm({
+      title: 'Do you want to Invintation send?',
+      icon: <ExclamationCircleOutlined />,
+      content: 'Some descriptions',
+  
+      onOk() {
+        console.log('OK');
+        const body = {
+          func: "setCompany",
+          pkId: e.PkId,
+          adminPkId: localStorage.getItem("pkId"),
+          state: 6,
+          others: "-",
+          orgId: "-",
+          // pkId: e.pkId,
+          // adminToken: localStorage.getItem("pkId"),
+          // others: othersState,
+          // state: 6,
+          //shine:
+          // userToken: e.userToken
+        };
+        axios.post("/api/post/Gate", body).then((res) => {
+            message.success("Success");
+            getUsers();
+            getCompanyUser();
+            getUserAcceptAll();
+            getCompanyAcceptAll();
+    
+            confirmCompanyList();
+            setIsModalVisible2(false);
+          })
+          .catch((err) => {
+            console.log(err);
+          }); 
+      },
+  
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+    
   };
 
   const handleCancel2 = () => {
@@ -213,21 +197,7 @@ const Affiliate = () => {
       .catch((err) => {
         console.log(err);
         // message.error(err);
-      });
-    // axios
-    //   .post("/api/post/company/companyUpdateOrgId", body)
-    //   .then((res) => {
-    //     message.success("Success");
-    //     getUsers();
-    //     getCompanyUser();
-    //     getCompanyAcceptAll();
-    //     confirmCompanyList();
-    //     setIsModalVisibleOrgId(false);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     // message.error(err);
-    //   });
+      }); 
   };
   // hereglegchvvdin shineer ilgeesen batalgaajuulah hereglegchiin list
   const getUsers = () => {
@@ -236,7 +206,7 @@ const Affiliate = () => {
       state: 1,
     };
     axios.post("/api/post/Gate", body).then((res) => {
-        console.log("get new req user: ", res.data.data);
+      segmentFuncUser(); 
         setData(res.data.data);
       })
       .catch((err) => {console.log(err)}); 
@@ -367,8 +337,7 @@ const showConfirm = (e) => {
     onCancel() {console.log("Cancel")},
   });
 };
-const segmentFunc = (a) => {
-  console.log("ajilj bn ");
+const segmentFunc = (a) => { 
   setPagiValue(1);
   setPagiValue2(1);
   setSegmentValue(a);
@@ -403,9 +372,13 @@ const segmentFunc = (a) => {
       }).catch((err) => {console.log(err)});
   }
 };
-const segmentFuncUser = (a) => {
-  console.log("ajilj bn ");
-  setSegmentValueUser(a);
+const segmentFuncUser = (a) => { 
+  if(a == undefined){
+    setSegmentValueUser("acceptUser");
+  }else { 
+    setSegmentValueUser(a);
+  }
+  
   // setPagiValue(1);
   // setPagiValue2(1);
   // setSegmentValue(a);
@@ -567,6 +540,7 @@ const segmentFuncUser = (a) => {
                     {segmentValueUser === "acceptUser" ? <div><UserAcceptAdmin /></div> 
                     : segmentValueUser === "newUserRequest" ?  
                     <div className={css.SplitSize}>
+                      {/* -new User Request----------------------------------------------------------------------------------------------------------/ */}
                     {data[0] ? (
                       <div>
                         <Collapse>
@@ -594,15 +568,17 @@ const segmentFuncUser = (a) => {
                       </div>
                     ) : (<Empty />)}
                   </div>
+                  
                     : segmentValueUser === "adminAcceptUser" ? 
+                      
                     <div className={css.SplitSize}> 
+                     {/* -admin  accept user----------------------------------------------------------------------------------------------------------/ */}
                     {spinStateUserAccept === true ? (<div><Spin className={css.SpinCss} tip="Loading..." size="large"></Spin></div>) : ("")}
                     {getUserAcceptAllState[0] ? (
                       <div>
                         <Collapse>
                           {getUserAcceptAllState.map((e, i) => (
-                            <Panel header={ <div style={{fontWeight: "500",textTransform: "capitalize", }}>{e.lastname}</div>}
-                              key={i}
+                            <Panel header={ <div style={{fontWeight: "500",textTransform: "capitalize", }}>{e.lastname}</div>} key={i}
                               extra={
                                 <div className={css.StateCss}>
                                   <div className={css.StateIconCss}>
@@ -626,76 +602,6 @@ const segmentFuncUser = (a) => {
                   </div>
                     : ""}
 
-              {/* <Tabs defaultActiveKey="3">   */}
-                {/* <TabPane tab={<span>Accept user</span>} key="4">
-                  <UserAcceptAdmin />
-                </TabPane>  */}
-                {/* <TabPane tab={<span>New User request</span>} key="5">
-                  <div className={css.SplitSize}> 
-                    {data[0] ? (
-                      <div>
-                        <Collapse>
-                          {data.map((e, i) => (
-                            <Panel header={<div style={{fontWeight: "500",textTransform: "capitalize",}}>{e.lastname}</div>} key={i}
-                              extra={
-                                <div className={css.StateCss}>
-                                  <div className={css.StateIconCss}>
-                                    {e.state == 1 ? (<Badge status="processing" text="Request" />) : (<Badge status="success" text="Success" />)}
-                                  </div> 
-                                </div>
-                              }
-                            >
-                              <Descriptions title="User Info" layout="vertical" bordered>
-                                <Descriptions.Item label="Last Name">{e.lastname}</Descriptions.Item>
-                                <Descriptions.Item label="First Name">{e.firstname}</Descriptions.Item>
-                                <Descriptions.Item label="Email">{e.email}</Descriptions.Item>
-                                <Descriptions.Item label="Phone">{e.phone}</Descriptions.Item>
-                                <Descriptions.Item label="Address" span={2}>{e.address}</Descriptions.Item>
-                              </Descriptions>
-                              <div><Button type="dashed" onClick={() => userAcceptFunc(e)}>Accept</Button>
-                                <Button onClick={() => userCanceledFunc(e)} type="primary" danger>Cancel</Button></div>
-                            </Panel>
-                          ))}
-                        </Collapse>
-                      </div>
-                    ) : (<Empty />)}
-                  </div>
-                </TabPane> */}
-                {/* <TabPane tab={<span>Admins accept user</span>} key="6">
-                  <div className={css.SplitSize}> 
-                    {spinStateUserAccept === true ? (
-                      <div><Spin className={css.SpinCss} tip="Loading..." size="large"></Spin></div>
-                    ) : ("")}
-                    {getUserAcceptAllState[0] ? (
-                      <div>
-                        <Collapse>
-                          {getUserAcceptAllState.map((e, i) => (
-                            <Panel header={ <div style={{fontWeight: "500",textTransform: "capitalize", }}>{e.lastname}</div>}
-                              key={i}
-                              extra={
-                                <div className={css.StateCss}>
-                                  <div className={css.StateIconCss}>
-                                    {e.state == 2 ? (<Badge status="success" text="Request accepted"/>
-                                    ) : e.state == 3 ? (<Badge status="error" text="Reject" />) : ("")}
-                                  </div> 
-                                </div>
-                              }>
-                              <Descriptions title="User Info" layout="vertical" bordered>
-                                <Descriptions.Item label="Last Name">{e.lastname}</Descriptions.Item>
-                                <Descriptions.Item label="First Name">{e.firstname}</Descriptions.Item>
-                                <Descriptions.Item label="Email">{e.email}</Descriptions.Item>
-                                <Descriptions.Item label="Phone">{e.phone}</Descriptions.Item>
-                                <Descriptions.Item label="Address" span={2}>{e.address}</Descriptions.Item>
-                              </Descriptions>
-                            </Panel>
-                          ))}
-                        </Collapse>
-                      </div>
-                    ) : (<Empty />)}
-                  </div>
-                </TabPane> */}
-              {/* </Tabs> */}
-              
             </TabPane>
             {/* Company ================================================================================================= */}
             <TabPane
@@ -722,14 +628,13 @@ const segmentFuncUser = (a) => {
                                   extra={
                                     <div className={css.StateCss}>
                                       <div className={css.StateIconCss}>
-                                        {e.state == 2 ? (<Badge status="warning" text="Request accepted"/>
-                                        ) : e.state == 3 ? (<Badge status="processing" text="Info edit.."/>
-                                        ) : e.state == 4 ? (<Badge status="error" text="Rejected"/>
-                                        ) : e.state == 5 ? (<Tooltip title={e.others}><Badge status="processing" text="Request pending.."/></Tooltip>
-                                        ) : e.state == 6 ? (<Badge color="purple" status="processing" text="Invitation Send..."/>
-                                        ) : e.state == 7 ? (<Badge color="cyan"  status="processing" text="Organization Onboarded..."/>
-                                        ) : e.state == 8 ? (<Badge status="error" text="Canceled"/>
-                                        ) : (<Badge status="default" text="..." />)}
+                                      {e.state == 2 ? (<Badge status="warning" text="Request accepted"/>
+                                          ) : e.state == 3 ? (<Badge color="gray" status="processing"text="Rejected.."/>
+                                          ) : e.state == 4 ? (<Badge status="error"text="Rejected"/>
+                                          ) : e.state == 5 ? (<Tooltip title={e.others}><Badge color="gray" status="processing"text="Others"/></Tooltip>
+                                          ) : e.state == 6 ? (<Badge color="purple" status="processing" text="Invitation Send..."/>
+                                          ) : e.state == 7 ? (<Badge color="cyan" text="Organization Onboarded..."/>
+                                          ) : e.state == 8 ? (<Badge status="error" text="Canceled" />) : (<Badge status="default" text="..." />)}
                                       </div>
                                     </div>
                                   }
@@ -835,7 +740,7 @@ const segmentFuncUser = (a) => {
                                       <Descriptions.Item label="Additional information">{e.additionalInformation}</Descriptions.Item>
                                       {e.orgId === "-" ? "" : <Descriptions.Item label="Organization Id"><div style={{color: "red", background: "rgb(56 189 248)", color: "rgb(224 242 254)", padding: "7px 20px"}}>{e.orgId}</div></Descriptions.Item> }
                                     </Descriptions>
-                                      <div style={{ marginTop: "5px" }}>
+                                      <div style={{ marginTop: "15px" }}>
                                         <Button type="primary" onClick={() => showConfirm(e)}>Accept Request </Button>
                                         <Button type="primary" danger style={{ marginLeft: "10px" }} onClick={showModal2}>Reject</Button>
                                       <Modal title="Reject" visible={isModalVisible2} onOk={() => handleOk2(e)} onCancel={handleCancel2}>
@@ -880,12 +785,12 @@ const segmentFuncUser = (a) => {
                                       <div className={css.StateCss}>
                                         <div className={css.StateIconCss}>
                                           {e.state == 2 ? (<Badge status="warning" text="Request accepted"/>
-                                          ) : e.state == 3 ? (<Badge status="processing"text="Rejected.."/>
+                                          ) : e.state == 3 ? (<Badge color="gray" status="processing"text="Rejected.."/>
                                           ) : e.state == 4 ? (<Badge status="error"text="Rejected"/>
-                                          ) : e.state == 5 ? (<Tooltip title={e.others}><Badge status="processing"text="Others"/></Tooltip>
-                                          ) : e.state == 6 ? (<Badge status="processing" text="Invitation Send..."/>
+                                          ) : e.state == 5 ? (<Tooltip title={e.others}><Badge color="gray" status="processing"text="Others"/></Tooltip>
+                                          ) : e.state == 6 ? (<Badge color="purple" status="processing" text="Invitation Send..."/>
                                           ) : e.state == 7 ? (<Badge color="cyan" text="Organization Onboarded..."/>
-                                          ) : e.state == 8 ? (<Badge status="error" text="Canceled" />) : (<Badge status="default" text="..." />)}
+                                          ) : e.state == 8 ? (<Badge status="error" text="Canceled" />) : (<Badge status="default" text="..." />)} 
                                         </div> 
                                       </div>}>
                                     <div className={css.Cont1}>
@@ -902,17 +807,13 @@ const segmentFuncUser = (a) => {
                                     </div>
                                   </Panel>
                                 ))}
-                              </Collapse>
-                            </div>
-                          ) : (
+                              </Collapse></div>) : (
                             <Empty />
                           )}
                           </div>
                           <div>
                           <Pagination showTitle={true} showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} Company`}  current={pagiValue3} total={60} onChange={pagiAdminCom} />
-                      </div>
-                          </>
-                          }
+                      </div></>}
                     </>
                    } 
               </div>   

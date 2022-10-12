@@ -11,9 +11,9 @@ const BacketComponent = (props) => {
   const router = useRouter();
   const [loadings, setLoadings] = useState([]);
   const [totalPrice, setTotalPriceState] = useState(0);
-  useEffect(() => {
-    basketContext.basketStateFunc(); 
-  }, []);
+  // useEffect(() => {
+  //   basketContext.basketStateFunc(); 
+  // }, []);
   const paymentRoute = (index) => {
     router.push("/payment");
     setLoadings((prevLoadings) => {
@@ -29,14 +29,14 @@ const BacketComponent = (props) => {
       });
     }, 6000);
   };
-  // const totalPriceFunction = () => {
-  //   let price = 0;
-  //   basketContext.basketState.forEach((element) => { 
-  //     console.log("delete: ", element);
-  //     price += element.cnt * element.price;
-  //   });
-  //    setTotalPriceState(price);
-  // };
+  const totalPriceFunction = () => {
+    let price = 0;
+    basketContext.basketState.forEach((element) => { 
+      console.log("delete: ", element);
+      price += element.cnt * element.price;
+    });
+     setTotalPriceState(price);
+  };
 
   return (
     <div className={css.Basket}>

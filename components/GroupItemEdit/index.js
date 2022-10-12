@@ -68,10 +68,8 @@ const GroupItemEdit = (props) => {
       var isArrived = false;
       for (var i = 0; i < arr.length; i++) {
         const temp = arr[i];
-        if (
-          temp.itemPkId === obj.itemPkId ||
-          groupItemDetails[i].pkId === obj.itemPkId
-        ) {
+        if (temp.itemPkId === obj.itemPkId || groupItemDetails[i].pkId === obj.itemPkId) 
+        {
           arr[i].itemPriceD = obj.itemPriceD;
           arr[i].itemCnt = groupItemDetails[i].itemCnt;
           isArrived = true;
@@ -208,10 +206,12 @@ const GroupItemEdit = (props) => {
                 
                 </div>
               ))}
-                <div> Total price: {totalPrice}</div>
+                
             </>
           )}
+       
         </div>
+        <div className={css.TotalPriceCss}> Total price: {totalPrice}</div>
       </Modal>
     </div>
   );

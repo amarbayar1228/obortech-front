@@ -1,15 +1,4 @@
-import {
-  Badge,
-  Button,
-  Collapse,
-  Form,
-  Image,
-  Input,
-  message,
-  Modal,
-  Tooltip,
-  Transfer,
-} from "antd";
+import {Badge,Button,Collapse,Form,Image,Input,message,Modal,Tooltip,Transfer} from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import css from "./style.module.css";
@@ -24,8 +13,8 @@ const GroupItem = (props) => {
   const [titleState, setTitleState] = useState();
   const [descriptionState, setDescription] = useState();
   useEffect(() => {
-    getGroupItems();
-    getItems();
+    // getGroupItems();
+    // getItems();
   }, []);
   const getItems = () => {
     axios

@@ -161,31 +161,12 @@ const orgIdLocal = (orgId) =>{
         });
     } else {
       console.log("null");
-    }
-    // if (localStorage.getItem("pkId")) {
-    //   const body = {
-    //     pkId: localStorage.getItem("pkId"),
-    //   };
-    //   axios
-    //     .post("/api/post/getUserProfile", body)
-    //     .then((res) => {
-    //       setUserInfoProfile(res.data[0]);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // } else {
-    // }
+    } 
   };
   
   const HanshFunc = () => {
-    const body = {
-      func: "getRate",
-    };
-    axios
-      .post("/api/post/Gate", body)
-      .then((res) => {
-        console.log("hansh", res.data.data);
+    const body = {func: "getRate"};
+    axios.post("/api/post/Gate", body).then((res) => { 
         setHanshnuud(res.data.data);
       })
       .catch((err) => {

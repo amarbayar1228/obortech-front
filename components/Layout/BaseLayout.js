@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import {Layout,Menu,Breadcrumb,Row,Col,message,Button,Popover,Tooltip,Image,Drawer,Spin,} from "antd";
+import {Layout,Menu,Breadcrumb,Row,Col,message,Button,Popover,Tooltip,Image,Drawer,Spin, Empty,} from "antd";
 import React, { useContext } from "react";
 import { useState, useEffect } from "react";
 import {ShoppingCartOutlined,GlobalOutlined,DoubleLeftOutlined,MenuOutlined,HomeOutlined,UserOutlined,DoubleRightOutlined,PlusSquareOutlined,AppstoreAddOutlined,AppstoreOutlined,PieChartOutlined,LogoutOutlined,UserAddOutlined,ContainerOutlined,SettingOutlined} from "@ant-design/icons";
@@ -18,10 +18,7 @@ export default function BaseLayout(props) {
   const router = useRouter();
   const { t, ready } = useTranslation(["header", "language-change", "organization"]);
   const basketContext = useContext(BasketContext);
-  const [localStorageUserId, setLocalStorageUserId] = useState();
-  const [homeActive, setHomeActive] = useState([]);
-  const [homeActiveMenu, setHomeActiveMenu] = useState([]);
-  const [affiliateActive, setAffiliateActive] = useState([]);
+  const [localStorageUserId, setLocalStorageUserId] = useState(); 
   const [admin, setAdmin] = useState("");
   const [localPkId, setLocalPkid] = useState("");
   const [open2, setOpen2] = useState(false);
@@ -29,7 +26,7 @@ export default function BaseLayout(props) {
   const [mnState, setMnState] = useState("mn");
 
   useEffect(() => { 
-    basketContext.basketStateFunc();
+    // basketContext.basketStateFunc();
     setLocalPkid(localStorage.getItem("pkId"));
     // localStorage.setItem("orgId", "0");
     setAdmin(localStorage.getItem("isSuperAdmin")); 
@@ -44,19 +41,7 @@ export default function BaseLayout(props) {
     setAddItemStyleProps(props.addItemStyle);
     setTimeout(() => {
       setAddItemStyleProps([css.BasketPop]);
-    }, 500);
-    if (router.pathname == "/") {
-      setHomeActive([css.Active]);
-      setHomeActiveMenu([css.ActiveMenu]);
-    } else {
-      setHomeActive([]);
-      setHomeActiveMenu([]);
-    }
-    if (router.pathname == "dashboard") {
-      setAffiliateActive([css.Active]);
-    } else {
-      setAffiliateActive([]);
-    }
+    }, 500); 
   }, [props]);
 
   // Locize Loading...
@@ -130,14 +115,14 @@ export default function BaseLayout(props) {
   const changeLanguage = (
     <div className={css.LanguageStyle}>
       <Link href="/" locale={router.locales[0] === "en" ? "en" : "en"}>
-        <Button type="link" className={css.LanguageBtn} style={{marginLeft:"1px"}}>
-        <Image className={css.Flag} alt="Obertech" preview={false} src="/img/united-kingdom.png"/>
-          <span   style={{marginRight: "7px"}} className={router.locale == "en"  ? css.ActiveLang : "" }>{t("English")}</span>
+        <Button type="link" className={css.LanguageBtn} >
+        <Image style={{marginRight: "7px"}} className={css.Flag} alt="Obertech" preview={false} src="/img/united-kingdom.png"/>
+          <span className={router.locale == "en"  ? css.ActiveLang : "" }>{t("English")}</span>
         </Button>
       </Link>
       <Link href="/mn" locale={router.locales[3] === "mn" ? "mn" : "en"}>
         <Button type="link" className={css.LanguageBtn}>
-        <Image style={{marginRight: "25px"}} className={css.Flag} alt="Obertech" preview={false} src="/img/mongolia.png"/>
+        <Image className={css.Flag} alt="Obertech" preview={false} src="/img/mongolia.png"/>
           <span className={router.locale == "mn" ? css.ActiveLang : ""}>Монгол</span>
         </Button>
       </Link>
@@ -265,7 +250,7 @@ export default function BaseLayout(props) {
           )}
           <Drawer title="Menu" placement="left" onClose={onClose2} open={open2} width={250}>
             <div className={css.MenuCont}>
-              <div className={homeActiveMenu}>
+              <div className={router.pathname === "/" ? css.ActiveMenu : ""}>
                 <Button onClick={homeRouter} type="link" className={css.IconsMenu}>
                   <HomeOutlined /> {t("homeName")}
                 </Button>
@@ -284,9 +269,7 @@ export default function BaseLayout(props) {
                     router.pathname == "/order-history" ||
                     router.pathname == "/referral" ||
                     router.pathname == "/add-admin" ||
-                    router.pathname == "/add-item"
-                      ? css.ActiveMenu
-                      : ""}>
+                    router.pathname == "/add-item" ? css.ActiveMenu : ""}>
                   <Button onClick={userDashboard} type="link" className={css.IconsMenu}>
                     <AppstoreOutlined /> {t("dashboardTitle")}
                   </Button>
@@ -296,7 +279,7 @@ export default function BaseLayout(props) {
         </div> 
 {/* Desktop ============================================================================== */}
         <div className={css.HeaderItem}>
-          <div className={homeActive}>
+          <div className={router.pathname === "/" ? css.Active : ""}>
             <Tooltip title={t("homeName")}>
               <Button onClick={homeRouter} type="link" className={css.Icons}>
                 <HomeOutlined />
@@ -399,6 +382,8 @@ export default function BaseLayout(props) {
             <Breadcrumb.Item> <UserOutlined /></Breadcrumb.Item>
           </Breadcrumb>
         )}
+        
+
         <Layout className="site-layout-background">
           {localStorageUserId === "Null" ? (
             "" ) : (
@@ -438,7 +423,7 @@ export default function BaseLayout(props) {
               <Col className="content" span={23}>{props.children}</Col>
             </Row>
           </Content>
-        </Layout>
+        </Layout> 
         {/* <Footer
           style={{
             textAlign: "center",

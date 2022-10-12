@@ -15,42 +15,42 @@ const ConfirmationList = () => {
   const [spinState, setSpinState] = useState(true);
   const [spinState2, setSpinState2] = useState(true);
   useEffect(() => {
-    confirmCompanyList();
-    if (changeValue == "all") {
-      confirmUserList();
-    }
+    // confirmCompanyList();
+    // if (changeValue == "all") {
+    //   confirmUserList();
+    // }
   }, []);
-  const confirmCompanyList = () => {
-    setSpinState2(true);
-    const body = {
-      pkId: localStorage.getItem("pkId"),
-    };
-    axios
-      .post("/api/post/company/confirmCompanyAdminList", body)
-      .then((res) => {
-        setSpinState2(false);
-        setCompanyData(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    console.log("object");
-  };
-  const confirmUserList = () => {
-    setSpinState(true);
-    const body = {
-      pkId: localStorage.getItem("pkId"),
-    };
-    axios
-      .post("/api/post/user/confirmUserAdminList", body)
-      .then((res) => {
-        setSpinState(false);
-        setUserData(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  // const confirmCompanyList = () => {
+  //   setSpinState2(true);
+  //   const body = {
+  //     pkId: localStorage.getItem("pkId"),
+  //   };
+  //   axios
+  //     .post("/api/post/company/confirmCompanyAdminList", body)
+  //     .then((res) => {
+  //       setSpinState2(false);
+  //       setCompanyData(res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  //   console.log("object");
+  // };
+  // const confirmUserList = () => {
+  //   setSpinState(true);
+  //   const body = {
+  //     pkId: localStorage.getItem("pkId"),
+  //   };
+  //   axios
+  //     .post("/api/post/user/confirmUserAdminList", body)
+  //     .then((res) => {
+  //       setSpinState(false);
+  //       setUserData(res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
   const handleChange = (value) => {
     setChangeValue(value);
     if (value == "cancel") {

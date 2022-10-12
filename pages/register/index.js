@@ -83,11 +83,10 @@ const Register = () => {
                 <Input.Password size="middle" prefix={<LockOutlined className={css.Title} />} type="password" placeholder={"Enter your password"}/>
               </Form.Item>
               <Form.Item name="password2" label={<div className={css.Title}>Password confirmation</div>}
-                rules={[{required: true,
-                    message: (<div style={{ fontWeight: 500 }}>Please input your Password 2!</div>),},]}>
+                rules={[{required: true, message: (<div style={{ fontWeight: 500 }}>Please input your Password 2!</div>)}]}>
                 <Input.Password size="middle" prefix={<LockOutlined className={css.Title} />} type="password" placeholder="Confirm your password"/>
               </Form.Item>
-              <Form.Item label={""}><div className={css.Login}><Button style={{width: "100%"}} type="primary" htmlType="submit" className="login-form-button">Sign up</Button></div></Form.Item>
+              <Form.Item label=" "><div className={css.Login}><Button style={{width: "100%"}} type="primary" htmlType="submit" className="login-form-button">Sign up</Button></div></Form.Item>
             </Form> 
           </div>
         </div>

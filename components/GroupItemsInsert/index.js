@@ -91,10 +91,7 @@ const GroupItemsInsert = (props) => {
       func: "getItems",
       status: "0,1",
     };
-    axios
-      .post("/api/post/Gate", body)
-      .then((res) => {
-        console.log("item status: 0&1 +> res data:", res.data.getItems.list);
+    axios.post("/api/post/Gate", body).then((res) => { 
         setItemState01(res.data.getItems.list);
       })
       .catch((err) => {

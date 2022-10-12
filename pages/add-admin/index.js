@@ -114,8 +114,8 @@ const AddAdmin = () => {
                           <Form.Item label="Email" name="email" rules={[ { required: true, message: "Please input your Email!",type: "email"}]}>
                             <Input placeholder={"Email:"} />
                           </Form.Item>
-                          <Form.Item>
-                            <div className={css.Ok}><Button type="primary" htmlType="submit" className="login-form-button">Ok</Button></div>
+                          <Form.Item label=" ">
+                            <div className={css.Ok}><Button style={{width: "100%"}} type="primary" htmlType="submit" className="login-form-button">Ok</Button></div>
                           </Form.Item>
                         </Form> 
                       </div>
@@ -132,13 +132,9 @@ const AddAdmin = () => {
                            <Descriptions title="Operator Info" layout="vertical" bordered   extra={<Button type="primary">Edit</Button>}  size="middle">
                             <Descriptions.Item label="First name">{e.firstname}</Descriptions.Item>
                             <Descriptions.Item label="Last name">{e.lastname}</Descriptions.Item>
-                            <Descriptions.Item label="Status">
-                              <Badge status="processing" text="Running" />
-                            </Descriptions.Item> 
+                            <Descriptions.Item label="Status"><Badge status="processing" text="Running" /></Descriptions.Item> 
                             <Descriptions.Item label="Phone">{e.phone}</Descriptions.Item>
-                            <Descriptions.Item label="Email" span={2}>
-                              {e.email}
-                            </Descriptions.Item> 
+                            <Descriptions.Item label="Email" span={2}>{e.email}</Descriptions.Item> 
                           </Descriptions>
                         </Panel>
                       ))}

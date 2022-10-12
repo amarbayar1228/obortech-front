@@ -162,11 +162,8 @@ const AddBasket = (props) => {
       func: "getItems",
       status: -1,
     };
-    axios
-      .post("/api/post/Gate", body)
-      .then((res) => {
-        setState(true);
-        console.log("item data list: ", res.data.getItems.list);
+    axios.post("/api/post/Gate", body).then((res) => {
+        setState(true); 
         setItemData(res.data.getItems.list);
       })
       .catch((err) => {
@@ -335,10 +332,7 @@ const AddBasket = (props) => {
         setCssGroup(i);  
       } 
   }
- const onFieldsChangeFunc = (a, b) =>{
-  console.log("onFieldsChangeFunc:", a);  
-  console.log("onFieldsChangeFuncb:", b);
- }
+ 
 
   return (
     <BaseLayout pageName="add-item">
@@ -382,8 +376,7 @@ const AddBasket = (props) => {
               <div>
                 <Drawer title={t("editItem")} placement={placement} width={500} onClose={onClose} open={visible}>
                      <Form form={formEdit} name="normal_login" className={css.LoginForm}  
-                        labelCol={{span: 6,}} wrapperCol={{span: 16,}}
-                        onFieldsChange={onFieldsChangeFunc}
+                        labelCol={{span: 6,}} wrapperCol={{span: 16,}} 
                         initialValues={{ 
                           title: editItemTitle,
                           descrip: editItemDescription,
@@ -478,7 +471,7 @@ const AddBasket = (props) => {
                               <div>
                                 {e.status === 1 ? (<Tooltip title={e.others}><Badge status="success" text="Enable" /></Tooltip>
                                 ) : e.status === 2 ? (<Tooltip title={e.others}><Badge status="error" text="Disable" /></Tooltip>
-                                ) : e.status === 0 ? (<Tooltip title={e.others}><Badge status="processing" text="Invisible"/></Tooltip>
+                                ) : e.status === 0 ? (<Tooltip title={e.others}><Badge color="gray" status="processing" text="Invisible"/></Tooltip>
                                 ) : ("")}
                               </div>
                               <div className={css.HoverEditCss}>

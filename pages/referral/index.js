@@ -57,15 +57,15 @@ const Referral = () => {
   const [spinState, setSpinState] = useState(false);
   useEffect(() => {
     localStorageInfo();
-    getUserInfo();
+    // getUserInfo();
     userCompany();
     // userInfo();
     // getPayInsentive();
   }, []);
-  const getUserInfo = () => {
-    basketContext.getUserProfileFunction();
-    // console.log("basketContext: ", basketContext.userInfoProfile.firstname);
-  };
+  // const getUserInfo = () => {
+  //   basketContext.getUserProfileFunction();
+  //   // console.log("basketContext: ", basketContext.userInfoProfile.firstname);
+  // };
   const userInfo = () => {
     const body = {
       token: localStorage.getItem("token"),
@@ -85,18 +85,18 @@ const Referral = () => {
     //     message.error("Error");
     //   });
   };
-  const localStorageInfo = () => {
-    userInfo();
-    setlUsername(localStorage.getItem("username"));
-    setllastname(localStorage.getItem("lastname"));
-    setlphone(localStorage.getItem("phone"));
-    setlfirstname(localStorage.getItem("firstname"));
+  // const localStorageInfo = () => {
+  //   userInfo();
+  //   setlUsername(localStorage.getItem("username"));
+  //   setllastname(localStorage.getItem("lastname"));
+  //   setlphone(localStorage.getItem("phone"));
+  //   setlfirstname(localStorage.getItem("firstname"));
 
-    setlstate(localStorage.getItem("state"));
-    setlemail(localStorage.getItem("email"));
-    setladdress(localStorage.getItem("address"));
-    setIntroductionText(localStorage.getItem("introductionText"));
-  };
+  //   setlstate(localStorage.getItem("state"));
+  //   setlemail(localStorage.getItem("email"));
+  //   setladdress(localStorage.getItem("address"));
+  //   setIntroductionText(localStorage.getItem("introductionText"));
+  // };
   const CorporationShowModal = () => {
     setIsModalVisibleCorporation(true);
   };
@@ -763,168 +763,52 @@ const Referral = () => {
                                     <Descriptions.Item label="Additional information">
                                       {e.additionalInformation}
                                     </Descriptions.Item>
-                                    <Descriptions.Item label="Organization Id">
-                                      {e.orgId}
-                                    </Descriptions.Item>
-                                    {e.others === null || e.others === "" ? (
-                                      ""
-                                    ) : (
-                                      <div
-                                        style={{
-                                          background: "red",
-                                          color: "#fff",
-                                        }}
-                                      >
-                                        {e.others}
-                                      </div>
+                                    <Descriptions.Item label="Organization Id">{e.orgId}</Descriptions.Item>
+                                    {e.others === null || e.others === "" ? ("") : (
+                                      <div style={{background: "red",color: "#fff",}}>{e.others}</div>
                                     )}
                                   </Descriptions>
 
                                   <div>
-                                    {e.state === 3 ||
-                                    e.state === 4 ||
-                                    e.state === 5 ? (
-                                      <Button onClick={() => EditShowModal(e)}>
-                                        Edit
-                                      </Button>
-                                    ) : (
-                                      ""
-                                    )}
-                                    <Modal
-                                      title="Edit"
-                                      visible={isModalVisibleEdit}
-                                      footer={false}
-                                      onOk={onFinishEdit}
-                                      onCancel={handleCancelEdit}
-                                    >
-                                      <Form
-                                        name="basic"
-                                        labelCol={{
-                                          span: 8,
-                                        }}
-                                        wrapperCol={{
-                                          span: 16,
-                                        }}
+                                    {e.state === 3 || e.state === 4 || e.state === 5 ? (
+                                      <Button onClick={() => EditShowModal(e)}>Edit</Button>) : ("")}
+                                    <Modal title="Edit" visible={isModalVisibleEdit}footer={false}onOk={onFinishEdit}onCancel={handleCancelEdit}>
+                                      <Form name="basic" labelCol={{span: 8}} wrapperCol={{span: 16,}}
                                         initialValues={{
                                           companyNameEdit: companyNameInput,
-                                          additionalInformationEdit:
-                                            additionalInformationInput,
+                                          additionalInformationEdit:additionalInformationInput,
                                           countryEdit: countryInput,
                                           employeesEdit: employeesInput,
-                                          totalAnnualRevenueEdit:
-                                            totalAnnualRevenueInput,
+                                          totalAnnualRevenueEdit:totalAnnualRevenueInput,
                                           websiteEdit: websiteInput,
-                                        }}
-                                        onFinish={onFinishEditForm}
-                                        onFinishFailed={onFinishFailedEdit}
-                                        autoComplete="off"
+                                        }} onFinish={onFinishEditForm} onFinishFailed={onFinishFailedEdit} autoComplete="off"
                                       >
-                                        <Form.Item
-                                          label="Company name"
-                                          name="companyNameEdit"
-                                          rules={[
-                                            {
-                                              required: true,
-                                              message:
-                                                "Please input your Company name!",
-                                            },
-                                          ]}
-                                        >
-                                          <Input />
+                                        <Form.Item label="Company name"name="companyNameEdit"
+                                          rules={[{required: true,message:"Please input your Company name!"}]}><Input />
                                         </Form.Item>
 
-                                        <Form.Item
-                                          label="Web site"
-                                          name="websiteEdit"
-                                          rules={[
-                                            {
-                                              required: true,
-                                              message:
-                                                "Please input your Web site!",
-                                            },
-                                          ]}
-                                        >
-                                          <Input />
+                                        <Form.Item label="Web site" name="websiteEdit"
+                                          rules={[{required: true,message:"Please input your Web site!",},]}><Input />
                                         </Form.Item>
 
-                                        <Form.Item
-                                          label="Country"
-                                          name="countryEdit"
-                                          rules={[
-                                            {
-                                              required: true,
-                                              message:
-                                                "Please input your Country!",
-                                            },
-                                          ]}
-                                        >
+                                        <Form.Item label="Country" name="countryEdit"
+                                          rules={[ { required: true, message:"Please input your Country!",},]}><Input />
+                                        </Form.Item>
+                                        <Form.Item label="How many employees" name="employeesEdit"
+                                          rules={[{required: true,message:"Please input your How many employees!",},]}>
+                                          <Input addonBefore={prefixSelector} style={{width: "100%",}}/>
+                                        </Form.Item>
+                                        <Form.Item label="Total annual revenue" name="totalAnnualRevenueEdit"
+                                          rules={[{required: true,message:"Please input your Total annual revenue!",}]}>
                                           <Input />
                                         </Form.Item>
-                                        <Form.Item
-                                          label="How many employees"
-                                          name="employeesEdit"
-                                          rules={[
-                                            {
-                                              required: true,
-                                              message:
-                                                "Please input your How many employees!",
-                                            },
-                                          ]}
-                                        >
-                                          <Input
-                                            addonBefore={prefixSelector}
-                                            style={{
-                                              width: "100%",
-                                            }}
-                                          />
-                                        </Form.Item>
-                                        <Form.Item
-                                          label="Total annual revenue                                          "
-                                          name="totalAnnualRevenueEdit"
-                                          rules={[
-                                            {
-                                              required: true,
-                                              message:
-                                                "Please input your Total annual revenue!",
-                                            },
-                                          ]}
-                                        >
-                                          <Input />
-                                        </Form.Item>
-                                        <Form.Item
-                                          label="Additional information"
-                                          name="additionalInformationEdit"
-                                          rules={[
-                                            {
-                                              required: true,
-                                              message:
-                                                "Please input your Additional information!",
-                                            },
-                                          ]}
-                                        >
-                                          <Input />
+                                        <Form.Item label="Additional information" name="additionalInformationEdit"
+                                          rules={[{ required: true, message:"Please input your Additional information!",}]}><Input />
                                         </Form.Item>
 
-                                        <Form.Item
-                                          wrapperCol={{
-                                            offset: 8,
-                                            span: 16,
-                                          }}
-                                        >
-                                          <Button
-                                            style={{ marginRight: "10px" }}
-                                            onClick={() =>
-                                              setIsModalVisibleEdit(false)
-                                            }
-                                          >
-                                            Cancel
-                                          </Button>
-                                          <Button
-                                            type="primary"
-                                            htmlType="submit"
-                                          >
-                                            Submit
-                                          </Button>
+                                        <Form.Item wrapperCol={{offset: 8,span: 16,}}>
+                                          <Button style={{ marginRight: "10px" }} onClick={() =>setIsModalVisibleEdit(false)}>Cancel</Button>
+                                          <Button type="primary"htmlType="submit">Submit</Button>
                                         </Form.Item>
                                       </Form>
                                     </Modal>
@@ -936,37 +820,14 @@ const Referral = () => {
                         ))}
                       </div>
 
-                      {spinState == true ? (
-                        <div>
-                          <Spin />
-                        </div>
-                      ) : (
-                        ""
-                      )}
+                      {spinState == true ? (<div><Spin /></div>) : ("")}
                       {insentive[0] ? (
                         <div className={css.InsentiveCon}>
                           <div>
                             <Divider orientation="left">
-                              <div
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                }}
-                              >
-                                <Image
-                                  alt="Obertech"
-                                  preview={false}
-                                  src="/img/incentive.png"
-                                  style={{
-                                    width: "45px",
-                                    marginRight: "7px",
-                                    background: "#fff",
-                                    borderRadius: "20px",
-                                  }}
-                                />{" "}
-                                <div className={css.IncentiveText}>
-                                  INCENTIVE
-                                </div>
+                              <div style={{ display: "flex", alignItems: "center",}}>
+                                <Image alt="Obertech" preview={false} src="/img/incentive.png"style={{width: "45px",marginRight: "7px",background: "#fff",borderRadius: "20px",}}/>
+                                <div className={css.IncentiveText}>INCENTIVE</div>
                               </div>
                             </Divider>
                           </div>
@@ -975,30 +836,16 @@ const Referral = () => {
                               <div key={i} className={css.ContainerInvs}>
                                 <div className={css.DateCss}>{e.date} </div>
                                 <div className={css.FeeLayout}>
-                                  <div className={css.ImgCss}>
-                                    <Image
-                                      alt="Obertech"
-                                      preview={false}
-                                      src="/img/usdIcon.png.crdownload"
-                                    />
-                                  </div>
+                                  <div className={css.ImgCss}><Image alt="Obertech" preview={false}src="/img/usdIcon.png.crdownload"/></div>
                                   <div className={css.FeeCompleted}>
-                                    <div className={css.CoinCss}>
-                                      {" "}
-                                      $ {e.fee}
-                                    </div>
-                                    <div className={css.CompletedCss}>
-                                      {" "}
-                                      Completed
-                                    </div>
+                                    <div className={css.CoinCss}>$ {e.fee}</div>
+                                    <div className={css.CompletedCss}>Completed</div>
                                   </div>
                                 </div>
                               </div>
                             ))}
                           </div>
-                          <div className={css.TotalPriceCss}>
-                            Total price: {incentiveTotalPrice}$
-                          </div>
+                          <div className={css.TotalPriceCss}>Total price: {incentiveTotalPrice}$</div>
                         </div>
                       ) : (
                         ""

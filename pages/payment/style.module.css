@@ -29,9 +29,9 @@
   width: 5px;
 }
 
-.ItemSize::-webkit-scrollbar-track {
+/* .ItemSize::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-}
+} */
 
 .ItemSize::-webkit-scrollbar-thumb {
   background-color: red;
@@ -323,9 +323,9 @@
   width: 5px;
 }
 
-.ItemTotal::-webkit-scrollbar-track {
+/* .ItemTotal::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-}
+} */
 
 .ItemTotal::-webkit-scrollbar-thumb {
   background-color: red;
@@ -436,8 +436,6 @@
   justify-content: flex-end;
 }
 
-.ContractItemTotalT {}
-
 .BankList {
   margin-left: 20px;
   margin-right: 20px;
@@ -474,9 +472,9 @@
   width: 5px;
 }
 
-.ItemScroll::-webkit-scrollbar-track {
+/* .ItemScroll::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-}
+} */
 
 .ItemScroll::-webkit-scrollbar-thumb {
   background-color: red;
@@ -549,9 +547,9 @@
   width: 5px;
 }
 
-.ItemScrollTrans::-webkit-scrollbar-track {
+/* .ItemScrollTrans::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-}
+} */
 
 .ItemScrollTrans::-webkit-scrollbar-thumb {
   background-color: #4d5057;
@@ -562,9 +560,9 @@
   width: 5px;
 }
 
-.ItemScroll::-webkit-scrollbar-track {
+/* .ItemScroll::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-}
+} */
 
 .ItemScroll::-webkit-scrollbar-thumb {
   background-color: #4d5057;
@@ -683,7 +681,6 @@
   width: 100%;
 }
 
-.RateCont {}
 
 .RateLayout {
   display: flex;

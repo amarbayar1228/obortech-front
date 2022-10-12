@@ -10,10 +10,10 @@ import { useTranslation } from "next-i18next";
 const Dashboard = () => {
   const { t } = useTranslation("dashboard");
   const basketContext = useContext(BasketContext);
-  useEffect(() => {
-    basketContext.MenuKey();
-    basketContext.basketStateFunc();
-  }, []);
+  // useEffect(() => {
+  //   basketContext.MenuKey();
+  //   basketContext.basketStateFunc();
+  // }, []);
 
   return (
     <BaseLayout pageName="dashboard">

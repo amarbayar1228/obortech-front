@@ -12,6 +12,7 @@ const UserAcceptAdmin = () => {
   const [changeValue, setChangeValue] = useState("all");
   const [spinState2, setSpinState2] = useState(true);
   useEffect(() => {
+    console.log("user accept");
     if (changeValue == "all") {
       confirmUserList();
     }
@@ -23,9 +24,7 @@ const UserAcceptAdmin = () => {
       func: "acceptUsers",
       userToken: localStorage.getItem("pkId"),
     };
-    axios
-      .post("/api/post/Gate", body)
-      .then((res) => {
+    axios.post("/api/post/Gate", body).then((res) => {
         setSpinState2(false);
         setUserData(res.data.data);
       })

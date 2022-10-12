@@ -10,19 +10,21 @@ const [dateState, setDateState] = useState();
 const [datePlusState, setDatePlusState] = useState(); 
 const [totalPrice, setTotalPrice] = useState(0);
 const showModal = () => {
+    console.log("orderId", props.orderId);
+    setTotalPrice(props.orderId.price);
     setIsModalOpen(true); 
     const result = 0;
     const  str = "";
     const strSplit = "";
     const body = {
     func:"getOrderItems", 
-    orderid: props.orderId,
+    orderid: props.orderId.orderid
     }
     axios.post("/api/post/Gate", body).then((res)=>{
-    res.data.data.forEach(element => {
-        result += element.price;
-    });
-    setTotalPrice(result);
+    // res.data.data.forEach(element => {
+    //     result += element.price;
+    // });
+    // setTotalPrice(result);
     setOrder(res.data.data)
     str = res.data.data[0].date1,
     strSplit = str.split(" ")[0] + " " + str.split(" ")[1] + " "+ str.split(" ")[2];
@@ -47,7 +49,7 @@ const handleCancel = () => {
             <Button type="dashed" size="small" onClick={showModal}>
                 Invoice
             </Button>
-            <Modal title="Invoice" width={630} visible={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
+            <Modal title="Invoice" width={630} open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
                  <div>
                     <div className={css.InvoiceBorder} id="content2">
                     <div className={css.Header}>

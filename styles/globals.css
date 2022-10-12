@@ -131,6 +131,19 @@ a:hover {
   color: #fff;
 }
 
+/* .ant-modal-close-x{
+  color: #fff;
+  border-radius: 36px;
+  background: #423535;
+  width: 27px;
+  margin-top: 12px;
+  height: 27px;
+  margin-right: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} */
+
 .ant-menu>.ant-menu-item:hover,
 .ant-menu>.ant-menu-submenu:hover,
 .ant-menu>.ant-menu-item-active,
@@ -140,8 +153,12 @@ a:hover {
 .ant-menu>.ant-menu-item-selected,
 .ant-menu>.ant-menu-submenu-selected {
   color: #fff;
-  background-color: #4D5057;
+  background-color: #757576;
   /* border-bottom: 2px solid red; */
+}
+
+.ant-segmented-item-label {
+  color: #000;
 }
 
 /* .ant-tabs-tab.ant-tabs-tab-active {
