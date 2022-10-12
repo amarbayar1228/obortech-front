@@ -55,8 +55,7 @@ const Referral = () => {
   const [formUser] = Form.useForm();
   const [form] = Form.useForm();
   const [spinState, setSpinState] = useState(false);
-  useEffect(() => {
-    localStorageInfo();
+  useEffect(() => { 
     // getUserInfo();
     userCompany();
     // userInfo();

@@ -15,6 +15,7 @@ const OrderHistory = () => {
   const [date1, setDate1] = useState("");
   const [date2, setDate2] = useState("");
   const [loading, setLoading]= useState(false);
+  const [loadingPage, setLoadingPage]= useState(true);
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef(null);
@@ -60,9 +61,9 @@ const OrderHistory = () => {
   };
   const getOders = () =>{
     setLoading(true);
+    setLoadingPage(true);
     const body = {}
     if (localStorage.getItem("pkId")) {
-     
       const body = {
         func: "getUserInfo",
         pkId: localStorage.getItem("pkId"),
@@ -84,8 +85,8 @@ const OrderHistory = () => {
                 d2: d1, 
               } 
               axios.post("/api/post/Gate", body2).then((res)=>{
-                setOrderNull(1);
-                console.log("ID");
+                setOrderNull(1); 
+                setLoadingPage(false)
                 setLoading(false); 
                 setOrderHdr(res.data.data);
               }).catch((err)=>{
@@ -104,7 +105,9 @@ const OrderHistory = () => {
                     }
                     axios.post("/api/post/Gate", bodyUser).then((res)=>{
                       setOrderNull(1); 
+                      setLoadingPage(false)
                       setLoading(false); 
+
                       setOrderHdr(res.data.data);
                     }).catch((err)=>{
                       console.log("err: ", err);
@@ -116,6 +119,7 @@ const OrderHistory = () => {
         });
     } else {  
       setOrderNull(0);
+      setLoadingPage(false)
       setLoading(false); 
     }
     // console.log("profile", basketContext.userInfoProfile);
@@ -377,9 +381,10 @@ const groupDeitalsFunc = (data, index) =>{
   setIdIndex(index);
 }
   return (
-    <BaseLayout pageName="order-history">
+    <BaseLayout pageName="order-history"> 
       {orderNull === 1 ?
       <div>
+       
         <div className={css.OrderTitle}>
           <Divider orientation="left"> Order history</Divider>
         </div>
@@ -471,7 +476,7 @@ const groupDeitalsFunc = (data, index) =>{
             </div> 
           } 
       </div>
-        : <Empty />}
+        : loadingPage ? <Spin className={css.SpinCss}/> : <Empty />} 
     </BaseLayout>
   );
 };
