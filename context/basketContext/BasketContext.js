@@ -14,8 +14,7 @@ export const BasketItem = (props) => {
   const [todayDateState,setTodayDateState] = useState();
   const [orgId, setOrgId] = useState("");
   const router = useRouter();
-  useEffect(() => {  
-    console.log("context: ");
+  useEffect(() => {   
     basketStateFunc();
     routerFunction();
     MenuKey();
@@ -33,8 +32,7 @@ export const BasketItem = (props) => {
   };
 const orgIdLocal = (orgId) =>{ 
   // setOrgId(localStorage.getItem("orgId"))
-  setOrgId(orgId);
-  console.log("orgId: ", orgId);
+  setOrgId(orgId); 
 }
   const removeBasketStorage = () => {
     localStorage.removeItem("basket");
@@ -137,8 +135,7 @@ const orgIdLocal = (orgId) =>{
     setBasketState(basketState);
     localStorage.setItem("basket", JSON.stringify(b));
     totalPriceFunction();
-    message.success("Item was removed.");
-  
+    message.success("Item was removed."); 
     basketStateFunc();
   };
   const totalPriceFunction2 = () => {
@@ -156,8 +153,7 @@ const orgIdLocal = (orgId) =>{
       };
       axios
         .post("/api/post/Gate", body)
-        .then((res) => {
-          console.log("Context profile data: ", res.data.data);
+        .then((res) => { 
           setUserInfoProfile(res.data.data);
         })
         .catch((err) => {
@@ -196,12 +192,10 @@ const orgIdLocal = (orgId) =>{
         console.log("err: ", err);
       });
   };
-  const todayDate = () =>{
-      console.log("date:");
+  const todayDate = () =>{ 
       const mounths = ["01","02","03","04","05","06","07","08","09","10","11","12",];
       var date = new Date();
-      var d1 =  date.getFullYear() + "-" + mounths[date.getMonth()] + "-" + date.getDate() + ""; 
-      console.log("todayDate", d1);
+      var d1 =  date.getFullYear() + "-" + mounths[date.getMonth()] + "-" + date.getDate() + "";  
       setTodayDateState(d1);
   }
   const groupDetailFuncContext = (groupDetails) => {  

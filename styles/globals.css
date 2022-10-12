@@ -218,7 +218,8 @@ body {
   background-color: rgb(255, 255, 255);
   z-index: 9999;
 
-} 
+}
+
 .spinner {
   position: absolute;
   left: 50%;
@@ -242,6 +243,12 @@ body {
   border-top: 6px solid rgba(0, 174, 239, .8);
   border-radius: 100%; */
 }
+
+/* 
+.ant-row {
+  display: flex;
+  justify-content: flex-end;
+} */
 
 /* @-webkit-keyframes rotation {
   from {

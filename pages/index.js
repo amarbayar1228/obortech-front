@@ -26,26 +26,20 @@ export default function Home(props) {
   //amraa
   useEffect(() => {
     basketContext.MenuKey();
-    basketContext.basketStateFunc();
-     
-    tokenFunc();
-   
+    basketContext.basketStateFunc(); 
+    tokenFunc(); 
   }, []);
   const tokenFunc = () =>{
-    if(sessionStorage.getItem("item_key")){
-      console.log("bn");
+    if(sessionStorage.getItem("item_key")){ 
   }else{ 
-    var token = randomToken(16);
-    console.log("==> ",token);
-    const amraa  = "amraa";
+    var token = randomToken(16); 
     sessionStorage.setItem("item_key", token);
   } 
   }
   const onSearch = (value) => {
     setRadioS("");
     setSpin(true);
-    setOrgError("");
-    console.log("input value:", value);
+    setOrgError(""); 
     var tokenId = sessionStorage.getItem("item_key");
     const  body = {
       func: "findOrg",
@@ -53,13 +47,11 @@ export default function Home(props) {
       // userToken: tokenId,
     }
     if(value == ""){
-      setSpin(false);
-      console.log("hoosn value: ", value); 
+      setSpin(false); 
       setOrgIdState("");
     }else {
       setSpin(true);
-      axios.post("/api/post/Gate", body).then((res)=>{ 
-        console.log(res.data);
+      axios.post("/api/post/Gate", body).then((res)=>{  
         if(res.data.data){
           // sessionStorage.setItem("orgId", res.data.data.map.name)
           setOrgIdState(res.data.data.map.name);
@@ -67,11 +59,10 @@ export default function Home(props) {
           setOrgError(""); 
           // basketContext.orgIdLocal(res.data.data.map.name);
           setSpin(false);
-        }else {
-          console.log("orgID bhq" );
+        }else { 
            setOrgIdState("");
            setOrgError(t("There is no organization id!!"));
-           localStorage.setItem("orgId", "0");
+          //  localStorage.setItem("orgId", "0");
            basketContext.orgIdLocal();
           setSpin(false);
         } 

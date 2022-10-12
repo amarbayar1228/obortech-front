@@ -28,8 +28,7 @@ export default function BaseLayout(props) {
   const [enState, setEnState] = useState("en");
   const [mnState, setMnState] = useState("mn");
 
-  useEffect(() => {
-    console.log("layout pages");
+  useEffect(() => { 
     basketContext.basketStateFunc();
     setLocalPkid(localStorage.getItem("pkId"));
     // localStorage.setItem("orgId", "0");

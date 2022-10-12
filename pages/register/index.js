@@ -41,8 +41,7 @@ const Register = () => {
       };
       axios
         .post("/api/post/Gate", register)
-        .then((res) => {
-          console.log("res", res);
+        .then((res) => { 
           message.success("Successfully Registered");
           router.push("/login");
         })
@@ -88,7 +87,7 @@ const Register = () => {
                     message: (<div style={{ fontWeight: 500 }}>Please input your Password 2!</div>),},]}>
                 <Input.Password size="middle" prefix={<LockOutlined className={css.Title} />} type="password" placeholder="Confirm your password"/>
               </Form.Item>
-              <Form.Item><div className={css.Login}><Button type="primary" htmlType="submit" className="login-form-button">Sign up</Button></div></Form.Item>
+              <Form.Item label={""}><div className={css.Login}><Button style={{width: "100%"}} type="primary" htmlType="submit" className="login-form-button">Sign up</Button></div></Form.Item>
             </Form> 
           </div>
         </div>
