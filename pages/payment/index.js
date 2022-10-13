@@ -35,20 +35,22 @@ const Payment = () => {
   const [orgIdRadio, setOrgIdRadio] = useState("");
   const [formOrgId] = Form.useForm();
   const [checkFalse, setCheckFalse] = useState(false);
+  const [itemHdr, setItemHdr] = useState();
   const showModalItem = (item) => {
     setItemSpin(true);
+    setItemHdr(item);
     console.log("item: ", item);
     const body = {
       func: "getGroups", 
-      pkId: item};
+      pkId: item.pkId
+   };
       axios.post("/api/post/Gate", body).then((res) => {  
       if (res.data.data.itemList == undefined) 
           {console.log("")} 
       else {  
         setIsModalOpen(true);
         setItemSpin(false);
-        setGroupDetails(res.data.data.itemList); 
-        console.log(res.data.data.itemList);}
+        setGroupDetails(res.data.data.itemList); }
       }).catch((err) => {console.log("err", err)});
    
   }; 
@@ -273,29 +275,32 @@ const onFinishFailedOrgId = (errInfo)=>{
                               <div>{e.price} {e.itemPriceTotal}$</div>
                             </div>
                             {e.img === undefined ? <div><Button style={{width: "100%", marginTop: "5px"}} size="middle" type="primary" shape="round" 
-                            onClick={()=>showModalItem(e.pkId)}> Items </Button>
-                              <Modal title="Package items" open={isModalOpen} onOk={handleOkItem} onCancel={handleCancelItem} footer={null}>
-                            <div>
-                              {groupDetails.map((e, i)=>( 
-                              <div className={css.BasketItem} key={i}>
-                                <div className={css.Zurag2}>
-                                  <Image
-                                    alt="Obertech"
-                                    preview={false}
-                                    src={"data:image/png;base64," + e.img}
-                                  />
-                                </div>
-                                <div className={css.Descrip2}>
-                                  <div className={css.Title2}>
-                                    <div className={css.ItemTitle2}>{e.title}</div>
-                                  </div>
-                                  <div className={css.Price2}>
-                                    <div> Qty: {e.itemCnt}</div>
-                                    <div> {e.itemPriceD}$</div>
-                                  </div>
-                                </div>
+                            onClick={()=>showModalItem(e)}> Items </Button>
+                              <Modal title="Package items" open={isModalOpen} onOk={handleOkItem} onCancel={handleCancelItem} footer={null}  >
+                            {itemHdr ?
+                            <div className={css.ModalBackground}>
+                              <div>{itemHdr.title}</div>
+                              <div className={css.Itemdesc}>{itemHdr.description}</div>
+                              <div className={css.PackageHdr}> Packege items:</div>
+                              <div className={css.DetailsScroll}> 
+                                  {groupDetails.map((e, i)=>( 
+                                  <div className={css.BasketItem} key={i}>
+                                    <div className={css.Zurag2}>
+                                      <Image alt="Obertech"preview={false}src={"data:image/png;base64," + e.img}/>
+                                    </div>
+                                    <div className={css.Descrip2}>
+                                      <div className={css.Title2}><div className={css.ItemTitle2}>{e.title}</div></div>
+                                      <div className={css.Price2}>
+                                        <div> Qty: {e.itemCnt}</div>
+                                        <div style={{fontWeight: "600"}}> {e.itemPriceD}$</div>
+                                      </div>
+                                    </div>
+                                  </div> 
+                                  ))}
+                              </div>
+                              <div className={css.TotalPriceCss}>Total price: {itemHdr.price}$</div>
                               </div> 
-                            ))}</div> 
+                              : <Empty /> }
                           </Modal>
                               </div> : ""}
                           </div>

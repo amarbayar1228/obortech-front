@@ -89,11 +89,11 @@ export default function BaseLayout(props) {
   };
   const items2 = [
     getItem(t("sidebarDashboard"),"1",<PieChartOutlined style={{ fontSize: "18px", fontWeight: "500px" }} />),
-    admin === "1" ? getItem(t("sidebarItemAdd"),"2",<AppstoreAddOutlined style={{ fontSize: "18px", fontWeight: "500px" }}/>) : "",
-    getItem(t("sidebarOrderHistory"),"3", <ContainerOutlined style={{ fontSize: "18px", fontWeight: "500px" }} />),
-    admin === "1" ? getItem("Add Admin","4",<UserAddOutlined style={{ fontSize: "18px", fontWeight: "500px" }} />): "",
-    admin === "1" || admin === "2" ? "": getItem("referral","5",<PlusSquareOutlined style={{ fontSize: "18px", fontWeight: "500px" }}/>),
-    admin === "1" || admin === "2"? getItem("Confirmation","6",<PlusSquareOutlined style={{ fontSize: "18px", fontWeight: "500px" }}/>): "",
+    admin === "1" ? getItem("Item / Coupon","2",<AppstoreAddOutlined style={{ fontSize: "18px", fontWeight: "500px" }}/>) : "",
+    getItem("Order","3", <ContainerOutlined style={{ fontSize: "18px", fontWeight: "500px" }} />),
+    admin === "1" ? getItem("User management","4",<UserAddOutlined style={{ fontSize: "18px", fontWeight: "500px" }} />): "",
+    admin === "1" || admin === "2" ? "": getItem("Referral","5",<PlusSquareOutlined style={{ fontSize: "18px", fontWeight: "500px" }}/>),
+    admin === "1" || admin === "2"? getItem("Referral management","6",<PlusSquareOutlined style={{ fontSize: "18px", fontWeight: "500px" }}/>): "",
   ];
   const handleVisibleChange = (newVisible) => {
     setVisible(newVisible);
@@ -269,7 +269,7 @@ export default function BaseLayout(props) {
                     router.pathname == "/order-history" ||
                     router.pathname == "/referral" ||
                     router.pathname == "/add-admin" ||
-                    router.pathname == "/add-item" ? css.ActiveMenu : ""}>
+                    router.pathname == "/add-item"? css.ActiveMenu : ""}>
                   <Button onClick={userDashboard} type="link" className={css.IconsMenu}>
                     <AppstoreOutlined /> {t("dashboardTitle")}
                   </Button>

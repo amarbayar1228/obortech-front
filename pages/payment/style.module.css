@@ -485,11 +485,17 @@
   display: flex;
   width: 96%;
   padding: 5px;
-  background: #eaeaea;
+  border: 1px solid #c2d8f3;
   align-items: center;
   margin: 5px;
   font-weight: 500;
   border-radius: 5px;
+}
+
+.ItemDesc {
+  color: #818181;
+  text-align: justify;
+  font-weight: 600;
 }
 
 .Zurag2 {
@@ -514,6 +520,8 @@
 
 .ItemTitle2 {
   text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .Price {
@@ -693,6 +701,45 @@
   text-align: left;
   padding-left: 12px;
   color: #6f8391;
+}
+
+.DetailsScroll {
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+.DetailsScroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+.DetailsScroll::-webkit-scrollbar-thumb {
+  background-color: #403b3b;
+  border-radius: 10px;
+}
+
+.ModalBackground {
+  width: 110.1%;
+  margin-top: -24px;
+  padding: 15px 15px;
+  font-weight: 600;
+  /* height: 160%; */
+  margin-bottom: -48px;
+  margin-left: -24px;
+  background: linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%);
+}
+
+.TotalPriceCss {
+  margin-top: 10px;
+  background: rgb(77 80 87);
+  color: #fff;
+  padding: 4px 10px;
+}
+
+.PackageHdr {
+  margin-top: 10px;
+  background: rgb(77 80 87);
+  color: #f7f7f7;
+  padding: 7px 10px;
 }
 
 .RateL {
