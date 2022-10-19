@@ -16,7 +16,7 @@ const Referral = () => {
 
   const [phoneState, setPhoneState] = useState();
   const [addressState, setAddressState] = useState();
-
+  const [spin, setSpin] = useState(false);
   // user Medeeleliig haruulj bga State
   const [lusername, setlUsername] = useState();
   const [llastname, setllastname] = useState();
@@ -65,37 +65,7 @@ const Referral = () => {
   //   basketContext.getUserProfileFunction();
   //   // console.log("basketContext: ", basketContext.userInfoProfile.firstname);
   // };
-  const userInfo = () => {
-    const body = {
-      token: localStorage.getItem("token"),
-    };
-    // axios
-    //   .post("/api/post/user/getUserInfo", body)
-    //   .then((res) => {
-    //     setUserInfoGet(res.data);
-    //     if (res.data[0].state == 2) {
-    //       localStorage.setItem("state", 2);
-    //     } else if (res.data[0].state == 3) {
-    //       localStorage.setItem("state", 3);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     message.error("Error");
-    //   });
-  };
-  // const localStorageInfo = () => {
-  //   userInfo();
-  //   setlUsername(localStorage.getItem("username"));
-  //   setllastname(localStorage.getItem("lastname"));
-  //   setlphone(localStorage.getItem("phone"));
-  //   setlfirstname(localStorage.getItem("firstname"));
-
-  //   setlstate(localStorage.getItem("state"));
-  //   setlemail(localStorage.getItem("email"));
-  //   setladdress(localStorage.getItem("address"));
-  //   setIntroductionText(localStorage.getItem("introductionText"));
-  // };
+   
   const CorporationShowModal = () => {
     setIsModalVisibleCorporation(true);
   };
@@ -412,7 +382,7 @@ const Referral = () => {
   };
   const onFinishUserSend = (values) => {
     // console.log("Received values of form: ", values);
-
+    setSpin(true);
     const body = {
       func: "inviteUserUpd",
       pkId: localStorage.getItem("pkId"),
@@ -424,14 +394,12 @@ const Referral = () => {
     };
     axios
       .post("/api/post/Gate", body)
-      .then((res) => {
-        console.log("res: ", res.data);
+      .then((res) => { 
         basketContext.getUserProfileFunction();
-        setTimeout(() => {
-          getUserInfo();
-          setIsModalVisible(false);
-        }, 1000);
-
+        
+          setSpin(false);
+          message.success("Success");
+          setIsModalVisible(false);  
         // setIntroductionText(1);
         // localStorage.setItem("introductionText", 1);
       })
@@ -454,83 +422,50 @@ const Referral = () => {
             <>
               {basketContext.userInfoProfile.state == 2 ? (
                 <div style={{ marginTop: "-30px" }}>
-                  <Result
-                    icon={
-                      <Image
-                        style={{ marginBottom: "-24px" }}
-                        alt="Obertech"
-                        preview={false}
-                        src="/img/succcess.png"
-                        width={100}
-                      />
-                    }
-                    title="The user has been authenticated successfully"
-                    subTitle="You are now able to invite companies."
-                  />
+                  <Result icon={ <Image style={{ marginBottom: "-24px" }}alt="Obertech" preview={false} src="/img/succcess.png" width={100}/>
+                    } title="The user has been authenticated successfully" subTitle="You are now able to invite companies."/>
                 </div>
               ) : (
                 <div className={css.Layout}>
                   <div style={{ display: "flex", alignItems: "center" }}>
-                    <Divider orientation="left">User information</Divider>{" "}
-                    <Divider type="vertical" />{" "}
-                    <Tooltip title="More information on user invitations">
-                      <InfoCircleOutlined style={{ fontSize: "18px" }} />
-                    </Tooltip>
+                    <Divider orientation="left">User information</Divider> <Divider type="vertical" />
+                    <Tooltip title="More information on user invitations"><InfoCircleOutlined style={{ fontSize: "18px" }} /></Tooltip>
                   </div>
                   <div>
+                    {spin === true ? <Spin style={{display: "flex", alignItems: "center", justifyContent: "center"}}/> : ""}
                     {basketContext.userInfoProfile.state === 1 ? (
                       <div style={{ marginTop: "-30px" }}>
-                        <Result
-                          icon={
-                            <Image
-                              style={{ marginBottom: "-24px" }}
-                              alt="Obertech"
-                              preview={false}
-                              src="/img/send4.png"
-                              width={100}
-                            />
-                          }
-                          subTitle="Admin will check your request and reply soon."
-                          title="Your request has been sent to an administrator."
-                        />
+                        <Result icon={<Image style={{ marginBottom: "-24px" }} alt="Obertech" preview={false} src="/img/send4.png" width={100}/>}
+                          subTitle="Admin will check your request and reply soon." title="Your request has been sent to an administrator."/>
                       </div>
                     ) : (
-                      <Button type="dashed" shape="round" onClick={showModal}>
-                        + Information
-                      </Button>
+                      <>
+                      <Button type="dashed" shape="round" onClick={showModal}>+ Information</Button>
+                      <div style={{ marginTop: "-30px" }}>
+                        <Result icon={<Image style={{ marginBottom: "-24px" }} alt="Obertech" preview={false} src="/img/info.png" width={100}/>}
+                          subTitle="Then you will be able to invite company. " title="Fill in your details."/>
+                      </div>
+                      </>
+
                     )}
 
                       {basketContext.userInfoProfile.state === 0 ? 
-                       <Result
-                       icon={
-                         <Image style={{ marginBottom: "-24px" }} alt="Obertech" preview={false} src="/img/info.png" width={100}/>
-                       }
-                       subTitle="Admin will check your request and reply soon."
-                       title="Submit your details!"
-                     />: ""}
+                       <Result icon={<Image style={{ marginBottom: "-24px" }} alt="Obertech" preview={false} src="/img/info.png" width={100}/>}
+                       subTitle="Admin will check your request and reply soon." title="Submit your details!"/>: ""}
 
                     <Modal title="User Register" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
-                      <Form form={formUser} name="normal_login" className={css.LoginForm}
-                        labelCol={{span: 6,}}
-                        wrapperCol={{span: 16,}}
-                        initialValues={{remember: true,}}
-                        onFinish={onFinishUserSend}
-                        onFinishFailed={onFinishFailedUserSend}
-                      >
-                        <Form.Item label="First name" name="firstname"
-                          rules={[{required: true,message: "Please input your First name!",},]}>
+                      <Form form={formUser} name="normal_login" className={css.LoginForm} labelCol={{span: 6,}} wrapperCol={{span: 16,}}
+                        initialValues={{remember: true,}} onFinish={onFinishUserSend} onFinishFailed={onFinishFailedUserSend}>
+                        <Form.Item label="First name" name="firstname" rules={[{required: true,message: "Please input your First name!",},]}>
                           <Input placeholder={"First name:"}/>
                         </Form.Item>
-                        <Form.Item label="Last name" name="lastname"
-                          rules={[{required: true,message: "Please input your Last name!",},]}>
+                        <Form.Item label="Last name" name="lastname" rules={[{required: true,message: "Please input your Last name!",},]}>
                           <Input placeholder={"Last name:"}/>
                         </Form.Item> 
-                        <Form.Item label="Job title" name="jobtitle"
-                          rules={[{required: true,message: "Please input your Job title!",},]}>
+                        <Form.Item label="Job title" name="jobtitle" rules={[{required: true,message: "Please input your Job title!",},]}>
                           <Input placeholder={"Job title:"}/>
                         </Form.Item> 
-                        <Form.Item label="Phone number"name="phone"
-                          rules={[{required: true,message: "Please input your Phone!",},]}>
+                        <Form.Item label="Phone number"name="phone" rules={[{required: true,message: "Please input your Phone!",},]}>
                           <Input placeholder={"Phone:"}/></Form.Item>
                         <Form.Item><div className={css.Ok}><Button type="primary" htmlType="submit" className="login-form-button">Send</Button></div></Form.Item>
                       </Form> 
@@ -541,168 +476,50 @@ const Referral = () => {
 
               {basketContext.userInfoProfile.state == "2" ? (
                 <div className={css.Layout}>
-                  <div
-                    style={{
-                      background: "#fff",
-                    }}
-                  >
+                  <div style={{background: "#fff"}}>
                     <div style={{ display: "flex", alignItems: "center" }}>
-                      <Divider orientation="left">Corporation list</Divider>{" "}
-                      <Divider type="vertical" />{" "}
-                      <Tooltip title="More information on company invitations">
-                        <InfoCircleOutlined style={{ fontSize: "18px" }} />
-                      </Tooltip>
+                      <Divider orientation="left">Corporation list</Divider> <Divider type="vertical" />
+                      <Tooltip title="More information on company invitations"> <InfoCircleOutlined style={{ fontSize: "18px" }} /></Tooltip>
                     </div>
                     {/* {lstate == 2 ? ( */}
                     <div className={css.Corporation}>
-                      <Button
-                        type="dashed"
-                        shape="round"
-                        onClick={CorporationShowModal}
-                      >
-                        + Corporation
-                      </Button>
-                      <Modal
-                        title="Corporation"
-                        closable={false}
-                        visible={isModalVisibleCorporation}
-                        footer={null}
+                      <Button type="dashed" shape="round" onClick={CorporationShowModal}>+ Corporation</Button>
+                      <Modal title="Corporation" closable={false} visible={isModalVisibleCorporation}footer={null}
 
                         // onOk={onFinish}
                         // onCancel={handleCancelCorporation}
-                      >
+                        >
                         <div>
-                          <Form
-                            form={form}
-                            name="basic"
-                            labelCol={{
-                              span: 8,
-                            }}
-                            wrapperCol={{
-                              span: 16,
-                            }}
-                            initialValues={{
-                              remember: true,
-                            }}
-                            onFinish={onFinish}
-                            onFinishFailed={onFinishFailed}
-                            autoComplete="off"
-                          >
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "flex-end",
-                                marginBottom: "5px",
-                                marginTop: "-20px",
-                              }}
-                            >
-                              <Button
-                                size="small"
-                                onClick={() => {
-                                  form.resetFields();
-                                }}
-                              >
-                                Clear
-                              </Button>
+                          <Form form={form} name="basic" labelCol={{span: 8}}wrapperCol={{span: 16,}}
+                            initialValues={{remember: true}} onFinish={onFinish} onFinishFailed={onFinishFailed}autoComplete="off">
+                            <div style={{display: "flex",justifyContent: "flex-end",marginBottom: "5px",marginTop: "-20px",}}>
+                              <Button size="small" onClick={() => {form.resetFields();}}>Clear</Button>
                             </div>
-                            <Form.Item
-                              label="Company name"
-                              name="companyName"
-                              rules={[
-                                {
-                                  required: true,
-                                  message: "Please input your Company name!",
-                                },
-                              ]}
-                            >
-                              <Input />
+                            <Form.Item label="Company name" name="companyName"
+                              rules={[{required: true,message: "Please input your Company name!",},]}> <Input />
                             </Form.Item>
 
-                            <Form.Item
-                              label="Web site"
-                              name="website"
-                              rules={[
-                                {
-                                  required: true,
-                                  message: "Please input your Web site!",
-                                },
-                              ]}
-                            >
-                              <Input />
+                            <Form.Item label="Web site" name="website"
+                              rules={[{required: true,message: "Please input your Web site!"}]}><Input />
                             </Form.Item>
 
-                            <Form.Item
-                              label="Country"
-                              name="country"
-                              rules={[
-                                {
-                                  required: true,
-                                  message: "Please input your Country!",
-                                },
-                              ]}
-                            >
+                            <Form.Item label="Country" name="country"
+                              rules={[{required: true, message: "Please input your Country!"}]}><Input />
+                            </Form.Item>
+                            <Form.Item label="How many employees" name="employees"
+                              rules={[{required: true,message: "Please input your employees!"}]}>
+                              <Input addonBefore={prefixSelector}style={{width: "100%",}}/>
+                            </Form.Item>
+                            <Form.Item label="Total annual revenue" name="totalAnnualRevenue"
+                              rules={[{ required: true, message:"Please input your Total annual revenue!",}]}>
                               <Input />
                             </Form.Item>
-                            <Form.Item
-                              label="How many employees"
-                              name="employees"
-                              rules={[
-                                {
-                                  required: true,
-                                  message: "Please input your employees!",
-                                },
-                              ]}
-                            >
-                              <Input
-                                addonBefore={prefixSelector}
-                                style={{
-                                  width: "100%",
-                                }}
-                              />
+                            <Form.Item label="Additional information" name="additionalInformation"
+                              rules={[{required: true,message:"Please input your Additional information!",},]}><Input />
                             </Form.Item>
-                            <Form.Item
-                              label="Total annual revenue"
-                              name="totalAnnualRevenue"
-                              rules={[
-                                {
-                                  required: true,
-                                  message:
-                                    "Please input your Total annual revenue!",
-                                },
-                              ]}
-                            >
-                              <Input />
-                            </Form.Item>
-                            <Form.Item
-                              label="Additional information"
-                              name="additionalInformation"
-                              rules={[
-                                {
-                                  required: true,
-                                  message:
-                                    "Please input your Additional information!",
-                                },
-                              ]}
-                            >
-                              <Input />
-                            </Form.Item>
-
-                            <Form.Item
-                              wrapperCol={{
-                                offset: 8,
-                                span: 16,
-                              }}
-                            >
-                              <Button
-                                style={{ marginRight: "10px" }}
-                                onClick={cancelCompany}
-                              >
-                                Cancel
-                              </Button>
-                              <Button type="primary" htmlType="submit">
-                                Send
-                              </Button>
-                            </Form.Item>
+                            <Form.Item wrapperCol={{offset: 8,span: 16,}}>
+                              <Button style={{ marginRight: "10px" }}onClick={cancelCompany}>Cancel</Button>
+                              <Button type="primary" htmlType="submit">Send</Button></Form.Item>
                           </Form>
                         </div>
                       </Modal>
@@ -711,57 +528,19 @@ const Referral = () => {
                       <div className={css.ScrollCss}>
                         {companyUserGet.map((e, i) => (
                           <div key={i}>
-                            <Collapse
-                              key={i}
-                              style={{ background: "#fff" }}
-                              bordered={true}
-                              // defaultActiveKey={["1"]}
-                              expandIcon={({ isActive }) => (
-                                <CaretRightOutlined
-                                  rotate={isActive ? 90 : 0}
-                                />
-                              )}
-                              className="site-collapse-custom-collapse"
-                            >
-                              <Panel
-                                key={i}
-                                header={
-                                  <div
-                                    style={{
-                                      fontWeight: "500",
-                                      textTransform: "capitalize",
-                                    }}
-                                  >
-                                    {e.companyName}
-                                  </div>
-                                }
-                                extra={genExtraCompanyGet(e)}
-                              >
+                            <Collapse key={i} style={{ background: "#fff" }} bordered={true}
+                              expandIcon={({ isActive }) => ( <CaretRightOutlined rotate={isActive ? 90 : 0}/>
+                              )}className="site-collapse-custom-collapse">
+                              <Panel key={i} header={<div style={{fontWeight: "500",textTransform: "capitalize",}}
+                                  >{e.companyName}</div>}extra={genExtraCompanyGet(e)}>
                                 <div className={css.Cont1}>
-                                  <Descriptions
-                                    key={i}
-                                    title="Company Info"
-                                    layout="vertical"
-                                    bordered
-                                  >
-                                    <Descriptions.Item label="Company name:">
-                                      {e.companyName}
-                                    </Descriptions.Item>
-                                    <Descriptions.Item label="Website:">
-                                      {e.website}
-                                    </Descriptions.Item>
-                                    <Descriptions.Item label="Country">
-                                      {e.country}
-                                    </Descriptions.Item>
-                                    <Descriptions.Item label="How many employees">
-                                      {e.employees}
-                                    </Descriptions.Item>
-                                    <Descriptions.Item label="Total annual revenue">
-                                      {e.totalAnnualRevenue}
-                                    </Descriptions.Item>
-                                    <Descriptions.Item label="Additional information">
-                                      {e.additionalInformation}
-                                    </Descriptions.Item>
+                                  <Descriptions key={i} title="Company Info" layout="vertical"bordered>
+                                    <Descriptions.Item label="Company name:">{e.companyName}</Descriptions.Item>
+                                    <Descriptions.Item label="Website:">{e.website}</Descriptions.Item>
+                                    <Descriptions.Item label="Country">{e.country}</Descriptions.Item>
+                                    <Descriptions.Item label="How many employees">{e.employees}</Descriptions.Item>
+                                    <Descriptions.Item label="Total annual revenue">{e.totalAnnualRevenue}</Descriptions.Item>
+                                    <Descriptions.Item label="Additional information">{e.additionalInformation}</Descriptions.Item>
                                     <Descriptions.Item label="Organization Id">{e.orgId}</Descriptions.Item>
                                     {e.others === null || e.others === "" ? ("") : (
                                       <div style={{background: "red",color: "#fff",}}>{e.others}</div>
@@ -801,8 +580,8 @@ const Referral = () => {
                                           rules={[{required: true,message:"Please input your Total annual revenue!",}]}>
                                           <Input />
                                         </Form.Item>
-                                        <Form.Item label="Additional information" name="additionalInformationEdit"
-                                          rules={[{ required: true, message:"Please input your Additional information!",}]}><Input />
+                                        <Form.Item label="Additional information" name="additionalInformationEdit" rules={[{ required: true, message:"Please input your Additional information!",}]}>
+                                            <Input />
                                         </Form.Item>
 
                                         <Form.Item wrapperCol={{offset: 8,span: 16,}}>

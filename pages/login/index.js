@@ -32,8 +32,8 @@ export default function Login() {
           localStorage.setItem("isSuperAdmin", res.data.data.isSuperAdmin);
           basketContext.getUserProfileFunction();
           router.push("/");
-        } else {console.log("err login")}
-      }).catch((err) => {console.log("err")}); 
+        } else {message.error("Error")}
+      }).catch((err) => {console.log("Username and password are incorrect!!")}); 
   };
   const onFinishFailed = (errorInfo) => {
     // console.log("Failed:", errorInfo);

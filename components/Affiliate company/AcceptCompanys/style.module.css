@@ -1,0 +1,17 @@
+.SpinCss {
+    display: flex;
+    align-items: center;
+    margin-top: 50px;
+    justify-content: center;
+}
+
+.CompNameCss {
+    display: flex;
+    border-bottom: 1px solid #ff8a8a;
+    margin-bottom: 15px;
+}
+
+.CompTitle {
+    font-weight: 600;
+    margin-left: 10px;
+}
