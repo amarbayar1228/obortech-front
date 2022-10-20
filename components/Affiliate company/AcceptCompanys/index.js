@@ -1,4 +1,4 @@
-import { Badge, Button, Form, Input, Modal, Radio, Space, Spin, Table, Tooltip } from "antd";
+import { Badge, Button, Form, Input, message, Modal, Radio, Space, Spin, Table, Tooltip } from "antd";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import css from "./style.module.css";
@@ -29,6 +29,7 @@ const [tableParams, setTableParams] = useState({
   const [isModalOpenReject, setIsModalOpenReject] = useState(false);
   const [companyInfo, setCompanyInfo] = useState();
   const [form] = Form.useForm();
+  const [others, setOthers] = useState("");
   const showModal = (a) => {
     console.log("showModal: ", a.action);
     
@@ -202,14 +203,18 @@ const handleSearch = (selectedKeys, confirm, dataIndex) => {
   ));
   const onChangeReject = (e) =>{
     console.log("reject change; ", e.target.value);
+    // setOthers("-");
     setRejectValue(e.target.value);
   }
  
   const showModalReject = (a) =>{
     console.log("reject: ", a);
+    setCompanyInfo(a.action);
+    setOthers(a.action.others);
     setIsModalOpenReject(true);
   }
   const handleCancelReject = () =>{
+    form.resetFields();
     setIsModalOpenReject(false);
   }
 const columns = [
@@ -390,18 +395,39 @@ const  onFinish= (values) =>{
 console.log("values: ", values); 
 }
 const onFinishFailed = (errInfo)=>{
-console.log("errInfo: ", errInfo);
+console.log("Incentive errInfo: ", errInfo);
 // formAddItem.resetFields(); 
 }
+
 const  onFinishReject= (values) =>{ 
-    console.log("values: ", values); 
-    }
+console.log("values: ", values); 
+console.log("company info pKID: ", companyInfo.PkId);
+console.log("others: ", others); 
+
+const body = {
+    func: "setCompany",
+    pkId: companyInfo.PkId,
+    adminPkId: localStorage.getItem("pkId"),
+    others: others,
+    state: values.choose,
+    orgId: "-", 
+  };
+axios.post("/api/post/Gate", body).then((res) => {
+message.success("Success");
+// getCompanyUser();
+companyDataFunc();
+setIsModalOpenReject(false);
+}); 
+}
 const onFinishFailedReject = (errInfo)=>{
 console.log("errInfo: ", errInfo);
 // formAddItem.resetFields(); 
 }
 const onChangeRadio = (a) =>{
     console.log("radio: ", a.target.value);
+}
+const othersOnChange = (e) =>{ 
+    setOthers(e.target.value); 
 }
 return <div>
         {spinner ? <Spin className={css.SpinCss}/> : 
@@ -431,7 +457,7 @@ return <div>
                 </>
                 : modalCount === 2 ? 
                 <div>
-                    <div className={css.CompNameCss}>
+                <div className={css.CompNameCss}>
                     <div>Company name:</div>
                     <div className={css.CompTitle}>{companyInfo === undefined ? "": companyInfo.companyName}</div>
                  </div>
@@ -458,12 +484,16 @@ return <div>
                 {/* ------------------------------------------------Reject Modals------------------------------------ */}
             <Modal title="Reject" open={isModalOpenReject} onCancel={handleCancelReject} footer={null}>
             <Form form={form} name="normal_login" className={css.LoginForm} labelCol={{span: 8,}} wrapperCol={{span: 16,}} onFinish={onFinishReject} onFinishFailed={onFinishFailedReject}>
+                <div className={css.CompNameCss}>
+                    <div>Company name:</div>
+                    <div className={css.CompTitle}>{companyInfo === undefined ? "": companyInfo.companyName}</div>
+                </div>
                  <Form.Item label={"Choose"} name={"choose"}   rules={[{required: true,message: "Please choose"}]}>
                  <Radio.Group onChange={onChangeReject} value={rejectValue}>
                 <Space direction="vertical">
                     <Radio value={3}>Correct your information</Radio>
                     <Radio value={4}>Rejected</Radio> 
-                    <Radio value={5}> More... {rejectValue === 5 ? (<TextArea style={{width: 200,marginLeft: 10,}}/>) : null} 
+                    <Radio value={5}> More... {rejectValue === 5 ? (<TextArea style={{width: 200,marginLeft: 10,}} onChange={othersOnChange} value={companyInfo === undefined ? "": others}/>) : null} 
                     </Radio>
                 </Space>
                 </Radio.Group>
