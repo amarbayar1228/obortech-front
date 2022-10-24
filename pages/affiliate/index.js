@@ -141,13 +141,7 @@ const Affiliate = () => {
           adminPkId: localStorage.getItem("pkId"),
           state: 6,
           others: "-",
-          orgId: "-",
-          // pkId: e.pkId,
-          // adminToken: localStorage.getItem("pkId"),
-          // others: othersState,
-          // state: 6,
-          //shine:
-          // userToken: e.userToken
+          orgId: "-", 
         };
         axios.post("/api/post/Gate", body).then((res) => {
             message.success("Success");

@@ -484,7 +484,7 @@ const Referral = () => {
                     {/* {lstate == 2 ? ( */}
                     <div className={css.Corporation}>
                       <Button type="dashed" shape="round" onClick={CorporationShowModal}>+ Corporation</Button>
-                      <Modal title="Corporation" closable={false} visible={isModalVisibleCorporation}footer={null}
+                      <Modal title="Corporation" closable={false} open={isModalVisibleCorporation}footer={null}
 
                         // onOk={onFinish}
                         // onCancel={handleCancelCorporation}
@@ -495,10 +495,9 @@ const Referral = () => {
                             <div style={{display: "flex",justifyContent: "flex-end",marginBottom: "5px",marginTop: "-20px",}}>
                               <Button size="small" onClick={() => {form.resetFields();}}>Clear</Button>
                             </div>
-                            <Form.Item label="Company name" name="companyName"
-                              rules={[{required: true,message: "Please input your Company name!",},]}> <Input />
+                            
+                            <Form.Item label="Company name" name="companyName"rules={[{required: true,message: "Please input your Web site!"}]}><Input />
                             </Form.Item>
-
                             <Form.Item label="Web site" name="website"
                               rules={[{required: true,message: "Please input your Web site!"}]}><Input />
                             </Form.Item>

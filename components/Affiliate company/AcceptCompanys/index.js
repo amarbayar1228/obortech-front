@@ -1,11 +1,11 @@
-import { Badge, Button, Form, Input, message, Modal, Radio, Space, Spin, Table, Tooltip } from "antd";
+import { Badge, Button, Form, Input, message, Modal, Radio, Space, Spin, Table, Tooltip, Image } from "antd";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import css from "./style.module.css";
-import {SearchOutlined ,EditOutlined,ExclamationCircleOutlined } from "@ant-design/icons";
-import Highlighter from "react-highlight-words";
-import Reject from "./Reject";
+import {SearchOutlined ,InsertRowAboveOutlined,ExclamationCircleOutlined, QrcodeOutlined, FormOutlined, SendOutlined, StarOutlined,SolutionOutlined } from "@ant-design/icons";
+import Highlighter from "react-highlight-words"; 
 import TextArea from "antd/lib/input/TextArea";
+const { confirm } = Modal;
 const AcceptCompanys = () =>{
 const [spinner, setSpinner] = useState(false);
 const [companyDate, setCompanyData] = useState([]);
@@ -25,11 +25,16 @@ const [tableParams, setTableParams] = useState({
   const [modalTitle, setModalTitle] = useState("Organzation id send");
   const [modalCount, setModalCount] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [rejectValue, setRejectValue] = useState(1); 
+  const [rejectValue, setRejectValue] = useState(3); 
   const [isModalOpenReject, setIsModalOpenReject] = useState(false);
   const [companyInfo, setCompanyInfo] = useState();
+  const [userInfo, setUserInfo]= useState([]);
+  const [userSpin, setUserSpin] = useState(false);
   const [form] = Form.useForm();
-  const [others, setOthers] = useState("");
+  const [others, setOthers] = useState(""); 
+  const [isModalOpenUser, setIsModalOpenUser] = useState(false);
+  
+ 
   const showModal = (a) => {
     console.log("showModal: ", a.action);
     
@@ -62,7 +67,7 @@ console.log("acceptCompany useEffect");
 companyDataFunc();
 },[])
 
-const companyDataFunc = () => { 
+const companyDataFunc = () => {  
 setSpinner(true);
 setLoading(true);
 const body = {
@@ -71,10 +76,8 @@ const body = {
     start: "0",
     count: "10",
 };
-axios.post("/api/post/Gate", body).then((res) => { 
-    
-    setCompanyData(res.data.data); 
-    console.log("resdata: ", res.data.data);
+axios.post("/api/post/Gate", body).then((res) => {  
+    setCompanyData(res.data.data);  
     setTableParams({
         ...tableParams,
         pagination: {
@@ -209,14 +212,91 @@ const handleSearch = (selectedKeys, confirm, dataIndex) => {
  
   const showModalReject = (a) =>{
     console.log("reject: ", a);
+    setRejectValue(a.action.state);
     setCompanyInfo(a.action);
     setOthers(a.action.others);
     setIsModalOpenReject(true);
   }
+  const handleOkReject = () =>{  
+ console.log("radio: ", rejectValue);
+console.log("company info pKID: ", companyInfo.PkId);
+console.log("others: ", others); 
+    console.log("handok");
+    const body = {
+        func: "setCompany",
+        pkId: companyInfo.PkId,
+        adminPkId: localStorage.getItem("pkId"),
+        others: others,
+        state: rejectValue,
+        orgId: "-", 
+      };
+    axios.post("/api/post/Gate", body).then((res) => {
+    message.success("Success");
+    // form.resetFields();
+    // getCompanyUser();
+    companyDataFunc();
+    setIsModalOpenReject(false);
+    });  
+
+  }
   const handleCancelReject = () =>{
+    setRejectValue(3);
     form.resetFields();
     setIsModalOpenReject(false);
   }
+const showPromiseConfirm = (a) => {
+confirm({
+    title: 'Do you want to invitation send?',
+    icon: <ExclamationCircleOutlined />,
+    content: 'Some descriptions',
+    onOk() {
+    return new Promise((resolve, reject) => { 
+        setTimeout(Math.random() > 0.5 ? resolve : reject, 1000, console.log("object"));
+     
+        const body = {
+            func: "setCompany",
+            pkId: a.action.PkId,
+            adminPkId: localStorage.getItem("pkId"),
+            state: 6,
+            others: "-",
+            orgId: "-", 
+          };
+          axios.post("/api/post/Gate", body).then((res) => {
+           
+              setTimeout(() => { 
+                message.success("Success");
+                companyDataFunc();
+              }, 1400); 
+            })
+            .catch((err) => {
+              console.log(err);
+            }); 
+    }).catch(() => console.log('Oops errors!'));
+    },
+    onCancel() {},
+});
+};
+const showUserInfo = (a) =>{
+setUserSpin(true);
+setIsModalOpenUser(true);
+
+console.log("userInfo: ",a.action.userPkId);  
+const body = {
+    func: "getUserInfo",
+    pkId: a.action.userPkId + "",
+    };
+axios.post("/api/post/Gate", body).then((res) => {  
+    console.log("userInfo: ", res);
+    setUserInfo(res.data.data);
+    setUserSpin(false);
+}).catch((err) => {console.log(err)}); 
+}
+const handleOkUser = () => {
+    setIsModalOpenUser(false);
+  };
+  const handleCancelUser = () => {
+    setIsModalOpenUser(false);
+  };
 const columns = [
     {
     title: 'Date',
@@ -326,19 +406,7 @@ const columns = [
     sorter: (a, b) => a.insentive.length - b.insentive.length,
     sortOrder: sortedInfo.columnKey === 'insentive' ? sortedInfo.order : null,
     ellipsis: true,
-    },
-    {
-    title: 'Others',
-    dataIndex: 'others',
-    key: 'others', 
-    // width: 120,
-    ...getColumnSearchProps('others'), 
-    filteredValue: filteredInfo.others || null,
-    // onFilter: (value, record) => record.website.includes(value),
-    // sorter: (a, b) => a.address.length - b.address.length,
-    sortOrder: sortedInfo.columnKey === 'others' ? sortedInfo.order : null,
-    ellipsis: true,
-    },
+    }, 
     {
     title: 'Organzation ID',
     dataIndex: 'orgId',
@@ -356,17 +424,17 @@ const columns = [
     dataIndex: 'state',
     key: 'state', 
     fixed: "right",
-    width: 220,
+    width: 80,
     // ...getColumnSearchProps('state'), 
     render: (a) => <div>
-        {a.state == 2 ? (<Badge status="warning" text="Request accepted"/>
-        ) : a.state == 3 ? (<Badge color="red" status="processing"text="Rejected"/>
+        {a.state == 2 ? (<Tooltip title="Request accepted"><Badge status="warning" text="Request accepted" style={{fontSize: "12px", color: "#faad14"}}/></Tooltip>
+        ) : a.state == 3 ? (<Tooltip title="Rejected"><Badge color="red" status="processing" text="Rejected" style={{fontSize: "12px", color: "#f5222d"}}/></Tooltip>
         //ene Edit hiii gsn state
-        ) : a.state == 4 ? (<Badge color="red" status="processing"text="Rejected"/>
-        ) : a.state == 5 ? (<Tooltip title={a.others}><Badge color="gray" status="processing"text="Others"/></Tooltip>
-        ) : a.state == 6 ? (<Badge color="purple" status="processing" text="Invitation Send..."/>
-        ) : a.state == 7 ? (<Badge color="cyan" text="Organization Onboarded..."/>
-        ) : a.state == 8 ? (<Badge status="error" text="Canceled" />) : (<Badge status="default" text="..." />)}
+        ) : a.state == 4 ? (<Tooltip title="Rejected"><Badge color="red" status="processing"text="Rejected"style={{fontSize: "12px", color: "#f5222d"}}/></Tooltip>
+        ) : a.state == 5 ? (<Tooltip title={a.others}><Badge color="gray" status="processing"text="Others"style={{fontSize: "12px", color: "#808080"}}/></Tooltip>
+        ) : a.state == 6 ? (<Tooltip title="Invitation Send..."><Badge color="purple" status="processing" text="Invitation Send." style={{fontSize: "12px", color: "#722ed1"}}/></Tooltip>
+        ) : a.state == 7 ? (<Tooltip title="Organization Onboarded..."><Badge color="cyan" text="Org id" style={{fontSize: "12px", color: "#13c2c2"}}/></Tooltip>
+        ) : a.state == 8 ? (<Tooltip title="Canceled"><Badge status="error" text="C" style={{fontSize: "12px", color: "#722ed1"}}/></Tooltip>) : (<Tooltip title="..."><Badge status="default" text="..." /></Tooltip>)}
     </div>, 
     filteredValue: filteredInfo.state || null,
     onFilter: (value, record) => record.state.includes(value),
@@ -378,47 +446,77 @@ const columns = [
     title: 'Action',
     key: 'action',
     fixed: 'right', 
-    width: 300,
+    width: 110,
     render: (b) => <div className={css.ActionCss}>
         {b.orgId === "-" ? <div> 
-            {b.action.state === 6 ? <Button type="primary" style={{fontWeight: "500"}} onClick={()=>showModal(b)}>OrgId insert</Button> 
-            : <Button type="primary" style={{fontWeight: "500"}}>Inventation send</Button>
+            {b.action.state === 6 ? <Tooltip title="Organization id"><Button size="small" className={css.BtnRight} type="primary" onClick={()=>showModal(b)} icon={<InsertRowAboveOutlined />}></Button> </Tooltip>
+            : <Tooltip title="Invitation send"><Button size="small" type="primary" className={css.BtnRight} onClick={()=>showPromiseConfirm(b)} icon={<SendOutlined />}></Button></Tooltip>
             }
-            <Button onClick={()=> showModalReject(b)}>Reject</Button> 
-        </div> : <div> <Button onClick={()=> showModal(b)}>Incentive</Button></div>}
+            <Tooltip title="Reject"><Button size="small" className={css.BtnReject}  onClick={()=> showModalReject(b)} icon={<FormOutlined />}></Button> </Tooltip>
+            <Tooltip title="User info"><Button size="small" className={css.BtnRight}  onClick={()=> showUserInfo(b)} icon={<SolutionOutlined/>}></Button> </Tooltip>
+        </div> : <div><Tooltip title="Incentive"><Button size="small" onClick={()=> showModal(b)} icon={<StarOutlined />}></Button></Tooltip></div>}
     
     </div>,
     },
 ];
-    
+// -----------OrgId insert---------- 
 const  onFinish= (values) =>{ 
 console.log("values: ", values); 
+console.log("state: ", companyInfo);
+if(values.others){
+const body = {
+    func: "setCompany",
+    pkId: companyInfo.PkId,
+    adminPkId: localStorage.getItem("pkId"),
+    orgId: values.others,
+    state: 7,
+    others: "-", 
+    };
+    axios.post("/api/post/Gate", body).then((res) => {
+        message.success("Success"); 
+    }).catch((err) => {console.log(err)});
+}else { 
+    // const body = {
+    //   func: "setInsentive",
+    //   insentive: values.percentage,
+    //   orgId: companyInfo.orgId,
+    //   userId: companyInfo.userPkId,
+    //   type_: values.percentageChoose,
+    //   operatorID: localStorage.getItem("pkId"),
+    // };
+    // axios.post("/api/post/Gate", body).then((res) => {
+    //     message.success("Success");
+    // }).catch((err) => {console.log(err)});
+}
+ 
 }
 const onFinishFailed = (errInfo)=>{
 console.log("Incentive errInfo: ", errInfo);
 // formAddItem.resetFields(); 
 }
 
-const  onFinishReject= (values) =>{ 
-console.log("values: ", values); 
-console.log("company info pKID: ", companyInfo.PkId);
-console.log("others: ", others); 
+// const  onFinishReject= (values) =>{ 
+// console.log("values: ", values); 
+// console.log("company info pKID: ", companyInfo.PkId);
+// console.log("others: ", others); 
+ 
 
-const body = {
-    func: "setCompany",
-    pkId: companyInfo.PkId,
-    adminPkId: localStorage.getItem("pkId"),
-    others: others,
-    state: values.choose,
-    orgId: "-", 
-  };
-axios.post("/api/post/Gate", body).then((res) => {
-message.success("Success");
-// getCompanyUser();
-companyDataFunc();
-setIsModalOpenReject(false);
-}); 
-}
+// const body = {
+//     func: "setCompany",
+//     pkId: companyInfo.PkId,
+//     adminPkId: localStorage.getItem("pkId"),
+//     others: others,
+//     state: values.choose,
+//     orgId: "-", 
+//   };
+// axios.post("/api/post/Gate", body).then((res) => {
+// message.success("Success");
+// form.resetFields();
+// // getCompanyUser();
+// companyDataFunc();
+// setIsModalOpenReject(false);
+// });  
+// }
 const onFinishFailedReject = (errInfo)=>{
 console.log("errInfo: ", errInfo);
 // formAddItem.resetFields(); 
@@ -441,22 +539,22 @@ return <div>
             <Table size="small" columns={columns} dataSource={data} onChange={handleChangeTable} loading={loading}  scroll={{x:  2000, }} pagination={tableParams.pagination}/> 
             {/* ------------------------------------------------Modals------------------------------------ */}
             <Modal title={modalTitle} open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
-            <Form form={form} name="normal_login" className={css.LoginForm}  
-                labelCol={{span: 8,}} wrapperCol={{span: 16,}} 
-                onFinish={onFinish} onFinishFailed={onFinishFailed}>
+            <Form form={form} name="normal_login" className={css.LoginForm} labelCol={{span: 8,}} wrapperCol={{span: 16,}} onFinish={onFinish} onFinishFailed={onFinishFailed}>
                 {modalCount === 1 ?  
                 <>
+                    {/* ------------------------- orgID insert --------------------------- */}
                  <div className={css.CompNameCss}>
                     <div>Company name:</div>
                     <div className={css.CompTitle}>{companyInfo === undefined ? "": companyInfo.companyName}</div>
                  </div>
                  
-                <Form.Item label={"Organzation ID"} name={"title"}   rules={[{required: true,message: "Please input your Organzation id!"}]}> 
+                <Form.Item label={"Organzation ID"} name={"others"}   rules={[{required: true,message: "Please input your Organzation id!"}]}> 
                     <Input placeholder={"Organzation id"} allowClear/>
                 </Form.Item>
                 </>
                 : modalCount === 2 ? 
                 <div>
+                       {/* ------------------------- Incentive insert --------------------------- */}
                 <div className={css.CompNameCss}>
                     <div>Company name:</div>
                     <div className={css.CompTitle}>{companyInfo === undefined ? "": companyInfo.companyName}</div>
@@ -469,8 +567,8 @@ return <div>
                     <Radio value={3}>Coin</Radio></Space>
                     </Radio.Group> 
                 </Form.Item>
-                <Form.Item label={"Incenitve percent"} name={"percentage"}   rules={[{required: true,message: "input your incentive"}]}>
-                    <Input placeholder="incenitve percent" />
+                <Form.Item label={"Incenitve percent"} name={"percentage"}   rules={[ {required: true,message: "input your incentive"}]}>
+                    <Input placeholder="incenitve percent" type="number"/>
                 </Form.Item>
                 </div>
                 : "Reject"
@@ -481,15 +579,21 @@ return <div>
                 </Form.Item> 
                 </Form> 
             </Modal>
+
                 {/* ------------------------------------------------Reject Modals------------------------------------ */}
-            <Modal title="Reject" open={isModalOpenReject} onCancel={handleCancelReject} footer={null}>
-            <Form form={form} name="normal_login" className={css.LoginForm} labelCol={{span: 8,}} wrapperCol={{span: 16,}} onFinish={onFinishReject} onFinishFailed={onFinishFailedReject}>
+
+            <Modal title="Reject" open={isModalOpenReject} onOk={handleOkReject}  onCancel={handleCancelReject}>
+            {/* <Form form={form} name="normal_login" className={css.LoginForm} labelCol={{span: 8,}} wrapperCol={{span: 16,}} onFinish={onFinishReject} onFinishFailed=    {onFinishFailedReject}  initialValues={{
+                        choose: rejectValue, 
+                      }}> */}
                 <div className={css.CompNameCss}>
                     <div>Company name:</div>
                     <div className={css.CompTitle}>{companyInfo === undefined ? "": companyInfo.companyName}</div>
                 </div>
-                 <Form.Item label={"Choose"} name={"choose"}   rules={[{required: true,message: "Please choose"}]}>
-                 <Radio.Group onChange={onChangeReject} value={rejectValue}>
+                <div>Choose: </div>
+                 {/* <Form.Item label={"Choose"} name={"choose"}   rules={[{required: true,message: "Please choose"}]}> */}
+                 <div className={css.RadioCss}> 
+                <Radio.Group onChange={onChangeReject} value={rejectValue}>
                 <Space direction="vertical">
                     <Radio value={3}>Correct your information</Radio>
                     <Radio value={4}>Rejected</Radio> 
@@ -497,12 +601,39 @@ return <div>
                     </Radio>
                 </Space>
                 </Radio.Group>
-                 </Form.Item>
-                
+                </div>
+                 {/* </Form.Item> */}
+                {/* <div><Button onClick={()=> form.resetFields()}>reset</Button></div>
                 <Form.Item style={{display: "flex", justifyContent: "flex-end"}}>
-                    <div ><Button type="primary" htmlType="submit" className="login-form-button">Send</Button></div>
-                </Form.Item> 
-            </Form> 
+                    <div><Button type="primary" htmlType="submit" className="login-form-button">Send</Button></div>
+                </Form.Item>  */}
+            {/* </Form>  */}
+            </Modal>
+
+                 {/* ------------------------------------------------User info Modals------------------------------------ */}
+
+             <Modal title="User info" open={isModalOpenUser} onOk={handleOkUser}  onCancel={handleCancelUser}> 
+                 <div>
+                    {userSpin ? <Spin size="large" className={css.SpinCss}/> : 
+                        <div className={css.imgL}>
+                           <div className={css.ImageCss}><Image preview={false} alt="Obertech" src={"/img/user.png"} className={css.Img}/></div>
+                           <div className={css.Info}> 
+                            <div className={css.Title}>
+                                <div className={css.TitleChild}>Full name: </div>
+                                <div className={css.TitleChild}>Email: </div>
+                                <div className={css.TitleChild}>Phone: </div>
+                                <div className={css.TitleChild}>address: </div>
+                            </div>
+                            <div className={css.Description}>
+                                <div className={css.TitleChild2}>{userInfo.lastname}  {userInfo.firstname}</div>
+                                <div className={css.TitleChild2}>{userInfo.email} </div>
+                                <div className={css.TitleChild2}>{userInfo.phone}</div>
+                                <div className={css.TitleChild2}>{userInfo.address} </div>
+                            </div>
+                           </div>
+                        </div>
+                    }
+                 </div>
             </Modal>
         </div>
         }
