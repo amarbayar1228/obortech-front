@@ -11,6 +11,7 @@ import UserAcceptAdmin from "../../components/Affiliate comp/UserAcceptAdmin";
 import NewUserRequest from "../../components/Affiliate comp/NewUserRequest";
 import AdminAcceptUser from "../../components/Affiliate comp/AdminAcceptUser";
 import AcceptCompanys from "../../components/Affiliate company/AcceptCompanys";
+import NewCompanyRequest from "../../components/Affiliate company/NewCompanyRequest";
 const { TabPane } = Tabs;
 const { Panel } = Collapse;
 const { confirm } = Modal;
@@ -549,6 +550,7 @@ const segmentFuncUser = (a) => {
                    <> 
                     {segmentValue === "newCompany" ?  
                       <div className={css.SplitSize}> 
+                        <NewCompanyRequest />
                       </div>  
                     : 
                       <div className={css.SplitSize}>

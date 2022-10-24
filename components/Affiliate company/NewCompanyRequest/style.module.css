@@ -1,0 +1,113 @@
+.SpinCss {
+    display: flex;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    justify-content: center;
+}
+
+.CompNameCss {
+    display: flex;
+    border-bottom: 2px solid #faad14;
+    margin-bottom: 15px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.CompTitle {
+    font-weight: 600;
+    margin-left: 10px;
+}
+
+.RadioCss {
+    margin-left: 60px;
+}
+
+.imgL {
+    display: flex;
+    margin-bottom: 25px;
+}
+
+.ImageCss {
+    width: 100px;
+    height: 100px;
+    background-color: #fbfbfb;
+}
+
+.Info {
+    display: flex;
+    width: 76%;
+    margin-left: 10px;
+}
+
+.Title {
+    width: 130px;
+}
+
+.Description {
+    /* padding: 10px; */
+    width: 100%;
+}
+
+.TitleChild {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    padding-top: 4px;
+    padding-left: 7px;
+    color: #4d5057;
+    font-weight: 600;
+}
+
+.BtnRight {
+    margin-right: 5px;
+}
+
+.TitleChild2 {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    padding-top: 4px;
+    padding-left: 7px;
+    color: #777d89;
+    font-weight: 600;
+}
+
+.BtnReject {
+    background-color: #f39696;
+}
+
+.BtnReject:hover {
+    border-color: #f39696;
+    background-color: #f39696;
+    color: #4d5057;
+}
+
+.ClearTable {
+    display: flex;
+    justify-content: right;
+    margin-bottom: 10px;
+}
+
+.CompFlex {
+    display: flex;
+    font-size: 16px;
+    color: #4d5057;
+}
+
+.CompFlex2 {
+    display: flex;
+    font-size: 16px;
+    background: #ffe2a9;
+    padding: 5px 10px;
+    color: #4c3300;
+    border-radius: 10px;
+}
+
+.StatusCss {
+    background: antiquewhite;
+    padding: 2px 10px;
+    border-radius: 10px;
+    /* margin-top: -4px; */
+    font-size: 15px;
+    color: red;
+    margin-bottom: 5px;
+}

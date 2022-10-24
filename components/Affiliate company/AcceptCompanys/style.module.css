@@ -8,8 +8,10 @@
 
 .CompNameCss {
     display: flex;
-    border-bottom: 1px solid #ff8a8a;
+    border-bottom: 2px solid #faad14;
     margin-bottom: 15px;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .CompTitle {
@@ -77,4 +79,35 @@
     border-color: #f39696;
     background-color: #f39696;
     color: #4d5057;
+}
+
+.ClearTable {
+    display: flex;
+    justify-content: right;
+    margin-bottom: 10px;
+}
+
+.CompFlex {
+    display: flex;
+    font-size: 16px;
+    color: #4d5057;
+}
+
+.CompFlex2 {
+    display: flex;
+    font-size: 16px;
+    background: #ffe2a9;
+    padding: 5px 10px;
+    color: #4c3300;
+    border-radius: 10px;
+}
+
+.StatusCss {
+    background: antiquewhite;
+    padding: 2px 10px;
+    border-radius: 10px;
+    /* margin-top: -4px; */
+    font-size: 15px;
+    color: red;
+    margin-bottom: 5px;
 }

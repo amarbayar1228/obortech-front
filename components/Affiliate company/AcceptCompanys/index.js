@@ -221,22 +221,25 @@ const handleSearch = (selectedKeys, confirm, dataIndex) => {
  console.log("radio: ", rejectValue);
 console.log("company info pKID: ", companyInfo.PkId);
 console.log("others: ", others); 
-    console.log("handok");
-    const body = {
-        func: "setCompany",
-        pkId: companyInfo.PkId,
-        adminPkId: localStorage.getItem("pkId"),
-        others: others,
-        state: rejectValue,
-        orgId: "-", 
-      };
-    axios.post("/api/post/Gate", body).then((res) => {
-    message.success("Success");
-    // form.resetFields();
-    // getCompanyUser();
-    companyDataFunc();
-    setIsModalOpenReject(false);
-    });  
+console.log("handok");
+if(rejectValue == 6 ||rejectValue == 2 ){
+    message.error("Select state choose!");
+}else{
+const body = {
+func: "setCompany",
+pkId: companyInfo.PkId,
+adminPkId: localStorage.getItem("pkId"),
+others: others,
+state: rejectValue,
+orgId: "-", 
+};
+axios.post("/api/post/Gate", body).then((res) => {
+message.success("Success");
+companyDataFunc();
+setIsModalOpenReject(false);
+});  
+}
+
 
   }
   const handleCancelReject = () =>{
@@ -248,7 +251,7 @@ const showPromiseConfirm = (a) => {
 confirm({
     title: 'Do you want to invitation send?',
     icon: <ExclamationCircleOutlined />,
-    content: 'Some descriptions',
+    content: <div className={css.CompFlex2}><div>Company name:</div><div className={css.CompTitle}>{a.action.companyName}</div></div>,
     onOk() {
     return new Promise((resolve, reject) => { 
         setTimeout(Math.random() > 0.5 ? resolve : reject, 1000, console.log("object"));
@@ -279,7 +282,8 @@ confirm({
 const showUserInfo = (a) =>{
 setUserSpin(true);
 setIsModalOpenUser(true);
-
+setRejectValue(a.action.state);
+setCompanyInfo(a.action);
 console.log("userInfo: ",a.action.userPkId);  
 const body = {
     func: "getUserInfo",
@@ -292,11 +296,11 @@ axios.post("/api/post/Gate", body).then((res) => {
 }).catch((err) => {console.log(err)}); 
 }
 const handleOkUser = () => {
-    setIsModalOpenUser(false);
-  };
-  const handleCancelUser = () => {
-    setIsModalOpenUser(false);
-  };
+setIsModalOpenUser(false);
+};
+const handleCancelUser = () => {
+setIsModalOpenUser(false);
+};
 const columns = [
     {
     title: 'Date',
@@ -428,7 +432,7 @@ const columns = [
     // ...getColumnSearchProps('state'), 
     render: (a) => <div>
         {a.state == 2 ? (<Tooltip title="Request accepted"><Badge status="warning" text="Request accepted" style={{fontSize: "12px", color: "#faad14"}}/></Tooltip>
-        ) : a.state == 3 ? (<Tooltip title="Rejected"><Badge color="red" status="processing" text="Rejected" style={{fontSize: "12px", color: "#f5222d"}}/></Tooltip>
+        ) : a.state == 3 ? (<Tooltip title="Correct your information"><Badge color="red" status="processing" text="Correct your information" style={{fontSize: "12px", color: "#f5222d"}}/></Tooltip>
         //ene Edit hiii gsn state
         ) : a.state == 4 ? (<Tooltip title="Rejected"><Badge color="red" status="processing"text="Rejected"style={{fontSize: "12px", color: "#f5222d"}}/></Tooltip>
         ) : a.state == 5 ? (<Tooltip title={a.others}><Badge color="gray" status="processing"text="Others"style={{fontSize: "12px", color: "#808080"}}/></Tooltip>
@@ -530,13 +534,8 @@ const othersOnChange = (e) =>{
 return <div>
         {spinner ? <Spin className={css.SpinCss}/> : 
         <div> 
-             <Space style={{marginBottom: 16}}>
-            {/* <Button onClick={setAgeSort}>Sort age</Button> */}
-            
-            {/* <Button onClick={clearFilters}>Clear filters</Button> */}
-            <Button onClick={clearAll}>Clear filters and sorters</Button>
-            </Space>
-            <Table size="small" columns={columns} dataSource={data} onChange={handleChangeTable} loading={loading}  scroll={{x:  2000, }} pagination={tableParams.pagination}/> 
+        <div className={css.ClearTable}><Button type="dashed" onClick={clearAll}>Clear filters and sorters</Button></div>
+            <Table size="small" columns={columns} dataSource={data} onChange={handleChangeTable} loading={loading}  scroll={{x:  1500, }} pagination={tableParams.pagination}/> 
             {/* ------------------------------------------------Modals------------------------------------ */}
             <Modal title={modalTitle} open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
             <Form form={form} name="normal_login" className={css.LoginForm} labelCol={{span: 8,}} wrapperCol={{span: 16,}} onFinish={onFinish} onFinishFailed={onFinishFailed}>
@@ -587,8 +586,18 @@ return <div>
                         choose: rejectValue, 
                       }}> */}
                 <div className={css.CompNameCss}>
-                    <div>Company name:</div>
-                    <div className={css.CompTitle}>{companyInfo === undefined ? "": companyInfo.companyName}</div>
+                    <div className={css.CompFlex}><div>Company name:</div><div className={css.CompTitle}>{companyInfo === undefined ? "": companyInfo.companyName}</div></div>
+                    <div className={css.StatusCss}>
+                    {rejectValue == 2 ? (<Tooltip title="Request accepted"><Badge status="warning" text="Request accepted" style={{fontSize: "12px", color: "#faad14"}}/></Tooltip>
+                    ) : rejectValue== 3 ? (<Tooltip title="Correct your information"><Badge color="red" status="processing" text="Correct your information" style={{fontSize: "12px", color: "#f5222d"}}/></Tooltip>
+                    //ene Edit hiii gsn state
+                    ) : rejectValue == 4 ? (<Tooltip title="Rejected"><Badge color="red" status="processing"text="Rejected"style={{fontSize: "12px", color: "#f5222d"}}/></Tooltip>
+                    ) : rejectValue == 5 ? (<Tooltip title={companyInfo === undefined ? "": others}><Badge color="gray" status="processing"text="Others"style={{fontSize: "12px", color: "#808080"}}/></Tooltip>
+                    ) : rejectValue == 6 ? (<Tooltip title="Invitation Send..."><Badge color="purple" status="processing" text="Invitation Send." style={{fontSize: "12px", color: "#722ed1"}}/></Tooltip>
+                    ) : rejectValue == 7 ? (<Tooltip title="Organization Onboarded..."><Badge color="cyan" text="Org id" style={{fontSize: "12px", color: "#13c2c2"}}/></Tooltip>
+                    ) : rejectValue == 8 ? (<Tooltip title="Canceled"><Badge status="error" text="C" style={{fontSize: "12px", color: "#722ed1"}}/></Tooltip>) : (<Tooltip title="..."><Badge status="default" text="..." /></Tooltip>)}
+                    
+                    </div>
                 </div>
                 <div>Choose: </div>
                  {/* <Form.Item label={"Choose"} name={"choose"}   rules={[{required: true,message: "Please choose"}]}> */}
@@ -615,6 +624,22 @@ return <div>
              <Modal title="User info" open={isModalOpenUser} onOk={handleOkUser}  onCancel={handleCancelUser}> 
                  <div>
                     {userSpin ? <Spin size="large" className={css.SpinCss}/> : 
+                        <>
+                         <div className={css.CompNameCss}>
+                    <div className={css.CompFlex}><div className={css.CompName}>Company name:</div><div className={css.CompTitle}>{companyInfo === undefined ? "": companyInfo.companyName}</div></div>
+                    <div className={css.StatusCss}>
+                    {rejectValue == 2 ? (<Tooltip title="Request accepted"><Badge status="warning" text="Request accepted" style={{fontSize: "12px", color: "#faad14"}}/></Tooltip>
+                    ) : rejectValue== 3 ? (<Tooltip title="Correct your information"><Badge color="red" status="processing" text="Correct your information" style={{fontSize: "12px", color: "#f5222d"}}/></Tooltip>
+                    //ene Edit hiii gsn state
+                    ) : rejectValue == 4 ? (<Tooltip title="Rejected"><Badge color="red" status="processing"text="Rejected"style={{fontSize: "12px", color: "#f5222d"}}/></Tooltip>
+                    ) : rejectValue == 5 ? (<Tooltip title={companyInfo === undefined ? "": others}><Badge color="gray" status="processing"text="Others"style={{fontSize: "12px", color: "#808080"}}/></Tooltip>
+                    ) : rejectValue == 6 ? (<Tooltip title="Invitation Send..."><Badge color="purple" status="processing" text="Invitation Send." style={{fontSize: "12px", color: "#722ed1"}}/></Tooltip>
+                    ) : rejectValue == 7 ? (<Tooltip title="Organization Onboarded..."><Badge color="cyan" text="Org id" style={{fontSize: "12px", color: "#13c2c2"}}/></Tooltip>
+                    ) : rejectValue == 8 ? (<Tooltip title="Canceled"><Badge status="error" text="C" style={{fontSize: "12px", color: "#722ed1"}}/></Tooltip>) : (<Tooltip title="..."><Badge status="default" text="..." /></Tooltip>)}
+                    
+                    </div>
+                </div>
+                       
                         <div className={css.imgL}>
                            <div className={css.ImageCss}><Image preview={false} alt="Obertech" src={"/img/user.png"} className={css.Img}/></div>
                            <div className={css.Info}> 
@@ -632,6 +657,7 @@ return <div>
                             </div>
                            </div>
                         </div>
+                        </>
                     }
                  </div>
             </Modal>
