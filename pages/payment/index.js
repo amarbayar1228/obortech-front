@@ -554,7 +554,7 @@ const onFinishFailedOrgId = (errInfo)=>{
                 {current === steps.length - 1 && (
                   <>
                     <Button icon={<ShoppingCartOutlined />} type="primary" onClick={orderOrgId2}>Done</Button>
-                    <Modal title="OrgID" open={isModalVisibleOrgId2} onOk={handleOkOrgId2} onCancel={handleCancelOrgId2}> 
+                    <Modal title="OrgID" open={isModalVisibleOrgId2} onOk={handleOkOrgId2} onCancel={handleCancelOrgId2} footer={null}> 
                       {/* <Input onChange={(e) => setOrgIdInput2(e.target.value)}placeholder="OrgId"/> */}
                       <div>Org ID choose: </div>
                       {/* <Radio.Group onChange={orgIdChoose} > 
@@ -568,8 +568,8 @@ const onFinishFailedOrgId = (errInfo)=>{
                             <Radio value={basketContext.orgId}>{basketContext.orgId}</Radio> 
                           </Radio.Group>
                         </Form.Item> 
-                        <Form.Item>
-                          <div ><Button type="primary" htmlType="submit" className="login-form-button">Send</Button></div>
+                        <Form.Item   wrapperCol={{offset: 20, span: 12,}} style={{marginBottom: "-5px"}}>
+                          <div><Button type="primary" htmlType="submit" className="login-form-button">Send</Button></div>
                         </Form.Item>
                       </Form> 
                     </Modal>

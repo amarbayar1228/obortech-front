@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import css from "./style.module.css";
 import Highlighter from "react-highlight-words";
-import {SearchOutlined ,CheckOutlined, ExclamationCircleOutlined, FormOutlined, SendOutlined, StarOutlined,SolutionOutlined } from "@ant-design/icons";
+import {SearchOutlined ,CheckOutlined, ExclamationCircleOutlined, FormOutlined, ClearOutlined, StarOutlined,SolutionOutlined } from "@ant-design/icons";
 import TextArea from "antd/lib/input/TextArea";
 const NewCompanyRequest = () =>{
 const [spinner, setSpinner] = useState(false)
@@ -108,25 +108,8 @@ const handleSearch = (selectedKeys, confirm, dataIndex) => {
       console.log("tentsv");
     }else {
       resultPage = pagination.current - 1; 
-    }
-
-    resultPage = resultPage * pagination.pageSize;  
-    // const body = {
-    //     func: "getCompany",
-    //     adminPkId: localStorage.getItem("pkId"),
-    //     start: resultPage,
-    //     count: pagination.pageSize,
-    // };
-    // axios.post("/api/post/Gate", body).then((res) => { 
-       
-    //     setCompanyData(res.data.data); 
-    //     console.log("resdata: ", res.data.data); 
-    //       setLoading(false);
-    //       setSpinner(false);
-    //     }) 
-    //     .catch((err) => {
-    //     console.log(err);
-    //     });  
+    } 
+    resultPage = resultPage * pagination.pageSize;   
     const body = {
         func: "getCompany",
         state: 1,
@@ -189,10 +172,11 @@ if(rejectValue == 5){
             orgId: "-", 
         } 
         console.log("other axios");
-        // axios.post("/api/post/Gate", body).then((res) => {
-        //     message.success("Success"); 
-        //     setIsModalOpenReject(false)
-        //   }); 
+        axios.post("/api/post/Gate", body).then((res) => {
+            getNewComp();
+            message.success("Success"); 
+            setIsModalOpenReject(false)
+          }); 
     }
 }else if(rejectValue == 0){
     console.log("ene anhni hooson ");
@@ -208,10 +192,11 @@ if(rejectValue == 5){
             orgId: "-", 
         }
         console.log("other bhq");
-        // axios.post("/api/post/Gate", body).then((res) => {
-        //     message.success("Success"); 
-        //     setIsModalOpenReject(false)
-        //   });  
+        axios.post("/api/post/Gate", body).then((res) => {
+            getNewComp();
+            message.success("Success"); 
+            setIsModalOpenReject(false)
+          });  
     }else {
         console.log("ene shvvv");
     }
@@ -434,8 +419,8 @@ const columns = [
 ];
 
 return <div>
-    <div className={css.ClearTable}><Button type="dashed" onClick={clearAll}>Clear filters and sorters</Button></div>
-    <Table size="small" columns={columns} dataSource={data} onChange={handleChangeTable} loading={spinner}  scroll={{x:  1500, }} pagination={tableParams.pagination}/>
+    <div className={css.ClearTable}><Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Table sort clear</Button></div>
+    <Table bordered size="small" columns={columns} dataSource={data} onChange={handleChangeTable} loading={spinner}  scroll={{x:  1500, y: 600 }} pagination={tableParams.pagination}/>
 
     {/* --------------------------------------------------------userInfo modal---------------------------------------------------------------------- */}
 

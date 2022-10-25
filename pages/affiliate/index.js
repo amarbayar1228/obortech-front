@@ -18,35 +18,14 @@ const { Panel } = Collapse;
 const { confirm } = Modal;
 const { Option } = Select; 
 const Affiliate = () => {
-  const [data, setData] = useState([]);
-  const [getCompany, setGetCompany] = useState([]);
-  const [isModalVisibleOrgId, setIsModalVisibleOrgId] = useState(false);
-  const [orgId, setOrgId] = useState();
-  const [spinState, setSpinState] = useState(true);
-  const [isModalVisible2, setIsModalVisible2] = useState(false);
-  const [value2, setValue2] = useState(1);
-  const [getUserAcceptAllState, setGetUserAcceptAll] = useState([]);
-  const [spinStateUserAccept, setSpinStateUserAccept] = useState(true);
-  const [getCompanyAcceptAllState, setGetCompanyAcceptAll] = useState([]);
-  const [companyData, setCompanyData] = useState([]);
-  const [spinStateCompanyAccept, setSpinStateCompanyAccept] = useState(true);
-  const [spinStateComList, setSpinStateComList] = useState(true);
-  const [othersState, setOthersState] = useState("-");
-  const [isSuperAdmin, setIsSuperAdmin] = useState("");
-  const [valuePercentage, setValuePercentage] = useState(1);
+ 
   const [value, setValue] = useState(2);
   const [isModalVisibleIncentive, setIsModalVisibleIncentive] = useState(false);
   const [incPercents, setIncPercentS] = useState("");
-  const [incentivePercentState, setIncentivePercentState] = useState([]);
-  const [dateState, setDateState] = useState("");
-  const [spinReq, setReqSpin] = useState();
+ 
   const [segmentValue, setSegmentValue] = useState("accept");
   const [segmentValueUser, setSegmentValueUser] = useState("acceptUser");
-  const [pagiValue, setPagiValue]= useState(1);
-  const [pagiValue2, setPagiValue2]= useState(1);
-  const [pagiValue3, setPagiValue3]= useState(1);
-  var tabname = "User";
-  var contentName = "con";
+ 
   const showModalIncentive = () => {
     getIncentivePercent();
     setIsModalVisibleIncentive(true);
@@ -70,64 +49,14 @@ const Affiliate = () => {
       .post("/api/post/Gate", body)
       .then((res) => {
         message.success("Success");
-        setIsModalVisibleIncentive(false);
-        getUsers();
-        getCompanyUser();
-        getUserAcceptAll();
-        getCompanyAcceptAll();
-        confirmCompanyList();
+        setIsModalVisibleIncentive(false); 
       })
       .catch((err) => {
         console.log(err);
       });
-  }; 
-  const handleCancelIncentive = () => {
-    setIsModalVisibleIncentive(false);
-  };
-  useEffect(() => {
-    setIsSuperAdmin(localStorage.getItem("isSuperAdmin"));
-    getUsers(); 
-    // getCompanyUser();
-    getUserAcceptAll();
-    // getCompanyAcceptAll();
-    confirmCompanyList();
-  }, []);
-  const modalOrganization = () => {
-    setIsModalVisibleOrgId(true);
-  };
-  const onChange2 = (e) => {
-    setValue2(e.target.value);
-    setOthersState("-");
-  };
-  const handleChange2 = (value) => {};
-  const showModal2 = () => {
-    setIsModalVisible2(true);
-  };
-  const onChange = (e) => {
-    console.log("onchange insentive radio: ", e.target.value);
-    setValue(e.target.value);
-  };
-
-  const handleOk2 = (e) => { 
-    console.log("Reject model: ", e);
-    const body = {
-      func: "setCompany",
-      pkId: e.PkId,
-      adminPkId: localStorage.getItem("pkId"),
-      others: othersState,
-      state: value2,
-      orgId: "-", 
-    };
-    axios.post("/api/post/Gate", body).then((res) => {
-      message.success("Success");
-      // getUsers();
-      getCompanyUser();
-      // getUserAcceptAll();
-      // getCompanyAcceptAll();
-      // confirmCompanyList();
-      setIsModalVisible2(false);
-    }); 
-  };
+  };  
+ 
+  
 
   const invitationBtn = (e) => {
     confirm({
@@ -147,13 +76,8 @@ const Affiliate = () => {
         };
         axios.post("/api/post/Gate", body).then((res) => {
             message.success("Success");
-            getUsers();
-            getCompanyUser();
-            getUserAcceptAll();
-            getCompanyAcceptAll();
-    
-            confirmCompanyList();
-            setIsModalVisible2(false);
+            // getUsers();  
+            // setIsModalVisible2(false);
           })
           .catch((err) => {
             console.log(err);
@@ -166,200 +90,16 @@ const Affiliate = () => {
     });
     
   };
-
-  const handleCancel2 = () => {
-    setIsModalVisible2(false);
-  };
-  const handleCancelOrgId = () => {
-    setIsModalVisibleOrgId(false);
-  };
-
-  const handleOkOrgId = (id) => {
-    const body = {
-      func: "setCompany",
-      pkId: id.PkId,
-      adminPkId: localStorage.getItem("pkId"),
-      orgId: orgId,
-      state: 7,
-      others: "-",
-      // userToken: id.userToken,
-      // orgUserList: [{ insentive: value }],
-    };
-    axios
-      .post("/api/post/Gate", body)
-      .then((res) => {
-        message.success("Success");
-        getUsers();
-        getCompanyUser();
-        getCompanyAcceptAll();
-        confirmCompanyList();
-        setIsModalVisibleOrgId(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        // message.error(err);
-      }); 
-  };
-  // hereglegchvvdin shineer ilgeesen batalgaajuulah hereglegchiin list
-  const getUsers = () => {
-    const body = {
-      func: "getOperator",
-      state: 1,
-    };
-    axios.post("/api/post/Gate", body).then((res) => {
-      segmentFuncUser(); 
-        setData(res.data.data);
-      })
-      .catch((err) => {console.log(err)}); 
-  };
- 
-  // Operatoruudiin batalgaajuulsan hereglegchvvd
-  const getUserAcceptAll = () => {
-    const body = {
-      func: "acceptUsers",
-      userToken: "all",
-    };
-    axios
-      .post("/api/post/Gate", body)
-      .then((res) => {
-        setSpinStateUserAccept(false);
-        setGetUserAcceptAll(res.data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-        // message.error(err);
-      });
-  };
-  const userAcceptFunc = (id) => {
-    console.log("id: ", id);
-   
-    const body = {
-      func: "userAccept",
-      pkId: id.pkId,
-      userToken: localStorage.getItem("pkId"),
-      state: 2,
-    };
-    // axios
-    //   .post("/api/post/Gate", body)
-    //   .then((res) => {
-    //     message.success("Success"); 
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     // message.error(err);
-    //   }); 
-  };
-  const userCanceledFunc = (id) => { 
-    const body = {
-      func: "userAccept",
-      pkId: id.pkId,
-      userToken: localStorage.getItem("pkId"),
-      state: 3,
-    };
-     axios.post("/api/post/Gate", body).then((res) => {
-        message.success("Success"); 
-        // getUsers();
-      })
-      .catch((err) => {
-        console.log(err);
-        // message.error(err);
-      }); 
-  };
-  //===============================================================================
-  // Operatoriin batalgaajuulsan company list / Accept companys
-  const confirmCompanyList = () => { 
-    setSpinStateComList(true);
-    const body = {
-      func: "getCompany",
-      adminPkId: localStorage.getItem("pkId"),
-      start: "0",
-      count: "10",
-    };
-    axios.post("/api/post/Gate", body).then((res) => { 
-        setSpinStateComList(false);
-        setCompanyData(res.data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });  
-  };
-  // shineer urisan company-uud //new company request
-  const getCompanyUser = () => {
-    setSpinState(true);
-    const body = {
-      func: "getCompany",
-      state: 1,
-      start: 0,
-      count: 10,
-    };
-    axios.post("/api/post/Gate", body).then((res) => {
-        setSpinState(false);
-        setGetCompany(res.data.data);
-        confirmCompanyList();
-      }).catch((err) => {console.log(err)});
-  };
- // Operatoriin batalgaajuuulsan company-uud // Admin's accept company
- const getCompanyAcceptAll = () => {
-  setSpinStateCompanyAccept(true)
-  const body = {
-    func: "getCompany",
-    state: "2,3,4,5,6,7,8,9",
-    start: 0,
-    count: 10,
-  };
-  axios.post("/api/post/Gate", body).then((res) => {
-      setSpinStateCompanyAccept(false);
-      setGetCompanyAcceptAll(res.data.data);
-    }).catch((err) => {console.log(err)});
-};
-//==================================================================================
-const showConfirm = (e) => { 
-  confirm({ title: "Do you Want to accept these company?", icon: <ExclamationCircleOutlined />, content: "Some descriptions", 
-    onOk() {
-      const body = {
-        func: "setCompany", pkId: e.PkId, adminPkId: localStorage.getItem("pkId"), orgId: "-", others: othersState, state: 2,
-      };
-      axios.post("/api/post/Gate", body).then((res) => {
-        message.success("Success"); 
-        getCompanyUser();  
-      }); 
-    }, 
-    onCancel() {console.log("Cancel")},
-  });
-};
-const segmentFunc = (a) => { 
-  setPagiValue(1);
-  setPagiValue2(1);
+  
+  
+const segmentFunc = (a) => {  
   setSegmentValue(a);
   if(a == "accept"){
-    setSpinStateComList(true);
-    const body = {
-      func: "getCompany", adminPkId: localStorage.getItem("pkId"), start: "0",count: "10",
-    };
-    axios.post("/api/post/Gate", body).then((res) => {
-        setSpinStateComList(false);
-        setCompanyData(res.data.data);
-      }).catch((err) => {console.log(err)});   
-  }else if(a == "newCompany"){ 
-
-    setSpinState(true);
-    const body = { 
-      func: "getCompany", state: 1, start: 0, count: 10,
-    };
-    axios.post("/api/post/Gate", body).then((res) => {
-        setSpinState(false);
-        setGetCompany(res.data.data);
-        // confirmCompanyList();
-      }).catch((err) => {console.log(err)}); 
-  }else if(a == "adminAccept"){
-    setSpinStateCompanyAccept(true)
-    const body = {
-      func: "getCompany", state: "2,3,4,5,6,7,8,9", start: 0, count: 10,
-    };
-    axios.post("/api/post/Gate", body).then((res) => {
-        setSpinStateCompanyAccept(false);
-        setGetCompanyAcceptAll(res.data.data);
-      }).catch((err) => {console.log(err)});
+    console.log("accept company"); 
+  }else if(a == "newCompany"){  
+    console.log("newCompany company"); 
+  }else if(a == "adminAccept"){ 
+    console.log("adminAccept company"); 
   }
 };
 const segmentFuncUser = (a) => { 
@@ -368,49 +108,8 @@ const segmentFuncUser = (a) => {
     setSegmentValueUser("acceptUser");
   }else { 
     setSegmentValueUser(a);
-  }
-  
-  // setPagiValue(1);
-  // setPagiValue2(1);
-  // setSegmentValue(a);
-  // if(a == "accept"){
-  //   setSpinStateComList(true);
-  //   const body = {
-  //     func: "getCompany", adminPkId: localStorage.getItem("pkId"), start: "0",count: "10",
-  //   };
-  //   axios.post("/api/post/Gate", body).then((res) => {
-  //       setSpinStateComList(false);
-  //       setCompanyData(res.data.data);
-  //     }).catch((err) => {console.log(err)});   
-  // }else if(a == "newCompany"){ 
-
-  //   setSpinState(true);
-  //   const body = { 
-  //     func: "getCompany", state: 1, start: 0, count: 10,
-  //   };
-  //   axios.post("/api/post/Gate", body).then((res) => {
-  //       setSpinState(false);
-  //       setGetCompany(res.data.data);
-  //       // confirmCompanyList();
-  //     }).catch((err) => {console.log(err)}); 
-  // }else if(a == "adminAccept"){
-  //   setSpinStateCompanyAccept(true)
-  //   const body = {
-  //     func: "getCompany", state: "2,3,4,5,6,7,8,9", start: 0, count: 10,
-  //   };
-  //   axios.post("/api/post/Gate", body).then((res) => {
-  //       setSpinStateCompanyAccept(false);
-  //       setGetCompanyAcceptAll(res.data.data);
-  //     }).catch((err) => {console.log(err)});
-  // }
-};
-  const onChangeInsPercentage = (e) => {
-    setValuePercentage(e.target.vaue);
-  };
-  const onChangeDate = (date, dateString) => {
-    console.log("date", dateString);
-    setDateState(dateString);
-  };
+  } 
+}; 
 
   const getIncentivePercent = () => {
     // axios
@@ -423,95 +122,9 @@ const segmentFuncUser = (a) => {
     //     console.log(err);
     //     // message.error(err);
     //   });
-  };
-  const incentivePercentInput = (e) => {
-    setIncPercentS(e.target.value);
-
-  };
-
-  // New Company request 2
-  const paginationNewreqCom  = (page, count) =>{
-    setPagiValue2(page);
-    setPagiValue3(1);
-    setSpinState(true);
-    console.log("page: ", page +" count: "+count);
-    const resultPage = 0;   
-    if(page == 1){
-      resultPage = 0;
-      console.log("tentsv");
-    }else {
-      resultPage = page - 1; 
-    } 
-    resultPage = resultPage * count;  
-
-   const body = {
-    func: "getCompany",
-    state: 1,
-    start: resultPage,
-    count: count,
-  };
-  axios
-    .post("/api/post/Gate", body)
-    .then((res) => {
-      setSpinState(false);
-      setGetCompany(res.data.data);
-      confirmCompanyList();
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  }
-  // Accept Companys
-  const paginationAccComp  = (page, count) =>{
-    setPagiValue(page);
-    setPagiValue3(1);
-    setSpinStateComList(true); 
-    const resultPage = 0;   
-    if(page == 1){
-      resultPage = 0;
-      console.log("tentsv");
-    }else {
-      resultPage = page - 1; 
-    } 
-    resultPage = resultPage * count;   
-  const body = {
-    func: "getCompany",
-    adminPkId: localStorage.getItem("pkId"),
-    start: resultPage,
-    count: count,
-  };
-  axios.post("/api/post/Gate", body).then((res) => { 
-      setSpinStateComList(false);
-      setCompanyData(res.data.data);
-    })
-    .catch((err) => {
-      console.log(err);
-    });  
-  }
-  const pagiAdminCom  = (page, count) =>{
-    setPagiValue3(page);
-    setSpinStateCompanyAccept(true) 
-    console.log("page: ", page +" count: "+count);
-    const resultPage = 0;   
-    if(page == 1){
-      resultPage = 0;
-      console.log("tentsv");
-    }else {
-      resultPage = page - 1; 
-    } 
-    resultPage = resultPage * count; 
-
-    const body = {
-      func: "getCompany",
-      state: "2,3,4,5,6,7,8,9",
-      start: resultPage,
-      count: count,
-    };
-    axios.post("/api/post/Gate", body).then((res) => {
-        setSpinStateCompanyAccept(false);
-        setGetCompanyAcceptAll(res.data.data);
-      }).catch((err) => {console.log(err)}); 
-  }
+  }; 
+  
+  
   return (
     <BaseLayout pageName="affiliate">
       <div className={css.Split}>
@@ -523,6 +136,7 @@ const segmentFuncUser = (a) => {
               label: i=== 0 ? "User" : "Company",
               key: i,
               children: i === 0? <div>
+                {/* ------------------------------user segment ----------------------------------- */}
               <Segmented size="middle" block 
                 onChange={segmentFuncUser}
                 options={[{label: "Accept user", value: "acceptUser"},
@@ -539,6 +153,7 @@ const segmentFuncUser = (a) => {
               </div> 
               :   
               <div> 
+                      {/* ------------------------------Company segment ----------------------------------- */}
               <Segmented size="middle" block onChange={segmentFunc}
                 options={[
                           {label: "Accept companys", value: "accept"},

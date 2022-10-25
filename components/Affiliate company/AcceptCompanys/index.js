@@ -2,7 +2,7 @@ import { Badge, Button, Form, Input, message, Modal, Radio, Space, Spin, Table, 
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import css from "./style.module.css";
-import {SearchOutlined ,InsertRowAboveOutlined,ExclamationCircleOutlined, QrcodeOutlined, FormOutlined, SendOutlined, StarOutlined,SolutionOutlined } from "@ant-design/icons";
+import {SearchOutlined ,InsertRowAboveOutlined,ExclamationCircleOutlined, ClearOutlined, FormOutlined, SendOutlined, StarOutlined,SolutionOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words"; 
 import TextArea from "antd/lib/input/TextArea";
 const { confirm } = Modal;
@@ -224,12 +224,26 @@ console.log("others: ", others);
 console.log("handok");
 if(rejectValue == 6 ||rejectValue == 2 ){
     message.error("Select state choose!");
-}else{
+}else if(rejectValue == 5){
 const body = {
 func: "setCompany",
 pkId: companyInfo.PkId,
 adminPkId: localStorage.getItem("pkId"),
 others: others,
+state: rejectValue,
+orgId: "-", 
+};
+axios.post("/api/post/Gate", body).then((res) => {
+message.success("Success");
+companyDataFunc();
+setIsModalOpenReject(false);
+});  
+}else {
+const body = {
+func: "setCompany",
+pkId: companyInfo.PkId,
+adminPkId: localStorage.getItem("pkId"),
+others: "-",
 state: rejectValue,
 orgId: "-", 
 };
@@ -534,7 +548,7 @@ const othersOnChange = (e) =>{
 return <div>
 {spinner ? <Spin className={css.SpinCss}/> : 
 <div> 
-<div className={css.ClearTable}><Button type="dashed" onClick={clearAll}>Clear filters and sorters</Button></div>
+<div className={css.ClearTable}><Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Table sort clear</Button></div>
     <Table size="small" columns={columns} dataSource={data} onChange={handleChangeTable} loading={loading}  scroll={{x:  1500, }} pagination={tableParams.pagination}/> 
     {/* ------------------------------------------------Modals------------------------------------ */}
     <Modal title={modalTitle} open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>

@@ -159,6 +159,7 @@ a:hover {
 
 .ant-segmented-item-label {
   color: #000;
+  border-right: 1px solid #e3e3e3;
 }
 
 /* .ant-tabs-tab.ant-tabs-tab-active {
@@ -320,7 +321,7 @@ body {
 }
 
 .ant-select-item-option-content {
-  font-size: 17px;
+  /* font-size: 17px; */
   font-weight: 500;
 }
 

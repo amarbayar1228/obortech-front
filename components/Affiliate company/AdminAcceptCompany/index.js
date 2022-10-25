@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import css from "./style.module.css";
 import Highlighter from "react-highlight-words";
-import {SearchOutlined ,CheckOutlined, ExclamationCircleOutlined, FormOutlined, SendOutlined, StarOutlined,SolutionOutlined } from "@ant-design/icons";
+import {SearchOutlined ,CheckOutlined, ExclamationCircleOutlined, ClearOutlined, SendOutlined, StarOutlined,SolutionOutlined } from "@ant-design/icons";
 import TextArea from "antd/lib/input/TextArea";
 const AdminAcceptCompany = () =>{
 const [spinner, setSpinner] = useState(false)
@@ -414,8 +414,8 @@ const columns = [
 ];
 
 return <div>
-    <div className={css.ClearTable}><Button type="dashed" onClick={clearAll}>Clear filters and sorters</Button></div>
-    <Table size="small" columns={columns} dataSource={data} onChange={handleChangeTable} loading={spinner}  scroll={{x:  1500, }} pagination={tableParams.pagination}/>
+    <div className={css.ClearTable}><Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Table sort clear</Button></div>
+    <Table size="small" columns={columns} dataSource={data} onChange={handleChangeTable} loading={spinner}  scroll={{x:  1500, y: 600 }} pagination={tableParams.pagination}/>
 
     {/* --------------------------------------------------------userInfo modal---------------------------------------------------------------------- */}
 

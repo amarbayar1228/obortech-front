@@ -2,7 +2,7 @@ import { Badge, Button, Input, Modal, Radio, Space, Spin, Table } from "antd";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import css from "./style.module.css"
-import {SearchOutlined ,EditOutlined,ExclamationCircleOutlined } from "@ant-design/icons";
+import {SearchOutlined ,EditOutlined,ClearOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 const AdminAcceptUser  = () =>{
     const [userData, setUserData] = useState([]);
@@ -229,9 +229,7 @@ const onChange = (e) => {
     return <div>
         {spinner ? <Spin size="large" className={css.SpinCss} /> : 
         <div>
-             <Space style={{marginBottom: 16}}> 
-            <Button onClick={clearAll}>Clear filters and sorters</Button>
-            </Space>
+             <Space style={{marginBottom: 16}}><Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Table sort clear</Button></Space>
             <Table size="small" columns={columns} dataSource={data}  onChange={handleChangeTable}  scroll={{x:  1200, }}/> 
             <Modal title="User" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
             <Radio.Group onChange={onChange} value={value}>

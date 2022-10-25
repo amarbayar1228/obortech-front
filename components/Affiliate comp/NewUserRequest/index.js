@@ -1,7 +1,7 @@
 import { Badge, Button, Input, Space, Table, Modal, Radio, message, Spin } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
-import {SearchOutlined ,EditOutlined,ExclamationCircleOutlined } from "@ant-design/icons";
+import {SearchOutlined ,EditOutlined,ClearOutlined } from "@ant-design/icons";
 import css from "./style.module.css"
 import axios from "axios";
 const { confirm } = Modal;
@@ -286,7 +286,7 @@ const getUsers = () => {
             {/* <Button onClick={setAgeSort}>Sort age</Button> */}
             
             {/* <Button onClick={clearFilters}>Clear filters</Button> */}
-            <Button onClick={clearAll}>Clear filters and sorters</Button>
+            <Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Table sort clear</Button>
             </Space>
             <Table columns={columns} dataSource={data} onChange={handleChangeTable}  scroll={{x:  1200, }}/> 
     </div>

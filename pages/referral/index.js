@@ -1,11 +1,12 @@
 import {Badge,Button,Collapse,Descriptions,Divider,Empty,Form,Image,Input,InputNumber,message,Modal,Pagination,Result,Select,Spin,Tooltip} from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import BaseLayout from "../../components/Layout/BaseLayout";
-import {CaretRightOutlined,SendOutlined,InfoCircleOutlined,CheckCircleOutlined,ExclamationCircleOutlined,} from "@ant-design/icons";
+import {CaretRightOutlined,TeamOutlined,InfoCircleOutlined,CheckCircleOutlined,ExclamationCircleOutlined,} from "@ant-design/icons";
 import axios from "axios";
 import css from "./style.module.css";
 import BasketContext from "../../context/basketContext/BasketContext";
-const { Panel } = Collapse;
+import TextArea from "antd/lib/input/TextArea";
+const { Panel } = Collapse; 
 const { Option } = Select;
 const Referral = () => {
   const basketContext = useContext(BasketContext);
@@ -105,48 +106,8 @@ const Referral = () => {
         console.log(err);
         message.error("Error");
       });
-
-    // axios
-    //   .post("/api/post/company/userGet", body)
-    //   .then((res) => {
-    //     setCompanyUserGet(res.data);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     message.error("Error");
-    //   });
   };
-  // const handleOkCorporation = () => {
-  //   const body = {
-  //     userToken: localStorage.getItem("token"),
-  //     companyName: companyName,
-  //     register: register,
-  //     areasOfActivity: areasOfActivity,
-  //     state: 1,
-  //     telephone: telephone,
-  //     address: address,
-  //     dateCompany: dateCompany,
-  //   };
-  //   axios
-  //     .post("/api/post/company/send", body)
-  //     .then((res) => {
-  //       console.log("amjilttai", res);
-  //       message.success("Succes");
-  //       userCompany();
-  //       // setIntroductionText(1);
-  //       // localStorage.setItem("introductionText", 1);
-  //       setIsModalVisibleCorporation(false);
-  //       console.log("blsn");
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       message.error("Error");
-  //     });
-  // };
 
-  // const handleCancelCorporation = () => {
-  //   setIsModalVisibleCorporation(false);
-  // };
   const showModal = () => {
     setIsModalVisible(true);
   };
@@ -267,16 +228,13 @@ const Referral = () => {
     //company ilgeeh
     const body = {
       func: "companySend",
-      userPkId: localStorage.getItem("pkId"),
-
+      userPkId: localStorage.getItem("pkId"), 
       totalAnnualRevenue: values.totalAnnualRevenue,
       companyName: values.companyName,
-      country: values.country,
-
+      country: values.country, 
       employees: values.employees,
       additionalInformation: values.additionalInformation,
-      website: values.website,
-
+      website: values.before + values.website + values.after,
       state: 1,
     };
     axios
@@ -288,17 +246,7 @@ const Referral = () => {
       })
       .catch((err) => {
         message.error("Error");
-      });
-    // axios
-    //   .post("/api/post/company/send", body)
-    //   .then((res) => {
-    //     message.success("Succes");
-    //     userCompany();
-    //     setIsModalVisibleCorporation(false);
-    //   })
-    //   .catch((err) => {
-    //     message.error("Error");
-    //   });
+      }); 
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -360,26 +308,7 @@ const Referral = () => {
     //   console.log("elemetn===> ", element.errors);
     // });
   };
-  const getPayInsentive = () => {
-    const body = {
-      userPkId: localStorage.getItem("pkId"),
-    };
-    // axios
-    //   .post("/api/post/orderHistory/getPayInsentive", body)
-    //   .then((res) => {
-    //     setInsentive(res.data);
-    //     let total = 0;
-    //     let sum = 0;
-    //     res.data.forEach((element) => {
-    //       total += element.fee;
-    //     });
-    //     setIncentiveTotalPrice(total);
-    //     setSpinState(false);
-    //   })
-    //   .catch((err) => {
-    //     console.log("err", err);
-    //   });
-  };
+ 
   const onFinishUserSend = (values) => {
     // console.log("Received values of form: ", values);
     setSpin(true);
@@ -414,6 +343,31 @@ const Referral = () => {
     form.resetFields();
     setIsModalVisibleCorporation(false);
   };
+  const selectBeforeFunc = (a) =>{
+    console.log("selectAfterFunc", a);
+  }
+  const selectAfterFunc = (a) =>{
+    console.log("selectAfterFunc", a);
+  }
+  const selectBefore = (
+    <Form.Item name="before" noStyle rules={[{required: true, message: "Please select your protal!"}]}>
+    <Select className="select-before">
+      <Option value="http://">http://</Option>
+      <Option value="https://">https://</Option>
+    </Select>
+    </Form.Item>
+  
+  );
+  const selectAfter = (
+    <Form.Item name="after" noStyle rules={[{required: true, message: "Please select your dot!"}]}> 
+    <Select className="select-after">
+      <Option value=".com">.com</Option>
+      <Option value=".mn">.mn</Option>
+      <Option value=".io">.io</Option>
+      <Option value=".org">.org</Option>
+    </Select>
+    </Form.Item>
+  );
   return (
     <BaseLayout pageName="referral">
       <div className={css.LayoutRef}>
@@ -474,165 +428,161 @@ const Referral = () => {
                 </div>
               )} 
 
-              {basketContext.userInfoProfile.state == "2" ? (
-                <div className={css.Layout}>
-                  <div style={{background: "#fff"}}>
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      <Divider orientation="left">Corporation list</Divider> <Divider type="vertical" />
-                      <Tooltip title="More information on company invitations"> <InfoCircleOutlined style={{ fontSize: "18px" }} /></Tooltip>
-                    </div>
-                    {/* {lstate == 2 ? ( */}
-                    <div className={css.Corporation}>
-                      <Button type="dashed" shape="round" onClick={CorporationShowModal}>+ Corporation</Button>
-                      <Modal title="Corporation" closable={false} open={isModalVisibleCorporation}footer={null}
+{basketContext.userInfoProfile.state == "2" ? (
+  <div className={css.Layout}>
+    <div style={{background: "#fff"}}>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <Divider orientation="left">Corporation list</Divider> <Divider type="vertical" />
+        <Tooltip title="More information on company invitations"> <InfoCircleOutlined style={{ fontSize: "18px" }} /></Tooltip>
+      </div>
+      {/* {lstate == 2 ? ( */}
+      <div className={css.Corporation}>
+        <Button type="dashed" shape="round" onClick={CorporationShowModal}>+ Corporation</Button>
+        <Modal title="Corporation" closable={false} open={isModalVisibleCorporation}footer={null} >
+          <div>
+            <Form form={form} name="basic" labelCol={{span: 9}}wrapperCol={{span: 16}} initialValues={{totalAnnualRevenue: 10000, before: "http://",after: ".com"}} 
+            onFinish={onFinish} onFinishFailed={onFinishFailed}autoComplete="off">
+              <div><Button size="small" onClick={() => {form.resetFields();}}>Clear</Button></div>
+              
+              <Form.Item label="Company name" name="companyName" rules={[{required: true,message: "Please input your Web site!"}]}><Input /></Form.Item>
 
-                        // onOk={onFinish}
-                        // onCancel={handleCancelCorporation}
+              <Form.Item label="Web site" name="website" rules={[{required: true,message: "Please input your Web site!"}]}>
+                <Input addonBefore={selectBefore} addonAfter={selectAfter} placeholder="" />
+              </Form.Item>
+
+              <Form.Item label="Country" name="country" rules={[{required: true, message: "Please input your Country!"}]}><Input /></Form.Item>
+
+              <Form.Item label="How many employees" name="employees" rules={[{required: true,message: "Please input your employees!"}]}>
+              <InputNumber addonBefore={<TeamOutlined />} formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} parser={(value) => value.replace(/\$\s?|(,*)/g, '')}/>
+              </Form.Item>
+
+              <Form.Item label="Total annual revenue" name="totalAnnualRevenue" rules={[{ required: true, message:"Please input your Total annual revenue!",}]}>
+                <InputNumber formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} parser={(value) => value.replace(/\$\s?|(,*)/g, '')} 
+                style={{width: "100%"}}
+                /> 
+              </Form.Item>
+
+              <Form.Item label="Additional information" name="additionalInformation" rules={[{required: true,message:"Please input your Additional information!",},]}>
+                <TextArea showCount allowClear/>
+              </Form.Item>
+
+              <Form.Item wrapperCol={{offset: 15,span: 16,}}>
+                <Button style={{ marginRight: "10px" }}onClick={cancelCompany}>Cancel</Button>
+                <Button type="primary" htmlType="submit">Send</Button></Form.Item>
+            </Form>
+          </div>
+        </Modal>
+      </div>
+      <div className={css.ContainerCss}>
+        <div className={css.ScrollCss}>
+          {companyUserGet.map((e, i) => (
+            <div key={i}>
+              <Collapse key={i} style={{ background: "#fff" }} bordered={true}
+                expandIcon={({ isActive }) => ( <CaretRightOutlined rotate={isActive ? 90 : 0}/>
+                )}className="site-collapse-custom-collapse">
+                <Panel key={i} header={<div style={{fontWeight: "500",textTransform: "capitalize",}}
+                    >{e.companyName}</div>}extra={genExtraCompanyGet(e)}>
+                  <div className={css.Cont1}>
+                    <Descriptions key={i} title="Company Info" layout="vertical"bordered>
+                      <Descriptions.Item label="Company name:">{e.companyName}</Descriptions.Item>
+                      <Descriptions.Item label="Website:">{e.website}</Descriptions.Item>
+                      <Descriptions.Item label="Country">{e.country}</Descriptions.Item>
+                      <Descriptions.Item label="How many employees">{e.employees}</Descriptions.Item>
+                      <Descriptions.Item label="Total annual revenue">{e.totalAnnualRevenue}</Descriptions.Item>
+                      <Descriptions.Item label="Additional information">{e.additionalInformation}</Descriptions.Item>
+                      <Descriptions.Item label="Organization Id">{e.orgId}</Descriptions.Item>
+                      {e.others === null || e.others === "" ? ("") : ( 
+                        <Descriptions.Item label="Others">{e.others}</Descriptions.Item>
+                      )}
+                    </Descriptions>
+
+                    <div>
+                      {e.state === 3 || e.state === 4 || e.state === 5 ? (
+                        <Button onClick={() => EditShowModal(e)}>Edit</Button>) : ("")}
+                      <Modal title="Edit" visible={isModalVisibleEdit}footer={false}onOk={onFinishEdit}onCancel={handleCancelEdit}>
+                        <Form name="basic" labelCol={{span: 8}} wrapperCol={{span: 16,}}
+                          initialValues={{
+                            companyNameEdit: companyNameInput,
+                            additionalInformationEdit:additionalInformationInput,
+                            countryEdit: countryInput,
+                            employeesEdit: employeesInput,
+                            totalAnnualRevenueEdit:totalAnnualRevenueInput,
+                            websiteEdit: websiteInput,
+                          }} onFinish={onFinishEditForm} onFinishFailed={onFinishFailedEdit} autoComplete="off"
                         >
-                        <div>
-                          <Form form={form} name="basic" labelCol={{span: 8}}wrapperCol={{span: 16,}}
-                            initialValues={{remember: true}} onFinish={onFinish} onFinishFailed={onFinishFailed}autoComplete="off">
-                            <div style={{display: "flex",justifyContent: "flex-end",marginBottom: "5px",marginTop: "-20px",}}>
-                              <Button size="small" onClick={() => {form.resetFields();}}>Clear</Button>
-                            </div>
-                            
-                            <Form.Item label="Company name" name="companyName"rules={[{required: true,message: "Please input your Web site!"}]}><Input />
-                            </Form.Item>
-                            <Form.Item label="Web site" name="website"
-                              rules={[{required: true,message: "Please input your Web site!"}]}><Input />
-                            </Form.Item>
+                          <Form.Item label="Company name"name="companyNameEdit"
+                            rules={[{required: true,message:"Please input your Company name!"}]}><Input />
+                          </Form.Item>
 
-                            <Form.Item label="Country" name="country"
-                              rules={[{required: true, message: "Please input your Country!"}]}><Input />
-                            </Form.Item>
-                            <Form.Item label="How many employees" name="employees"
-                              rules={[{required: true,message: "Please input your employees!"}]}>
-                              <Input addonBefore={prefixSelector}style={{width: "100%",}}/>
-                            </Form.Item>
-                            <Form.Item label="Total annual revenue" name="totalAnnualRevenue"
-                              rules={[{ required: true, message:"Please input your Total annual revenue!",}]}>
+                          <Form.Item label="Web site" name="websiteEdit"
+                            rules={[{required: true,message:"Please input your Web site!",},]}><Input />
+                          </Form.Item>
+
+                          <Form.Item label="Country" name="countryEdit"
+                            rules={[ { required: true, message:"Please input your Country!",},]}><Input />
+                          </Form.Item>
+                          <Form.Item label="How many employees" name="employeesEdit"
+                            rules={[{required: true,message:"Please input your How many employees!",},]}>
+                            <Input addonBefore={prefixSelector} style={{width: "100%",}}/>
+                          </Form.Item>
+                          <Form.Item label="Total annual revenue" name="totalAnnualRevenueEdit"
+                            rules={[{required: true,message:"Please input your Total annual revenue!",}]}>
+                            <Input />
+                          </Form.Item>
+                          <Form.Item label="Additional information" name="additionalInformationEdit" rules={[{ required: true, message:"Please input your Additional information!",}]}>
                               <Input />
-                            </Form.Item>
-                            <Form.Item label="Additional information" name="additionalInformation"
-                              rules={[{required: true,message:"Please input your Additional information!",},]}><Input />
-                            </Form.Item>
-                            <Form.Item wrapperCol={{offset: 8,span: 16,}}>
-                              <Button style={{ marginRight: "10px" }}onClick={cancelCompany}>Cancel</Button>
-                              <Button type="primary" htmlType="submit">Send</Button></Form.Item>
-                          </Form>
-                        </div>
+                          </Form.Item>
+
+                          <Form.Item wrapperCol={{offset: 8,span: 16,}}>
+                            <Button style={{ marginRight: "10px" }} onClick={() =>setIsModalVisibleEdit(false)}>Cancel</Button>
+                            <Button type="primary"htmlType="submit">Submit</Button>
+                          </Form.Item>
+                        </Form>
                       </Modal>
                     </div>
-                    <div className={css.ContainerCss}>
-                      <div className={css.ScrollCss}>
-                        {companyUserGet.map((e, i) => (
-                          <div key={i}>
-                            <Collapse key={i} style={{ background: "#fff" }} bordered={true}
-                              expandIcon={({ isActive }) => ( <CaretRightOutlined rotate={isActive ? 90 : 0}/>
-                              )}className="site-collapse-custom-collapse">
-                              <Panel key={i} header={<div style={{fontWeight: "500",textTransform: "capitalize",}}
-                                  >{e.companyName}</div>}extra={genExtraCompanyGet(e)}>
-                                <div className={css.Cont1}>
-                                  <Descriptions key={i} title="Company Info" layout="vertical"bordered>
-                                    <Descriptions.Item label="Company name:">{e.companyName}</Descriptions.Item>
-                                    <Descriptions.Item label="Website:">{e.website}</Descriptions.Item>
-                                    <Descriptions.Item label="Country">{e.country}</Descriptions.Item>
-                                    <Descriptions.Item label="How many employees">{e.employees}</Descriptions.Item>
-                                    <Descriptions.Item label="Total annual revenue">{e.totalAnnualRevenue}</Descriptions.Item>
-                                    <Descriptions.Item label="Additional information">{e.additionalInformation}</Descriptions.Item>
-                                    <Descriptions.Item label="Organization Id">{e.orgId}</Descriptions.Item>
-                                    {e.others === null || e.others === "" ? ("") : (
-                                      <div style={{background: "red",color: "#fff",}}>{e.others}</div>
-                                    )}
-                                  </Descriptions>
+                  </div>
+                </Panel>
+              </Collapse>
+            </div>
+          ))}
+        </div>
 
-                                  <div>
-                                    {e.state === 3 || e.state === 4 || e.state === 5 ? (
-                                      <Button onClick={() => EditShowModal(e)}>Edit</Button>) : ("")}
-                                    <Modal title="Edit" visible={isModalVisibleEdit}footer={false}onOk={onFinishEdit}onCancel={handleCancelEdit}>
-                                      <Form name="basic" labelCol={{span: 8}} wrapperCol={{span: 16,}}
-                                        initialValues={{
-                                          companyNameEdit: companyNameInput,
-                                          additionalInformationEdit:additionalInformationInput,
-                                          countryEdit: countryInput,
-                                          employeesEdit: employeesInput,
-                                          totalAnnualRevenueEdit:totalAnnualRevenueInput,
-                                          websiteEdit: websiteInput,
-                                        }} onFinish={onFinishEditForm} onFinishFailed={onFinishFailedEdit} autoComplete="off"
-                                      >
-                                        <Form.Item label="Company name"name="companyNameEdit"
-                                          rules={[{required: true,message:"Please input your Company name!"}]}><Input />
-                                        </Form.Item>
-
-                                        <Form.Item label="Web site" name="websiteEdit"
-                                          rules={[{required: true,message:"Please input your Web site!",},]}><Input />
-                                        </Form.Item>
-
-                                        <Form.Item label="Country" name="countryEdit"
-                                          rules={[ { required: true, message:"Please input your Country!",},]}><Input />
-                                        </Form.Item>
-                                        <Form.Item label="How many employees" name="employeesEdit"
-                                          rules={[{required: true,message:"Please input your How many employees!",},]}>
-                                          <Input addonBefore={prefixSelector} style={{width: "100%",}}/>
-                                        </Form.Item>
-                                        <Form.Item label="Total annual revenue" name="totalAnnualRevenueEdit"
-                                          rules={[{required: true,message:"Please input your Total annual revenue!",}]}>
-                                          <Input />
-                                        </Form.Item>
-                                        <Form.Item label="Additional information" name="additionalInformationEdit" rules={[{ required: true, message:"Please input your Additional information!",}]}>
-                                            <Input />
-                                        </Form.Item>
-
-                                        <Form.Item wrapperCol={{offset: 8,span: 16,}}>
-                                          <Button style={{ marginRight: "10px" }} onClick={() =>setIsModalVisibleEdit(false)}>Cancel</Button>
-                                          <Button type="primary"htmlType="submit">Submit</Button>
-                                        </Form.Item>
-                                      </Form>
-                                    </Modal>
-                                  </div>
-                                </div>
-                              </Panel>
-                            </Collapse>
-                          </div>
-                        ))}
-                      </div>
-
-                      {spinState == true ? (<div><Spin /></div>) : ("")}
-                      {insentive[0] ? (
-                        <div className={css.InsentiveCon}>
-                          <div>
-                            <Divider orientation="left">
-                              <div style={{ display: "flex", alignItems: "center",}}>
-                                <Image alt="Obertech" preview={false} src="/img/incentive.png"style={{width: "45px",marginRight: "7px",background: "#fff",borderRadius: "20px",}}/>
-                                <div className={css.IncentiveText}>INCENTIVE</div>
-                              </div>
-                            </Divider>
-                          </div>
-                          <div className={css.InsentiveScroll}>
-                            {insentive.map((e, i) => (
-                              <div key={i} className={css.ContainerInvs}>
-                                <div className={css.DateCss}>{e.date} </div>
-                                <div className={css.FeeLayout}>
-                                  <div className={css.ImgCss}><Image alt="Obertech" preview={false}src="/img/usdIcon.png.crdownload"/></div>
-                                  <div className={css.FeeCompleted}>
-                                    <div className={css.CoinCss}>$ {e.fee}</div>
-                                    <div className={css.CompletedCss}>Completed</div>
-                                  </div>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                          <div className={css.TotalPriceCss}>Total price: {incentiveTotalPrice}$</div>
-                        </div>
-                      ) : (
-                        ""
-                      )}
+        {spinState == true ? (<div><Spin /></div>) : ("")}
+        {insentive[0] ? (
+          <div className={css.InsentiveCon}>
+            <div>
+              <Divider orientation="left">
+                <div style={{ display: "flex", alignItems: "center",}}>
+                  <Image alt="Obertech" preview={false} src="/img/incentive.png"style={{width: "45px",marginRight: "7px",background: "#fff",borderRadius: "20px",}}/>
+                  <div className={css.IncentiveText}>INCENTIVE</div>
+                </div>
+              </Divider>
+            </div>
+            <div className={css.InsentiveScroll}>
+              {insentive.map((e, i) => (
+                <div key={i} className={css.ContainerInvs}>
+                  <div className={css.DateCss}>{e.date} </div>
+                  <div className={css.FeeLayout}>
+                    <div className={css.ImgCss}><Image alt="Obertech" preview={false}src="/img/usdIcon.png.crdownload"/></div>
+                    <div className={css.FeeCompleted}>
+                      <div className={css.CoinCss}>$ {e.fee}</div>
+                      <div className={css.CompletedCss}>Completed</div>
                     </div>
                   </div>
                 </div>
-              ) : (
-                ""
-              )}
+              ))}
+            </div>
+            <div className={css.TotalPriceCss}>Total price: {incentiveTotalPrice}$</div>
+          </div>
+        ) : (
+          ""
+        )}
+      </div>
+    </div>
+  </div>
+) : (
+  ""
+)}
             </>
           ) : (
             ""
