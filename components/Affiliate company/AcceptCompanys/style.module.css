@@ -72,12 +72,12 @@
 }
 
 .BtnReject {
-    background-color: #f39696;
+    background-color: #40a9ff47;
 }
 
 .BtnReject:hover {
-    border-color: #f39696;
-    background-color: #f39696;
+    border-color: #40a9ff94;
+    background-color: #40a9ff94;
     color: #4d5057;
 }
 
