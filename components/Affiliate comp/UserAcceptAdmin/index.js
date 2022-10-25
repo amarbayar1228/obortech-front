@@ -237,14 +237,6 @@ const UserAcceptAdmin = () => {
       ellipsis: true,
     },
     
-    // {
-    //   title: 'Age',
-    //   dataIndex: 'age',
-    //   key: 'age',  
-    //   sorter: (a, b) => a.age - b.age,
-    //   sortOrder: sortedInfo.columnKey === 'age' ? sortedInfo.order : null,
-    //   ellipsis: true, 
-    // },    
     {
       title: 'Action',
       key: 'operation',
@@ -268,66 +260,18 @@ const UserAcceptAdmin = () => {
               <div><Spin className={css.SpinCss} size="large"></Spin></div>) : ("")}
             {userData[0] ? (
               <div>
-              <Space style={{marginBottom: 16}}>
-                <Button onClick={setAgeSort}>Sort age</Button>
-                {/* <Button onClick={clearFilters}>Clear filters</Button> */}
+              <Space style={{marginBottom: 16}}>  
                 <Button onClick={clearAll}>Clear filters and sorters</Button>
               </Space>
-              <Table columns={columns} dataSource={data} onChange={handleChangeTable}  scroll={{
-                  x:  1200, 
+              <Table size="small" columns={columns} dataSource={data} onChange={handleChangeTable}  scroll={{
+                  x:  1000, 
                 }}/> 
-                <Collapse>
-                  {userData.map((e, i) => (
-                    <Panel header={ <div style={{ fontWeight: "500",textTransform: "capitalize"}}>{e.firstname}</div>} key={i}
-                      extra={
-                        <div className={css.StateCss}>
-                          <div className={css.StateIconCss}>{e.state == 3 ? (<Badge status="error" text="Reject" />) : (<Badge status="success" text="Request accepted" />)}</div>
-                        </div>
-                      }>
-                      <div className={css.Cont1}>
-                        <Descriptions title="User Info" layout="vertical" bordered size="small">
-                          <Descriptions.Item label="Last Name">{e.lastname}</Descriptions.Item>
-                          <Descriptions.Item label="First Name">{e.firstname}</Descriptions.Item>
-                          <Descriptions.Item label="Email">{e.email}</Descriptions.Item>
-                          <Descriptions.Item label="Phone">{e.phone}</Descriptions.Item>
-                          <Descriptions.Item label="Address" span={2}>{e.address}</Descriptions.Item>
-                        </Descriptions>
-                      </div>
-                    </Panel>
-                  ))}
-                </Collapse>
+             
               </div>
             ) : spinState2 === true ? ("") : (<Empty />)}
           </>
         ) : (
           ""
-          // <>
-          //   {cancelData[0] ? (
-          //     <div>
-          //       {spinState2 === true ? (<div><Spin className={css.SpinCss}tip=""size="large"></Spin></div>) : ("")}
-          //       <Collapse>
-          //         {cancelData.map((e, i) => (
-          //           <Panel header={<div style={{fontWeight: "500",textTransform: "capitalize",}}>{e.firstname}</div>}key={i}
-          //             extra={
-          //               <div className={css.StateCss}>
-          //                 <div className={css.StateIconCss}>{e.state == 3 ? (<Badge status="error" text="Reject" />) : (<Badge status="success" text="Request Accepted" />)}</div>
-          //               </div>
-          //             }>
-          //             <div className={css.Cont1}>
-          //               <Descriptions title="User Info" layout="vertical" bordered>
-          //                 <Descriptions.Item label="Last Name">{e.lastname}</Descriptions.Item>
-          //                 <Descriptions.Item label="First Name">{e.firstname}</Descriptions.Item>
-          //                 <Descriptions.Item label="Email">{e.email}</Descriptions.Item>
-          //                 <Descriptions.Item label="Phone">{e.phone}</Descriptions.Item>
-          //                 <Descriptions.Item label="Address" span={2}>{e.address}</Descriptions.Item>
-          //               </Descriptions>
-          //             </div>
-          //           </Panel>
-          //         ))}
-          //       </Collapse>
-          //     </div>
-          //   ) : spinState2 == true ? ("") : (<Empty />)}
-          // </>
         )}
       </div>
     </div>

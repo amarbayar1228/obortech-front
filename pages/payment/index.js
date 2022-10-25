@@ -550,7 +550,7 @@ const onFinishFailedOrgId = (errInfo)=>{
                 {steps.map((item) => (<Step key={item.title} title={item.title} />))}
               </Steps>
               <div className="steps-content">{steps[current].content}</div>
-              <div className="steps-action">{current < steps.length - 1 && (<Button type="primary" onClick={() => next()}>Next</Button>)}
+              <div className="steps-action">{current < steps.length - 1 && (<Button type="primary" onClick={() => next()}>Continue</Button>)}
                 {current === steps.length - 1 && (
                   <>
                     <Button icon={<ShoppingCartOutlined />} type="primary" onClick={orderOrgId2}>Done</Button>
@@ -575,7 +575,7 @@ const onFinishFailedOrgId = (errInfo)=>{
                     </Modal>
                   </>
                 )}
-                {current > 0 && (<Button style={{margin: "0 8px",}}onClick={() => prev()}>Previous</Button>)}
+                {current > 0 && (<Button style={{margin: "0 8px",}}onClick={() => prev()}>Back</Button>)}
               </div>
             </div>
           )}

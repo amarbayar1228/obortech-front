@@ -54,6 +54,7 @@ export default function Home(props) {
       axios.post("/api/post/Gate", body).then((res)=>{  
         if(res.data.data){
           // sessionStorage.setItem("orgId", res.data.data.map.name)
+          console.log("search: ", res.data.data);
           setOrgIdState(res.data.data.map.name);
           // localStorage.setItem("orgId", res.data.data.map.name);
           setOrgError(""); 

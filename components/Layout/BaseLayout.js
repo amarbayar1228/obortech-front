@@ -188,7 +188,7 @@ export default function BaseLayout(props) {
           <div className={css.ImageLogo}>
             <Image onClick={LogoFunction} className={css.ImgLogo} alt="Obertech" preview={false} src="/img/OBORTECH_logo_H_clean.svg"/>
             {basketContext.orgId == undefined ? "" : 
-              <div className={css.OrgIdText}>ID: {basketContext.orgId}</div>
+              <div className={css.OrgIdText}>Org ID: {basketContext.orgId}</div>
             } 
           </div>
         </div>
@@ -330,7 +330,7 @@ export default function BaseLayout(props) {
                   </div>
                   <div>
                   {basketContext.orgId == undefined ? "" : 
-                    <div className={css.OrgIdText2}>ID: {basketContext.orgId}</div>
+                    <div className={css.OrgIdText2}>Org ID: {basketContext.orgId}</div>
                   }
                   </div>
                   </div>} 

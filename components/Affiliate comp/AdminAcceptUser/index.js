@@ -206,7 +206,7 @@ const onChange = (e) => {
         dataIndex: 'state',
         key: 'state', 
         fixed: "right",
-        // width: 120,
+        width: 100,
         // ...getColumnSearchProps('state'), 
         render: (a) => <div >
           {a == 3 ? (<Badge status="error" text="Reject" />) : (<Badge status="processing" text="Request" />)}</div>,
@@ -215,16 +215,7 @@ const onChange = (e) => {
         sorter: (a, b) => a.state - b.state,
         sortOrder: sortedInfo.columnKey === 'state' ? sortedInfo.order : null,
         ellipsis: true,
-      },
-      
-      // {
-      //   title: 'Age',
-      //   dataIndex: 'age',
-      //   key: 'age',  
-      //   sorter: (a, b) => a.age - b.age,
-      //   sortOrder: sortedInfo.columnKey === 'age' ? sortedInfo.order : null,
-      //   ellipsis: true, 
-      // },    
+      },    
       {
         title: 'Action',
         key: 'pkId',
@@ -238,13 +229,10 @@ const onChange = (e) => {
     return <div>
         {spinner ? <Spin size="large" className={css.SpinCss} /> : 
         <div>
-             <Space style={{marginBottom: 16}}>
-            {/* <Button onClick={setAgeSort}>Sort age</Button> */}
-            
-            {/* <Button onClick={clearFilters}>Clear filters</Button> */}
+             <Space style={{marginBottom: 16}}> 
             <Button onClick={clearAll}>Clear filters and sorters</Button>
             </Space>
-            <Table columns={columns} dataSource={data}  onChange={handleChangeTable}  scroll={{x:  1500, }}/> 
+            <Table size="small" columns={columns} dataSource={data}  onChange={handleChangeTable}  scroll={{x:  1200, }}/> 
             <Modal title="User" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
             <Radio.Group onChange={onChange} value={value}>
                 <Radio value={2}>Accept user</Radio>

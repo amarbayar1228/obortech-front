@@ -16,7 +16,8 @@
 
 .CompTitle {
     font-weight: 600;
-    margin-left: 10px;
+    /* margin-left: 10px; */
+    margin-right: 10px;
 }
 
 .RadioCss {
@@ -81,6 +82,11 @@
     color: #4d5057;
 }
 
+.BtnAccept {
+    color: green;
+    border-color: green;
+}
+
 .ClearTable {
     display: flex;
     justify-content: right;
@@ -91,6 +97,20 @@
     display: flex;
     font-size: 16px;
     color: #4d5057;
+    align-items: center;
+}
+
+.CompNameF {
+    text-transform: uppercase;
+    color: #767676;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.ChooseCss {
+    font-weight: 600;
+    color: #5a5b5e;
+    margin-bottom: 5px;
 }
 
 .CompFlex2 {
@@ -110,4 +130,9 @@
     font-size: 15px;
     color: red;
     margin-bottom: 5px;
+}
+
+.TextAreaCss textarea {
+    height: 120px;
+    background-color: red;
 }

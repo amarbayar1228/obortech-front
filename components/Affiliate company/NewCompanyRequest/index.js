@@ -1,9 +1,10 @@
-import { Badge, Button, Input, Modal, Space, Spin, Table, Tooltip, Image } from "antd";
+import { Badge, Button, Input, Modal, Space, Spin, Table, Tooltip, Image, Radio, message } from "antd";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import css from "./style.module.css";
 import Highlighter from "react-highlight-words";
-import {SearchOutlined ,InsertRowAboveOutlined,ExclamationCircleOutlined, QrcodeOutlined, FormOutlined, SendOutlined, StarOutlined,SolutionOutlined } from "@ant-design/icons";
+import {SearchOutlined ,CheckOutlined, ExclamationCircleOutlined, FormOutlined, SendOutlined, StarOutlined,SolutionOutlined } from "@ant-design/icons";
+import TextArea from "antd/lib/input/TextArea";
 const NewCompanyRequest = () =>{
 const [spinner, setSpinner] = useState(false)
 const [companyData, setCompanyData] = useState([]);
@@ -14,7 +15,10 @@ const [searchedColumn, setSearchedColumn] = useState('');
 const [userInfo, setUserInfo]= useState();
 const [userSpin, setUserSpin]= useState(false);
 const [isModalOpenUser, setIsModalOpenUser] = useState(false);
-const [companyInfo, setCompanyInfo] = useState();
+const [companyInfo, setCompanyInfo] = useState(); 
+const [isModalOpenReject, setIsModalOpenReject]= useState(false);
+const [rejectValue, setRejectValue]= useState(0);
+const [others, setOthers] = useState("");
 const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
@@ -45,8 +49,7 @@ setCompanyData(res.data.data);
           total: 60, 
         },
       });
-// setGetCompany(res.data.data);
-// confirmCompanyList();
+ 
 }).catch((err) => {console.log(err)});
 };
 const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -158,17 +161,73 @@ const handleSearch = (selectedKeys, confirm, dataIndex) => {
   };
 const showModalReject = (a)=>{
 console.log("a", a);
-}
+setCompanyInfo(a.action);
+setIsModalOpenReject(true)
+} 
+// user handle modal
 const handleOkUser = () => {
 setIsModalOpenUser(false);
 };
 const handleCancelUser = () => {
 setIsModalOpenUser(false);
 };
+// reject handle modal
+const handleOkReject = (a) =>{
+console.log("company pkId: ", companyInfo.PkId);
+console.log("radio: ",rejectValue );
+console.log("others: ", others); 
+if(rejectValue == 5){
+    if(others == ""){
+        message.error("Write your reason!");
+    }else{
+       const body = {
+            func: "setCompany",
+            pkId: companyInfo.PkId,
+            adminPkId: localStorage.getItem("pkId"),
+            others: others,
+            state: rejectValue,
+            orgId: "-", 
+        } 
+        console.log("other axios");
+        // axios.post("/api/post/Gate", body).then((res) => {
+        //     message.success("Success"); 
+        //     setIsModalOpenReject(false)
+        //   }); 
+    }
+}else if(rejectValue == 0){
+    console.log("ene anhni hooson ");
+    message.error("Choose a return type?");
+}else {
+    if(others == ""){
+      const body = {
+            func: "setCompany",
+            pkId: companyInfo.PkId,
+            adminPkId: localStorage.getItem("pkId"),
+            others: "-",
+            state: rejectValue,
+            orgId: "-", 
+        }
+        console.log("other bhq");
+        // axios.post("/api/post/Gate", body).then((res) => {
+        //     message.success("Success"); 
+        //     setIsModalOpenReject(false)
+        //   });  
+    }else {
+        console.log("ene shvvv");
+    }
+} 
+ 
+}
+const handleCancelReject = ()=>{
+setOthers("");
+setRejectValue(0);
+console.log("cancel reject");
+setIsModalOpenReject(false)
+}
 const showUserInfo = (b) =>{
 console.log("b: ", b.action);
 console.log("userInfo: ",b.action.userPkId);  
-setCompanyInfo(b.action)
+setCompanyInfo(b.action);
 setIsModalOpenUser(true);
 setUserSpin(true);
 const body = {
@@ -181,6 +240,32 @@ axios.post("/api/post/Gate", body).then((res) => {
     setUserSpin(false);
 }).catch((err) => {console.log(err)}); 
 }
+const onChangeReject = (e)=>{
+    setRejectValue(e.target.value)
+    setOthers("");
+}
+const textAreaChange = (e) =>{
+    console.log("eL ", e.target.value);
+    setOthers(e.target.value);
+}
+const confirm = (a) => {
+Modal.confirm({
+title: 'Do you want to accept company?',
+icon: <ExclamationCircleOutlined />,
+content: <div className={css.CompFlex2}>
+    <div className={css.CompTitle}>Company name: </div>
+    <div className={css.CompNameF}> {a.action.companyName}</div>
+</div>,
+okText: 'Accept',
+cancelText: 'Cancel',
+onOk() { 
+const body = {func: "setCompany", pkId: a.action.PkId, adminPkId: localStorage.getItem("pkId"), orgId: "-", others: "-", state: 2};
+axios.post("/api/post/Gate", body).then((res) => {
+    message.success("Success"); getNewComp()}); 
+}, 
+onCancel() {console.log("Cancel")},
+});};
+
 const data = companyData.map((r, i)=>(
     {
       key: i,
@@ -340,6 +425,7 @@ const columns = [
     {title: 'Action', key: 'action', fixed: 'right', width: 110,
     render: (b) => <div className={css.ActionCss}>
          <div>  
+            <Tooltip title="Accept company"><Button size="small" className={css.BtnAccept}  onClick={()=> confirm(b)} icon={<CheckOutlined />}></Button> </Tooltip>
             <Tooltip title="Reject"><Button size="small" className={css.BtnReject}  onClick={()=> showModalReject(b)} icon={<FormOutlined />}></Button> </Tooltip>
             <Tooltip title="User info"><Button size="small" className={css.BtnRight}  onClick={()=> showUserInfo(b)} icon={<SolutionOutlined/>}></Button> </Tooltip>
         </div>   
@@ -350,40 +436,63 @@ const columns = [
 return <div>
     <div className={css.ClearTable}><Button type="dashed" onClick={clearAll}>Clear filters and sorters</Button></div>
     <Table size="small" columns={columns} dataSource={data} onChange={handleChangeTable} loading={spinner}  scroll={{x:  1500, }} pagination={tableParams.pagination}/>
-    <Modal title="User info" open={isModalOpenUser} onOk={handleOkUser}  onCancel={handleCancelUser} footer={null}> 
-                 <div>
-                    {userSpin ? <Spin size="large" className={css.SpinCss}/> : 
-                    <>
-                    <div className={css.CompNameCss}>
-                    <div className={css.CompFlex}><div className={css.CompName}>Company name:</div>
-                    <div className={css.CompTitle}>{companyInfo === undefined ? "": companyInfo.companyName}</div></div>
-                    
-                    </div>
-                        <div className={css.imgL}>
-                           <div className={css.ImageCss}><Image preview={false} alt="Obertech" src={"/img/user.png"} className={css.Img}/></div>
-                           {userInfo ?
-                           <div className={css.Info}> 
-                            
-                            <div className={css.Title}>
-                                <div className={css.TitleChild}>Full name: </div>
-                                <div className={css.TitleChild}>Email: </div>
-                                <div className={css.TitleChild}>Phone: </div>
-                                <div className={css.TitleChild}>address: </div>
-                            </div>
-                            <div className={css.Description}>
-                                <div className={css.TitleChild2}>{userInfo.lastname}  {userInfo.firstname}</div>
-                                <div className={css.TitleChild2}>{userInfo.email} </div>
-                                <div className={css.TitleChild2}>{userInfo.phone}</div>
-                                <div className={css.TitleChild2}>{userInfo.address} </div>
-                            </div>
-                           </div>
-                           : "" }
-                        </div>
-                        </>
-                    }
-                 </div>
-            </Modal>
 
+    {/* --------------------------------------------------------userInfo modal---------------------------------------------------------------------- */}
+
+    <Modal title="User info" open={isModalOpenUser} onOk={handleOkUser}  onCancel={handleCancelUser} footer={null}> 
+    <div>
+    {userSpin ? <Spin size="large" className={css.SpinCss}/> : 
+    <>
+    <div className={css.CompNameCss}>
+    <div className={css.CompFlex}><div className={css.CompName}>Company name:</div>
+    <div className={css.CompTitle}>{companyInfo === undefined ? "": companyInfo.companyName}</div></div> 
+    </div>
+        <div className={css.imgL}>
+            <div className={css.ImageCss}><Image preview={false} alt="Obertech" src={"/img/user.png"} className={css.Img}/></div>
+            {userInfo ?
+            <div className={css.Info}>  
+            <div className={css.Title}>
+                <div className={css.TitleChild}>Full name: </div><div className={css.TitleChild}>Email: </div>
+                <div className={css.TitleChild}>Phone: </div><div className={css.TitleChild}>address: </div>
+            </div>
+            <div className={css.Description}>
+                <div className={css.TitleChild2}>{userInfo.lastname}  {userInfo.firstname}</div><div className={css.TitleChild2}>{userInfo.email} </div>
+                <div className={css.TitleChild2}>{userInfo.phone}</div><div className={css.TitleChild2}>{userInfo.address} </div>
+            </div>
+            </div>
+            : "" }
+        </div>
+        </>
+        }
+    </div>
+    </Modal>
+       {/* --------------------------------------------------------Reject modal ---------------------------------------------------------------------- */}
+    <Modal title="Reject" open={isModalOpenReject} onOk={handleOkReject}  onCancel={handleCancelReject}> 
+        <div>
+        {companyInfo === undefined ? "": 
+        <div className={css.CompNameCss}>
+            <div className={css.CompFlex}><div className={css.CompTitle}>Company name:</div><div className={css.CompNameF}>{companyInfo.companyName}</div></div>
+            <div className={css.StatusCss}>
+            {companyInfo.state == 1 ? (<Tooltip title="New request"><Badge status="warning" text="New request" style={{fontSize: "12px", color: "#faad14"}}/></Tooltip>
+            ) :  ""} 
+            </div>
+        </div>
+        }
+        <div style={{marginBottom: "10px"}}>
+            <div className={css.ChooseCss}>Choose a return type? </div>
+            <Radio.Group onChange={onChangeReject} value={rejectValue} style={{marginLeft: "20px"}}>
+            <Space direction="vertical">
+                <Radio value={3}>Correct your information</Radio>
+                <Radio value={4}>Rejected</Radio> 
+                <Radio value={5}> More...</Radio> 
+            </Space>
+            </Radio.Group>
+            {rejectValue === 5 ? (
+                <TextArea placeholder="Write your reason?"   allowClear onChange={textAreaChange} value={others} style={{height: "100px", marginTop: "10px"}} />
+                ) : null}
+        </div>
+        </div>
+    </Modal>
 
 </div>
 }
