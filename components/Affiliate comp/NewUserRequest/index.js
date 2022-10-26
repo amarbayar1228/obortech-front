@@ -36,9 +36,7 @@ const NewUserRequest = () =>{
         userToken: localStorage.getItem("pkId"),
         state: 2,
         };
-        axios
-        .post("/api/post/Gate", body)
-        .then((res) => {
+        axios.post("/api/post/Gate", body).then((res) => {
             message.success("Success");  
           
             getUsers();
@@ -80,6 +78,7 @@ const getUsers = () => {
     axios.post("/api/post/Gate", body).then((res) => {
         setSpinner(false);
     //   segmentFuncUser(); 
+    console.log("new user: ", res.data.data);
     setUserInfo(res.data.data);
     })
     .catch((err) => {console.log(err)}); 
@@ -272,11 +271,14 @@ const getUsers = () => {
           width: 80,
           render: (a) => <div className={css.ActionCss}><Button onClick={showModal} type="dashed" icon={<EditOutlined />}></Button>
             <Modal title="User" open={isModalOpen} onOk={()=> handleOk(a)} onCancel={handleCancel}>
+            <div className={css.Choose}>
+            <div className={css.Text}> Choose: </div>
             <Radio.Group onChange={onChange} value={value}>
                 <Radio value={2}>Accept user</Radio>
                 <Radio value={3}>Cancel user</Radio> 
             </Radio.Group>
-      </Modal>
+            </div>
+            </Modal> 
           </div>,
         },
       ];

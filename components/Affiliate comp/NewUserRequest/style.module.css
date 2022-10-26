@@ -1,0 +1,8 @@
+.Choose {
+    display: flex;
+    align-items: center;
+}
+
+.Text {
+    margin-right: 10px;
+}

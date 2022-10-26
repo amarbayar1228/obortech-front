@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useTranslation } from "next-i18next";
 import BasketContext from "../../context/basketContext/BasketContext";
 import Head from "next/head";
+import axios from "axios";
 const { Content, Sider, Footer } = Layout;
 export default function BaseLayout(props) {
   const [collapsed, setCollapsed] = useState(false);
@@ -19,24 +20,43 @@ export default function BaseLayout(props) {
   const { t, ready } = useTranslation(["header", "language-change", "organization"]);
   const basketContext = useContext(BasketContext);
   const [localStorageUserId, setLocalStorageUserId] = useState(); 
-  const [admin, setAdmin] = useState("");
+  const [admin, setAdmin] = useState("3");
   const [localPkId, setLocalPkid] = useState("");
   const [open2, setOpen2] = useState(false);
   const [enState, setEnState] = useState("en");
   const [mnState, setMnState] = useState("mn");
-
+  const [profileS, setProfileS] = useState();
   useEffect(() => { 
+    console.log("layout page: ");
+    getProfile();
     // basketContext.basketStateFunc();
     setLocalPkid(localStorage.getItem("pkId"));
     // localStorage.setItem("orgId", "0");
-    setAdmin(localStorage.getItem("isSuperAdmin")); 
- 
+    
     if (localStorage.getItem("token")) {
       setLocalStorageUserId(localStorage.getItem("token"));
     } else {
       setLocalStorageUserId("Null");
     }
   }, []);
+  const getProfile  = () =>{
+    if (localStorage.getItem("pkId")) {
+      const body = {
+        func: "getUserInfo",
+        pkId: localStorage.getItem("pkId"),
+      };
+      axios.post("/api/post/Gate", body).then((res) => { 
+        console.log("res:", res.data.data);
+        setProfileS(res.data.data);
+        setAdmin(res.data.data.isSuperAdmin+""); 
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      console.log("null");
+    } 
+  }
   useEffect(() => {
     setAddItemStyleProps(props.addItemStyle);
     setTimeout(() => {
@@ -93,7 +113,7 @@ export default function BaseLayout(props) {
     getItem("Order","3", <ContainerOutlined style={{ fontSize: "18px", fontWeight: "500px" }} />),
     admin === "1" ? getItem("User management","4",<UserAddOutlined style={{ fontSize: "18px", fontWeight: "500px" }} />): "",
     admin === "1" || admin === "2" ? "": getItem("Referral","5",<PlusSquareOutlined style={{ fontSize: "18px", fontWeight: "500px" }}/>),
-    admin === "1" || admin === "2"? getItem("Referral management","6",<PlusSquareOutlined style={{ fontSize: "18px", fontWeight: "500px" }}/>): "",
+    admin === "1" || admin === "2" ? getItem("Referral management","6",<PlusSquareOutlined style={{ fontSize: "18px", fontWeight: "500px" }}/>): "",
   ];
   const handleVisibleChange = (newVisible) => {
     setVisible(newVisible);
@@ -190,12 +210,13 @@ export default function BaseLayout(props) {
             {basketContext.orgId == undefined ? "" : 
               <div className={css.OrgIdText}>Org ID: {basketContext.orgId}</div>
             } 
+         
           </div>
         </div>
 {/* Moblie ============================================================= */}
         <div className={css.MenuMobile}>
-          <div className={ admin == "1" || admin == "2" || basketContext.orgId == undefined? css.MenuHoverIconAdminNo : css.MenuHoverIcon}>
-            {admin == "1" || admin == "2" || basketContext.orgId == undefined ? null : (
+          <div className={basketContext.orgId == undefined? css.MenuHoverIconAdminNo : css.MenuHoverIcon}>
+            {basketContext.orgId == undefined ? null : (
               <div className={ router.pathname == "/payment" ? css.PopoverStyle2 : css.PopoverStyle1}>
                 {basketContext.basketState.length === 0 ? (
                   <div className={css.BasketPopNone}> </div>
@@ -312,7 +333,7 @@ export default function BaseLayout(props) {
               </Tooltip>
             </div>) : ("")}
 
-          {admin == "1" || admin == "2" || basketContext.orgId == undefined ? ("") : (
+          {basketContext.orgId == undefined ? ("") : (
             <div className={router.pathname == "/payment" ? css.PopoverStyle2 : css.PopoverStyle1}>
               {basketContext.basketState.length === 0 ? (
                 <div className={css.BasketPopNone}> </div>

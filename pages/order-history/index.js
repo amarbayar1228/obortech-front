@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import BaseLayout from "../../components/Layout/BaseLayout";
-import { CaretRightOutlined,CaretDownOutlined } from "@ant-design/icons";
+import { CaretRightOutlined,ExclamationCircleOutlined  } from "@ant-design/icons";
 import {Button, Collapse, Divider, Empty, Image, Modal, Spin, Space, DatePicker, Table, Tag, Input} from "antd";
 import css from "./style.module.css";
 import { UserOutlined,SearchOutlined  } from "@ant-design/icons";
@@ -10,6 +10,7 @@ import moment from "moment";
 import Highlighter from 'react-highlight-words';
 import Invoice from "../../components/OrderHistory/Invoice";
 const { Panel } = Collapse;
+const { confirm } = Modal;
 const OrderHistory = () => { 
   const basketContext = useContext(BasketContext);
   const [date1, setDate1] = useState("");
@@ -59,94 +60,66 @@ const OrderHistory = () => {
     setIsModalOpen(false);
     setIdIndex("");
   };
-  const getOders = () =>{
-    setLoading(true);
-    setLoadingPage(true);
-    const body = {}
-    if (localStorage.getItem("pkId")) {
-      const body = {
-        func: "getUserInfo",
-        pkId: localStorage.getItem("pkId"),
-      };
-      axios
-        .post("/api/post/Gate", body)
-        .then((res) => {  
-          setTodayDateState("2022-10-10");
-            console.log("res: ", res.data.data);
-            if(res.data.data.isSuperAdmin == 1 || res.data.data.isSuperAdmin == 2 ){
-              const mounths = ["01","02","03","04","05","06","07","08","09","10","11","12",];
-              var date = new Date();
-              var d1 =  date.getFullYear() + "-" + mounths[date.getMonth()] + "-" + date.getDate() + "";   
-              setTodayDateState(d1);
-              console.log("d1", d1);
-             const body2 = { 
-                func:"getOrders", 
-                d1: d1,
-                d2: d1, 
-              } 
-              axios.post("/api/post/Gate", body2).then((res)=>{
-                setOrderNull(1); 
-                setLoadingPage(false)
-                setLoading(false); 
-                setOrderHdr(res.data.data);
-              }).catch((err)=>{
-                console.log("err: ", err);
-              })
-              }else if(res.data.data.isSuperAdmin == 0){
-                const mounths = ["01","02","03","04","05","06","07","08","09","10","11","12",];
-                var date = new Date();
-                var d1 =  date.getFullYear() + "-" + mounths[date.getMonth()] + "-" + date.getDate() + "";  
-                setTodayDateState(d1);
-                const bodyUser = {
-                      func:"getOrderUserID",
-                      d1: d1,
-                      d2: d1,
-                      pkId: localStorage.getItem("pkId")
-                    }
-                    axios.post("/api/post/Gate", bodyUser).then((res)=>{
-                      setOrderNull(1); 
-                      setLoadingPage(false)
-                      setLoading(false); 
+const getOders = () =>{
+  setLoading(true);
+  setLoadingPage(true);
+  const body = {}
+if (localStorage.getItem("pkId")) {
+const body = {
+func: "getUserInfo",
+pkId: localStorage.getItem("pkId"),
+};
+axios.post("/api/post/Gate", body).then((res) => {  
+setTodayDateState("2022-10-10");
+console.log("res: ", res.data.data);
 
-                      setOrderHdr(res.data.data);
-                    }).catch((err)=>{
-                      console.log("err: ", err);
-                    })  
-              } 
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {  
-      setOrderNull(0);
-      setLoadingPage(false)
-      setLoading(false); 
-    }
-    // console.log("profile", basketContext.userInfoProfile);
-  //   if(basketContext.userInfoProfile.isSuperAdmin === 0){
-  //     body = {
-  //     func:"getOrderUserID",
-  //     d1: basketContext.todayDateState,
-  //     d2: basketContext.todayDateState,
-  //     pkId: localStorage.getItem("pkId")
-  //   }
-  // }else {
-    // body = {
-    //   func:"getOrders",
-    //   // d1: basketContext.todayDateState,
-    //   // d2: basketContext.todayDateState, 
-    //   d1: "2022-09-13",
-    //   d2: "2022-10-12", 
-    // }
-  // } 
+if(res.data.data.isSuperAdmin == 1 || res.data.data.isSuperAdmin == 2 ){
+  const mounths = ["01","02","03","04","05","06","07","08","09","10","11","12",];
+  var date = new Date();
+  var d1 =  date.getFullYear() + "-" + mounths[date.getMonth()] + "-" + date.getDate() + "";   
+  setTodayDateState(d1);
+  console.log("d1", d1);
+  const body2 = { 
+    func:"getOrders", 
+    d1: d1,
+    d2: d1, 
+  } 
+  axios.post("/api/post/Gate", body2).then((res)=>{
+    setOrderNull(1); 
+    setLoadingPage(false)
+    setLoading(false); 
+    setOrderHdr(res.data.data);
+  }).catch((err)=>{
+    console.log("err: ", err);
+  })
+  }else if(res.data.data.isSuperAdmin == 0){
+    const mounths = ["01","02","03","04","05","06","07","08","09","10","11","12",];
+    var date = new Date();
+    var d1 =  date.getFullYear() + "-" + mounths[date.getMonth()] + "-" + date.getDate() + "";  
+    setTodayDateState(d1);
+    const bodyUser = {
+          func:"getOrderUserID",
+          d1: d1,
+          d2: d1,
+          pkId: localStorage.getItem("pkId")
+        }
+        axios.post("/api/post/Gate", bodyUser).then((res)=>{
+          setOrderNull(1); 
+          setLoadingPage(false)
+          setLoading(false); 
 
-    // axios.post("/api/post/Gate", body).then((res)=>{
-    //   setLoading(false); 
-    //   setOrderHdr(res.data.data);
-    // }).catch((err)=>{
-    //   console.log("err: ", err);
-    // }) 
-  }
+          setOrderHdr(res.data.data);
+        }).catch((err)=>{
+          console.log("err: ", err);
+        })  
+  } 
+}).catch((err) => {console.log(err)});
+} else {  
+  setOrderNull(0);
+  setLoadingPage(false)
+  setLoading(false); 
+} 
+}
  
   // admin orderHistory
  
@@ -284,7 +257,21 @@ const searchDate = () =>{
     console.log("err: ", err);
   })
 }
-  
+ 
+const orderSend = (a) => {
+  confirm({
+    title: 'Do you Want to smarthub items send?',
+    icon: <ExclamationCircleOutlined />,
+    content: <div>Order ID: {a.orderid}</div>,
+    onOk() {
+      console.log('OK'); 
+      
+    },
+    onCancel() {
+      console.log('Cancel');
+    },
+  });
+};
 const columns = [
   {
     title: <span>Order id</span>,
@@ -342,6 +329,13 @@ const columns = [
       <Tag color="blue" key={tag}>
           {tag.status === 0 ? "Pending" : "1"}
         </Tag>
+    ), 
+  },
+  {
+    title: 'Action', 
+    key: 'action',
+    render: (_, record) => (
+      <Space size="middle"><Button type="default" size="small" onClick={()=>orderSend(record)}>Test ordID</Button></Space>
     ),
   },
 ];
@@ -354,7 +348,7 @@ const data = orderHdr.map((r, i)=>(
       organization:r.orgId,
       status: r.status,
       price: r.totalPrice, 
-      invoice: "invoice",
+      invoice: "invoice", 
       paymethod: "1"
     } 
 ));

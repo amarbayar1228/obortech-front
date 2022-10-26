@@ -24,12 +24,12 @@ export default function Login() {
           message.success(t("Success"));
           localStorage.setItem("pkId", res.data.data.pkId);
           localStorage.setItem("token", res.data.data.token);
-          localStorage.setItem("username", res.data.data.username);
-          localStorage.setItem("lastname", res.data.data.lastname);
+          // localStorage.setItem("username", res.data.data.username);
+          // localStorage.setItem("lastname", res.data.data.lastname);
           // localStorage.setItem("phone", res.data.phone);
-          localStorage.setItem("firstname", res.data.data.firstname);
+          // localStorage.setItem("firstname", res.data.data.firstname);
           localStorage.setItem("state", res.data.data.state);
-          localStorage.setItem("isSuperAdmin", res.data.data.isSuperAdmin);
+          // localStorage.setItem("isSuperAdmin", res.data.data.isSuperAdmin);
           basketContext.getUserProfileFunction();
           router.push("/");
         } else {message.error("Error")}

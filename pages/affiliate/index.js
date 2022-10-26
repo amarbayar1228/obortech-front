@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import BaseLayout from "../../components/Layout/BaseLayout";
 import axios from "axios";
 import {Badge,Button,Descriptions,Divider,Empty,Input,message,Modal,Select,Popconfirm,Radio,Space,Spin,Tooltip,Alert,DatePicker,Segmented, Pagination,} from "antd";
@@ -12,24 +12,24 @@ import NewUserRequest from "../../components/Affiliate comp/NewUserRequest";
 import AdminAcceptUser from "../../components/Affiliate comp/AdminAcceptUser";
 import AcceptCompanys from "../../components/Affiliate company/AcceptCompanys";
 import NewCompanyRequest from "../../components/Affiliate company/NewCompanyRequest";
-import AdminAcceptCompany from "../../components/Affiliate company/AdminAcceptCompany";
+import AdminAcceptCompany from "../../components/Affiliate company/AdminAcceptCompany"; 
 const { TabPane } = Tabs;
 const { Panel } = Collapse;
 const { confirm } = Modal;
 const { Option } = Select; 
 const Affiliate = () => {
- 
-  const [value, setValue] = useState(2);
-  const [isModalVisibleIncentive, setIsModalVisibleIncentive] = useState(false);
-  const [incPercents, setIncPercentS] = useState("");
- 
-  const [segmentValue, setSegmentValue] = useState("accept");
-  const [segmentValueUser, setSegmentValueUser] = useState("acceptUser");
- 
-  const showModalIncentive = () => {
-    getIncentivePercent();
-    setIsModalVisibleIncentive(true);
-  };
+  
+const [value, setValue] = useState(2);
+const [isModalVisibleIncentive, setIsModalVisibleIncentive] = useState(false);
+const [incPercents, setIncPercentS] = useState("");
+
+const [segmentValue, setSegmentValue] = useState("accept");
+const [segmentValueUser, setSegmentValueUser] = useState("acceptUser");
+
+const showModalIncentive = () => {
+  getIncentivePercent();
+  setIsModalVisibleIncentive(true);
+};
 
   const handleOkIncentive = (e) => {
     console.log("value incentive %: ", value) + "huwi-aar";
@@ -137,19 +137,13 @@ const segmentFuncUser = (a) => {
               key: i,
               children: i === 0? <div>
                 {/* ------------------------------user segment ----------------------------------- */}
-              <Segmented size="middle" block 
-                onChange={segmentFuncUser}
+              <Segmented size="middle" block  onChange={segmentFuncUser}
                 options={[{label: "Accept user", value: "acceptUser"},
                           {label: "New user request",value: "newUserRequest"},
                           {label: "Admin's accept user", value: "adminAcceptUser"}]}/>
                   {segmentValueUser === "acceptUser" ? <div><UserAcceptAdmin /></div> 
-                  : segmentValueUser === "newUserRequest" ? <div className={css.SplitSize}>
-                      <div><NewUserRequest/> </div>
-                  </div> 
-                  : segmentValueUser === "adminAcceptUser" ?  
-                  <div className={css.SplitSize}> 
-                    <AdminAcceptUser /> </div>
-                : ""}
+                  : segmentValueUser === "newUserRequest" ? <div className={css.SplitSize}><div><NewUserRequest/> </div></div> 
+                  : segmentValueUser === "adminAcceptUser" ?<div className={css.SplitSize}> <AdminAcceptUser /> </div>: ""}
               </div> 
               :   
               <div> 

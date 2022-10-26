@@ -151,9 +151,7 @@ const orgIdLocal = (orgId) =>{
         func: "getUserInfo",
         pkId: localStorage.getItem("pkId"),
       };
-      axios
-        .post("/api/post/Gate", body)
-        .then((res) => { 
+      axios.post("/api/post/Gate", body).then((res) => { 
           setUserInfoProfile(res.data.data);
         })
         .catch((err) => {

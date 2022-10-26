@@ -1,23 +1,34 @@
-import { Badge, Button, Collapse, Descriptions, Empty, Input, Select, Space, Spin, Table } from "antd";
+import { Badge, Button, Collapse, Descriptions, Empty, Input, message, Modal, Radio, Select, Space, Spin, Table } from "antd";
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import css from "./style.module.css";
 import { Tabs } from "antd";
 import Highlighter from "react-highlight-words";
 import {SearchOutlined ,EditOutlined, ClearOutlined} from "@ant-design/icons";
+import BasketContext from "../../../context/basketContext/BasketContext";
 const { Option } = Select;
 const { TabPane } = Tabs;
 const { Panel } = Collapse;
 const UserAcceptAdmin = () => {
+  const basketContext = useContext(BasketContext);
   const [userData, setUserData] = useState([]);
   const [cancelData, setCancelDate] = useState([]);
+  const [value, setValue]= useState(2);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [changeValue, setChangeValue] = useState("all");
   const [spinState2, setSpinState2] = useState(true);
   const [filteredInfo, setFilteredInfo] = useState({});
   const [sortedInfo, setSortedInfo] = useState({});
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
+  const [userPkId, setUserPkId]  = useState();
   const searchInput = useRef(null);
+  useEffect(() => {
+    console.log("user accept");
+    if (changeValue == "all") {
+      confirmUserList();
+    }
+  }, []);
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
     setSearchText(selectedKeys[0]);
@@ -73,22 +84,15 @@ const UserAcceptAdmin = () => {
       order: 'descend',
       columnKey: 'age',
     });
-  };
-  useEffect(() => {
-    console.log("user accept");
-    if (changeValue == "all") {
-      confirmUserList();
-    }
-  }, []);
-
+  }; 
   const confirmUserList = () => {
-    setSpinState2(true);
-
+    setSpinState2(true); 
     const body = {
       func: "acceptUsers",
       userToken: localStorage.getItem("pkId"),
     };
     axios.post("/api/post/Gate", body).then((res) => {
+      console.log("all data: ", res.data.data);
         setSpinState2(false);
         setUserData(res.data.data);
       })
@@ -109,19 +113,41 @@ const UserAcceptAdmin = () => {
     setSpinState2(true);
     const body = {
       pkId: localStorage.getItem("pkId"),
-    };
-    // axios
-    //   .post("/api/post/user/confirmUserReqCancel", body)
-    //   .then((res) => {
-    //     setSpinState2(false);
-    //     setCancelDate(res.data);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     // message.error(err);
-    //   });
+    }; 
   };
- 
+const modalFunc = (a) =>{
+  console.log("name: ", a.all.firstname);
+  console.log("pkID:",a.all.pkId );
+  console.log("all: ", a.all);
+  setUserPkId(a.all.pkId)
+  setIsModalOpen(true);
+}
+const handleOk = () =>{ 
+  console.log("pkId: ", userPkId);
+  console.log("radio: ", value);
+  const body = {
+  func: "userAccept",
+  pkId: userPkId,
+  userToken: localStorage.getItem("pkId"),
+  state: value,
+  };
+  axios.post("/api/post/Gate", body).then((res) => {
+    message.success("Success");   
+    basketContext.getUserProfileFunction();
+    confirmUserList();
+    setIsModalOpen(false)
+  })
+  .catch((err) => {console.log(err)});  
+
+}
+const handleCancel = () =>{
+  console.log("object");
+  setIsModalOpen(false)
+}
+const onChangeRadio = (e) =>{
+  console.log("radio: ", e.target.value);
+  setValue(e.target.value);
+}
   const data = userData.map((r, i)=>(
     {
       key: i,
@@ -132,7 +158,7 @@ const UserAcceptAdmin = () => {
       email: r.email,
       state: r.state, 
       phone: r.phone,
-      paymethod: "1"
+      all: r,
     } 
 ));
   const columns = [
@@ -237,36 +263,37 @@ const UserAcceptAdmin = () => {
       ellipsis: true,
     },
     
-    {
-      title: 'Action',
-      key: 'operation',
-      fixed: 'right',
-      width: 80,
-      render: () => <div className={css.ActionCss}><Button type="dashed" icon={<EditOutlined />}></Button></div>,
+    {title: 'Action',key: 'operation',fixed: 'right',width: 80,
+      render: (a) => <div className={css.ActionCss}><Button type="dashed" icon={<EditOutlined />} onClick={()=>modalFunc(a)}></Button></div>,
     },
   ];
+
+
   return (
     <div className={css.DivideCss}>
       <div>
-        <Select defaultValue="all" style={{ width: 120, marginLeft: "10px"}} onChange={handleChange}>
+        {/* <Select defaultValue="all" style={{ width: 120, marginLeft: "10px"}} onChange={handleChange}>
           <Option value="all">All</Option>
           <Option value="cancel">Cancel</Option>
-        </Select>
+        </Select> */}
       </div>
       <div className={css.ScrollCss}>
         {changeValue == "all" ? (
           <>
-            {spinState2 === true ? (
-              <div><Spin className={css.SpinCss} size="large"></Spin></div>) : ("")}
+            {spinState2 === true ? (<div><Spin className={css.SpinCss} size="large"></Spin></div>) : ("")}
             {userData[0] ? (
               <div>
-              <Space style={{marginBottom: 16}}>  
-              <Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Table sort clear</Button>
-              </Space>
-              <Table size="small" columns={columns} dataSource={data} onChange={handleChangeTable}  scroll={{
-                  x:  1000, 
-                }}/> 
-             
+              <Space style={{marginBottom: 16}}><Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Table sort clear</Button></Space>
+              <Table size="small" columns={columns} dataSource={data} onChange={handleChangeTable}  scroll={{x:  1000}}/> 
+              <Modal title="User" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+              <div className={css.Choose}>
+              <div className={css.Text}> Choose: </div>
+              <Radio.Group onChange={onChangeRadio} value={value}>
+                  <Radio value={2}>Accept user</Radio>
+                  <Radio value={3}>Cancel user</Radio> 
+              </Radio.Group>
+              </div>
+              </Modal> 
               </div>
             ) : spinState2 === true ? ("") : (<Empty />)}
           </>
