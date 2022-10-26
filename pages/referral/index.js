@@ -6,13 +6,13 @@ import axios from "axios";
 import css from "./style.module.css";
 import BasketContext from "../../context/basketContext/BasketContext";
 import TextArea from "antd/lib/input/TextArea";
+import Company from "../../components/Referral comp/Company";
 const { Panel } = Collapse; 
 const { Option } = Select;
 const Referral = () => {
   const basketContext = useContext(BasketContext);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isModalVisibleCorporation, setIsModalVisibleCorporation] =
-    useState(false);
+  const [isModalVisibleCorporation, setIsModalVisibleCorporation] =useState(false);
   const [isModalVisibleEdit, setIsModalVisibleEdit] = useState(false);
 
   const [phoneState, setPhoneState] = useState();
@@ -56,6 +56,7 @@ const Referral = () => {
   const [formUser] = Form.useForm();
   const [form] = Form.useForm();
   const [spinState, setSpinState] = useState(false);
+  const [userInfo, setUserInfo] = useState("");
   useEffect(() => { 
     userCompany();
   }, []);
@@ -80,25 +81,34 @@ const Referral = () => {
     setIsModalVisibleEdit(false);
   };
   const handleCancelEdit = () => {
+    formUser.resetFields();
     setIsModalVisibleEdit(false);
   };
-  const userCompany = () => {
-    //userPkId gaar awchirj bgn
+const userCompany = () => {
+//userPkId gaar awchirj bgn
 
+const body = {
+  func: "getCompany",
+  userPkId: localStorage.getItem("pkId"),
+};
+axios.post("/api/post/Gate", body).then((res) => {
+    setCompanyUserGet(res.data.data);
+  }).catch((err) => {console.log(err)});
+
+  if (localStorage.getItem("pkId")) {
     const body = {
-      func: "getCompany",
-      userPkId: localStorage.getItem("pkId"),
+      func: "getUserInfo",
+      pkId: localStorage.getItem("pkId"),
     };
-    axios
-      .post("/api/post/Gate", body)
-      .then((res) => {
-        setCompanyUserGet(res.data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-        message.error("Error");
-      });
-  };
+    axios.post("/api/post/Gate", body).then((res) => { 
+      console.log("user: ", res.data.data);
+      setUserInfo(res.data.data);
+      }).catch((err) => {console.log(err)});
+
+  } else {
+    console.log("null");
+  } 
+};
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -243,10 +253,7 @@ const Referral = () => {
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
-    message.error(errorInfo.errorFields[0].errors);
-    // errorInfo.errorFields.forEach((element) => {
-    //   console.log("elemetn===> ", element.errors);
-    // });
+    message.error(errorInfo.errorFields[0].errors); 
   };
 
   const onFinishEditForm = (values) => {
@@ -256,8 +263,7 @@ const Referral = () => {
 
     const body = {
       func: "editCompany",
-      pkId: companyPkIdInput,
-
+      pkId: companyPkIdInput, 
       additionalInformation: values.additionalInformationEdit,
       companyName: values.companyNameEdit,
       employees: values.employeesEdit,
@@ -313,14 +319,12 @@ const Referral = () => {
       phone: values.phone,
       state: 1,
     };
-    axios
-      .post("/api/post/Gate", body)
-      .then((res) => { 
-        basketContext.getUserProfileFunction();
-        
+    axios.post("/api/post/Gate", body).then((res) => { 
+        basketContext.getUserProfileFunction(); 
           setSpin(false);
           message.success("Success");
-          setIsModalVisible(false);  
+          userCompany();
+          setIsModalVisible(false);   
         // setIntroductionText(1);
         // localStorage.setItem("introductionText", 1);
       })
@@ -335,12 +339,7 @@ const Referral = () => {
     form.resetFields();
     setIsModalVisibleCorporation(false);
   };
-  const selectBeforeFunc = (a) =>{
-    console.log("selectAfterFunc", a);
-  }
-  const selectAfterFunc = (a) =>{
-    console.log("selectAfterFunc", a);
-  }
+ 
   const selectBefore = (
     <Form.Item name="before" noStyle rules={[{required: true, message: "Please select your protal!"}]}>
     <Select className="select-before">
@@ -360,12 +359,13 @@ const Referral = () => {
     </Form.Item>
   );
   return (
-    <BaseLayout pageName="referral">
-      <div className={css.LayoutRef}>
-        <div className={css.DisplayLayout}>
+<BaseLayout pageName="referral">
+  <div className={css.LayoutRef}>
+    <div className={css.DisplayLayout}>
+ 
 {basketContext.userInfoProfile ? (
 <>
-{basketContext.userInfoProfile.state == 2 ? (
+{userInfo.state == 2 ? (
   <div style={{ marginTop: "-30px" }}>
     <Result icon={ <Image style={{ marginBottom: "-24px" }}alt="Obertech" preview={false} src="/img/succcess.png" width={100}/>
       } title="The user has been authenticated successfully" subTitle="You are now able to invite companies."/>
@@ -379,7 +379,7 @@ const Referral = () => {
     <div>
 
     {spin === true ? <Spin style={{display: "flex", alignItems: "center", justifyContent: "center"}}/> : ""}
-      {basketContext.userInfoProfile.state === 1 ? (
+      {userInfo.state === 1 ? (
         <div style={{ marginTop: "-30px" }}>
           <Result icon={<Image style={{ marginBottom: "-24px" }} alt="Obertech" preview={false} src="/img/send4.png" width={100}/>}
             subTitle="Admin will check your request and reply soon." title="Your request has been sent to an administrator."/>
@@ -388,8 +388,13 @@ const Referral = () => {
         <>
         <Button type="dashed" shape="round" onClick={showModal}>+ Information</Button>
         <div style={{ marginTop: "-30px" }}>
-          <Result icon={<Image style={{ marginBottom: "-24px" }} alt="Obertech" preview={false} src="/img/info.png" width={100}/>}
-            subTitle="Then you will be able to invite company. " title="Fill in your details."/>
+          {userInfo.lastname === "-" ? <Result icon={<Image style={{ marginBottom: "-24px" }} alt="Obertech" preview={false} src="/img/info.png" width={100}/>}
+            subTitle="Then you will be able to invite company. " title="Fill in your details."/> :
+            <Result icon={<Image style={{ marginBottom: "-24px" }} alt="Obertech" preview={false} src="/img/info.png" width={100}/>}
+            subTitle="Medeelelee zasnu. " title="Hvselt butsaagdsan."/>
+          }
+          
+
         </div>
         </>
       )}
@@ -422,7 +427,7 @@ const Referral = () => {
 
 {/* ----------------------------------------------- Company ------------------------------------------------------------------------------------------ */}
 
-{basketContext.userInfoProfile.state == "2" ? (
+{userInfo.state == "2" ? (
 <div className={css.Layout}>
 <div style={{background: "#fff"}}>
   <div style={{ display: "flex", alignItems: "center" }}>
@@ -431,7 +436,8 @@ const Referral = () => {
   </div>
   {/* {lstate == 2 ? ( */}
 <div className={css.Corporation}>
-<Button type="dashed" shape="round" onClick={CorporationShowModal}>+ Corporation</Button>
+  <Company />
+{/* <Button type="dashed" shape="round" onClick={CorporationShowModal}>+ Corporation</Button> */}
 <Modal title="Corporation" closable={false} open={isModalVisibleCorporation}footer={null} >
 <div>
   <Form form={form} name="basic" labelCol={{span: 9}}wrapperCol={{span: 16}} initialValues={{totalAnnualRevenue: 10000, before: "http://",after: ".com"}} 
@@ -468,72 +474,73 @@ const Referral = () => {
 </Modal>
 </div>
 <div className={css.ContainerCss}>
-<div className={css.ScrollCss}>
-{companyUserGet.map((e, i) => (
-<div key={i}>
-<Collapse key={i} style={{ background: "#fff" }} bordered={true} expandIcon={({ isActive }) => ( <CaretRightOutlined rotate={isActive ? 90 : 0}/>)}>
-<Panel key={i} header={<div style={{fontWeight: "500",textTransform: "capitalize",}}>{e.companyName}</div>}extra={genExtraCompanyGet(e)}>
-<div className={css.Cont1}>
-  <Descriptions key={i} title="Company Info" layout="vertical"bordered>
-    <Descriptions.Item label="Company name:">{e.companyName}</Descriptions.Item>
-    <Descriptions.Item label="Website:">{e.website}</Descriptions.Item>
-    <Descriptions.Item label="Country">{e.country}</Descriptions.Item>
-    <Descriptions.Item label="How many employees">{e.employees}</Descriptions.Item>
-    <Descriptions.Item label="Total annual revenue">{e.totalAnnualRevenue}</Descriptions.Item>
-    <Descriptions.Item label="Additional information">{e.additionalInformation}</Descriptions.Item>
-    <Descriptions.Item label="Organization Id">{e.orgId}</Descriptions.Item>
-    {e.others === null || e.others === "" ? ("") : ( <Descriptions.Item label="Others">{e.others}</Descriptions.Item>)}
-  </Descriptions>
+  {/* <div className={css.ScrollCss}> */}
+  <div>
+  {companyUserGet.map((e, i) => (
+  <div key={i}>
+  <Collapse key={i} style={{ background: "#fff" }} bordered={true} expandIcon={({ isActive }) => ( <CaretRightOutlined rotate={isActive ? 90 : 0}/>)}>
+  <Panel key={i} header={<div style={{fontWeight: "500",textTransform: "capitalize",}}>{e.companyName}</div>}extra={genExtraCompanyGet(e)}>
+  <div className={css.Cont1}>
+    <Descriptions key={i} title="Company Info" layout="vertical"bordered>
+      <Descriptions.Item label="Company name:">{e.companyName}</Descriptions.Item>
+      <Descriptions.Item label="Website:">{e.website}</Descriptions.Item>
+      <Descriptions.Item label="Country">{e.country}</Descriptions.Item>
+      <Descriptions.Item label="How many employees">{e.employees}</Descriptions.Item>
+      <Descriptions.Item label="Total annual revenue">{e.totalAnnualRevenue}</Descriptions.Item>
+      <Descriptions.Item label="Additional information">{e.additionalInformation}</Descriptions.Item>
+      <Descriptions.Item label="Organization Id">{e.orgId}</Descriptions.Item>
+      {e.others === null || e.others === "" ? ("") : ( <Descriptions.Item label="Others">{e.others}</Descriptions.Item>)}
+    </Descriptions>
 
-<div>
-{e.state === 3 || e.state === 4 || e.state === 5 ? (
-<Button onClick={() => EditShowModal(e)}>Edit</Button>) : ("")}
-<Modal title="Edit" visible={isModalVisibleEdit}footer={false}onOk={onFinishEdit}onCancel={handleCancelEdit}>
-<Form name="basic" labelCol={{span: 8}} wrapperCol={{span: 16,}}
-initialValues={{
-  companyNameEdit: companyNameInput,
-  additionalInformationEdit:additionalInformationInput,
-  countryEdit: countryInput,
-  employeesEdit: employeesInput,
-  totalAnnualRevenueEdit:totalAnnualRevenueInput,
-  websiteEdit: websiteInput,
-}} onFinish={onFinishEditForm} onFinishFailed={onFinishFailedEdit} autoComplete="off"
->
-<Form.Item label="Company name"name="companyNameEdit" rules={[{required: true,message:"Please input your Company name!"}]}><Input /></Form.Item>
+  <div>
+  {e.state === 3 || e.state === 4 || e.state === 5 ? (
+  <Button onClick={() => EditShowModal(e)}>Edit</Button>) : ("")}
+  <Modal title="Edit" open={isModalVisibleEdit}footer={false}onOk={onFinishEdit}onCancel={handleCancelEdit}>
+  <Form form={formUser} name="basic" labelCol={{span: 8}} wrapperCol={{span: 16,}}
+  defaultValue={{
+    companyNameEdit: companyNameInput,
+    additionalInformationEdit:additionalInformationInput,
+    countryEdit: countryInput,
+    employeesEdit: employeesInput,
+    totalAnnualRevenueEdit:totalAnnualRevenueInput,
+    websiteEdit: websiteInput,
+  }} onFinish={onFinishEditForm} onFinishFailed={onFinishFailedEdit} autoComplete="off"
+  >
+  <Form.Item label="Company name"name="companyNameEdit" rules={[{required: true,message:"Please input your Company name!"}]}><Input /></Form.Item>
 
-<Form.Item label="Web site" name="websiteEdit"
-  rules={[{required: true,message:"Please input your Web site!",},]}><Input />
-</Form.Item>
+  <Form.Item label="Web site" name="websiteEdit"
+    rules={[{required: true,message:"Please input your Web site!",},]}><Input />
+  </Form.Item>
 
-<Form.Item label="Country" name="countryEdit"
-  rules={[ { required: true, message:"Please input your Country!",},]}><Input />
-</Form.Item>
-<Form.Item label="How many employees" name="employeesEdit"
-  rules={[{required: true,message:"Please input your How many employees!",},]}>
-  <Input addonBefore={prefixSelector} style={{width: "100%",}}/>
-</Form.Item>
-<Form.Item label="Total annual revenue" name="totalAnnualRevenueEdit"
-  rules={[{required: true,message:"Please input your Total annual revenue!",}]}>
-  <Input />
-</Form.Item>
-<Form.Item label="Additional information" name="additionalInformationEdit" rules={[{ required: true, message:"Please input your Additional information!",}]}>
+  <Form.Item label="Country" name="countryEdit"
+    rules={[ { required: true, message:"Please input your Country!",},]}><Input />
+  </Form.Item>
+  <Form.Item label="How many employees" name="employeesEdit"
+    rules={[{required: true,message:"Please input your How many employees!",},]}>
+    <Input addonBefore={prefixSelector} style={{width: "100%",}}/>
+  </Form.Item>
+  <Form.Item label="Total annual revenue" name="totalAnnualRevenueEdit"
+    rules={[{required: true,message:"Please input your Total annual revenue!",}]}>
     <Input />
-</Form.Item>
+  </Form.Item>
+  <Form.Item label="Additional information" name="additionalInformationEdit" rules={[{ required: true, message:"Please input your Additional information!",}]}>
+      <Input />
+  </Form.Item>
 
-<Form.Item wrapperCol={{offset: 8,span: 16,}}>
-  <Button style={{ marginRight: "10px" }} onClick={() =>setIsModalVisibleEdit(false)}>Cancel</Button>
-  <Button type="primary"htmlType="submit">Submit</Button>
-</Form.Item>
-</Form>
-</Modal>
-</div>
-</div>
-  </Panel>
-</Collapse>
-</div>
-))}
-</div>
-
+  <Form.Item wrapperCol={{offset: 8,span: 16,}}>
+    <Button style={{ marginRight: "10px" }} onClick={() =>setIsModalVisibleEdit(false)}>Cancel</Button>
+    <Button type="primary"htmlType="submit">Submit</Button>
+  </Form.Item>
+  </Form>
+  </Modal>
+  </div>
+  </div>
+    </Panel>
+  </Collapse>
+  </div>
+  ))}
+  </div>
+{/* --------------------------------------------------Incentive============================================================= */}
 {spinState == true ? (<div><Spin /></div>) : ("")}
 {insentive[0] ? (
 <div className={css.InsentiveCon}>
@@ -570,24 +577,24 @@ initialValues={{
 ) : (
   ""
 )}
-            </>
-          ) : (
-            ""
-          )}
+</>
+) : (
+""
+)}
 
-        </div>
-        <div className={css.Note}>
-          <Result
-            title="More information on company invitations"
-            extra={
-              <Button type="primary" key="console">
-                Go Console
-              </Button>
-            }
-          />
-        </div>
-      </div>
-    </BaseLayout>
+</div>
+{/* <div className={css.Note}>
+<Result
+title="More information on company invitations"
+extra={
+  <Button type="primary" key="console">
+    Go Console
+  </Button>
+}
+/>
+</div> */}
+</div>
+</BaseLayout>
   );
 };
 export default Referral;

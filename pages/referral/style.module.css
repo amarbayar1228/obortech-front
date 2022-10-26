@@ -1,131 +1,150 @@
- .StateCss{
-    display: flex;
+ .StateCss {
+   display: flex;
  }
- .StateIconCss{
-    display: flex;
-    align-items: center;
-    margin-right: 5px;
-  
+
+ .StateIconCss {
+   display: flex;
+   align-items: center;
+   margin-right: 5px;
+
  }
- .DisplayLayout{ 
-   width: 60%; 
+
+ .DisplayLayout {
+   width: 89%;
  }
- .LayoutRef{
-  display: flex;
-    justify-content: center;
+
+ .LayoutRef {
+   display: flex;
+   justify-content: center;
  }
- .Note{
-  background: #fafafa;
-  /* width: 300px;
+
+ .Note {
+   background: #fafafa;
+   /* width: 300px;
   height: 288px; */
-  border-radius: 10px;
-  margin-left: 40px;
+   border-radius: 10px;
+   margin-left: 40px;
  }
-  /*
+
+ /*
  .Layout{
    width: 50%;
    margin: 5px;
  } */
- .Corporation{
+ .Corporation {
    display: flex;
    margin-bottom: 20px;
    justify-content: center;
  }
- .Cont1{
-  margin-left: 20px;
-  margin-right: 20px;
-  border-radius: 2px;
-  padding: 11px; 
-  text-transform: capitalize;
-  box-shadow: 0px 1px 2px 2px #ebebeb;
-}
- 
-.ScrollCss{
-  width: 100%;
-  margin: 5px;
-  height: 460px;
-  padding: 5px;
-  overflow-y: auto;
-}
-.ScrollCss::-webkit-scrollbar {
-  width: 5px;
-}
-.ScrollCss::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-}
-.ScrollCss::-webkit-scrollbar-thumb {
-background-color:#737373; 
-border-radius: 10px;
-}
-.ContainerCss{
-  display: flex;
-  width: 100%;
-  margin: 0px auto; 
-}
-.InsentiveCon{
-  width: 400px;
-  margin: 0px 33px;
-  max-height: 400px;
-  background: #f9f9f9;
-  border-radius: 10px; 
-}
-.ContainerInvs{
-  margin: 10px;
-  border-bottom: 2px solid #ccc;
-}
-.DateCss{
-  color: #6b7280;
-}
-.FeeLayout{
-  display: flex;
-  align-items: center;
-  padding: 10px;
-}
-.InsentiveScroll{
-  max-height: 300px;
-  overflow-y: auto;
-  padding: 0px 10px;
-}
-.InsentiveScroll::-webkit-scrollbar {
-  width: 5px;
-}
-.InsentiveScroll::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-}
-.InsentiveScroll::-webkit-scrollbar-thumb {
-background-color:#737373; 
-border-radius: 10px;
-}
-.FeeCompleted{
 
-}
-.ImgCss{ 
-  border-radius: 30px;
-  width: 35px;
-  height: 35px;
-  margin-right: 10px;
-}
-.CoinCss{
-  font-weight: 700;
-  font-size: 15px;
-  padding-bottom: 4px;
-}
-.CompletedCss{
-  background: rgb(214, 247, 163);
-  border-radius: 24px;
-  box-sizing: border-box;
-  padding: 4px 12px; 
-  color: #4C750D; 
-}
+ .Cont1 {
+   margin-left: 20px;
+   margin-right: 20px;
+   border-radius: 2px;
+   padding: 11px;
+   text-transform: capitalize;
+   box-shadow: 0px 1px 2px 2px #ebebeb;
+ }
 
-.TotalPriceCss{
-  background-color: #737373;
-  padding: 10px;
-  border-bottom-right-radius: 10px;
-  border-bottom-left-radius: 10px;
-  color: #fff;
-  font-size: 17px;
-}
-.IncentiveText{
+ .ScrollCss {
+   width: 100%;
+   margin: 5px;
+   height: 460px;
+   padding: 5px;
+   overflow-y: auto;
+ }
 
-}
+ .ScrollCss::-webkit-scrollbar {
+   width: 5px;
+ }
+
+ .ScrollCss::-webkit-scrollbar-track {
+   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+ }
+
+ .ScrollCss::-webkit-scrollbar-thumb {
+   background-color: #737373;
+   border-radius: 10px;
+ }
+
+ .ContainerCss {
+   display: flex;
+   width: 100%;
+   margin: 0px auto;
+ }
+
+ .InsentiveCon {
+   width: 400px;
+   margin: 0px 33px;
+   max-height: 400px;
+   background: #f9f9f9;
+   border-radius: 10px;
+ }
+
+ .ContainerInvs {
+   margin: 10px;
+   border-bottom: 2px solid #ccc;
+ }
+
+ .DateCss {
+   color: #6b7280;
+ }
+
+ .FeeLayout {
+   display: flex;
+   align-items: center;
+   padding: 10px;
+ }
+
+ .InsentiveScroll {
+   max-height: 300px;
+   overflow-y: auto;
+   padding: 0px 10px;
+ }
+
+ .InsentiveScroll::-webkit-scrollbar {
+   width: 5px;
+ }
+
+ .InsentiveScroll::-webkit-scrollbar-track {
+   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+ }
+
+ .InsentiveScroll::-webkit-scrollbar-thumb {
+   background-color: #737373;
+   border-radius: 10px;
+ }
+
+ .FeeCompleted {}
+
+ .ImgCss {
+   border-radius: 30px;
+   width: 35px;
+   height: 35px;
+   margin-right: 10px;
+ }
+
+ .CoinCss {
+   font-weight: 700;
+   font-size: 15px;
+   padding-bottom: 4px;
+ }
+
+ .CompletedCss {
+   background: rgb(214, 247, 163);
+   border-radius: 24px;
+   box-sizing: border-box;
+   padding: 4px 12px;
+   color: #4C750D;
+ }
+
+ .TotalPriceCss {
+   background-color: #737373;
+   padding: 10px;
+   border-bottom-right-radius: 10px;
+   border-bottom-left-radius: 10px;
+   color: #fff;
+   font-size: 17px;
+ }
+
+ .IncentiveText {}

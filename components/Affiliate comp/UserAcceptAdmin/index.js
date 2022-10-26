@@ -255,7 +255,7 @@ const onChangeRadio = (e) =>{
       // width: 120,
       // ...getColumnSearchProps('state'), 
       render: (a) => <div >
-        {a == 3 ? (<Badge status="error" text="Reject" />) : (<Badge status="success" text="Request accepted" />)}</div>,
+        {a == 3 ? (<Badge status="error" text="Reject" />) : a == 2 ? (<Badge status="success" text="Request accepted" />) : <Badge color="blue" status="success" text="Edited" />}</div>,
       filteredValue: filteredInfo.state || null,
       onFilter: (value, record) => record.state.includes(value),
       sorter: (a, b) => a.state - b.state,
