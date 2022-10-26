@@ -22,11 +22,8 @@ export default function Home(props) {
   const [spin, setSpin] = useState(false);
   const [radioS,setRadioS] = useState("");
   const [value, setValue] = useState("");
-  const router = useRouter();
-  //amraa
-  useEffect(() => {
-    // basketContext.MenuKey();
-    // basketContext.basketStateFunc(); 
+  const router = useRouter(); 
+  useEffect(() => { 
     tokenFunc(); 
   }, []);
   const tokenFunc = () =>{
@@ -54,7 +51,7 @@ export default function Home(props) {
       axios.post("/api/post/Gate", body).then((res)=>{  
         if(res.data.data){
           // sessionStorage.setItem("orgId", res.data.data.map.name)
-          console.log("search: ", res.data.data);
+          console.log("search: ", res.data);
           setOrgIdState(res.data.data.map.name);
           // localStorage.setItem("orgId", res.data.data.map.name);
           setOrgError(""); 

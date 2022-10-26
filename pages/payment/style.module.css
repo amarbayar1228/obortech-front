@@ -491,7 +491,10 @@
   font-weight: 500;
   border-radius: 5px;
 }
-
+.titleH{
+  font-size: 15px;
+  text-transform: uppercase;
+}
 .ItemDesc {
   color: #818181;
   text-align: justify;

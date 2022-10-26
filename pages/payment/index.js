@@ -105,81 +105,81 @@ const Payment = () => {
   };
 
   
-  const handleOkOrgId2 = () => {
-    // console.log("orgIdInput2: ", orgIdInput2);
-    // console.log("dollarResult: ", dollarResult);
-    // console.log("basketContext.basketState: ", basketContext.basketState);
-    console.log("tugrugState: ", tugrugState);
-    console.log("coinState: ", coinState);
-    console.log("usd: ", usdState);
-    console.log("orgID: ", orgIdRadio);
-    if(orgIdRadio == ""){
-      message.error("Organization ID choose ? ")
-    }else{
-      
-    
-    const tugrugResult = 0;
-    if (tugrugState == 0) {
-      console.log("tugrugState: Hooson", tugrugState);
-    } else {
-      tugrugResult = tugrugState;
-    }
-    const payment = [];
-    if (usdState == 0) {
-      console.log("usd null:");
-    } else {
-      payment.push({ paymentMethod: 0, paymentPrice: usdState });
-    } 
-    if (tugrugState == 0) {
-      console.log("");
-    } else {
-      payment.push({ paymentMethod: 1, paymentPrice: tugrugState });
-    } 
-    if (coinState == 0) {
-      console.log("coin null");
-    } else {
-      payment.push({ paymentMethod: 2, paymentPrice: coinState });
-    } 
-    const arr = basketContext.basketState;
-    console.log("ORGiD", payment);
-    arr.forEach((element, i) => {
-      if (element.img) {arr[i].state = 2} else {arr[i].state = 1; arr[i].img = "";}
-    });  
-    if (localStorage.getItem("token")) {
-      const body = arr;
+const handleOkOrgId2 = () => {
+// console.log("orgIdInput2: ", orgIdInput2);
+// console.log("dollarResult: ", dollarResult);
+// console.log("basketContext.basketState: ", basketContext.basketState);
+console.log("tugrugState: ", tugrugState);
+console.log("coinState: ", coinState);
+console.log("usd: ", usdState);
+console.log("orgID: ", orgIdRadio);
+if(orgIdRadio == ""){
+message.error("Organization ID choose ? ")
+}else{
 
-      const body2 = {
-        func: "neworder",
-        item: body,
-        orgId: orgIdRadio,
-        totalPrice: totalPriceState,
-        // payment: payment,
-        pkId: localStorage.getItem("pkId"),
-        // orgId: orgIdInput2,
-        // paymentMethod: 0,
-        // product: body,
-      };
-      console.log("bodyId:2  ===>> ", body2);
-      var basketLocal = [];
-      axios.post("/api/post/Gate", body2).then((result) => {
-          message.success("Success");
-          basketContext.removeBasketStorage();
-          router.push("/order-history");
-        },(error) => {console.log(error)}); 
-    } else {
-      const bodyNoId = {
-        func: "neworder",
-        orgId: orgIdRadio,
-        totalPrice: totalPriceState,
-        item: arr,
-        // payment: payment,
-      };
-      console.log("bodyNoId: ", bodyNoId);
-      axios.post("/api/post/Gate", bodyNoId).then((result) => {
-          message.success("Success");
-          basketContext.removeBasketStorage(); router.push("/order-history");
-        },(error) => {console.log(error)});
-    }
+
+const tugrugResult = 0;
+if (tugrugState == 0) {
+console.log("tugrugState: Hooson", tugrugState);
+} else {
+tugrugResult = tugrugState;
+}
+const payment = [];
+if (usdState == 0) {
+console.log("usd null:");
+} else {
+payment.push({ paymentMethod: 0, paymentPrice: usdState });
+} 
+if (tugrugState == 0) {
+console.log("");
+} else {
+payment.push({ paymentMethod: 1, paymentPrice: tugrugState });
+} 
+if (coinState == 0) {
+console.log("coin null");
+} else {
+payment.push({ paymentMethod: 2, paymentPrice: coinState });
+} 
+const arr = basketContext.basketState;
+console.log("ORGiD", payment);
+arr.forEach((element, i) => {
+if (element.img) {arr[i].state = 2} else {arr[i].state = 1; arr[i].img = "";}
+});  
+if (localStorage.getItem("token")) {
+const body = arr;
+
+const body2 = {
+  func: "neworder",
+  item: body,
+  orgId: orgIdRadio,
+  totalPrice: totalPriceState,
+  // payment: payment,
+  pkId: localStorage.getItem("pkId"),
+  // orgId: orgIdInput2,
+  // paymentMethod: 0,
+  // product: body,
+};
+console.log("bodyId:2  ===>> ", body2);
+var basketLocal = [];
+axios.post("/api/post/Gate", body2).then((result) => {
+    message.success("Success");
+    basketContext.removeBasketStorage();
+    router.push("/order-history");
+  },(error) => {console.log(error)}); 
+} else {
+const bodyNoId = {
+  func: "neworder",
+  orgId: orgIdRadio,
+  totalPrice: totalPriceState,
+  item: arr,
+  // payment: payment,
+};
+console.log("bodyNoId: ", bodyNoId);
+axios.post("/api/post/Gate", bodyNoId).then((result) => {
+    message.success("Success");
+    basketContext.removeBasketStorage(); router.push("/order-history");
+  },(error) => {console.log(error)});
+}
 
   }
   };
@@ -279,8 +279,8 @@ const onFinishFailedOrgId = (errInfo)=>{
                               <Modal title="Package items" open={isModalOpen} onOk={handleOkItem} onCancel={handleCancelItem} footer={null}  >
                             {itemHdr ?
                             <div className={css.ModalBackground}>
-                              <div>{itemHdr.title}</div>
-                              <div className={css.Itemdesc}>{itemHdr.description}</div>
+                              <div className={css.titleH}>{itemHdr.title}</div>
+                              <div className={css.ItemDesc}>{itemHdr.description}</div>
                               <div className={css.PackageHdr}> Packege items:</div>
                               <div className={css.DetailsScroll}> 
                                   {groupDetails.map((e, i)=>( 
@@ -554,23 +554,22 @@ const onFinishFailedOrgId = (errInfo)=>{
                 {current === steps.length - 1 && (
                   <>
                     <Button icon={<ShoppingCartOutlined />} type="primary" onClick={orderOrgId2}>Done</Button>
-                    <Modal title="OrgID" open={isModalVisibleOrgId2} onOk={handleOkOrgId2} onCancel={handleCancelOrgId2} footer={null}> 
+                    <Modal title="OrgID" open={isModalVisibleOrgId2} onOk={handleOkOrgId2} onCancel={handleCancelOrgId2} > 
                       {/* <Input onChange={(e) => setOrgIdInput2(e.target.value)}placeholder="OrgId"/> */}
                       <div>Org ID choose: </div>
                       {/* <Radio.Group onChange={orgIdChoose} > 
                         <Radio checked={checkFalse === false}value={basketContext.orgId}>{basketContext.orgId}</Radio> 
                       </Radio.Group>  */}
-                      <Form form={formOrgId} name="normal_login" className={css.LoginForm}
-                        labelCol={{span: 6,}} wrapperCol={{span: 16,}} initialValues={{remember: true}}
+                      <Form form={formOrgId} name="normal_login" className={css.LoginForm} labelCol={{span: 6,}} wrapperCol={{span: 16,}} initialValues={{remember: true}}
                         onFinish={onFinishOrgId} onFinishFailed={onFinishFailedOrgId}>
                          <Form.Item label={"orgId"} name="orgId" rules={[{required: true,message: "Please input your Select radio!"}]}>
                           <Radio.Group onChange={orgIdChoose} > 
                             <Radio value={basketContext.orgId}>{basketContext.orgId}</Radio> 
                           </Radio.Group>
                         </Form.Item> 
-                        <Form.Item   wrapperCol={{offset: 20, span: 12,}} style={{marginBottom: "-5px"}}>
+                        {/* <Form.Item   wrapperCol={{offset: 20, span: 12,}} style={{marginBottom: "-5px"}}>
                           <div><Button type="primary" htmlType="submit" className="login-form-button">Send</Button></div>
-                        </Form.Item>
+                        </Form.Item> */}
                       </Form> 
                     </Modal>
                   </>
