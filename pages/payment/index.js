@@ -251,7 +251,7 @@ const onFinishFailedOrgId = (errInfo)=>{
         <div>
           <div className={css.orderItem}>
             {basketContext.basketState.length === 0 ? (<Empty description="Empty"></Empty>) : (
-              <div className={css.ItemDivide}>
+              <div className={css.ItemDivide}>  
                 <div className={css.ItemTotal}> 
                   <div className={css.ItemSize}>
                     {basketContext.basketState.map((e, i) => (

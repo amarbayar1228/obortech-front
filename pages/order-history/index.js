@@ -69,22 +69,22 @@ const body = {
 func: "getUserInfo",
 pkId: localStorage.getItem("pkId"),
 };
-axios.post("/api/post/Gate", body).then((res) => {  
-setTodayDateState("2022-10-10");
-console.log("res: ", res.data.data);
+  axios.post("/api/post/Gate", body).then((res) => {  
+  setTodayDateState("2022-10-10");
+  console.log("res: ", res.data.data);
 
 if(res.data.data.isSuperAdmin == 1 || res.data.data.isSuperAdmin == 2 ){
   const mounths = ["01","02","03","04","05","06","07","08","09","10","11","12",];
   var date = new Date();
   var d1 =  date.getFullYear() + "-" + mounths[date.getMonth()] + "-" + date.getDate() + "";   
-  setTodayDateState(d1);
-  console.log("d1", d1);
+  setTodayDateState(d1); 
   const body2 = { 
     func:"getOrders", 
     d1: d1,
     d2: d1, 
   } 
   axios.post("/api/post/Gate", body2).then((res)=>{
+    console.log("data: ", res.data.data);
     setOrderNull(1); 
     setLoadingPage(false)
     setLoading(false); 
@@ -104,6 +104,7 @@ if(res.data.data.isSuperAdmin == 1 || res.data.data.isSuperAdmin == 2 ){
           pkId: localStorage.getItem("pkId")
         }
         axios.post("/api/post/Gate", bodyUser).then((res)=>{
+          console.log("data: ", res.data.data);
           setOrderNull(1); 
           setLoadingPage(false)
           setLoading(false); 
@@ -134,87 +135,23 @@ if(res.data.data.isSuperAdmin == 1 || res.data.data.isSuperAdmin == 2 ){
   };
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
-      <div
-        style={{
-          padding: 8,
-        }}
-      >
-        <Input
-          ref={searchInput}
-          placeholder={`Search ${dataIndex}`}
-          value={selectedKeys[0]}
-          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          style={{
-            marginBottom: 8,
-            display: 'block',
-          }}
-        />
+      <div style={{padding: 8,}}>
+        <Input ref={searchInput} placeholder={`Search ${dataIndex}`} value={selectedKeys[0]} onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)} style={{marginBottom: 8,display: 'block',}}/>
         <Space>
-          <Button
-            type="primary"
-            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-            icon={<SearchOutlined />}
-            size="small"
-            style={{
-              width: 90,
-            }}
-          >
-            Search
-          </Button>
-          <Button
-            onClick={() => clearFilters && handleReset(clearFilters)}
-            size="small"
-            style={{
-              width: 90,
-            }}
-          >
-            Reset
-          </Button>
-          <Button
-            type="link"
-            size="small"
-            onClick={() => {
-              confirm({
-                closeDropdown: false,
-              });
-              setSearchText(selectedKeys[0]);
-              setSearchedColumn(dataIndex);
-            }}
-          >
-            Filter
-          </Button>
+          <Button type="primary" onClick={() => handleSearch(selectedKeys, confirm, dataIndex)} icon={<SearchOutlined />} size="small" style={{width: 90}}>Search</Button>
+          <Button onClick={() => clearFilters && handleReset(clearFilters)} size="small" style={{width: 90,}}>Reset</Button>
+          <Button type="link" size="small" onClick={() => {confirm({closeDropdown: false,});setSearchText(selectedKeys[0]);setSearchedColumn(dataIndex);}}>Filter</Button>
         </Space>
       </div>
     ),
-    filterIcon: (filtered) => (
-      <SearchOutlined
-        style={{
-          color: filtered ? '#1890ff' : undefined,
-        }}
-      />
-    ),
-    onFilter: (value, record) =>
-      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+    filterIcon: (filtered) => ( <SearchOutlined style={{color: filtered ? '#1890ff' : undefined,}}/>),
+    onFilter: (value, record) =>record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
     onFilterDropdownOpenChange: (visible) => {
-      if (visible) {
-        setTimeout(() => searchInput.current?.select(), 100);
-      }
+      if (visible) {setTimeout(() => searchInput.current?.select(), 100)}
     },
-    render: (text) =>
-      searchedColumn === dataIndex ? (
-        <Highlighter
-          highlightStyle={{
-            backgroundColor: '#ffc069',
-            padding: 0,
-          }}
-          searchWords={[searchText]}
-          autoEscape
-          textToHighlight={text ? text.toString() : ''}
-        />
-      ) : (
-        text
-      ),
+    render: (text) =>searchedColumn === dataIndex ? (
+        <Highlighter highlightStyle={{ backgroundColor: '#ffc069', padding: 0}} searchWords={[searchText]} autoEscape textToHighlight={text ? text.toString() : ''}/>) : (text),
   });
    
 const dateOnchange = (a,b) =>{
@@ -264,14 +201,27 @@ const orderSend = (a) => {
     icon: <ExclamationCircleOutlined />,
     content: <div>Order ID: {a.orderid}</div>,
     onOk() {
-      console.log('OK'); 
-      
+      console.log('OK');  
     },
     onCancel() {
       console.log('Cancel');
     },
   });
 };
+
+const userInfo = (a)=>{
+  console.log("user: ", a);
+  const body = {
+    func: "getUserInfo",
+    pkId: "220912153317819520",
+    }; 
+      axios.post("/api/post/Gate", body).then((res)=>{
+        console.log("user: ", res.data.data);
+      }).catch((err)=>{console.log("err");})
+  
+      
+}
+
 const columns = [
   {
     title: <span>Order id</span>,
@@ -335,7 +285,9 @@ const columns = [
     title: 'Action', 
     key: 'action',
     render: (_, record) => (
-      <Space size="middle"><Button type="default" size="small" onClick={()=>orderSend(record)}>Test ordID</Button></Space>
+      <Space size="middle"><Button type="default" size="small" onClick={()=>orderSend(record)}>Test ordID</Button>
+      {record.all.userPkId ? <Button onClick={()=>userInfo(record)}>User</Button> : ""}
+      </Space>
     ),
   },
 ];
@@ -349,7 +301,8 @@ const data = orderHdr.map((r, i)=>(
       status: r.status,
       price: r.totalPrice, 
       invoice: "invoice", 
-      paymethod: "1"
+      paymethod: "1",
+      all: r
     } 
 ));
 const groupDeitalsFunc = (data, index) =>{
@@ -375,103 +328,92 @@ const groupDeitalsFunc = (data, index) =>{
   setIdIndex(index);
 }
   return (
-    <BaseLayout pageName="order-history"> 
-      {orderNull === 1 ?
-      <div>
-       
-        <div className={css.OrderTitle}>
-          <Divider orientation="left"> Order history</Divider>
-        </div>
-        <Modal title="Items info" open={isModalOpen} footer={null} onOk={handleOk} onCancel={handleCancel}>
-          <div>
-            <div className={css.OrderHdrLaCss}>
-              <div className={css.DateCss}>
-                <div className={css.OrderIdCss}> Order ID: #{orderHdrInfo.orderid}</div>
-                <div>  {orderHdrInfo.date}</div>
-              </div>
-              {/* <div>  
-               <div className={css.ItemDetailCss}><CaretRightOutlined /> Item details</div>
-              </div> */}
-
-            </div>
-            <div className={css.ItemInfoScroll}> 
-              {modalOrderItem.map((e, i)=>(
-                <div key={i} className={css.OrderItem}>
-                  <div className={css.orderImg}>
-                    {e.img === "" ? <div className={css.GroupItemcs}>G</div> : 
-                    <Image alt="Obertech" preview={false} src={"data:image/png;base64," + e.img }/>
-                    }
-                  </div>
-                  <div className={css.orderDetailcss}>
-                    <div className={css.Titlecss}>
-                      {/* {e.img === ""? <div style={{height: "50px"}}>a </div> : ""} */}
-                      <div className={css.OrderCnt}>
-                        <div>{e.title}</div>
-                        <div className={css.CntCss}>{e.cnt}</div>
-                      </div>
-                      <div className={css.DescriptionCss}>{e.description}</div>
-                    </div>
-                    <div className={css.TotalPricecc}> 
-                    {e.state === 2 ? "" : 
-                      <div>
-                        <Button onClick={()=>groupDeitalsFunc(e, i)} size="small" shape="round" type="dashed" style={{fontWeight: "500", color: "rgb(6 78 59)"}}>Group details: </Button> 
-                      </div>}
-                    
-                      <div className={css.Pricecss}>{e.price.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,")}$</div>
-                    </div>
-                    {/* <div className={css.DetailAbsolute}> Details items: </div> */}
-                    {iDIndex === i ?
-                      <div className={css.OrderDetailsHide}> 
-                      
-                        {gItemDetails.map((item, index)=>(
-                          <div key={index} className={css.OrderItem}>
-                            <div className={css.orderImg2}> <Image alt="Obertech"preview={false} src={"data:image/png;base64," + item.img }/> </div>
-                            <div className={css.orderDetailcss}>
-                            <div className={css.Titlecss}> 
-                              <div className={css.OrderCnt}>
-                                <div>{item.title}</div>
-                                <div className={css.CntCss}>{item.itemCnt}</div>
-                              </div>
-                              <div className={css.DescriptionCss}>{item.description}</div>
-                            </div>
-                            <div className={css.TotalPricecc2}>  
-                              <div className={css.Pricecss}>{item.itemPriceD}$</div>
-                            </div>
-                            </div>
-                          </div>
-                        ))} 
-                      </div>
-                    : ""} 
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className={css.TotalPriceInfo}>Total price: {orderHdrInfo.price}$ </div>
-          </div>
-        </Modal>
-            {/* ------------------------------end--------------------------------------------------------------------- */}
-      
-        {/* ------------------------------end--------------------------------------------------------------------- */}
-          <div style={{marginBottom: "10px"}}>
-            <RangePicker showToday
-                  defaultValue={[
-                    moment(todayDateState, dateFormat),
-                    moment(todayDateState, dateFormat),
-                  ]}
-                format={dateFormat}
-                onChange={dateOnchange}/>
-                <Button onClick={searchDate}>search</Button>
-          </div>
-         
-          {orderHdr === null? <Empty style={{display: "flex", justifyContent: "center" }}  description="null"/> :
-            <div style={{fontSize: "15px"}}>
-            <Table columns={columns} dataSource={data} loading={loading}/>
-            </div> 
-          } 
+<BaseLayout pageName="order-history"> 
+{orderNull === 1 ?
+<div> 
+<div className={css.OrderTitle}>
+  <Divider orientation="left"> Order history</Divider>
+</div>
+<Modal title="Items info" open={isModalOpen} footer={null} onOk={handleOk} onCancel={handleCancel}>
+  <div>
+    <div className={css.OrderHdrLaCss}>
+      <div className={css.DateCss}>
+        <div className={css.OrderIdCss}> Order ID: #{orderHdrInfo.orderid}</div>
+        <div>  {orderHdrInfo.date}</div>
       </div>
-        : loadingPage ? <Spin className={css.SpinCss}/> : <Empty />} 
-    </BaseLayout>
-  );
+      {/* <div>  
+        <div className={css.ItemDetailCss}><CaretRightOutlined /> Item details</div>
+      </div> */}
+
+    </div>
+    <div className={css.ItemInfoScroll}> 
+      {modalOrderItem.map((e, i)=>(
+        <div key={i} className={css.OrderItem}>
+          <div className={css.orderImg}>
+            {e.img === "" ? <div className={css.GroupItemcs}>G</div> : 
+            <Image alt="Obertech" preview={false} src={"data:image/png;base64," + e.img }/>
+            }
+          </div>
+          <div className={css.orderDetailcss}>
+            <div className={css.Titlecss}>
+              {/* {e.img === ""? <div style={{height: "50px"}}>a </div> : ""} */}
+              <div className={css.OrderCnt}>
+                <div>{e.title}</div>
+                <div className={css.CntCss}>{e.cnt}</div>
+              </div>
+              <div className={css.DescriptionCss}>{e.description}</div>
+            </div>
+            <div className={css.TotalPricecc}> 
+            {e.state === 2 ? "" : 
+              <div>
+                <Button onClick={()=>groupDeitalsFunc(e, i)} size="small" shape="round" type="dashed" style={{fontWeight: "500", color: "rgb(6 78 59)"}}>Group details: </Button> 
+              </div>}
+            
+              <div className={css.Pricecss}>{e.price.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,")}$</div>
+            </div>
+            {/* <div className={css.DetailAbsolute}> Details items: </div> */}
+            {iDIndex === i ?
+              <div className={css.OrderDetailsHide}> 
+              
+                {gItemDetails.map((item, index)=>(
+                  <div key={index} className={css.OrderItem}>
+                    <div className={css.orderImg2}> <Image alt="Obertech"preview={false} src={"data:image/png;base64," + item.img }/> </div>
+                    <div className={css.orderDetailcss}>
+                    <div className={css.Titlecss}> 
+                      <div className={css.OrderCnt}>
+                        <div>{item.title}</div>
+                        <div className={css.CntCss}>{item.itemCnt}</div>
+                      </div>
+                      <div className={css.DescriptionCss}>{item.description}</div>
+                    </div>
+                    <div className={css.TotalPricecc2}>  
+                      <div className={css.Pricecss}>{item.itemPriceD}$</div>
+                    </div>
+                    </div>
+                  </div>
+                ))} 
+              </div>
+            : ""} 
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div className={css.TotalPriceInfo}>Total price: {orderHdrInfo.price}$ </div>
+  </div>
+</Modal>
+{/* ------------------------------end--------------------------------------------------------------------- */}
+<div style={{marginBottom: "10px"}}>
+  <RangePicker showToday defaultValue={[ moment(todayDateState, dateFormat), moment(todayDateState, dateFormat)]} format={dateFormat} onChange={dateOnchange}/>
+  <Button onClick={searchDate}>search</Button>
+</div>
+
+{orderHdr === null? <Empty style={{display: "flex", justifyContent: "center" }}  description="null"/> :
+  <div style={{fontSize: "15px"}}><Table columns={columns} dataSource={data} loading={loading}/></div> 
+} 
+</div>
+  : loadingPage ? <Spin className={css.SpinCss}/> : <Empty />} 
+</BaseLayout>
+);
 };
 export default OrderHistory;
