@@ -10,6 +10,7 @@ import {ArrowRightOutlined,CheckOutlined, ExclamationCircleOutlined} from "@ant-
 import axios from "axios";
 import { useTranslation } from "next-i18next";
 import { Router, useRouter } from "next/router";
+import ReCAPTCHA from "react-google-recaptcha";
 const { Search } = Input;
 const { Option } = Select;
 const { confirm } = Modal;
@@ -22,6 +23,7 @@ export default function Home(props) {
   const [spin, setSpin] = useState(false);
   const [radioS,setRadioS] = useState("");
   const [value, setValue] = useState("");
+  const [btnDis, setBtnDis]= useState(true);
   const router = useRouter(); 
   useEffect(() => { 
     tokenFunc(); 
@@ -99,6 +101,10 @@ export default function Home(props) {
     setValue(e.target.value)
     
   }
+  const onChangeCaptcha = (a) =>{
+    console.log("object", a);
+    setBtnDis(false);
+  }
   return (
     <div>
       <Head>
@@ -108,6 +114,7 @@ export default function Home(props) {
       </Head>
       <BaseLayout pageName="home" addItemStyle={addItemStyle}>
         <div className={css.SearchCss}>
+        
           <div className={css.SearchInput}>
             <Divider style={{fontSize: "18px", color: "#000"}}>{t("Search of organizations")}</Divider>
             <Search placeholder={t("Enter your organization ID")} allowClear  size="large" onSearch={onSearch} enterButton />
@@ -130,7 +137,10 @@ export default function Home(props) {
                   </div>   
                 </div> 
                 {radioS === "a" ? <div className={css.BtnPop}> 
-                    <Button  style={{ fontWeight: "500", color: "red", width: "100%"}} size="large" type="dashed" onClick={()=> showConfirm()}>Continue <ArrowRightOutlined /> </Button></div> : ""} 
+                <ReCAPTCHA  sitekey="6LfnfrUiAAAAAJ-K132PVlBOqV-fr1F1sBOJcGpR" onChange={onChangeCaptcha}/>
+
+
+                    <Button disabled={btnDis} style={{ fontWeight: "500", color: "red", width: "100%"}} size="large" type="dashed" onClick={()=> showConfirm()}>Continue <ArrowRightOutlined /> </Button></div> : ""} 
               </div>}</>}  
  
           </div> 
