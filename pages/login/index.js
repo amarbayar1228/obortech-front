@@ -44,7 +44,8 @@ export default function Login() {
           router.push("/");
         } else {
           recaptchaRef.current.props.grecaptcha.reset();
-          notification["error"]({ message: 'Submit Error',description:'These credentials do not match our records.',}); 
+          notification["error"]({ message: 'Submit Error',description:'These credentials do not match our records.'}); 
+          setBtnDis(true);
         }
       }).catch((err) => {console.log("Username and password are incorrect!!")}); 
   };
@@ -90,7 +91,7 @@ export default function Login() {
                   </Form.Item>
                    {/* obortech: 6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t ============================================================*/} 
                   {/* my ip:  6LfnfrUiAAAAAJ-K132PVlBOqV-fr1F1sBOJcGpR ===============================================================*/}
-                  <div className={css.CaptchaCss}> {spinCapt  == 0 ? <Spin /> : <ReCAPTCHA ref={recaptchaRef} sitekey="6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t" onChange={onChangeCaptcha}/> }</div>
+                  <div className={css.CaptchaCss}> {spinCapt  == 0 ? <Spin /> : <ReCAPTCHA theme="dark" ref={recaptchaRef} sitekey="6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t" onChange={onChangeCaptcha}/> }</div>
                  
                   <Form.Item>
                     <div className={css.Login}>
