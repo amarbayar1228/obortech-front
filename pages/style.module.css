@@ -157,6 +157,20 @@
     animation-timing-function: ease;
 }
 
+.CaptchaCss {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.OrgSelectCSs {
+    text-align: left;
+    font-weight: 600;
+    margin-bottom: -10px;
+}
+
+
+
 @keyframes basketPopAnimation3 {
     0% {
         transform: scale(1);

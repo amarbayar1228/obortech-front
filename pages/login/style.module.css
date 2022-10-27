@@ -6,10 +6,11 @@
 .Cont2 {
     display: flex;
     flex-direction: column;
-    margin: 65px auto;
+    margin: 0px auto;
     padding: 20px;
     border-radius: 10px;
-    width: calc(15% + 250px);
+    /* width: calc(15% + 250px); */
+    width: calc(25% + 250px);
     justify-content: center;
 }
 
@@ -20,6 +21,12 @@
     font-weight: 500;
     font-size: 18px;
     padding: 20px 0px 20px 0px;
+}
+
+.CaptchaCss {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
 }
 
 .Forget {
@@ -46,10 +53,27 @@
 }
 
 .RegisterHover {
-    text-transform: capitalize;
-    padding: 0px 5px;
+    text-transform: lowercase;
+    padding: 0px 2px;
     font-size: 15px;
     font-weight: 600;
+    color: #1890ff;
+}
+
+.HdrTitle {
+    font-size: 30px;
+    text-align: center;
+    color: #111827;
+    font-weight: 900;
+    margin-bottom: 15px;
+}
+
+.OrCss {
+    display: flex;
+    font-size: 15px;
+    color: rgb(80 80 80);
+    align-items: center;
+    justify-content: center;
 }
 
 .RegisterHover:hover {
@@ -58,6 +82,10 @@
 
 .FromCss {
     font-size: 15px;
+    /* background: #f1f1f1; */
+    box-shadow: 0px 0px 4px 1px #efefef;
+    border-radius: 10px;
+    padding: 40px 50px;
     font-weight: 600;
 }
 
