@@ -137,7 +137,9 @@ export default function Home(props) {
                   </div>   
                 </div> 
                 {radioS === "a" ? <div className={css.BtnPop}> 
-                <ReCAPTCHA type="audio" sitekey="6LfnfrUiAAAAAJ-K132PVlBOqV-fr1F1sBOJcGpR" onChange={onChangeCaptcha}/>
+                {/* obortech: 6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t */}
+                {/* my ip:  6LfnfrUiAAAAAJ-K132PVlBOqV-fr1F1sBOJcGpR */}
+                <ReCAPTCHA type="audio" sitekey="6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t" onChange={onChangeCaptcha}/>
 
 
                     <Button disabled={btnDis} style={{ fontWeight: "500", color: "red", width: "100%"}} size="large" type="dashed" onClick={()=> showConfirm()}>Continue <ArrowRightOutlined /> </Button></div> : ""} 
