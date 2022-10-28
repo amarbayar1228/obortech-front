@@ -366,10 +366,11 @@ axios.post("/api/post/Gate", body).then((res) => {
 {basketContext.userInfoProfile ? (
 <>
 {userInfo.state == 2 ? (
-  <div style={{ marginTop: "-30px" }}>
-    <Result icon={ <Image style={{ marginBottom: "-24px" }}alt="Obertech" preview={false} src="/img/succcess.png" width={100}/>
-      } title="The user has been authenticated successfully" subTitle="You are now able to invite companies."/>
-  </div>
+  // <div style={{ marginTop: "-30px" }}>
+  //   <Result icon={ <Image style={{ marginBottom: "-24px" }}alt="Obertech" preview={false} src="/img/succcess.png" width={100}/>} 
+  //     title="The user has been authenticated successfully" subTitle="You are now able to invite companies."/>
+  // </div>
+  ""
 ) : (
   <div className={css.Layout}>
     <div style={{ display: "flex", alignItems: "center" }}>
@@ -473,9 +474,8 @@ axios.post("/api/post/Gate", body).then((res) => {
 </div>
 </Modal>
 </div>
-<div className={css.ContainerCss}>
-  {/* <div className={css.ScrollCss}> */}
-  <div>
+<div className={css.ContainerCss}> 
+  {/* <div>
   {companyUserGet.map((e, i) => (
   <div key={i}>
   <Collapse key={i} style={{ background: "#fff" }} bordered={true} expandIcon={({ isActive }) => ( <CaretRightOutlined rotate={isActive ? 90 : 0}/>)}>
@@ -539,7 +539,8 @@ axios.post("/api/post/Gate", body).then((res) => {
   </Collapse>
   </div>
   ))}
-  </div>
+  </div> */}
+
 {/* --------------------------------------------------Incentive============================================================= */}
 {spinState == true ? (<div><Spin /></div>) : ("")}
 {insentive[0] ? (

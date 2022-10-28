@@ -1,18 +1,19 @@
-import { Badge, Button, Input, Modal, Radio, Space, Spin, Table } from "antd";
+import { Badge, Button, Input, Modal, Radio, Space, Spin, Table, Tooltip, Image } from "antd";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import css from "./style.module.css"
-import {SearchOutlined ,EditOutlined,ClearOutlined } from "@ant-design/icons";
+import {SearchOutlined ,EditOutlined,ClearOutlined, SolutionOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 const AdminAcceptUser  = () =>{
     const [userData, setUserData] = useState([]);
     const [spinner, setSpinner] = useState(false);
-    
     const [filteredInfo, setFilteredInfo] = useState({});
     const [sortedInfo, setSortedInfo] = useState({});
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpenUserInfo, setIsModalOpenUserInfo] = useState(false);
+    const [userInfo, setUserInfo] = useState();
     const searchInput = useRef(null); 
     const [value, setValue] = useState(2);
   
@@ -101,7 +102,14 @@ const onChange = (e) => {
       columnKey: 'age',
     });
   };
-
+ const showUserInfo = (a) =>{
+    console.log("a", a);
+    setIsModalOpenUserInfo(true);
+    setUserInfo(a);
+ }
+ const handleCancelUserInfo = () =>{
+    setIsModalOpenUserInfo(false);
+ }
   const data = userData.map((r, i)=>(
       {
         key: i,
@@ -209,7 +217,7 @@ const onChange = (e) => {
         width: 100,
         // ...getColumnSearchProps('state'), 
         render: (a) => <div >
-          {a == 3 ? (<Badge status="error" text="Reject" />) : (<Badge status="processing" text="Request" />)}</div>,
+          {a == 3 ? (<Tooltip title="Reject"> <Badge status="error" text="Reject" /> </Tooltip>) : (<Tooltip title="Request"> <Badge status="processing" text="Request" /> </Tooltip>)}</div>,
         filteredValue: filteredInfo.state || null,
         onFilter: (value, record) => record.state.includes(value),
         sorter: (a, b) => a.state - b.state,
@@ -221,8 +229,8 @@ const onChange = (e) => {
         key: 'pkId',
         fixed: 'right',
         width: 80,
-        render: (a) => <div className={css.ActionCss}><Button onClick={showModal} type="dashed" icon={<EditOutlined />}></Button>
-      
+        render: (a) => <div className={css.ActionCss}> <Tooltip title="Change State" > <Button size="small" onClick={showModal} type="dashed" icon={<EditOutlined />}></Button></Tooltip>
+            <Tooltip title="User info"><Button size="small" className={css.BtnRight}  onClick={()=> showUserInfo(a)} icon={<SolutionOutlined/>}></Button> </Tooltip>
         </div>,
       },
     ];
@@ -231,12 +239,38 @@ const onChange = (e) => {
         <div>
              <Space style={{marginBottom: 16}}><Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Table sort clear</Button></Space>
             <Table size="small" columns={columns} dataSource={data}  onChange={handleChangeTable}  scroll={{x:  1200, }}/> 
+
             <Modal title="User" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
             <Radio.Group onChange={onChange} value={value}>
                 <Radio value={2}>Accept user</Radio>
                 <Radio value={3}>Cancel user</Radio> 
             </Radio.Group>
             </Modal>
+
+            <Modal title="user Info" open={isModalOpenUserInfo} onCancel={handleCancelUserInfo} footer={null}>
+            {userInfo === undefined ? "" :
+            <div className={css.imgL}>
+                <div className={css.ImageCss}><Image preview={false} alt="Obertech" src={"/img/user.png"} className={css.Img}/></div>
+                <div className={css.Info}> 
+                    <div className={css.Title}>
+                        <div className={css.TitleChild}>Full name: </div>
+                        <div className={css.TitleChild}>Email: </div>
+                        <div className={css.TitleChild}>Jobtitle: </div>
+                        <div className={css.TitleChild}>Phone: </div>
+                        <div className={css.TitleChild}>address: </div>
+                    </div>
+                    <div className={css.Description}>
+                        <div className={css.TitleChild2}>{userInfo.lastname}  {userInfo.firstname}</div>
+                        <div className={css.TitleChild2}>{userInfo.email} </div>
+                        <div className={css.TitleChild2}>{userInfo.jobtitle} </div>
+                        <div className={css.TitleChild2}>{userInfo.phone}</div>
+                        <div className={css.TitleChild2}>{userInfo.address} </div>
+                    </div>
+                </div>
+            </div>
+            }
+            </Modal>
+
         </div> 
         }
     </div>

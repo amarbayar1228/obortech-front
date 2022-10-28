@@ -25,7 +25,7 @@
 
 .imgL {
     display: flex;
-
+    margin-bottom: 20px;
 }
 
 .ImageCss {
@@ -36,12 +36,18 @@
 
 .Info {
     display: flex;
-    width: 76%;
+    width: 80%;
+    margin-left: 10px;
+}
+
+.InfoComp {
+    display: flex;
+    width: 100%;
     margin-left: 10px;
 }
 
 .Title {
-    width: 130px;
+    width: 325px;
 }
 
 .Description {
@@ -79,6 +85,10 @@
     border-color: #40a9ff94;
     background-color: #40a9ff94;
     color: #4d5057;
+}
+
+.Compcss {
+    width: 15px;
 }
 
 .ClearTable {

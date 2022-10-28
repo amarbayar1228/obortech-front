@@ -1,5 +1,5 @@
 import { Badge, Button, Form, Input, InputNumber, message, Modal, Select, Space, Spin, Table, Tooltip } from "antd";
-import {CaretRightOutlined,TeamOutlined,InfoCircleOutlined,CheckCircleOutlined,ExclamationCircleOutlined,SearchOutlined,ClearOutlined} from "@ant-design/icons";
+import {CaretRightOutlined,TeamOutlined,InfoCircleOutlined,CheckCircleOutlined,FormOutlined,SearchOutlined,ClearOutlined, FundViewOutlined} from "@ant-design/icons";
 import TextArea from "antd/lib/input/TextArea";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
@@ -19,8 +19,9 @@ const searchInput = useRef(null);
 const [compInfo, setCompInfo] = useState("");
 const [formComp] = Form.useForm();
 const [fromSpin, setFormSpin] = useState(false);
-useEffect(()=>{
-console.log("company");
+const [isModalOpenComp, setIsModalOpenComp] = useState(false);
+const [companyInfo, setCompanyInfo] = useState();
+useEffect(()=>{ 
 getCompany();
 },[])
 
@@ -83,8 +84,8 @@ axios.post("/api/post/Gate", body).then((res) => {
     }); 
 }; 
 const onFinishFailed = (errorInfo) => {
-console.log("Failed:", errorInfo);
-message.error(errorInfo.errorFields[0].errors); 
+// console.log("Failed:", errorInfo);
+message.error("Please fill in all fields!"); 
 };
 const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -128,50 +129,51 @@ const clearAll = () => {
 setFilteredInfo({});
 setSortedInfo({});
 };
-  const handleChangeTable = (pagination, filters, sorter) => {
-    // setSpinner(true);
-    // console.log('Various pagination: ', pagination);
-    // setTableParams({
-    //     pagination,
-    //     filters,
-    //     ...sorter,
-    //   });
-    // // setPagiValue2(page);
-    // // setPagiValue3(1);
-    // // setSpinState(true);
-    // console.log("page: ", pagination.current +" pageSize: "+pagination.pageSize);
-    // const resultPage = 0;   
-    // if(pagination.current == 1){
-    //   resultPage = 0;
-    //   console.log("tentsv");
-    // }else {
-    //   resultPage = pagination.current - 1; 
-    // } 
-    // resultPage = resultPage * pagination.pageSize;   
-    // const body = {
-    //     func: "getCompany",
-    //     state: 1,
-    //     start: resultPage,
-    //     count: pagination.pageSize,
-    // };
-    // axios.post("/api/post/Gate", body).then((res) => {
-    // console.log("res.data: ", res.data.data);
-    // setCompanyData(res.data.data);
-        
-    //     setCompanyData(res.data.data)
-    //     setSpinner(false); 
+const handleChangeTable = (pagination, filters, sorter) => {
+// setSpinner(true);
+// console.log('Various pagination: ', pagination);
+// setTableParams({
+//     pagination,
+//     filters,
+//     ...sorter,
+//   });
+// // setPagiValue2(page);
+// // setPagiValue3(1);
+// // setSpinState(true);
+// console.log("page: ", pagination.current +" pageSize: "+pagination.pageSize);
+// const resultPage = 0;   
+// if(pagination.current == 1){
+//   resultPage = 0;
+//   console.log("tentsv");
+// }else {
+//   resultPage = pagination.current - 1; 
+// } 
+// resultPage = resultPage * pagination.pageSize;   
+// const body = {
+//     func: "getCompany",
+//     state: 1,
+//     start: resultPage,
+//     count: pagination.pageSize,
+// };
+// axios.post("/api/post/Gate", body).then((res) => {
+// console.log("res.data: ", res.data.data);
+// setCompanyData(res.data.data);
+    
+//     setCompanyData(res.data.data)
+//     setSpinner(false); 
 
-    // }).catch((err) => {console.log(err)});
+// }).catch((err) => {console.log(err)});
 
-    // console.log("result page: ", resultPage);
-    console.log("table change");
-    setFilteredInfo(filters);
-    setSortedInfo(sorter);
-  };
+// console.log("result page: ", resultPage);
+console.log("table change");
+setFilteredInfo(filters);
+setSortedInfo(sorter);
+};
 
 const editComp = (a)=>{
     setFormSpin(true)
     console.log("object: ", a.action);
+    setCompanyInfo(a.action);
     setCompInfo(a.action);
     setTimeout(() => {
         setFormSpin(false)
@@ -220,7 +222,14 @@ const onFinishFailedEdit = (errorInfo) => {
 const onValuesChangeFunc = (a, b) =>{
      
 }
- 
+const  compShow = (a) =>{
+    console.log("a",a);
+    setIsModalOpenComp(true);
+    setCompanyInfo(a.action);
+}
+const handleCancelCompanyInfo = () =>{
+    setIsModalOpenComp(false);
+}
 const data = companyData.map((r, i)=>(
     {
       key: i,
@@ -365,14 +374,15 @@ const columns = [
     fixed: "right",
     width: 80,
     // ...getColumnSearchProps('state'), 
-    render: (e) => <div> 
-    {e.state == 2 ? (<Badge status="warning" text="accept request" />) : e.state == 3 ? (<Badge status="processing" text="Rejected your request.." />
-        ) : e.state == 4 ? (<Badge status="error" text="Rejected your request" />
-        ) : e.state == 5 ? (<Tooltip title={e.others}><Badge status="error" text="Rejected your request" /></Tooltip>
-        ) : e.state == 6 ? (<Badge status="processing" text="Invitation Send..." />
-        ) : e.state == 7 ? (<Badge status="success" text="Organization Onboarded..." />
-        ) : e.state == 8 ? (<Badge status="error" text="Canceled" />
-        ) : e.state == 1 ? (<Badge status="processing" text="Request pending.." />) : ("")}
+    render: (e) => <div>  
+    {e.state == 2 ? (<Tooltip title="Accept request" color="#faad14"> <Badge status="warning" text="accept request"  className={css.BadgeCSs}  /></Tooltip>) : 
+    e.state == 3 ? (<Tooltip title="Correct your information" color="red"> <Badge status="error" text="Correct your information"  className={css.BadgeCSs} /></Tooltip>
+    ) : e.state == 4 ? (<Tooltip title="Rejected your request" color="red"> <Badge status="error" text="Rejected your request"  className={css.BadgeCSs} /></Tooltip>
+    ) : e.state == 5 ? (<Tooltip title="Rejected your request" color="red"> <Badge status="error" text="Rejected your request"  className={css.BadgeCSs} /></Tooltip>
+    ) : e.state == 6 ? (<Tooltip title="Invitation Send..." color="purple"> <Badge status="processing" color="purple" text="Invitation Send..." className={css.BadgeCSs}  /></Tooltip>
+    ) : e.state == 7 ? (<Tooltip title="Organization Onboarded" color="cyan"> <Badge status="success" color="cyan" text="Organization Onboarded..." className={css.BadgeCSs} /></Tooltip>
+    ) : e.state == 8 ? (<Tooltip title="Canceled" color="red"> <Badge status="error" text="Canceled"  className={css.BadgeCSs}  /></Tooltip>
+    ) : e.state == 1 ? (<Tooltip title="Request pending.." color="blue"> <Badge status="processing" text="Request pending.."  className={css.BadgeCSs}  /></Tooltip>) : ("")}
     </div>, 
     filteredValue: filteredInfo.state || null,
     onFilter: (value, record) => record.state.includes(value),
@@ -380,10 +390,11 @@ const columns = [
     sortOrder: sortedInfo.columnKey === 'state' ? sortedInfo.order : null,
     ellipsis: true,
     }, 
-    {title: 'Action', key: 'action', fixed: 'right', width: 110,
+    {title: 'Action', key: 'action', fixed: 'right', width: 70,
     render: (b) => <div className={css.ActionCss}>
          <div>   
-             {b.state.state == 3 || b.state.state == 4 || b.state.state == 5 ?  <Button onClick={()=>editComp(b)}>Edit</Button> : ""}
+         <Tooltip title="Show"><Button size="small" onClick={()=>compShow(b)}  icon={<FundViewOutlined />}></Button> </Tooltip>
+             {b.state.state == 3 || b.state.state == 4 || b.state.state == 5 ?<Tooltip title="Edit"><Button size="small" onClick={()=>editComp(b)} icon={<FormOutlined />}></Button></Tooltip> : ""}
            
             {/* <Tooltip title="Accept company"><Button size="small" className={css.BtnAccept}  onClick={()=> confirm(b)} icon={<CheckOutlined />}></Button> </Tooltip>
             <Tooltip title="Reject"><Button size="small" className={css.BtnReject}  onClick={()=> showModalReject(b)} icon={<FormOutlined />}></Button> </Tooltip>
@@ -395,49 +406,34 @@ const columns = [
 return <div style={{width: "100%"}}>
 <div>
 <Button type="dashed" shape="round" onClick={CorporationShowModal}>+ Corporation2</Button>
-<Modal title="Corporation" closable={false} open={isModalVisibleCorporation}footer={null} >
+{/* ================================================================ Add Corporation Modal =========================================================================== */}
+<Modal title="Corporation add" closable={false} open={isModalVisibleCorporation}footer={null} >
 <div>
 <Form form={form} name="basic" labelCol={{span: 9}}wrapperCol={{span: 16}} initialValues={{totalAnnualRevenue: 10000, before: "http://",after: ".com"}} 
 onFinish={onFinish} onFinishFailed={onFinishFailed}autoComplete="off">
-<div><Button size="small" onClick={() => {form.resetFields();}}>Clear</Button></div>
+{/* <div><Button size="small" onClick={() => {form.resetFields();}}>Clear</Button></div> */}
 
 <Form.Item label="Company name" name="companyName" rules={[{required: true,message: "Please input your Web site!"}]}><Input /></Form.Item>
-
-<Form.Item label="Web site" name="website" rules={[{required: true,message: "Please input your Web site!"}]}>
-    <Input addonBefore={selectBefore} addonAfter={selectAfter} placeholder="" />
-</Form.Item>
-
+<Form.Item label="Web site" name="website" rules={[{required: true,message: "Please input your Web site!"}]}><Input addonBefore={selectBefore} addonAfter={selectAfter} placeholder="" /></Form.Item>
 <Form.Item label="Country" name="country" rules={[{required: true, message: "Please input your Country!"}]}><Input /></Form.Item>
-
 <Form.Item label="How many employees" name="employees" rules={[{required: true,message: "Please input your employees!"}]}>
-<InputNumber addonBefore={<TeamOutlined />} formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} parser={(value) => value.replace(/\$\s?|(,*)/g, '')}/>
-</Form.Item>
-
+    <InputNumber addonBefore={<TeamOutlined />} formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} parser={(value) => value.replace(/\$\s?|(,*)/g, '')}/></Form.Item>
 <Form.Item label="Total annual revenue" name="totalAnnualRevenue" rules={[{ required: true, message:"Please input your Total annual revenue!",}]}>
-    <InputNumber formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} parser={(value) => value.replace(/\$\s?|(,*)/g, '')} 
-    style={{width: "100%"}}
-    /> 
-</Form.Item>
-
-<Form.Item label="Additional information" name="additionalInformation" rules={[{required: true,message:"Please input your Additional information!",},]}>
-    <TextArea showCount allowClear/>
-</Form.Item>
+<InputNumber formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} parser={(value) => value.replace(/\$\s?|(,*)/g, '')} style={{width: "100%"}}/></Form.Item>
+<Form.Item label="Additional information" name="additionalInformation" rules={[{required: true,message:"Please input your Additional information!"}]}><TextArea showCount allowClear/></Form.Item>
 
 <Form.Item wrapperCol={{offset: 15,span: 16,}}>
-    <Button style={{ marginRight: "10px" }}onClick={cancelCompany}>Cancel</Button>
-    <Button type="primary" htmlType="submit">Send</Button></Form.Item>
+    <Button style={{ marginRight: "10px" }}onClick={cancelCompany}>Cancel</Button> <Button type="primary" htmlType="submit">Send</Button></Form.Item>
 </Form>
 </div>
 </Modal>
-</div>
-
+</div> 
 <div>
 <div className={css.ClearTable}><Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Table sort clear</Button></div>
 <Table bordered size="small" columns={columns} dataSource={data} onChange={handleChangeTable}  scroll={{x:  1500, y: 600 }}/>
-<Modal title="Edit" open={isModalVisibleEdit}footer={false}  onCancel={handleCancelEdit}>
-
-  <Form form={formComp} name="basic" labelCol={{span: 8}} wrapperCol={{span: 16,}}
-  onValuesChange={onValuesChangeFunc}
+{/* ================================================================ Edit Company Modal =========================================================================== */}
+<Modal title="Edit" open={isModalVisibleEdit}footer={false}  onCancel={handleCancelEdit}> 
+  <Form form={formComp} name="basic" labelCol={{span: 10}} wrapperCol={{span: 16,}} onValuesChange={onValuesChangeFunc}
   initialValues={{
     companyNameEdit: compInfo.companyName,
     additionalInformationEdit:compInfo.additionalInformation,
@@ -445,40 +441,100 @@ onFinish={onFinish} onFinishFailed={onFinishFailed}autoComplete="off">
     employeesEdit: compInfo.employees,
     totalAnnualRevenueEdit: compInfo.totalAnnualRevenue,
     websiteEdit: compInfo.website,
-  }} onFinish={onFinishEditForm} onFinishFailed={onFinishFailedEdit} autoComplete="off"
-  >
+  }} onFinish={onFinishEditForm} onFinishFailed={onFinishFailedEdit} autoComplete="off">
     {fromSpin ? <Spin className={css.Spinner}/> : 
     <>
+    <div className={css.CompNameCss}>
+        <div className={css.CompFlex}><div className={css.CompName}>Company name:</div><div className={css.CompTitle}>{companyInfo === undefined ? "": companyInfo.companyName}</div></div>
+        {companyInfo === undefined ? "" : 
+        <div className={css.StatusCss}>
+        {companyInfo.state == 2 ? (<Tooltip title="Accept request" color="#faad14"> <Badge status="warning" text="accept request"    /></Tooltip>) : 
+            companyInfo.state == 3 ? (<Tooltip title="Correct your information" color="red"> <Badge status="error" text="Correct your information"   /></Tooltip>
+            ) : companyInfo.state == 4 ? (<Tooltip title="Rejected your request" color="red"> <Badge status="error" text="Rejected your request"  /></Tooltip>
+            ) : companyInfo.state == 5 ? (<Tooltip title="Rejected your request" color="red"> <Badge status="error" text="Rejected your request" /></Tooltip>
+            ) : companyInfo.state == 6 ? (<Tooltip title="Invitation Send..." color="purple"> <Badge status="processing" color="purple" text="Invitation Send..." /></Tooltip>
+            ) : companyInfo.state == 7 ? (<Tooltip title="Organization Onboarded" color="cyan"> <Badge status="success" color="cyan" text="Organization Onboarded..." /></Tooltip>
+            ) : companyInfo.state == 8 ? (<Tooltip title="Canceled" color="red"> <Badge status="error" text="Canceled"  className={css.BadgeCSs}  /></Tooltip>
+            ) : companyInfo.state == 1 ? (<Tooltip title="Request pending.." color="blue"> <Badge status="processing" text="Request pending.." /></Tooltip>) : ("")}
+        </div>}
+    </div> 
     <Form.Item label="Company name"name="companyNameEdit" rules={[{required: true,message:"Please input your Company name!"}]}><Input /></Form.Item>  
-  
-  <Form.Item label="Web site" name="websiteEdit"
-    rules={[{required: true,message:"Please input your Web site!",},]}><Input />
-  </Form.Item>
-
-  <Form.Item label="Country" name="countryEdit"
-    rules={[ { required: true, message:"Please input your Country!",},]}><Input />
-  </Form.Item>
-  <Form.Item label="How many employees" name="employeesEdit"
-    rules={[{required: true,message:"Please input your How many employees!",},]}>
-    <Input   style={{width: "100%",}}/>
-  </Form.Item>
-  <Form.Item label="Total annual revenue" name="totalAnnualRevenueEdit"
-    rules={[{required: true,message:"Please input your Total annual revenue!",}]}>
-    <Input />
-  </Form.Item>
-  <Form.Item label="Additional information" name="additionalInformationEdit" rules={[{ required: true, message:"Please input your Additional information!",}]}>
-      <Input />
-  </Form.Item>  
+    <Form.Item label="Web site" name="websiteEdit" rules={[{required: true, message:"Please input your Web site!"}]}><Input /></Form.Item>
+    <Form.Item label="Country" name="countryEdit" rules={[{ required: true, message:"Please input your Country!"}]}><Input /></Form.Item>
+    <Form.Item label="How many employees" name="employeesEdit" rules={[{required: true,message:"Please input your How many employees!"}]}> 
+    <InputNumber addonBefore={<TeamOutlined />} formatter={(value) => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} parser={(value) => value.replace(/\$\s?|(,*)/g, '')}/>
+    </Form.Item>
+    <Form.Item label="Total annual revenue" name="totalAnnualRevenueEdit" rules={[{required: true,message:"Please input your Total annual revenue!"}]}>
+    <InputNumber formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} parser={(value) => value.replace(/\$\s?|(,*)/g, '')} style={{width: "100%"}}/></Form.Item>
+    <Form.Item label="Additional information" name="additionalInformationEdit" rules={[{ required: true, message:"Please input your Additional information!"}]}><TextArea showCount allowClear/>
+    </Form.Item>  
  
-  <Form.Item wrapperCol={{offset: 8,span: 16,}}>
-  <Button onClick={()=> formComp.resetFields()}>clear</Button>
-    <Button style={{ marginRight: "10px" }} onClick={() =>setIsModalVisibleEdit(false)}>Cancel</Button>
-    <Button type="primary"htmlType="submit">Submit</Button>
-  </Form.Item>  
+    <Form.Item wrapperCol={{offset: 8,span: 16,}}> 
+        <Button style={{ marginRight: "10px" }} onClick={() =>setIsModalVisibleEdit(false)}>Cancel</Button> <Button type="primary"htmlType="submit">Submit</Button>
+    </Form.Item>  
     </>
     }
-  </Form>   
-  </Modal>
+</Form>   
+</Modal>
+{/* ================================================================ Company Info Modal =========================================================================== */}
+<Modal title="Company info" footer={null} open={isModalOpenComp} onCancel={handleCancelCompanyInfo}>
+<>
+<div className={css.CompNameCss}>
+<div className={css.CompFlex}><div className={css.CompName}>Company name:</div><div className={css.CompTitle}>{companyInfo === undefined ? "": companyInfo.companyName}</div></div>
+{companyInfo === undefined ? "" : 
+<div className={css.StatusCss}>
+{companyInfo.state == 2 ? (<Tooltip title="Accept request" color="#faad14"> <Badge status="warning" text="accept request"    /></Tooltip>) : 
+    companyInfo.state == 3 ? (<Tooltip title="Correct your information" color="red"> <Badge status="error" text="Correct your information"   /></Tooltip>
+    ) : companyInfo.state == 4 ? (<Tooltip title="Rejected your request" color="red"> <Badge status="error" text="Rejected your request"  /></Tooltip>
+    ) : companyInfo.state == 5 ? (<Tooltip title="Rejected your request" color="red"> <Badge status="error" text="Rejected your request" /></Tooltip>
+    ) : companyInfo.state == 6 ? (<Tooltip title="Invitation Send..." color="purple"> <Badge status="processing" color="purple" text="Invitation Send..." /></Tooltip>
+    ) : companyInfo.state == 7 ? (<Tooltip title="Organization Onboarded" color="cyan"> <Badge status="success" color="cyan" text="Organization Onboarded..." /></Tooltip>
+    ) : companyInfo.state == 8 ? (<Tooltip title="Canceled" color="red"> <Badge status="error" text="Canceled"  className={css.BadgeCSs}  /></Tooltip>
+    ) : companyInfo.state == 1 ? (<Tooltip title="Request pending.." color="blue"> <Badge status="processing" text="Request pending.." /></Tooltip>) : ("")}
+{/* {compInfo.state == 2 ? (<Tooltip title="Request accepted"><Badge status="warning" text="Request accepted" style={{fontSize: "12px", color: "#faad14"}}/></Tooltip>
+) : rejectValue == 3 ? (<Tooltip title="Correct your information"><Badge color="red" status="processing" text="Correct your information" style={{fontSize: "12px", color: "#f5222d"}}/></Tooltip>
+//ene Edit hiii gsn state
+) : rejectValue == 4 ? (<Tooltip title="Rejected"><Badge color="red" status="processing"text="Rejected"style={{fontSize: "12px", color: "#f5222d"}}/></Tooltip>
+) : rejectValue == 5 ? (<Tooltip title={companyInfo === undefined ? "": others}><Badge color="gray" status="processing"text="Others"style={{fontSize: "12px", color: "#808080"}}/></Tooltip>
+) : rejectValue == 6 ? (<Tooltip title="Invitation Send..."><Badge color="purple" status="processing" text="Invitation Send." style={{fontSize: "12px", color: "#722ed1"}}/></Tooltip>
+) : rejectValue == 7 ? (<Tooltip title="Organization Onboarded..."><Badge color="cyan" text="Org id" style={{fontSize: "12px", color: "#13c2c2"}}/></Tooltip>
+) : rejectValue == 8 ? (<Tooltip title="Canceled"><Badge status="error" text="C" style={{fontSize: "12px", color: "#722ed1"}}/></Tooltip>) : (<Tooltip title="..."><Badge status="default" text="..." /></Tooltip>)}  */}
+</div>}
+</div> 
+<div className={css.imgL}>
+    {/* <div className={css.ImageCss}><Image preview={false} alt="Obertech" src={"/img/user.png"} className={css.Img}/></div> */}
+    <div className={css.Info}> 
+    <div className={css.Title}>
+        <div className={css.TitleChild}>Date: </div>
+        <div className={css.TitleChild}>Company name: </div>
+        <div className={css.TitleChild}>Country: </div>
+        <div className={css.TitleChild}>Web site: </div>
+        <div className={css.TitleChild}>Employees: </div>
+        <div className={css.TitleChild}>Total annual revenue: </div>
+        <div className={css.TitleChild}>Additional Information: </div>
+        <div className={css.TitleChild}>Others: </div>
+        <div className={css.TitleChild}>Insentive: </div>
+        <div className={css.TitleChild}>Org Id: </div>
+
+    </div>
+    {companyInfo === undefined ? "" : 
+    <div className={css.Description}>
+        <div className={css.TitleChild2}>2022 01 02</div>
+        <div className={css.TitleChild2}>{companyInfo.companyName}</div>
+        <div className={css.TitleChild2}>{companyInfo.country}</div>
+        <div className={css.TitleChild2}>{companyInfo.website}</div>
+        <div className={css.TitleChild2}>{companyInfo.employees}</div>
+        <div className={css.TitleChild2}>{companyInfo.totalAnnualRevenue}</div>
+        <div className={css.TitleChild2}>{companyInfo.additionalInformation}</div> 
+        <div className={css.TitleChild2}>{companyInfo.others}</div>
+        <div className={css.TitleChild2}>{companyInfo.insentive}</div>
+        <div className={css.TitleChild2}>{companyInfo.orgId}</div> 
+    </div>
+    }
+    </div>
+</div>
+</>
+</Modal>
 </div>
 </div>
 }

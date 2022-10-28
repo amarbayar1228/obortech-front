@@ -1,7 +1,7 @@
-import { Badge, Button, Input, Space, Table, Modal, Radio, message, Spin } from "antd";
+import { Badge, Button, Input, Space, Table, Modal, Radio, message, Spin, Image, Tooltip } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
-import {SearchOutlined ,EditOutlined,ClearOutlined } from "@ant-design/icons";
+import {SearchOutlined ,EditOutlined,ClearOutlined, SolutionOutlined } from "@ant-design/icons";
 import css from "./style.module.css"
 import axios from "axios";
 const { confirm } = Modal;
@@ -14,8 +14,11 @@ const searchInput = useRef(null);
 const [isModalOpen, setIsModalOpen] = useState(false);
 const [value, setValue] = useState(2);
 const [userInfo, setUserInfo] = useState([]);
+const [userData, setUserData] = useState([]);
+const [isModalOpenUserInfo, setIsModalOpenUserInfo] = useState(false);
 const [spinner, setSpinner] = useState(false);
 const [userPkId, setUserPkId] = useState("");
+
 useEffect(()=>{
 // console.log("use effect ", props);
 getUsers(); 
@@ -55,7 +58,7 @@ axios.post("/api/post/Gate", body).then((res) => {
 setSpinner(false);
 //   segmentFuncUser(); 
 console.log("new user: ", res.data.data);
-setUserInfo(res.data.data);
+setUserData(res.data.data);
 })
 .catch((err) => {console.log(err)}); 
 };
@@ -116,8 +119,15 @@ order: 'descend',
 columnKey: 'age',
 });
 };
-
-const data = userInfo.map((r, i)=>(
+const showUserInfo = (a) =>{
+    console.log("a", a);
+    setIsModalOpenUserInfo(true);
+    setUserInfo(a);
+ }
+ const handleCancelUserInfo = () =>{
+    setIsModalOpenUserInfo(false);
+ }
+const data = userData.map((r, i)=>(
 {
     key: i,
     lastname: r.lastname,
@@ -232,8 +242,9 @@ const columns = [
     ellipsis: true,
 },
    
-{title: 'Action', key: 'pkId', fixed: 'right', width: 80,
-render: (a) => <div className={css.ActionCss}><Button onClick={()=>showModal(a)} type="dashed" icon={<EditOutlined />}></Button>
+{title: 'Action', key: 'pkId', fixed: 'right', width: 120,
+render: (a) => <div className={css.ActionCss}><Button size="small" onClick={()=>showModal(a)} type="dashed" icon={<EditOutlined />}></Button>
+  <Tooltip title="User info"><Button size="small" className={css.BtnRight}  onClick={()=> showUserInfo(a)} icon={<SolutionOutlined/>}></Button> </Tooltip>
 </div>,
 },
 ];
@@ -245,7 +256,7 @@ return <div>
     {/* <Button onClick={clearFilters}>Clear filters</Button> */}
     <Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Table sort clear</Button>
     </Space>
-    <Table columns={columns} dataSource={data} onChange={handleChangeTable}  scroll={{x:  1200, }}/> 
+    <Table size="small" columns={columns} dataSource={data} onChange={handleChangeTable}  scroll={{x:  1200, }}/> 
 
     <Modal title="User" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
     <div className={css.Choose}>
@@ -256,6 +267,31 @@ return <div>
     </Radio.Group>
     </div>
     </Modal> 
+
+    <Modal title="user Info" open={isModalOpenUserInfo} onCancel={handleCancelUserInfo} footer={null}>
+            {userInfo === undefined ? "" :
+            <div className={css.imgL}>
+                <div className={css.ImageCss}><Image preview={false} alt="Obertech" src={"/img/user.png"} className={css.Img}/></div>
+                <div className={css.Info}> 
+                    <div className={css.Title}>
+                        <div className={css.TitleChild}>Full name: </div>
+                        <div className={css.TitleChild}>Email: </div>
+                        <div className={css.TitleChild}>Jobtitle: </div>
+                        <div className={css.TitleChild}>Phone: </div>
+                        <div className={css.TitleChild}>address: </div>
+                    </div>
+                    <div className={css.Description}>
+                        <div className={css.TitleChild2}>{userInfo.lastname}  {userInfo.firstname}</div>
+                        <div className={css.TitleChild2}>{userInfo.email} </div>
+                        <div className={css.TitleChild2}>{userInfo.jobtitle} </div>
+                        <div className={css.TitleChild2}>{userInfo.phone}</div>
+                        <div className={css.TitleChild2}>{userInfo.address} </div>
+                    </div>
+                </div>
+            </div>
+            }
+            </Modal>
+
 </div>
 }
 export default NewUserRequest;

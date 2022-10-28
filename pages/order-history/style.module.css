@@ -69,6 +69,46 @@
     font-weight: 500;
 }
 
+.imgL {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.ImageCss {
+    width: 100px;
+    height: 100px;
+    background-color: #fbfbfb;
+}
+
+.TitleInfo {
+    width: 130px;
+}
+
+.TitleChild {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    padding-top: 4px;
+    padding-left: 7px;
+    color: #4d5057;
+    font-weight: 600;
+}
+
+
+.TitleChild2 {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    padding-top: 4px;
+    padding-left: 7px;
+    color: #777d89;
+    font-weight: 600;
+}
+
+.Info {
+    display: flex;
+    width: 76%;
+    margin-left: 10px;
+}
+
 .SpinCss {
     display: flex;
     margin: 50px;
@@ -76,6 +116,12 @@
     align-items: center;
     font-size: 22px;
     padding: 10px;
+}
+
+.SpinUser {
+    display: flex;
+    justify-content: center;
+    margin: 90px;
 }
 
 .BasketId {

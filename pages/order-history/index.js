@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import BaseLayout from "../../components/Layout/BaseLayout";
-import { CaretRightOutlined,ExclamationCircleOutlined  } from "@ant-design/icons";
+import { SolutionOutlined,ExclamationCircleOutlined  } from "@ant-design/icons";
 import {Button, Collapse, Divider, Empty, Image, Modal, Spin, Space, DatePicker, Table, Tag, Input} from "antd";
 import css from "./style.module.css";
 import { UserOutlined,SearchOutlined  } from "@ant-design/icons";
@@ -17,13 +17,18 @@ const OrderHistory = () => {
   const [date2, setDate2] = useState("");
   const [loading, setLoading]= useState(false);
   const [loadingPage, setLoadingPage]= useState(true);
+  const [isModalUserInfo, setIsModalUserInfo] = useState(false);
+  const [userSpin, setUserSpin] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef(null);
+  const [userInfoS, setUserInfoS] = useState([]);
+  const [detailsSpin, setDetailsSpin] = useState(false);
   const [orderHdr, setOrderHdr]= useState([{key: 1,orderid: 0,date: 0,organization: 0,status: 0,price: 0, invoice: 0,paymethod: 0
   },{key: 2,orderid: 0,date: 0,organization: 0,status: 0,price: 0, invoice: 0,paymethod: 0
   }]);
   const [modalOrderItem, setModalOrderItem] = useState([]);
+  const [orderSpin, setOrderSpin] = useState(false);
   // const [dateState, setDateState] = useState("2022-09-01");
   const { RangePicker } = DatePicker;
   const dateFormat = "YYYY-MM-DD";
@@ -37,7 +42,7 @@ const OrderHistory = () => {
     getOders();  
   }, []); 
   const showModal = (a) => {
-    console.log("show item dialog");
+    setOrderSpin(true) 
 
     console.log("Item: ", a );
     setOrderHdrInfo(a);
@@ -46,6 +51,7 @@ const OrderHistory = () => {
       orderid: a.orderid,
     }
     axios.post("/api/post/Gate", body).then((res)=>{
+      setOrderSpin(false)
       // console.log("item order: ", res.data.data);
       setModalOrderItem(res.data.data);
     }).catch((err)=>{
@@ -65,61 +71,30 @@ const getOders = () =>{
   setLoadingPage(true);
   const body = {}
 if (localStorage.getItem("pkId")) {
-const body = {
-func: "getUserInfo",
-pkId: localStorage.getItem("pkId"),
-};
-  axios.post("/api/post/Gate", body).then((res) => {  
+const body = {func: "getUserInfo", pkId: localStorage.getItem("pkId")};
+  axios.post("/api/post/Gate", body).then((res) => {
   setTodayDateState("2022-10-10");
   console.log("res: ", res.data.data);
-
+// admin bolon operator all order historys
 if(res.data.data.isSuperAdmin == 1 || res.data.data.isSuperAdmin == 2 ){
-  const mounths = ["01","02","03","04","05","06","07","08","09","10","11","12",];
-  var date = new Date();
-  var d1 =  date.getFullYear() + "-" + mounths[date.getMonth()] + "-" + date.getDate() + "";   
+  const mounths = ["01","02","03","04","05","06","07","08","09","10","11","12",]; var date = new Date(); var d1 =  date.getFullYear() + "-" + mounths[date.getMonth()] + "-" + date.getDate() + "";   
   setTodayDateState(d1); 
-  const body2 = { 
-    func:"getOrders", 
-    d1: d1,
-    d2: d1, 
-  } 
+  const body2 = {func:"getOrders", d1: d1, d2: d1, } 
   axios.post("/api/post/Gate", body2).then((res)=>{
-    console.log("data: ", res.data.data);
-    setOrderNull(1); 
-    setLoadingPage(false)
-    setLoading(false); 
-    setOrderHdr(res.data.data);
-  }).catch((err)=>{
-    console.log("err: ", err);
-  })
+    console.log("admin and operator data: ", res.data.data); setOrderNull(1);  setLoadingPage(false); setLoading(false);  setOrderHdr(res.data.data);
+  }).catch((err)=>{console.log("err: ", err)})
+  // User all order historys
   }else if(res.data.data.isSuperAdmin == 0){
-    const mounths = ["01","02","03","04","05","06","07","08","09","10","11","12",];
-    var date = new Date();
-    var d1 =  date.getFullYear() + "-" + mounths[date.getMonth()] + "-" + date.getDate() + "";  
+    const mounths = ["01","02","03","04","05","06","07","08","09","10","11","12",]; var date = new Date(); var d1 =  date.getFullYear() + "-" + mounths[date.getMonth()] + "-" + date.getDate() + "";  
     setTodayDateState(d1);
     const bodyUser = {
-          func:"getOrderUserID",
-          d1: d1,
-          d2: d1,
-          pkId: localStorage.getItem("pkId")
-        }
-        axios.post("/api/post/Gate", bodyUser).then((res)=>{
-          console.log("data: ", res.data.data);
-          setOrderNull(1); 
-          setLoadingPage(false)
-          setLoading(false); 
-
-          setOrderHdr(res.data.data);
-        }).catch((err)=>{
-          console.log("err: ", err);
-        })  
+    func:"getOrderUserID", d1: d1, d2: d1,pkId: localStorage.getItem("pkId")}
+    axios.post("/api/post/Gate", bodyUser).then((res)=>{
+      console.log("user data: ", res.data.data); setOrderNull(1);  setLoadingPage(false); setLoading(false); setOrderHdr(res.data.data);
+    }).catch((err)=>{console.log("err: ", err)})  
   } 
 }).catch((err) => {console.log(err)});
-} else {  
-  setOrderNull(0);
-  setLoadingPage(false)
-  setLoading(false); 
-} 
+} else {setOrderNull(0); setLoadingPage(false); setLoading(false);} 
 }
  
   // admin orderHistory
@@ -161,44 +136,22 @@ const dateOnchange = (a,b) =>{
   setDate2(b[1]);
 }
 const searchDate = () =>{
-  setLoading(true);
-  console.log("date1: ",date1);
-  console.log("date2: ",date2); 
+  setLoading(true); 
  const body = {}
  if(basketContext.userInfoProfile.isSuperAdmin === 0){
-    body = {
-    func:"getOrderUserID",
-    d1: date1,
-    d2: date2,
-    pkId: localStorage.getItem("pkId")
-  }
+    body = {func:"getOrderUserID", d1: date1, d2: date2, pkId: localStorage.getItem("pkId")}
 }else {
-  body = {
-    func:"getOrders",
-    d1: date1,
-    d2: date2,
-  }
+  body = {func:"getOrders", d1: date1, d2: date2,}
 }  
   axios.post("/api/post/Gate", body).then((res)=>{ 
     console.log("res date change: ", res.data.data);
-    if(res.data.data[0]){
-        setLoading(false)
-        setOrderHdr(res.data.data);
-      }else {
-        console.log("hooson");
-        setLoading(false)
-        setOrderHdr(res.data.data);
-      }
-   
-  }).catch((err)=>{
-    console.log("err: ", err);
-  })
+    if(res.data.data[0]){setLoading(false); setOrderHdr(res.data.data);
+    }else {setLoading(false); setOrderHdr(res.data.data);}
+  }).catch((err)=>{console.log("err: ", err)})
 }
  
 const orderSend = (a) => {
-  confirm({
-    title: 'Do you Want to smarthub items send?',
-    icon: <ExclamationCircleOutlined />,
+  confirm({title: 'Do you Want to smarthub items send?', icon: <ExclamationCircleOutlined />,
     content: <div>Order ID: {a.orderid}</div>,
     onOk() {
       console.log('OK');  
@@ -210,18 +163,19 @@ const orderSend = (a) => {
 };
 
 const userInfo = (a)=>{
-  console.log("user: ", a);
-  const body = {
-    func: "getUserInfo",
-    pkId: "220912153317819520",
-    }; 
-      axios.post("/api/post/Gate", body).then((res)=>{
-        console.log("user: ", res.data.data);
-      }).catch((err)=>{console.log("err");})
-  
-      
+// console.log("user: ", a);
+setIsModalUserInfo(true);
+setUserSpin(true);
+const body = {func: "getUserInfo", pkId: a.all.userPkId, }; 
+  axios.post("/api/post/Gate", body).then((res)=>{
+    console.log("user info: ", res.data.data);
+    setUserInfoS(res.data.data);
+    setUserSpin(false);
+  }).catch((err)=>{console.log("err");}) 
 }
-
+const handleCancelUser = () =>{
+  setIsModalUserInfo(false);
+}
 const columns = [
   {
     title: <span>Order id</span>,
@@ -286,12 +240,11 @@ const columns = [
     key: 'action',
     render: (_, record) => (
       <Space size="middle"><Button type="default" size="small" onClick={()=>orderSend(record)}>Test ordID</Button>
-      {record.all.userPkId ? <Button onClick={()=>userInfo(record)}>User</Button> : ""}
+      {record.all.userPkId === "-" || record.all.userPkId === localStorage.getItem("pkId") ? null : <Button onClick={()=>userInfo(record)} icon={<SolutionOutlined />} >User info</Button>}
       </Space>
     ),
   },
-];
-
+]; 
 const data = orderHdr.map((r, i)=>(
     {
       key: i,
@@ -306,25 +259,19 @@ const data = orderHdr.map((r, i)=>(
     } 
 ));
 const groupDeitalsFunc = (data, index) =>{
+  setDetailsSpin(true);
   console.log("data: ", data.pkId);
   console.log("index: ", index);
+
   const body = {
     func: "getGroups",
     pkId: data.pkId,
   };
-  axios
-    .post("/api/post/Gate", body)
-    .then((res) => {
+  axios.post("/api/post/Gate", body).then((res) => {
       console.log("res details:  ", res.data.data.itemList); 
-      if (res.data.data.itemList == undefined) {
-        console.log("hoosn");
-      } else { 
-        setGitemDetails(res.data.data.itemList); 
-      }
-    })
-    .catch((err) => {
-      console.log("err", err);
-    });
+      if (res.data.data.itemList == undefined) {console.log("hoosn");
+      } else { setGitemDetails(res.data.data.itemList); setDetailsSpin(false);}
+    }).catch((err) => {console.log("err", err)});
   setIdIndex(index);
 }
   return (
@@ -334,8 +281,10 @@ const groupDeitalsFunc = (data, index) =>{
 <div className={css.OrderTitle}>
   <Divider orientation="left"> Order history</Divider>
 </div>
+{/* ================================================= item info modal ===================================================================== */}
 <Modal title="Items info" open={isModalOpen} footer={null} onOk={handleOk} onCancel={handleCancel}>
   <div>
+  {orderSpin ? <Spin className={css.SpinCss}/> : ""} 
     <div className={css.OrderHdrLaCss}>
       <div className={css.DateCss}>
         <div className={css.OrderIdCss}> Order ID: #{orderHdrInfo.orderid}</div>
@@ -346,35 +295,26 @@ const groupDeitalsFunc = (data, index) =>{
       </div> */}
 
     </div>
-    <div className={css.ItemInfoScroll}> 
+    <div className={css.ItemInfoScroll}>  
       {modalOrderItem.map((e, i)=>(
         <div key={i} className={css.OrderItem}>
           <div className={css.orderImg}>
-            {e.img === "" ? <div className={css.GroupItemcs}>G</div> : 
-            <Image alt="Obertech" preview={false} src={"data:image/png;base64," + e.img }/>
-            }
+            {e.img === "" ? <div className={css.GroupItemcs}>G</div> : <Image alt="Obertech" preview={false} src={"data:image/png;base64," + e.img }/>}
           </div>
           <div className={css.orderDetailcss}>
             <div className={css.Titlecss}>
-              {/* {e.img === ""? <div style={{height: "50px"}}>a </div> : ""} */}
-              <div className={css.OrderCnt}>
-                <div>{e.title}</div>
-                <div className={css.CntCss}>{e.cnt}</div>
-              </div>
+              <div className={css.OrderCnt}> <div>{e.title}</div> <div className={css.CntCss}>{e.cnt}</div></div>
               <div className={css.DescriptionCss}>{e.description}</div>
             </div>
             <div className={css.TotalPricecc}> 
             {e.state === 2 ? "" : 
-              <div>
-                <Button onClick={()=>groupDeitalsFunc(e, i)} size="small" shape="round" type="dashed" style={{fontWeight: "500", color: "rgb(6 78 59)"}}>Group details: </Button> 
-              </div>}
-            
+              <div><Button onClick={()=>groupDeitalsFunc(e, i)} size="small" shape="round" type="dashed" style={{fontWeight: "500", color: "rgb(6 78 59)"}}>Group details: </Button> </div>}
               <div className={css.Pricecss}>{e.price.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,")}$</div>
             </div>
             {/* <div className={css.DetailAbsolute}> Details items: </div> */}
             {iDIndex === i ?
               <div className={css.OrderDetailsHide}> 
-              
+                {detailsSpin ? <Spin size="large" className={css.SpinCss}/> : ""}
                 {gItemDetails.map((item, index)=>(
                   <div key={index} className={css.OrderItem}>
                     <div className={css.orderImg2}> <Image alt="Obertech"preview={false} src={"data:image/png;base64," + item.img }/> </div>
@@ -402,6 +342,36 @@ const groupDeitalsFunc = (data, index) =>{
     <div className={css.TotalPriceInfo}>Total price: {orderHdrInfo.price}$ </div>
   </div>
 </Modal>
+
+{/* ================================================= User info modal ===================================================================== */}
+<Modal title="User info" open={isModalUserInfo} footer={null} onCancel={handleCancelUser}>
+  <div>
+      {userSpin ? <Spin size="large" className={css.SpinUser}/> : 
+      <div>  
+    <div className={css.imgL}>
+        <div className={css.ImageCss}><Image preview={false} alt="Obertech" src={"/img/user.png"} className={css.Img}/></div>
+        <div className={css.Info}> 
+        <div className={css.TitleInfo}>
+            <div className={css.TitleChild}>Full name: </div>
+            <div className={css.TitleChild}>Email: </div>
+            <div className={css.TitleChild}>Job title: </div>
+            <div className={css.TitleChild}>Phone: </div>
+            <div className={css.TitleChild}>address: </div>
+        </div>
+        <div className={css.Description}>
+            <div className={css.TitleChild2}>{userInfoS.lastname}  {userInfo.userInfoS}</div>
+            <div className={css.TitleChild2}>{userInfoS.email} </div>
+            <div className={css.TitleChild2}>{userInfoS.jobtitle}</div>
+            <div className={css.TitleChild2}>{userInfoS.phone}</div>
+            <div className={css.TitleChild2}>{userInfoS.address} </div>
+        </div>
+        </div>
+    </div> 
+      </div>
+      }
+  </div>
+</Modal>
+
 {/* ------------------------------end--------------------------------------------------------------------- */}
 <div style={{marginBottom: "10px"}}>
   <RangePicker showToday defaultValue={[ moment(todayDateState, dateFormat), moment(todayDateState, dateFormat)]} format={dateFormat} onChange={dateOnchange}/>
@@ -409,10 +379,9 @@ const groupDeitalsFunc = (data, index) =>{
 </div>
 
 {orderHdr === null? <Empty style={{display: "flex", justifyContent: "center" }}  description="null"/> :
-  <div style={{fontSize: "15px"}}><Table columns={columns} dataSource={data} loading={loading}/></div> 
+  <div style={{fontSize: "15px"}}><Table size="small" columns={columns} dataSource={data} loading={loading}/></div> 
 } 
-</div>
-  : loadingPage ? <Spin className={css.SpinCss}/> : <Empty />} 
+</div>: loadingPage ? <Spin className={css.SpinCss}/> : <Empty />} 
 </BaseLayout>
 );
 };

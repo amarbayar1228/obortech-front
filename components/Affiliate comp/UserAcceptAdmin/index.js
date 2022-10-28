@@ -1,10 +1,10 @@
-import { Badge, Button, Collapse, Descriptions, Empty, Input, message, Modal, Radio, Select, Space, Spin, Table } from "antd";
+import { Badge, Button, Collapse, Descriptions, Empty, Input, message, Modal, Radio, Select, Space, Spin, Table, Tooltip, Image} from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import css from "./style.module.css";
 import { Tabs } from "antd";
 import Highlighter from "react-highlight-words";
-import {SearchOutlined ,EditOutlined, ClearOutlined} from "@ant-design/icons";
+import {SearchOutlined ,EditOutlined, ClearOutlined ,SolutionOutlined} from "@ant-design/icons";
 import BasketContext from "../../../context/basketContext/BasketContext";
 const { Option } = Select;
 const { TabPane } = Tabs;
@@ -12,6 +12,8 @@ const { Panel } = Collapse;
 const UserAcceptAdmin = () => {
   const basketContext = useContext(BasketContext);
   const [userData, setUserData] = useState([]);
+  const [userInfo, setUserInfo] = useState([]); 
+  const [isModalOpenUserInfo, setIsModalOpenUserInfo] = useState(false);
   const [cancelData, setCancelDate] = useState([]);
   const [value, setValue]= useState(2);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -148,6 +150,14 @@ const onChangeRadio = (e) =>{
   console.log("radio: ", e.target.value);
   setValue(e.target.value);
 }
+const showUserInfo = (a) =>{
+  console.log("a", a);
+  setIsModalOpenUserInfo(true);
+  setUserInfo(a);
+}
+const handleCancelUserInfo = () =>{
+  setIsModalOpenUserInfo(false);
+}
   const data = userData.map((r, i)=>(
     {
       key: i,
@@ -255,16 +265,18 @@ const onChangeRadio = (e) =>{
       // width: 120,
       // ...getColumnSearchProps('state'), 
       render: (a) => <div >
-        {a == 3 ? (<Badge status="error" text="Reject" />) : a == 2 ? (<Badge status="success" text="Request accepted" />) : <Badge color="blue" status="success" text="Edited" />}</div>,
-      filteredValue: filteredInfo.state || null,
-      onFilter: (value, record) => record.state.includes(value),
-      sorter: (a, b) => a.state - b.state,
-      sortOrder: sortedInfo.columnKey === 'state' ? sortedInfo.order : null,
-      ellipsis: true,
+        {a == 3 ? (<Tooltip title="Reject" color="red"> <Badge status="error" text="Reject" /> </Tooltip>) : a == 2 ? (<Tooltip title="Request accepted" color="green"> <Badge status="success" text="Request accepted" /> </Tooltip>) : <Tooltip title="Success"> <Badge color="blue" status="success" text="Edited" /> </Tooltip>}</div>,
+            filteredValue: filteredInfo.state || null,
+            onFilter: (value, record) => record.state.includes(value),
+            sorter: (a, b) => a.state - b.state,
+            sortOrder: sortedInfo.columnKey === 'state' ? sortedInfo.order : null,
+            ellipsis: true,
     },
     
     {title: 'Action',key: 'operation',fixed: 'right',width: 80,
-      render: (a) => <div className={css.ActionCss}><Button type="dashed" icon={<EditOutlined />} onClick={()=>modalFunc(a)}></Button></div>,
+      render: (a) => <div className={css.ActionCss}> <Tooltip title="State change"><Button type="dashed" icon={<EditOutlined />} onClick={()=>modalFunc(a)} size="small"></Button></Tooltip>
+       <Tooltip title="User info"><Button size="small" className={css.BtnRight}  onClick={()=> showUserInfo(a)} icon={<SolutionOutlined/>}></Button> </Tooltip>
+      </div>,
     },
   ];
 
@@ -294,6 +306,34 @@ const onChangeRadio = (e) =>{
               </Radio.Group>
               </div>
               </Modal> 
+
+              
+<Modal title="user Info" open={isModalOpenUserInfo} onCancel={handleCancelUserInfo} footer={null}>
+{userInfo === undefined ? "" :
+<div className={css.Cont}>
+    <div className={css.imgL}>
+    <div className={css.ImageCss}><Image preview={false} alt="Obertech" src={"/img/user.png"} className={css.Img}/></div>
+    <div className={css.Info}> 
+        <div className={css.Title}>
+            <div className={css.TitleChild}>Full name: </div>
+            <div className={css.TitleChild}>Email: </div>
+            <div className={css.TitleChild}>Jobtitle: </div>
+            <div className={css.TitleChild}>Phone: </div>
+            <div className={css.TitleChild}>address: </div>
+        </div>
+        <div className={css.Description}>
+            <div className={css.TitleChild2}>{userInfo.lastname}  {userInfo.firstname}</div>
+            <div className={css.TitleChild2}>{userInfo.email} </div>
+            <div className={css.TitleChild2}>{userInfo.jobtitle} </div>
+            <div className={css.TitleChild2}>{userInfo.phone}</div>
+            <div className={css.TitleChild2}>{userInfo.address} </div>
+        </div>
+    </div>
+    </div>
+</div>
+}
+</Modal>
+
               </div>
             ) : spinState2 === true ? ("") : (<Empty />)}
           </>
