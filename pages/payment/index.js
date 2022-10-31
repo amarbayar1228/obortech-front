@@ -10,6 +10,7 @@ import axios from "axios";
 import {CaretRightOutlined,ShoppingCartOutlined,BankOutlined,CaretUpOutlined,CaretDownOutlined} from "@ant-design/icons";
 // import jsPDF from "jspdf"; 
 import { Tabs } from "antd"; 
+import SuccessOrder from "../../components/PaymentCom/SuccessOrder";
 const { TabPane } = Tabs;
 const { Step } = Steps;
 const Payment = () => {
@@ -162,9 +163,9 @@ const body2 = {
 console.log("bodyId:2  ===>> ", body2);
 var basketLocal = [];
 axios.post("/api/post/Gate", body2).then((result) => {
-    message.success("Success");
-    basketContext.removeBasketStorage();
-    router.push("/order-history");
+  // message.success(<div className={css.SucessOrderCss}> Amraa</div>,100000);
+    basketContext.removeBasketStorage();   
+    // router.push("/order-history");
   },(error) => {console.log(error)}); 
 } else {
 const bodyNoId = {
@@ -177,7 +178,8 @@ const bodyNoId = {
 console.log("bodyNoId: ", bodyNoId);
 axios.post("/api/post/Gate", bodyNoId).then((result) => {
     message.success("Success");
-    basketContext.removeBasketStorage(); router.push("/order-history");
+    basketContext.removeBasketStorage(); 
+    // router.push("/order-history");
   },(error) => {console.log(error)});
 }
 
@@ -543,7 +545,9 @@ const onFinishFailedOrgId = (errInfo)=>{
       <BaseLayout pageName="payment">
         <div style={{ fontSize: "14px", fontWeight: "500" }}>
           {basketContext.basketState.length === 0 ? (
-            <Empty description="Basket is empty"></Empty>
+            <div><Empty description="Basket is empty"></Empty>
+            <SuccessOrder />
+            </div>
           ) : (
             <div style={{ marginTop: "20px" }}>
               <Steps current={current}>
@@ -557,6 +561,7 @@ const onFinishFailedOrgId = (errInfo)=>{
                     <Modal title="OrgID" open={isModalVisibleOrgId2} onOk={handleOkOrgId2} onCancel={handleCancelOrgId2} > 
                       {/* <Input onChange={(e) => setOrgIdInput2(e.target.value)}placeholder="OrgId"/> */}
                       <div>Org ID choose: </div>
+                    
                       {/* <Radio.Group onChange={orgIdChoose} > 
                         <Radio checked={checkFalse === false}value={basketContext.orgId}>{basketContext.orgId}</Radio> 
                       </Radio.Group>  */}

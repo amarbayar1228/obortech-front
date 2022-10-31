@@ -491,10 +491,12 @@
   font-weight: 500;
   border-radius: 5px;
 }
-.titleH{
+
+.titleH {
   font-size: 15px;
   text-transform: uppercase;
 }
+
 .ItemDesc {
   color: #818181;
   text-align: justify;
@@ -776,6 +778,11 @@
   background-color: #fff;
   cursor: pointer;
   animation: scaledown .2s linear;
+}
+
+.SucessOrderCss {
+  width: 500px;
+  height: 500px;
 }
 
 .PayLayout:hover {

@@ -466,12 +466,8 @@ onFinish={onFinish} onFinishFailed={onFinishFailed}autoComplete="off">
     </Form.Item>
     <Form.Item label="Total annual revenue" name="totalAnnualRevenueEdit" rules={[{required: true,message:"Please input your Total annual revenue!"}]}>
     <InputNumber formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} parser={(value) => value.replace(/\$\s?|(,*)/g, '')} style={{width: "100%"}}/></Form.Item>
-    <Form.Item label="Additional information" name="additionalInformationEdit" rules={[{ required: true, message:"Please input your Additional information!"}]}><TextArea showCount allowClear/>
-    </Form.Item>  
- 
-    <Form.Item wrapperCol={{offset: 8,span: 16,}}> 
-        <Button style={{ marginRight: "10px" }} onClick={() =>setIsModalVisibleEdit(false)}>Cancel</Button> <Button type="primary"htmlType="submit">Submit</Button>
-    </Form.Item>  
+    <Form.Item label="Additional information" name="additionalInformationEdit" rules={[{ required: true, message:"Please input your Additional information!"}]}><TextArea showCount allowClear/></Form.Item>  
+    <Form.Item wrapperCol={{offset: 8,span: 16,}}><Button style={{ marginRight: "10px" }} onClick={() =>setIsModalVisibleEdit(false)}>Cancel</Button> <Button type="primary"htmlType="submit">Submit</Button></Form.Item>
     </>
     }
 </Form>   
