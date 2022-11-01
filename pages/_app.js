@@ -8,6 +8,7 @@ import { ThemeProvider } from "next-themes";
 import { createRoot } from "react-dom/client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import Spinner from "../components/Spinner";
 
 function MyApp({ Component, pageProps }) {
   // ConfigProvider.config({theme: {primaryColor: "#4D5057"}}); 
@@ -16,6 +17,7 @@ function MyApp({ Component, pageProps }) {
     const [loading, setLoading] = useState(false); 
  
 useEffect(() => { 
+  console.log("app: ");
 // page loading..
 const handleStart = (url) => (url !== router.asPath) && setLoading(true);
 const handleComplete = (url) => (url === router.asPath) && setTimeout(() =>{setLoading(false)},5000);
@@ -31,7 +33,7 @@ return () => {
 }
 })
   
-return loading && (<div className='spinner-wrapper'><div className="spinner"> <Spin size="large"/></div></div>)
+return loading && (<div className='spinner-wrapper'><div><Spinner /> </div></div>)
 }
   return (
     <div>

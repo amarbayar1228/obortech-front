@@ -77,7 +77,7 @@ export default function Login() {
       <BaseLayout pageName="login">
         <div className={css.Cont}>
           <div className={css.Cont2}>
-            <div className={css.LoginTitle}> <Image alt="Obertech" preview={false} src="/img/HeaderLogo.png" width={80} /></div>
+            <div className={css.LoginTitle}> <Image alt="Obertech" preview={false} src="/img/HeaderLogo.png" width={80}  style={{borderRadius: "5px"}}/></div>
             <div className={css.HdrTitle}>
               <div>Sign in to your account</div>
               <div className={css.OrCss}>Or <Button className={css.RegisterHover} onClick={registerBtn}type="link">{t("Create An Account")}</Button></div>
@@ -97,7 +97,7 @@ export default function Login() {
                   </Form.Item>
                    {/* obortech: 6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t ============================================================*/} 
                   {/* my ip:  6LfnfrUiAAAAAJ-K132PVlBOqV-fr1F1sBOJcGpR ===============================================================*/}
-                  <div className={css.CaptchaCss}> {spinCapt  == 0 ? <Spin /> : <ReCAPTCHA   onErrored={errorCapt}  ref={recaptchaRef} sitekey="6LfnfrUiAAAAAJ-K132PVlBOqV-fr1F1sBOJcGpR" onChange={onChangeCaptcha}/> }</div>
+                  <div className={css.CaptchaCss}> {spinCapt  == 0 ? <Spin /> : <ReCAPTCHA   onErrored={errorCapt}  ref={recaptchaRef} sitekey="6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t" onChange={onChangeCaptcha}/> }</div>
                  
                   <Form.Item>
                     <div className={css.Login}>

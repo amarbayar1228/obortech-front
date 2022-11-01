@@ -546,7 +546,7 @@ const onFinishFailedOrgId = (errInfo)=>{
         <div style={{ fontSize: "14px", fontWeight: "500" }}>
           {basketContext.basketState.length === 0 ? (
             <div><Empty description="Basket is empty"></Empty>
-            <SuccessOrder />
+            <SuccessOrder totalPriceState={totalPriceState}/>
             </div>
           ) : (
             <div style={{ marginTop: "20px" }}>

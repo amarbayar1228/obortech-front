@@ -11,6 +11,7 @@ import axios from "axios";
 import { useTranslation } from "next-i18next";
 import { Router, useRouter } from "next/router";
 import ReCAPTCHA from "react-google-recaptcha";
+import Spinner from "../components/Spinner";
 const { Search } = Input;
 const { Option } = Select;
 const { confirm } = Modal;
@@ -112,11 +113,11 @@ return (
       <Divider style={{fontSize: "18px", color: "#000"}}>{t("Search of organizations")}</Divider>
       <Search placeholder={t("Enter your organization ID")} allowClear  size="large" onSearch={onSearch} enterButton />
 
-        {orgIdState === "" ? spin ? <Spin className={css.SpinCss}/> : orgError === "" ? "" :  
+        {orgIdState === "" ? spin ?  <div className={css.SpinCss}> <Spinner /> </div> : orgError === "" ? "" :  
         <div className={css.OrgError}><Result status="warning" title={orgError} style={{fontWeight: "600"}}/></div> : 
-        <>{spin ? <Spin className={css.SpinCss}/> : 
+        <>{spin ? <div className={css.SpinCss}> <Spinner /> </div> : 
         <div className={css.OrgIdCss}> 
-        <div className={css.CaptchaCss}><ReCAPTCHA sitekey="6LfnfrUiAAAAAJ-K132PVlBOqV-fr1F1sBOJcGpR" onChange={onChangeCaptcha}/></div>
+        <div className={css.CaptchaCss}><ReCAPTCHA sitekey="6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t" onChange={onChangeCaptcha}/></div>
           {btnDis === false ? 
           <div> 
             <div className={css.OrgSelectCSs}>Organization id select?</div>
