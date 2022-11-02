@@ -12,6 +12,8 @@ import GroupItemsInsert from "../../components/GroupItemsInsert";
 import GroupItemDelete from "../../components/GroupItemDelete";
 import TextArea from "antd/lib/input/TextArea";
 import GroupDetails from "../../components/GroupDetail";
+import Item from "../../components/ItemComp/Item";
+import GroupItem from "../../components/ItemComp/GroupItem";
 const { Option } = Select;
 const { Paragraph, Text } = Typography;
 const { TabPane } = Tabs;
@@ -157,12 +159,15 @@ if (fileListUpdate[0]) {
 const showModal = () => {
 setIsModalVisible(true);
 };
+
+// get item
 const getItems = () => {
 const body = {
   func: "getItems",
   status: -1,
 };
 axios.post("/api/post/Gate", body).then((res) => {
+  console.log("item get");
     setState(true); 
     setItemData(res.data.getItems.list);
   }).catch((err) => {message.error(err)}); 
@@ -258,6 +263,7 @@ const onFinishFailedAddItem = (errInfo)=>{
 console.log("errInfo: ", errInfo);
 // formAddItem.resetFields(); 
 }
+
 const  onFinishEdit= (values) =>{ 
 console.log("values: ", values);
 // console.log("state: ", fileListUpdate);
@@ -320,8 +326,18 @@ const body = {
   pkId: e.pkId,
 };
 axios.post("/api/post/Gate", body).then((res) => {  
+  console.log("resdelete: ", res.data);
+  if(res.data.error){
+    notification.error({
+      message: res.data.error,
+      description:
+        'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
+    });
+  }else{
     message.success(e.title + ' item deleted');
     getItems();
+  }
+   
   }).catch((err) => {console.log("err", err)});
 }; 
 const cancel = (e) => {
@@ -338,14 +354,37 @@ const moreText = (i) =>{
 const onChangeType = (e) =>{
   setVType(e.target.value);
 }
-
+const onchangeTab = (a) =>{
+  console.log("itemTab",a);
+  a === 0 ? getItems() : ""
+}
+const textFunc = () =>{
+  console.log("texFunc");
+}
 return (
 <BaseLayout pageName="add-item">
   <div style={{ fontWeight: "500", textTransform: "uppercase" }}>
+
+<Tabs   onChange={onchangeTab} defaultActiveKey="4" items={["a","a"].map((Icon, i) => {  
+return {
+  label: i=== 0 ? "Item List" : "Group list", key: i, children: i === 0? 
+  <div>
+      <Item />
+  </div> 
+  :   
+  <div>  
+    <GroupItem />
+  </div>,
+};
+})}
+/>
+
+
+
     <Tabs defaultActiveKey="1">
       <TabPane tab={<span className="flex items-center text-base	"><AppstoreAddOutlined style={{ fontSize: "16px", color: "#1f2937" }}/>Item List</span>} key="1">
-        <div>
-{/* + Item Add ====================================================================================================================> */}
+        <div> 
+
           <div className={css.BaraaNemeh}>
             <Button type="dashed" shape="round" onClick={showModal}>+ {t("addItem")}</Button>
             <Modal title={t("addItem")} footer={null} open={isModalVisible} onOk={handleOk} cancelText={t("addItemModalCancelBtn")} okText={t("addItemModalOkBtn")} onCancel={handleCancel}>
@@ -355,7 +394,7 @@ return (
                 <Form.Item label={t("itemDescription")} name="descrip" rules={[{required: true, message: "Please input your description!"}]}><TextArea placeholder={t("itemDescription")}/></Form.Item> 
                     <Form.Item label={t("itemPrice")} name="price" rules={[{  type: 'number', required: true, message: "Please input your price!"}]}><InputNumber  placeholder={t("itemPrice")}/></Form.Item>
                     <Form.Item label="Image" name="img" rules={[{required: true,message: "Please input your Image!"}]}>
-                    <Upload onPreview={onPreview} listType="picture-card" fileList={fileList} onChange={onChangeImage} >{fileList.length < 1 && "+ Image"}</Upload>
+                      <Upload onPreview={onPreview} listType="picture-card" fileList={fileList} onChange={onChangeImage} >{fileList.length < 1 && "+ Image"}</Upload>
                     </Form.Item> 
                     <Form.Item label={"type: "} name="type" rules={[{  type: 'number', required: true, message: "Please input your type!"}]}>
                     <Radio.Group onChange={onChangeType} value={vType}>
@@ -369,8 +408,8 @@ return (
                 </Form>   
               </div>
             </Modal>
-          </div>
-            {/* Item edit ====================================================================================================================> */}
+          </div> 
+
           <div>
             <Drawer title={t("editItem")} placement={placement} width={500} onClose={onClose} open={visible}>
                   <Form form={formEdit} name="normal_login" className={css.LoginForm}  
@@ -406,8 +445,8 @@ return (
                     </Form.Item> 
                   </Form> 
             </Drawer>
-          </div>
-{/*   Itemnuud ====================================================================================================================> */}
+          </div> 
+
           {spinState === false ? (<div><Spin className={css.SpinCss} tip="" size="large"></Spin></div>) : ("")}
           {itemData === undefined ? <Empty /> : (
             <div className={css.GroupLayoutCss}>
@@ -508,6 +547,7 @@ return (
         </div>
       </TabPane>
     </Tabs>
+
   </div>
 </BaseLayout>
 );

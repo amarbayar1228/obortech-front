@@ -97,7 +97,7 @@ export default function Login() {
                   </Form.Item>
                    {/* obortech: 6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t ============================================================*/} 
                   {/* my ip:  6LfnfrUiAAAAAJ-K132PVlBOqV-fr1F1sBOJcGpR ===============================================================*/}
-                  <div className={css.CaptchaCss}> {spinCapt  == 0 ? <Spin /> : <ReCAPTCHA   onErrored={errorCapt}  ref={recaptchaRef} sitekey="6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t" onChange={onChangeCaptcha}/> }</div>
+                  <div className={css.CaptchaCss}> {spinCapt  == 0 ? <Spin /> : <ReCAPTCHA   onErrored={errorCapt}  ref={recaptchaRef} sitekey="6LfnfrUiAAAAAJ-K132PVlBOqV-fr1F1sBOJcGpR" onChange={onChangeCaptcha}/> }</div>
                  
                   <Form.Item>
                     <div className={css.Login}>

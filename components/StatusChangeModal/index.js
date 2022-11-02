@@ -1,6 +1,7 @@
-import { Button, Input, message, Modal, Radio, Space } from "antd";
+import { Badge, Button, Input, message, Modal, Radio, Space, Tooltip } from "antd";
 import React, { useState } from "react";
 import axios from "axios";
+import css from "./style.module.css"
 
 import { CaretDownOutlined } from "@ant-design/icons";
 const { TextArea } = Input;
@@ -8,16 +9,20 @@ const StatusChangeModal = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [value, setValue] = useState(0);
   const [othersState, setOthersState] = useState("");
+  const [itemInfo, setItemInfo] = useState("");
 
   const onChange = (e) => {
     setValue(e.target.value);
   };
   const showModal = () => {
-    console.log("pkId", props);
+    console.log("pkId", props.addItemStatus);
+ 
     if (props.pkId == undefined) {
       setValue(props.addItemStatus.status);
+      setItemInfo(props.addItemStatus)
     } else {
       setValue(props.pkId.status);
+      setItemInfo(props.addItemStatus)
     }
     setIsModalVisible(true);
   };
@@ -35,26 +40,12 @@ const StatusChangeModal = (props) => {
         status: value,
         others: othersState,
       }; 
-      axios
-        .post("/api/post/Gate", body)
-        .then((res) => { 
+      axios.post("/api/post/Gate", body).then((res) => { 
           message.success("Success");
           props.addItemGetItems();
           setIsModalVisible(false);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      // axios.post("/api/post/item/updateStateItem", body).then(
-      //   (res) => {
-      //     message.success("Success");
-      //     props.addItemGetItems();
-      //     setIsModalVisible(false);
-      //   },
-      //   (error) => {
-      //     message.error("Error");
-      //   }
-      // );
+        }).catch((err) => {console.log(err)});
+     
     } else {
       //Group state
       // console.log("group items state: ", props.pkId.pkId);
@@ -65,26 +56,11 @@ const StatusChangeModal = (props) => {
         status: value,
         others: othersState,
       };
-      axios
-        .post("/api/post/Gate", body)
-        .then((res) => {
+      axios.post("/api/post/Gate", body).then((res) => {
           console.log(res.data);
           props.getGroupItems();
           setIsModalVisible(false);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      // axios.post("/api/post/item/uploadStatusGroupItems", body).then(
-      //   (res) => {
-      //     message.success("Success");
-      //     props.getGroupItems();
-      //     setIsModalVisible(false);
-      //   },
-      //   (error) => {
-      //     message.error("Error");
-      //   }
-      // );
+        }).catch((err) => {console.log(err)}); 
     }
   };
 
@@ -93,49 +69,23 @@ const StatusChangeModal = (props) => {
   };
   return (
     <div style={{ marginRight: "3px" }}>
-      <Button
-        type="default"
-        shape="circle"
-        size="small"
-        onClick={showModal}
-        icon={<CaretDownOutlined />}
-      ></Button>
-      <Modal
-        title="Status modal"
-        visible={isModalVisible}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      >
+      <Button type="default" shape="default" size="small" onClick={showModal} icon={<CaretDownOutlined />}></Button>
+      <Modal title="Status modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
         <div>
+        <div className={css.CompNameCss}>
+            <div className={css.CompFlex}><div className={css.CompTitle}>Title:</div><div className={css.CompNameF}>{itemInfo.title}</div></div>
+            <div className={css.StatusCss}>
+            {itemInfo.status == 1 ? (<Tooltip title="Active"><Badge status="success" text="active" style={{color: "#52c41a",fontWeight: "600"}}/></Tooltip>) : 
+                itemInfo.status == 0 ? <Tooltip title="Invisible">  <Badge status="default" text="invisible" style={{color: "#8d8d8d",fontWeight: "600"}}/></Tooltip> : 
+                itemInfo.status == 2 ? <Tooltip title="Disable">  <Badge status="error" text="Disable" style={{color: "red",fontWeight: "600"}}/></Tooltip>  : ""
+                }
+            </div>
+        </div>
           <Radio.Group onChange={onChange} value={value}>
             <Space direction="vertical">
-              <Radio value={1}>
-                Enable
-                {value === 1 ? (
-                  <TextArea
-                    style={{ marginTop: "5px" }}
-                    onChange={(e) => setOthersState(e.target.value)}
-                  />
-                ) : null}
-              </Radio>
-              <Radio value={0}>
-                Invisible
-                {value === 0 ? (
-                  <TextArea
-                    style={{ marginTop: "5px" }}
-                    onChange={(e) => setOthersState(e.target.value)}
-                  />
-                ) : null}
-              </Radio>
-              <Radio value={2}>
-                Disable
-                {value === 2 ? (
-                  <TextArea
-                    style={{ marginTop: "5px" }}
-                    onChange={(e) => setOthersState(e.target.value)}
-                  />
-                ) : null}
-              </Radio>
+              <Radio value={1}>Enable{value === 1 ? (<TextArea style={{ marginTop: "5px" }} onChange={(e) => setOthersState(e.target.value)}/>) : null}</Radio>
+              <Radio value={0}> Invisible {value === 0 ? (<TextArea style={{ marginTop: "5px" }} onChange={(e) => setOthersState(e.target.value)}/>) : null}</Radio>
+              <Radio value={2}> Disable {value === 2 ? ( <TextArea style={{ marginTop: "5px" }} onChange={(e) => setOthersState(e.target.value)}/>) : null}</Radio>
             </Space>
           </Radio.Group>
         </div>

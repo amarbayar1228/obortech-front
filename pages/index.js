@@ -1,7 +1,7 @@
 import BaseLayout from "../components/Layout/BaseLayout";
 import { Badge, Button, Col, Divider, Input, Modal, Radio, Result, Row, Select, Spin } from "antd";
 import Head from "next/head";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import css from "./style.module.css";
 import BasketContext from "../context/basketContext/BasketContext";
 import { Footer } from "antd/lib/layout/layout";
@@ -10,7 +10,7 @@ import {ArrowRightOutlined,CheckOutlined, ExclamationCircleOutlined} from "@ant-
 import axios from "axios";
 import { useTranslation } from "next-i18next";
 import { Router, useRouter } from "next/router";
-import ReCAPTCHA from "react-google-recaptcha";
+import ReCAPTCHA from "react-google-recaptcha"; 
 import Spinner from "../components/Spinner";
 const { Search } = Input;
 const { Option } = Select;
@@ -29,6 +29,8 @@ export default function Home(props) {
   useEffect(() => { 
     tokenFunc(); 
   }, []);
+ 
+
   const tokenFunc = () =>{
     if(sessionStorage.getItem("item_key")){ 
   }else{ 
@@ -117,7 +119,7 @@ return (
         <div className={css.OrgError}><Result status="warning" title={orgError} style={{fontWeight: "600"}}/></div> : 
         <>{spin ? <div className={css.SpinCss}> <Spinner /> </div> : 
         <div className={css.OrgIdCss}> 
-        <div className={css.CaptchaCss}><ReCAPTCHA sitekey="6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t" onChange={onChangeCaptcha}/></div>
+        <div className={css.CaptchaCss}><ReCAPTCHA sitekey="6LfnfrUiAAAAAJ-K132PVlBOqV-fr1F1sBOJcGpR" onChange={onChangeCaptcha}/></div>
           {btnDis === false ? 
           <div> 
             <div className={css.OrgSelectCSs}>Organization id select?</div>
@@ -135,6 +137,7 @@ return (
 
     </div> 
   </div> 
+ 
 </BaseLayout>
 </div>
 );
