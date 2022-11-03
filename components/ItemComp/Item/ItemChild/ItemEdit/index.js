@@ -1,4 +1,4 @@
-import { Badge, Button, Form, Input, InputNumber, message, Modal, notification, Tooltip, Upload } from "antd";
+import { Badge, Button, Form, Input, InputNumber, message, Modal, notification, Radio, Tooltip, Upload } from "antd";
 import React, { useState } from "react";
 import css from "./style.module.css"
 import {SearchOutlined ,CheckOutlined, ExclamationCircleOutlined, FormOutlined, ClearOutlined, StarOutlined,SolutionOutlined, FundViewOutlined,DeleteOutlined, EditOutlined} from "@ant-design/icons";
@@ -15,14 +15,14 @@ console.log("edit modal", props);
 setItemInfo(props.addItemStatus);
 setImgNullText("");
 setFileListUpdate([
-    {
-        uid: '-1',
-        name: 'image.png',
-        status: 'done',
-        thumbUrl: "data:image/png;base64," + props.addItemStatus.img,
-    }, 
-    ]);
-    setIsModalOpen(true);
+{
+    uid: '-1',
+    name: 'image.png',
+    status: 'done',
+    thumbUrl: "data:image/png;base64," + props.addItemStatus.img,
+}, 
+]);
+setIsModalOpen(true);
 };
 const handleOk = () => {
     setIsModalOpen(false);
@@ -54,9 +54,11 @@ setFileListUpdate(newFileList);
 const  onFinishEdit= (values) =>{ 
 console.log("values: ", values);
 console.log("pkId", itemInfo.pkId);
+console.log("zyrag: ", fileListUpdate);
 // console.log("state: ", fileListUpdate);
 // console.log("editStatus: ", editStatus);
 // console.log("idPk: ", idPk);
+
 if(fileListUpdate[0]){ 
     let baseImg = fileListUpdate[0].thumbUrl.split("base64,")[1]; 
     setImgNullText(""); 
@@ -67,6 +69,7 @@ const body ={
     description: values.descrip,
     price: values.price,
     img: baseImg, 
+    type_: 1,
 }
     axios.post("/api/post/Gate", body).then((res) => { 
     if(res.data.error){
@@ -94,16 +97,17 @@ console.log("errInfo: ", errInfo);
 // formAddItem.resetFields(); 
 }
 return <div>
-<Tooltip title="Edit"><Button size="small" className={css.BtnReject}  icon={<EditOutlined />} onClick={showModal} style={{margin: "0px 5px"}}></Button> </Tooltip>
+<Tooltip title="Edit"><Button size="small" className={css.BtnReject}  icon={<EditOutlined />} onClick={showModal} style={{margin: "0px 5px", color: "#4b4c00", background: "#acf5b5"}}></Button> </Tooltip>
 
 <Modal title="Edit item" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
-<Form form={formEdit} name="normal_login" className={css.LoginForm}  
-labelCol={{span: 7,}} wrapperCol={{span: 30,}} 
+<Form form={formEdit} name="EditForm" className={css.LoginForm}  
+labelCol={{span: 5,}} wrapperCol={{span: 30,}} 
 initialValues={{ 
     title: itemInfo.title,
     descrip: itemInfo.description,
     price: itemInfo.price,
-    img: fileListUpdate,
+    // img: fileListUpdate,
+    type: 3,
 }} onFinish={onFinishEdit} onFinishFailed={onFinishFailedEdit}> 
 <div className={css.CompNameCss}>
 <div className={css.CompFlex}><div className={css.CompTitle}>Title:</div><div className={css.CompNameF}>{itemInfo.title}</div></div>
@@ -115,14 +119,26 @@ initialValues={{
     }
 </div>
 </div>
-<Form.Item label={"itemName"} name={"title"}   rules={[{required: true,message: "Please input your First name!"}]}><Input placeholder={"itemName"} allowClear/></Form.Item>
-<Form.Item label={"itemDescription"} name={"descrip"} rules={[{required: true,message: "Please input your description!"}]}><TextArea placeholder={"itemDescription"} allowClear showCount/></Form.Item> 
-<Form.Item label={"itemPrice"} name="price" rules={[{  type: 'number', required: true, message: "Please input your price!"}]}>
+<Form.Item label={"Title"} name="title"   rules={[{required: true,message: "Please input your First name!"}]}><Input placeholder={"itemName"} allowClear/></Form.Item>
+<Form.Item label={"Description"} name="descrip" rules={[{required: true,message: "Please input your description!"}]}><TextArea placeholder={"itemDescription"} allowClear showCount/></Form.Item> 
+<Form.Item label={"Price"} name="price" rules={[{  type: 'number', required: true, message: "Please input your price!"}]}>
     <InputNumber style={{width: "100px"}} formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} parser={(value) => value.replace(/\$\s?|(,*)/g, '')} placeholder={"itemPrice"}/>
 </Form.Item>
-<Form.Item label="Image" name="img" rules={[{required: true,message: "Please input your Image!"}]}>  <Upload fileList={fileListUpdate} onPreview={onPreview} listType="picture-card" onChange={onChangeImageUpdate} >
+<Form.Item label="Image"  rules={[{required: true,message: "Please input your Image!"}]}>  
+        <Upload fileList={fileListUpdate} onPreview={onPreview} listType="picture-card" onChange={onChangeImageUpdate} >
         {fileListUpdate.length < 1 && "+ Image"}</Upload> <span className={css.ImgErr}>{imgNullText}</span>
 </Form.Item>  
+<Form.Item label={"type: "} name="type" rules={[{  type: 'number', required: true, message: "Please input your type!"}]}>
+    <Radio.Group> 
+         {props.typeLevel === null ? "" : <>{props.typeLevel.typeName.map((e,i)=>(
+            <Radio value={i+1} key={i}>{e}</Radio>
+        ))}</>}
+        {/* <Radio value={1}>Subscribtion</Radio>
+        <Radio value={2}>Device 6</Radio>
+        <Radio value={3}>Device 12</Radio>
+        <Radio value={4}>Items</Radio> */}
+    </Radio.Group>
+    </Form.Item>
 {/* <div><Button onClick={()=> formEdit.resetFields()}>Reset</Button></div> */}
 <Form.Item><div style={{marginBottom: "-35px"}}><Button type="primary" htmlType="submit" className="login-form-button" style={{width: "100%"}}>Send</Button></div></Form.Item> 
 </Form> 

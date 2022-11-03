@@ -37,7 +37,11 @@ const BacketComponent = (props) => {
     });
      setTotalPriceState(price);
   };
+const clearFunc = () =>{
+  console.log("clear");
+  localStorage.removeItem("basket");
 
+}
   return (
     <div className={css.Basket}>
       {basketContext.basketState.length === 0 ? (
@@ -76,7 +80,8 @@ const BacketComponent = (props) => {
       )}
       <div className={css.Orderbtns}> 
         <div className={css.BtnOrder}>
-          <Button className={css.OrderIcon} type="primary" icon={<ShoppingCartOutlined style={{ fontSize: "18px" }} />} loading={loadings[1]} size="small" 
+          <Button size="small" style={{fontSize: "14px", marginRight: "5px"}} onClick={()=>basketContext.clearBasket()}>clear</Button>
+          <Button className={css.OrderIcon} type="primary" icon={<ShoppingCartOutlined style={{ fontSize: "16px" }} />} loading={loadings[1]} size="small" 
           onClick={() => paymentRoute(1)}>Order</Button>
         </div>
       </div>

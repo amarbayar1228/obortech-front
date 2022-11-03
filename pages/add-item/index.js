@@ -382,7 +382,7 @@ return {
 
 
     <Tabs defaultActiveKey="1">
-      <TabPane tab={<span className="flex items-center text-base	"><AppstoreAddOutlined style={{ fontSize: "16px", color: "#1f2937" }}/>Item List</span>} key="1">
+      {/* <TabPane tab={<span className="flex items-center text-base	"><AppstoreAddOutlined style={{ fontSize: "16px", color: "#1f2937" }}/>Item List</span>} key="1">
         <div> 
 
           <div className={css.BaraaNemeh}>
@@ -483,7 +483,7 @@ return {
             </div>
           )}
         </div>
-      </TabPane>
+      </TabPane> */}
 {/* + Group items ====================================================================================================================> */}         
       <TabPane tab={
           <span className="flex items-center text-base	"><GroupOutlined style={{ fontSize: "16px", color: "#1f2937" }} />Group List</span>
@@ -503,7 +503,7 @@ return {
                           <div> 
                           <div className={cssGroup === i ? css.Gdescrip2 : css.Gdescrip}> 
                               {e.description} 
-                          </div> {e.description.length <= 30 ? "" :<span className={cssGroup === i ? css.MoreText2 : css.MoreText}><Button onClick={()=>moreText(i)} size="small" type="link" danger>{cssGroup === i ? "hide" : "more"}</Button></span>}
+                          </div> {e.description.length <= 30 ? "" :<span className={cssGroup === i ? css.MoreText2 : css.MoreText}><Button onClick={()=>moreText(i)} size="small" type="link" danger>{cssGroup === i ? "hide" : "more"}</Button></span>} 
                           </div>
                           <div>
                             {e.status === 1 ? (<Tooltip title={e.others}><Badge status="success" text="Enable" /></Tooltip>
@@ -513,7 +513,8 @@ return {
                           </div>
                           <div className={css.HoverEditCss}>
                             {e.status === 2 ? ("") : (
-                              <><div><StatusChangeModal pkId={e} getGroupItems={getGroupItems}/></div>
+                              <>
+                              <div><StatusChangeModal pkId={e} getGroupItems={getGroupItems}/></div>
                                 <div><GroupItemEdit pkId={e} getGroupItems={getGroupItems}/></div>
                                 <div><GroupItemDelete pkId={e} getGroupItems={getGroupItems}/></div></>
                             )}

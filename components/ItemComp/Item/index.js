@@ -22,6 +22,7 @@ const [filteredInfo, setFilteredInfo] = useState({});
 const [sortedInfo, setSortedInfo] = useState({});
 const [searchText, setSearchText] = useState('');
 const [searchedColumn, setSearchedColumn] = useState('');   
+const [typeLevel, setType] = useState(null);
 const searchInput = useRef(null); 
 
 useEffect(()=>{ 
@@ -40,11 +41,14 @@ const getItems = () => {
     setItemData(res.data.getItems.list);
     }).catch((err) => {message.error(err)}); 
 
-    const itemLevel = {
-    func: "getTypes",
+const itemLevel = {
+func: "getTypes",
 }
 axios.post("/api/post/Gate", itemLevel).then((res)=>{
 console.log("item level type: ", res.data);
+setType(res.data.data);
+}).catch((err)=>{
+    console.log("err",err);
 })
 };
 const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -56,12 +60,13 @@ const handleReset = (clearFilters) => {
 clearFilters();
 setSearchText('');
 }; 
+
 const getColumnSearchProps = (dataIndex) => ({
 filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
     <div style={{padding: 5,}}>
-    <Input ref={searchInput}placeholder={`Search ${dataIndex}`} value={selectedKeys[0]}
+    <Input ref={searchInput}placeholder={`Search ${dataIndex}`} value={selectedKeys[0]} 
         onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-        onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)} style={{marginBottom: 8,display: 'block',}}/>
+        onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)} style={{marginBottom: 8,display: 'block' }}/>
     <Space>
         <Button type="primary" onClick={() => handleSearch(selectedKeys, confirm, dataIndex)} icon={<SearchOutlined />} size="small" style={{width: 90,}}>Search</Button>
         <Button onClick={() => clearFilters && handleReset(clearFilters)} size="small" style={{width: 90,}}>Reset</Button>
@@ -84,58 +89,59 @@ render: (text) =>
     ) : (text),
 });
 const clearAll = () => {
+    setSearchText('');
     setFilteredInfo({});
     setSortedInfo({});
   };
 
 const handleChangeTable = (pagination, filters, sorter) => {
-    // setSpinner(true);
-    console.log('Various pagination: ', pagination);
-    setTableParams({
-        pagination,
-        filters,
-        ...sorter,
-      });
-    // setPagiValue2(page);
-    // setPagiValue3(1);
-    // setSpinState(true);
-    console.log("page: ", pagination.current +" pageSize: "+pagination.pageSize);
-    const resultPage = 0;   
-    if(pagination.current == 1){
-      resultPage = 0;
-      console.log("tentsv");
-    }else {
-      resultPage = pagination.current - 1; 
-    } 
-    resultPage = resultPage * pagination.pageSize;   
-    const body = {
-        func: "getCompany",
-        state: 1,
-        start: resultPage,
-        count: pagination.pageSize,
-    };
-    // axios.post("/api/post/Gate", body).then((res) => {
-    // console.log("res.data: ", res.data.data);
-    // setCompanyData(res.data.data);
-        
-    //     setCompanyData(res.data.data)
-    //     setSpinner(false); 
+// setSpinner(true);
+console.log('Various pagination: ', pagination);
+setTableParams({
+    pagination,
+    filters,
+    ...sorter,
+    });
+// setPagiValue2(page);
+// setPagiValue3(1);
+// setSpinState(true);
+console.log("page: ", pagination.current +" pageSize: "+pagination.pageSize);
+const resultPage = 0;   
+if(pagination.current == 1){
+    resultPage = 0;
+    console.log("tentsv");
+}else {
+    resultPage = pagination.current - 1; 
+} 
+resultPage = resultPage * pagination.pageSize;   
+const body = {
+    func: "getCompany",
+    state: 1,
+    start: resultPage,
+    count: pagination.pageSize,
+};
+// axios.post("/api/post/Gate", body).then((res) => {
+// console.log("res.data: ", res.data.data);
+// setCompanyData(res.data.data);
+    
+//     setCompanyData(res.data.data)
+//     setSpinner(false); 
 
-    // }).catch((err) => {console.log(err)});
+// }).catch((err) => {console.log(err)});
 
-    console.log("result page: ", resultPage);
-    setFilteredInfo(filters);
-    setSortedInfo(sorter);
-  };
+console.log("result page: ", resultPage);
+setFilteredInfo(filters);
+setSortedInfo(sorter);
+};
 const data = itemData.map((r, i)=>(
     {
       key: i,
       date: i+"",
       img: r.img,
-      title: r.title,
-      description: r.description,
+      title: r.title.toLowerCase(),
+      description: r.description.toLowerCase(),
       price: r.price,
-      others: r.others,
+      others: r.others.toLowerCase(),
       cnt: r.cnt,
       state: r, 
       action: r
@@ -228,7 +234,7 @@ const columns = [
     width: 90,
     // ...getColumnSearchProps('state'), 
     render: (a) => <div>
-        {a.status == 1 ? (<Tooltip title="Active"><Badge status="success" text="active" style={{color: "#52c41a",fontWeight: "600"}}/></Tooltip>) : 
+        {a.status == 1 ? (<Tooltip title="Active"><Badge status="success" text="active" style={{color: "#349f3c",fontWeight: "600"}}/></Tooltip>) : 
         a.status == 0 ? <Tooltip title="Invisible">  <Badge status="default" text="invisible" style={{color: "#8d8d8d",fontWeight: "600"}}/></Tooltip> : 
         a.status == 2 ? <Tooltip title="Disable">  <Badge status="error" text="Disable" style={{color: "red",fontWeight: "600"}}/></Tooltip>  : ""
         }
@@ -243,16 +249,18 @@ const columns = [
     {title: 'Action', key: 'action', fixed: 'right', width: 140,
     render: (b) => <div className={css.ActionCss}>
          <div style={{display: "flex"}}> 
-         <StatusChangeModal addItemStatus={b.state} addItemGetItems={getItems}/>
-         <ItemEdit addItemStatus={b.state} addItemGetItems={getItems}/>
+         <StatusChangeModal addItemStatus={b.state} addItemGetItems={getItems} />
+         <ItemEdit addItemStatus={b.state} addItemGetItems={getItems} typeLevel={typeLevel}/>
          <ItemDel addItemStatus={b.state} addItemGetItems={getItems}/> 
         </div>   
     </div>,
     },
 ];
 return<div>
-    <ItemAdd getItems={getItems}/>
-      <div className={css.ClearTable}><Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Table sort clear</Button></div>
+       <div className={css.StateCss}>
+        <ItemAdd getItems={getItems} typeLevel={typeLevel}/>
+        <div className={css.ClearTable}><Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Table sort clear</Button></div>
+       </div>
          <Table bordered size="small" columns={columns} dataSource={data} onChange={handleChangeTable} loading={spinner}  scroll={{x:  1000 }} pagination={tableParams.pagination}/>
 </div>
 }

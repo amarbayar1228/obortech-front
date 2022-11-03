@@ -15,52 +15,62 @@ const StatusChangeModal = (props) => {
     setValue(e.target.value);
   };
   const showModal = () => {
-    console.log("pkId", props.addItemStatus);
+    console.log("pkId", props);
  
-    if (props.pkId == undefined) {
+    if (props.groupData == undefined) {
       setValue(props.addItemStatus.status);
       setItemInfo(props.addItemStatus)
+      setOthersState(props.addItemStatus.others);
     } else {
-      setValue(props.pkId.status);
-      setItemInfo(props.addItemStatus)
+      setValue(props.groupData.status);
+      setItemInfo(props.groupData)
     }
     setIsModalVisible(true);
   };
 
   const handleOk = () => {
     //item state
-    if (props.pkId == undefined) {
-      console.log("item state", props);
+    if (props.groupData == undefined) {
+      // console.log("item state", props);
       console.log("value: ", value);
-      console.log("addItemStatus: ", props.addItemStatus);
+      // console.log("addItemStatus: ", props.addItemStatus);
       console.log("others: ", othersState);
-      const body = {
-        func: "setItemStatus",
-        pkId: props.addItemStatus.pkId,
-        status: value,
-        others: othersState,
-      }; 
-      axios.post("/api/post/Gate", body).then((res) => { 
-          message.success("Success");
-          props.addItemGetItems();
-          setIsModalVisible(false);
-        }).catch((err) => {console.log(err)});
-     
+      if(othersState == ""){
+        message.error("hooson baina")
+      }else{
+        const body = {
+          func: "setItemStatus",
+          pkId: props.addItemStatus.pkId,
+          status: value,
+          others: othersState,
+        }; 
+        axios.post("/api/post/Gate", body).then((res) => { 
+            message.success("Success");
+            props.addItemGetItems();
+            setIsModalVisible(false);
+          }).catch((err) => {console.log(err)});
+      } 
     } else {
       //Group state
       // console.log("group items state: ", props.pkId.pkId);
       // console.log("state others: ", othersState);
-      const body = {
-        func: "setGroupStatus",
-        pkId: props.pkId.pkId,
-        status: value,
-        others: othersState,
-      };
-      axios.post("/api/post/Gate", body).then((res) => {
-          console.log(res.data);
-          props.getGroupItems();
-          setIsModalVisible(false);
-        }).catch((err) => {console.log(err)}); 
+      if(othersState == ""){
+        message.error("hooson baina")
+      }else{
+        const body = {
+          func: "setGroupStatus",
+          pkId: props.groupData.pkId,
+          status: value,
+          others: othersState,
+        };
+        axios.post("/api/post/Gate", body).then((res) => {
+            message.success("Success");
+            // console.log(res.data);
+            props.getGroupItems();
+            setIsModalVisible(false);
+          }).catch((err) => {console.log(err)}); 
+      }
+  
     }
   };
 
@@ -82,10 +92,10 @@ const StatusChangeModal = (props) => {
             </div>
         </div>
           <Radio.Group onChange={onChange} value={value}>
-            <Space direction="vertical">
-              <Radio value={1}>Enable{value === 1 ? (<TextArea style={{ marginTop: "5px" }} onChange={(e) => setOthersState(e.target.value)}/>) : null}</Radio>
-              <Radio value={0}> Invisible {value === 0 ? (<TextArea style={{ marginTop: "5px" }} onChange={(e) => setOthersState(e.target.value)}/>) : null}</Radio>
-              <Radio value={2}> Disable {value === 2 ? ( <TextArea style={{ marginTop: "5px" }} onChange={(e) => setOthersState(e.target.value)}/>) : null}</Radio>
+            <Space direction="vertical" >
+              <Radio value={1}>Enable{value === 1 ? (<TextArea value={othersState} style={{ marginTop: "5px", width: "95%" }} showCount allowClear onChange={(e) => setOthersState(e.target.value)}/>) : null}</Radio>
+              <Radio value={0}> Invisible {value === 0 ? (<TextArea value={othersState} style={{ marginTop: "5px", width: "95%" }} showCount allowClear onChange={(e) => setOthersState(e.target.value)}/>) : null}</Radio>
+              <Radio value={2}> Disable {value === 2 ? ( <TextArea value={othersState} style={{ marginTop: "5px",width: "95%" }} showCount allowClear onChange={(e) => setOthersState(e.target.value)}/>) : null}</Radio>
             </Space>
           </Radio.Group>
         </div>

@@ -1,0 +1,64 @@
+.ItemDesc {
+    border-radius: 5px;
+    border: 1px solid #d9d9d9;
+    margin: 5px;
+    padding: 10px;
+}
+
+.Title {
+    display: flex;
+    font-size: 15px;
+    font-weight: 600;
+    color: #4d5057;
+    margin: 10px;
+    align-items: center;
+}
+
+.GroupItemCarCss {
+    display: flex;
+    align-items: center;
+    background: #e6f2ff;
+    font-weight: 500;
+    border-radius: 5px;
+    padding: 3px 8px;
+    font-size: 15px;
+    color: #1877f2;
+}
+
+.GroupDetailsCss {
+    max-height: 410px;
+    overflow-y: hidden;
+    margin-top: 5px;
+}
+
+.GroupDetailsCss {
+    overflow-y: auto;
+}
+
+.GroupDetailsCss::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+/* .GroupDetailsCss:hover::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.3);
+  } */
+
+.GroupDetailsCss:hover::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 10px;
+}
+
+.ItemCntCss {
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.TotalPriceCss {
+    font-weight: 500;
+    font-size: 17px;
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #4d5057;
+    color: #fff;
+}

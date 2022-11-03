@@ -286,7 +286,7 @@ export default function BaseLayout(props) {
         ) : (<div className={ addItemStyleProps === undefined ? [css.BasketPop] : addItemStyleProps}>{basketContext.basketState.length}</div>)}
         <Tooltip title={t("basketName")}>
           <Popover content={<BacketComponent />} title={<div className={css.BasketHeader}>
-          <div><ShoppingCartOutlined style={{ paddingRight: "5px", fontSize: "18px" }}/>{t("basketName")}</div>
+          <div className={css.BasketHdrCss}><ShoppingCartOutlined style={{ paddingRight: "5px", fontSize: "15px" }}/>{t("basketName")}</div>
             <div>{basketContext.orgId == undefined ? "" : <div className={css.OrgIdText2}>Org ID: {basketContext.orgId}</div>}</div></div>} 
             trigger="click" open={visible} onOpenChange={handleVisibleChange}>
             <Button type="link" className={router.pathname == "/payment" ? css.ActiveBasket : css.Icons}><ShoppingCartOutlined /></Button>

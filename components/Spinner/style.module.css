@@ -7,7 +7,7 @@
     justify-content: center;
     align-items: center;
     transition: 0.5s;
-    border-radius: 5px;
+    border-radius: 3px;
     color: red;
     overflow: hidden;
     -webkit-box-reflect: below 1px linear-gradient(transparent, #0004);

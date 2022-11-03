@@ -180,10 +180,14 @@ const orgIdLocal = (orgId) =>{
   const groupDetailFuncContext = (groupDetails) => {  
     groupDetails();
   }
+  const clearBasket = () =>{
+    localStorage.removeItem("basket");
+    setBasketState([]);
+  }
   return (
     <BasketContext.Provider
       value={{
-        orgId, orgIdLocal, groupDetailFuncContext,
+        orgId, orgIdLocal, groupDetailFuncContext, clearBasket,
         basketState, getUserProfileFunction, userInfoProfile, onCollapse, toggle, hanshnuud, collapsed, basketItemDelete,
         totalPriceFunction2, totalPriceState, removeBasketStorage, decline,
         MenuKey, todayDateState, localStorageBasketLength, increase, basketStateFunc, menuSelectKeyState,
