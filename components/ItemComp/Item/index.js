@@ -136,7 +136,7 @@ setSortedInfo(sorter);
 const data = itemData.map((r, i)=>(
     {
       key: i,
-      date: i+"",
+      date: r.date_,
       img: r.img,
       title: r.title.toLowerCase(),
       description: r.description.toLowerCase(),
@@ -152,7 +152,7 @@ const columns = [
     title: 'Date',
     dataIndex: 'date',
     key: 'date', 
-    width: 100,
+    width: 120,
     fixed: 'left', 
     ...getColumnSearchProps('date'), 
     filteredValue: filteredInfo.date || null,
@@ -259,9 +259,10 @@ const columns = [
 return<div>
        <div className={css.StateCss}>
         <ItemAdd getItems={getItems} typeLevel={typeLevel}/>
+
         <div className={css.ClearTable}><Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Table sort clear</Button></div>
        </div>
-         <Table bordered size="small" columns={columns} dataSource={data} onChange={handleChangeTable} loading={spinner}  scroll={{x:  1000 }} pagination={tableParams.pagination}/>
+         <Table bordered size="small" columns={columns} dataSource={data} onChange={handleChangeTable} loading={spinner}  scroll={{x:  1000 }} pagination={tableParams.pagination} />
 </div>
 }
 export default Item;

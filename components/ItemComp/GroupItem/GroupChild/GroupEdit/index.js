@@ -1,17 +1,9 @@
-import { Button, Empty, Input, message, Modal, Table, Typography, Popconfirm, InputNumber, Form, Image} from "antd"; 
+import { Button, Empty, Input, message, Modal, Table, Typography, Popconfirm, InputNumber, Form, Image, Tooltip, Badge,} from "antd"; 
 import React, { useContext, useEffect, useState } from "react";
 import css from "./style.module.css";
-import {EditOutlined,AppleOutlined,CaretRightOutlined} from "@ant-design/icons";
+import {EditOutlined,CheckSquareOutlined,CaretRightOutlined} from "@ant-design/icons";
 import axios from "axios"; 
-// const originData = [];
-// for (let i = 0; i < 10; i++) {
-//   originData.push({
-//     key: i.toString(),
-//     name: `Edrward ${i}`,
-//     age: 32,
-//     address: `London Park no. ${i}`,
-//   });
-// }
+import TextArea from "antd/lib/input/TextArea";
 const EditableCell = ({
   editing,
   dataIndex,
@@ -36,17 +28,19 @@ const GroupEdit = (props) => {
   const [onChangePriceD, setOnChangePriceD] = useState([]);
   const [titleEdit, setTitleEdit] = useState();
   const [descriptionEdit, setDescriptionEdit] = useState();
+  const [others, setOthers] = useState("");
   const [groupItemDetails, setGroupItemDetails] = useState([]);
-  const [totalPrice, setTotalPrice] = useState();
+  const [itemInfo, setItemInfo] = useState("");
+  const [spinner, setSpinner] = useState(false);
+//   const [totalPrice, setTotalPrice] = useState();
   const [priceTotal, setPriceTotal] = useState(0);
   const [form] = Form.useForm();
   const [data, setData] = useState("");
-  const [editingKey, setEditingKey] = useState('');
+  const [editingKey, setEditingKey] = useState(''); 
   const isEditing = (record) => record.key === editingKey;
  
 
-  const edit = (record) => {
-    console.log("record", record);
+  const edit = (record) => { 
     form.setFieldsValue({
       name: '',
       age: '',
@@ -69,11 +63,9 @@ const GroupEdit = (props) => {
         newData.splice(index, 1, {
           ...item,
           ...row,
-        });
-        console.log("data: ", newData);
+        }); 
         var total = 0;
-        newData.forEach(element => {
-            console.log("element", element.itemPriceD);
+        newData.forEach(element => { 
             total += element.itemCnt * element.itemPriceD; 
         });
         setPriceTotal(parseInt(total));
@@ -91,46 +83,21 @@ const GroupEdit = (props) => {
   };
   const columns = [
     {
-        title: 'Image',
-        dataIndex: 'img',
-        width: 40,
-        editable: false,
-        render: (a) => <div>
-          <Image alt="Obertech" preview={true} className={css.Zurag} src={"data:image/png;base64," + a} style={{width: "50px"}}/>
-    </div>, 
+        title: 'Image', dataIndex: 'img', width: "20px", editable: false,
+        render: (a) => <div><Image alt="Obertech" title="vzeh" preview={true} className={css.Zurag} src={"data:image/png;base64," + a} style={{display: "flex", width: "30px", margin:"0px auto"}}/></div>, 
       },
-    {
-      title: 'Title',
-      dataIndex: 'title',
-      width: 120,
-      editable: true,
-    },  
-    {
-        title: 'Price',
-        dataIndex: 'itemPriceD',
-        width: 50,
-        editable: true,
-      },
-      {
-        title: 'Cnt',
-        dataIndex: 'itemCnt',
-        width: 30,
-        key: "itemCnt",
-        editable: true,
-      },
-    {
-      title: 'A',
-      dataIndex: 'operation', 
-      width: 50,
+    {title: 'Title', dataIndex: 'title', width: 120, editable: false},  
+    {title: 'Price', dataIndex: 'itemPriceD', width: 50, editable: true, render: (a) =><div>{a} $</div>},
+    { title: 'Cnt', dataIndex: 'itemCnt', width: 30, key: "itemCnt", editable: true},
+    { title: 'Action', dataIndex: 'operation',  width: 50, fixed: "right",
       render: (_, record) => {
         const editable = isEditing(record);
         return editable ? (
           <span>
-            <Typography.Link onClick={() => save(record.key)} style={{marginRight: 8,}}>Save</Typography.Link>
+            <Typography.Link onClick={() => save(record.key)} style={{marginRight: 8,}}>save</Typography.Link>
             <Popconfirm title="Sure to cancel?" onConfirm={cancel}><a>Cancel</a></Popconfirm>
           </span>
-        ) : (<Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>Edit</Typography.Link>
-        );
+        ) : (<Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>Edit</Typography.Link>);
       },
     },
   ];
@@ -151,11 +118,15 @@ const GroupEdit = (props) => {
   });
 
   const showModal = () => { 
+    setSpinner(true);
     setTitleEdit(props.pkId.title);
+    setItemInfo(props.pkId);
+    console.log("props: ", props.pkId);
+    setOthers(props.pkId.others);
     setDescriptionEdit(props.pkId.description);
     setGetGroupItemsState(props.pkId);
     setGroupItemsGbm(props.pkId.gbm);
-    setTotalPrice(props.pkId.price);
+    // setTotalPrice(props.pkId.price);
     setIsModalVisible(true);
     setOnChangePriceD([]); 
     const body = {
@@ -169,7 +140,7 @@ const GroupEdit = (props) => {
         const originData = [];
         var total = 0;
         res.data.data.itemList.forEach((element, i) => { 
-            console.log(parseInt(element.itemPriceD));
+ 
             total += element.itemCnt * element.itemPriceD; 
             originData.push({ 
                 key: i,
@@ -180,6 +151,7 @@ const GroupEdit = (props) => {
                 img: element.img,
             });
             setData(originData);
+            setSpinner(false);
         });
         console.log("total price: ", total);
         setPriceTotal(parseInt(total));
@@ -204,140 +176,68 @@ const GroupEdit = (props) => {
   };
 
   const handleCancel = () => {
+    setEditingKey('');
     setIsModalVisible(false);
-  };
-
-
-  const priceFunction = (e, itemPkId) => {
-    console.log("itemPkId: ", itemPkId);
-    setGroupItemDetails([...groupItemDetails]);
-    console.log("target: ", e.target.value);
-    const obj = {
-      groupItemHeaderPkId: getGroupItemsState.pkId,
-      itemPkId: itemPkId + "",
-      itemPriceD: parseInt(e.target.value),
-    };
-
-    let arr = onChangePriceD;
-    if (arr.length === 0) {
-      arr.push(obj);
-    } else {
-      var isArrived = false;
-      for (var i = 0; i < arr.length; i++) {
-        const temp = arr[i];
-        if (temp.itemPkId === obj.itemPkId || groupItemDetails[i].pkId === obj.itemPkId) 
-        {
-          arr[i].itemPriceD = obj.itemPriceD;
-          arr[i].itemCnt = groupItemDetails[i].itemCnt;
-          isArrived = true;
-          var sumUser = 0;
-          onChangePriceD.forEach((element) => {
-            sumUser += element.itemCnt * element.itemPriceD;
-            setTotalPrice(sumUser);
-          });
-        }
-      }
-      if (!isArrived) {
-        arr.push(obj);
-      }
-    }
-
-    setOnChangePriceD(arr);
-  };
-  const titleFunction = (e, itemPkId) => {
-    const obj = {
-      title: e.target.value,
-      itemPkId: itemPkId + "",
-    };
-    let arr = onChangePriceD;
-    if (arr.length === 0) {
-      arr.push(obj);
-    } else {
-      var isArrived = false;
-      for (var i = 0; i < arr.length; i++) {
-        const temp = arr[i];
-        if (temp.itemPkId === obj.itemPkId) {
-          arr[i].title = obj.title;
-          isArrived = true;
-        }
-      }
-      if (!isArrived) {
-        arr.push(obj);
-      }
-    }
-
-    setOnChangePriceD(arr);
-  };
-
-  const handleOk = () => {
-    console.log("data: ", data);
-
-    var groupDetail = [];
-    onChangePriceD.forEach((element) => {
-      groupDetail.push(element);
-    });
-    console.log("ene bol real: ", groupDetail);
-    // console.log("totalPrice: ", totalPrice);
-    // const body = {
-    //   func: "editGroupItems",
-    //   pkId: getGroupItemsState.pkId,
-    //   title: titleEdit,
-    //   description: descriptionEdit,
-    //   status: getGroupItemsState.status,
-    //   groupDetail: groupDetail,
-    //   itemPriceTotal: totalPrice,
-    //   others: "ab",
-    //   cnt: 1,
-    // };
-    // console.log("title: ", titleEdit);
-    // console.log("descriptionEdit: ", descriptionEdit);
-    // console.log("handle onChangePriceD", onChangePriceD);
-    // console.log("price: ", totalPrice); 
-
-    // axios.post("/api/post/Gate", body).then((res) => { 
-    //     message.success("sucess");
-    //     props.getGroupItems(); 
-    //     setIsModalVisible(false);
     
-    //   }).catch((err) => {console.log("err: ", err)}); 
-  };
+  }; 
+  const handleOk = () => { 
+var dd = [];
+   data.forEach(element => { 
+        delete element.title; 
+        delete element.key; 
+        dd.push(element);
+   });   
+    //  console.log("title: ", titleEdit);
+    // console.log("descriptionEdit: ", descriptionEdit); 
+    // console.log("price: ", priceTotal); 
+    // console.log("others", others);
+    // var groupDetail = [];
+    // onChangePriceD.forEach((element) => {
+    //   groupDetail.push(element);
+    // });
+    // console.log("ene bol real: ", groupDetail);
+    // console.log("totalPrice: ", totalPrice);
 
-  const ItemCntPlus = (e, i) => {
-    groupItemDetails[i].itemCnt = groupItemDetails[i].itemCnt + 1;
-    onChangePriceD[i].itemCnt = onChangePriceD[i].itemCnt + 1;
-    setOnChangePriceD([...onChangePriceD]);
-    setGroupItemDetails([...groupItemDetails]);
-
-    var sumUser = 0;
-    onChangePriceD.forEach((element) => {
-      sumUser += element.itemCnt * element.itemPriceD;
-      setTotalPrice(sumUser);
-    });
-  };
-
-  const ItemCntDec = (e, i) => {
-    if (groupItemDetails[i].itemCnt > 1) {
-      groupItemDetails[i].itemCnt = groupItemDetails[i].itemCnt - 1;
-      onChangePriceD[i].itemCnt = onChangePriceD[i].itemCnt - 1;
-    }
-    setOnChangePriceD([...onChangePriceD]);
-    setGroupItemDetails([...groupItemDetails]);
-    var sumUser = 0;
-    onChangePriceD.forEach((element) => {
-      sumUser += element.itemCnt * element.itemPriceD;
-      setTotalPrice(sumUser);
-    });
-  };
+    const body = {
+      func: "editGroupItems",
+      pkId: getGroupItemsState.pkId,
+      title: titleEdit,
+      description: descriptionEdit,
+      status: getGroupItemsState.status,
+      groupDetail: dd,
+      itemPriceTotal: priceTotal,
+      others: others,
+      cnt: 1,
+    }; 
+    if(others === "" || titleEdit == "" || descriptionEdit == "" ){
+        message.error("Input hooson bn");
+    }else{ 
+        axios.post("/api/post/Gate", body).then((res) => { 
+        message.success("Edit");
+        props.getGroupItems();  
+        setIsModalVisible(false);
+        }).catch((err) => {console.log("err: ", err)}); 
+    }   
+  }; 
 
   return (
     <div>
       <Button type="primary" shape="circle" onClick={showModal}size="small" icon={<EditOutlined />}></Button>
       <Modal title="Group Edit" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} width={620}> 
-        <div className={css.Title}> Title:
-          <Input style={{ marginLeft: "57px" }} defaultValue={titleEdit} placeholder="Title" onChange={(e) => setTitleEdit(e.target.value)}/>
+      {itemInfo === "" ? null : 
+      <div className={css.CompNameCss}>
+            <div className={css.CompFlex}><div className={css.CompTitle}>Title:</div><div className={css.CompNameF}>{itemInfo.title}</div></div>
+            <div className={css.StatusCss}>
+            {itemInfo.status == 1 ? (<Tooltip title="Active"><Badge status="success" text="active" style={{color: "#52c41a",fontWeight: "600"}}/></Tooltip>) : 
+                itemInfo.status == 0 ? <Tooltip title="Invisible">  <Badge status="default" text="invisible" style={{color: "#8d8d8d",fontWeight: "600"}}/></Tooltip> : 
+                itemInfo.status == 2 ? <Tooltip title="Disable">  <Badge status="error" text="Disable" style={{color: "red",fontWeight: "600"}}/></Tooltip>  : ""
+                }
+            </div>
         </div>
-        <div className={css.Title}>Description:
-          <Input style={{ marginLeft: "10px" }} defaultValue={descriptionEdit} placeholder="Description" onChange={(e) => setDescriptionEdit(e.target.value)} />
+            }
+        <div className={css.Title}>Title: <Input allowClear style={{ marginLeft: "77px" }} value={titleEdit} placeholder="Title" onChange={(e) => setTitleEdit(e.target.value)}/></div>
+        <div className={css.Title}>Description: <TextArea allowClear style={{ marginLeft: "23px" }} value={descriptionEdit} placeholder="Description" onChange={(e) => setDescriptionEdit(e.target.value)} /></div>
+        <div className={css.Title}>Others: <TextArea allowClear style={{ marginLeft: "59px" }} value={others} placeholder="Others" onChange={(e) => setOthers(e.target.value)} />
         </div>
         <div className={css.GroupItemCarCss}> <CaretRightOutlined /> Group Items:</div>
         <div className={css.GroupDetailsCss}>
@@ -347,14 +247,14 @@ const GroupEdit = (props) => {
             <> 
              <div>
              <Form form={form} component={false}>
-                <Table components={{body: {cell: EditableCell,},}} bordered dataSource={data} columns={mergedColumns} rowClassName="editable-row" pagination={{onChange: cancel, }}/>
-                </Form>
+                <Table size="small" components={{body: {cell: EditableCell,},}} bordered dataSource={data} columns={mergedColumns} rowClassName="editable-row" pagination={{onChange: cancel, }} loading={spinner}/>
+             </Form>
              </div>
             </>
           )}
        
         </div>
-        <div className={css.TotalPriceCss}> Total price: {priceTotal}</div>
+        <div className={css.TotalPriceCss}> Total price: {priceTotal}$</div>
       </Modal>
     </div>
   );

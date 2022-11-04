@@ -35,6 +35,7 @@ const showDeleteConfirm = () => {
             pkId: props.addItemStatus.pkId,
           };
           axios.post("/api/post/Gate", body).then((res) => {   
+            console.log("res", res.data.error);
             if(res.data.error){
               notification.error({
                 message: res.data.error,
@@ -43,7 +44,7 @@ const showDeleteConfirm = () => {
               });
               props.addItemGetItems();
             }else{
-              message.success(e.title + ' item deleted');
+              message.success(props.addItemStatus.title + ' item deleted');
               props.addItemGetItems();
             } 
             }).catch((err) => {console.log("err", err)});

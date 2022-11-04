@@ -1,12 +1,14 @@
-import { Badge, Button, Image, message, Modal, notification, Tooltip } from "antd";
+import { Badge, Button, message, Modal, Tooltip } from "antd";
 import React from "react";
-import { DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import {ExclamationCircleOutlined,InsertRowAboveOutlined} from "@ant-design/icons";
 import axios from "axios";
 import css from "./style.module.css"
-const GroupDelete = (props) => {
+const GroupDisInsert = (props) => {
   const confirm = () => {
-    Modal.confirm({ title: "Are you sure delete this group ?", icon: <ExclamationCircleOutlined />,
-      content:<div className={css.Layout}>
+    Modal.confirm({
+      title: "Are you sure Insert Group ?",
+      icon: <ExclamationCircleOutlined />,
+      content: <div className={css.Layout}>
       <div className={css.GroupText}> G </div>
       <div className={css.Details}>
           <div className={css.Title}>
@@ -28,32 +30,22 @@ const GroupDelete = (props) => {
     });
   };
   const okButtonProps = () => {
-    console.log("props", props);
+    console.log("[props]", props);
+    console.log("props.disbaleInster.pkId: ", props.groupData.pkId);
     const body = {
-      func: "delGroups",
+      func: "reCreateGroup",
       pkId: props.groupData.pkId,
     };
     axios.post("/api/post/Gate", body).then((res) => {
-        console.log("res delete: ", res.data);
-        if(res.data.error){
-            notification.error({
-              message: res.data.error,
-              description:
-                'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
-            });
-            props.getGroupItems();
-          }else{
-            message.success(props.groupData.title + ' item deleted');
-            props.getGroupItems();
-          }  
-      }).catch((err) => {console.log("err: ", err)});
+        message.success("Success");
+        props.getGroupItems();
+      },(error) => {message.error("Error");}
+    );
   };
-
   return (
     <div>
-      <Button style={{ marginLeft: "3px", marginRight: "3px" }} danger type="primary" shape="circle"size="small"onClick={confirm}icon={<DeleteOutlined />}></Button>
+      <Button type="primary" shape="circle" size="small" onClick={confirm} icon={<InsertRowAboveOutlined />}></Button>
     </div>
   );
 };
-
-export default GroupDelete;
+export default GroupDisInsert;

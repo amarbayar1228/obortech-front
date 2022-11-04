@@ -62,3 +62,44 @@
     background-color: #4d5057;
     color: #fff;
 }
+
+.CompNameCss {
+    display: flex;
+    border-bottom: 2px solid #faad14;
+    margin-bottom: 15px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.CompTitle {
+    margin-right: 10px;
+    /* color: #6e737e; */
+    /* margin-left: 10px; */
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+
+.CompNameF {
+    text-transform: uppercase;
+    color: #303030;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.CompFlex {
+    display: flex;
+    font-size: 16px;
+    color: #4d5057;
+    align-items: center;
+}
+
+.StatusCss {
+    background: antiquewhite;
+    padding: 2px 10px;
+    border-radius: 10px;
+    /* margin-top: -4px; */
+    font-size: 15px;
+    color: red;
+    margin-bottom: 5px;
+}

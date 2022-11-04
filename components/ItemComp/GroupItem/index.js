@@ -7,6 +7,9 @@ import css from "./style.module.css"
 import StatusChangeModal from "../../StatusChangeModal";
 import GroupDelete from "./GroupChild/GroupDelete";
 import GroupEdit from "./GroupChild/GroupEdit";
+import GroupInsert from "./GroupChild/GroupDisInsert";
+import GroupDisInsert from "./GroupChild/GroupDisInsert";
+import GroupAdd from "./GroupChild/GroupAdd";
  const GroupItem = () =>{
 const [group, setGroup] = useState([]);
 const [spinner, setSpinner] = useState(false);
@@ -122,7 +125,7 @@ setSortedInfo(sorter);
 const data = group.map((r, i)=>(
     {
       key: i,
-      date: i+"",
+      date: r.date_,
       img: r.img,
       title: r.title.toLowerCase(),
       description: r.description.toLowerCase(),
@@ -217,20 +220,24 @@ const columns = [
     ellipsis: true,
     }, 
 
-    {title: 'Action', key: 'action', fixed: 'right', width: 140,
-    render: (b) => <div className={css.ActionCss}>
+    {title: 'Action', key: 'action', fixed: 'right', width: 120,
+    render: (b) => <div className={css.ActionCss}>  {b.state.status === 2 ? <GroupDisInsert groupData={b.state} getGroupItems={groupItems}/> :  
          <div style={{display: "flex"}}>  
-         <StatusChangeModal groupData={b.state} getGroupItems={groupItems}/>    
-         <GroupDelete groupData={b.state} getGroupItems={groupItems}/>
-         <GroupEdit pkId={b.state} getGroupItems={groupItems}/>
+           
+            <StatusChangeModal groupData={b.state} getGroupItems={groupItems}/>
+            <GroupDelete groupData={b.state} getGroupItems={groupItems}/>
+            <GroupEdit pkId={b.state} getGroupItems={groupItems}/> 
+           
          {/* <StatusChangeModal addItemStatus={b.state} addItemGetItems={getItems} />
          <ItemEdit addItemStatus={b.state} addItemGetItems={getItems} typeLevel={typeLevel}/>
          <ItemDel addItemStatus={b.state} addItemGetItems={getItems}/>  */}
         </div>   
+         }
     </div>,
     },
 ];
 return<div>
+      <div><GroupAdd /></div>
       <div className={css.ClearTable}><Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Table sort clear</Button></div>
      <Table bordered size="small" columns={columns} dataSource={data} onChange={handleChangeTable} loading={spinner}  scroll={{x:  1000 }} pagination={tableParams.pagination}/>
 </div>

@@ -155,17 +155,12 @@ const segmentFuncUser = (a) => {
                           {label: "Admin's accept company", value: "adminAccept"}]}/>
                   {segmentValue == "accept" ?   
                   <div className={css.SplitSize}> <AcceptCompanys /></div>  
-                  : 
-                  //  new company request ======================================================================================================
+                  :  
                    <> 
                     {segmentValue === "newCompany" ?  
-                      <div className={css.SplitSize}> 
-                        <NewCompanyRequest />
-                      </div>  
+                      <div className={css.SplitSize}> <NewCompanyRequest /></div>  
                     : 
-                      <div className={css.SplitSize}>
-                        <AdminAcceptCompany />
-                      </div>
+                      <div className={css.SplitSize}><AdminAcceptCompany /></div>
                       }
                     </>
                    } 
