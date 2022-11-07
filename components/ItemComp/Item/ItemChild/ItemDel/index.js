@@ -34,8 +34,7 @@ const showDeleteConfirm = () => {
             func: "delItem",
             pkId: props.addItemStatus.pkId,
           };
-          axios.post("/api/post/Gate", body).then((res) => {   
-            console.log("res", res.data.error);
+          axios.post("/api/post/Gate", body).then((res) => {    
             if(res.data.error){
               notification.error({
                 message: res.data.error,

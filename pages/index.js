@@ -120,7 +120,7 @@ return (
         <div className={css.OrgError}><Result status="warning" title={orgError} style={{fontWeight: "600"}}/></div> : 
         <>{spin ? <div className={css.SpinCss}> <Spinner /> </div> : 
         <div className={css.OrgIdCss}> 
-        <div className={css.CaptchaCss}><ReCAPTCHA sitekey="Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t" onChange={onChangeCaptcha}/></div>
+        <div className={css.CaptchaCss}><ReCAPTCHA sitekey="6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t" onChange={onChangeCaptcha}/></div>
           {btnDis === false ? 
           <div> 
             <div className={css.OrgSelectCSs}>Organization id select?</div>

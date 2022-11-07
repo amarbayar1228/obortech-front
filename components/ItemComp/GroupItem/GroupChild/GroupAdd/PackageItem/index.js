@@ -15,7 +15,7 @@ const EditableCell = ({
     children,
     ...restProps
   }) => {
-    const inputNode = inputType === 'number' ? <InputNumber style={{width: "70px"}}/> : <Input  style={{width: "120px"}}/>;
+    const inputNode = inputType === 'number' ? <InputNumber style={{width: "53px"}}/> : <Input  style={{width: "80px"}}/>;
     return (
       <td {...restProps}>
         {editing ? ( <Form.Item name={dataIndex} style={{margin: 0,}} rules={[{required: true,message: `Please Input ${title}!`,},]}>{inputNode}</Form.Item>) : (children)}
@@ -39,24 +39,6 @@ const PackageItem = (props) =>{
     const [data, setData] = useState("");
     const [editingKey, setEditingKey] = useState(''); 
     const isEditing = (record) => record.key === editingKey;
-
-useEffect(()=>{
-    props.packageItem.forEach(element => {
-        console.log("el", element);
-    });
-},[])
- data = props.packageItem.map((r, i)=>(
-    {
-      key: i,
-      date: r.date,
-      img: r.img,
-      title: r.title.toLowerCase(),
-      description: r.description.toLowerCase(),
-      price: r.price,
-      others: r.others.toLowerCase(),
-      cnt: r.cnt,
-    } 
-));
 
 const edit = (record) => { 
 form.setFieldsValue({
@@ -107,19 +89,18 @@ try {
 }
 };
 const columns = [
-    {title: 'Date', dataIndex: 'date', width: 50, editable: false},  
-{
-title: 'Image', dataIndex: 'img', width: "20px", editable: false,
+{title: 'Date', dataIndex: 'date', width: 50, editable: false, ellipsis: true,},  
+{title: 'Image', dataIndex: 'img', width: "50px", editable: false, ellipsis: true,
 render: (a) => <div><Image alt="Obertech" title="vzeh" preview={true} className={css.Zurag} src={"data:image/png;base64," + a} style={{display: "flex", width: "30px", margin:"0px auto"}}/></div>, 
 },
-{title: 'Title', dataIndex: 'title', width: 120, editable: false},  
-{title: 'Price', dataIndex: 'price', width: 50, editable: true, render: (a) =><div>{a} $</div>},
-{ title: 'Cnt', dataIndex: 'cnt', width: 30, key: "itemCnt", editable: true},
+{title: 'Title', dataIndex: 'title', width: 70, editable: false, ellipsis: true,},  
+{title: 'Price', dataIndex: 'price', width: 50, editable: true,ellipsis: true, render: (a) =><div>{a} $</div>},
+{ title: 'Cnt', dataIndex: 'cnt', width: 50, key: "itemCnt", editable: true, ellipsis: true,},
 { title: 'Action', dataIndex: 'operation',  width: 50, fixed: "right",
     render: (_, record) => {
     const editable = isEditing(record);
     return editable ? (
-        <span>
+        <span style={{display: "flex", flexDirection: "column"}}>
         <Typography.Link onClick={() => save(record.key)} style={{marginRight: 8,}}>save</Typography.Link>
         <Popconfirm title="Sure to cancel?" onConfirm={cancel}><a>Cancel</a></Popconfirm>
         </span>
@@ -135,27 +116,80 @@ return {
     ...col,
     onCell: (record) => ({
     record,
-    inputType: col.dataIndex === 'itemPriceD' || col.dataIndex === 'itemCnt' ? 'number' : 'text',
+    inputType: col.dataIndex === 'price' || col.dataIndex === 'cnt' ? 'number' : 'text',
     dataIndex: col.dataIndex,
     title: col.title,
     editing: isEditing(record),
     }),
 };
 });
-    // useEffect(()=>{
-    //     console.log("props: ", props);
-    // },[])
+useEffect(()=>{
+    console.log("props: ", props);
+    const originData = [];
+    props.packageItem.forEach((r, i) => {
+        console.log("el", r); 
+        originData.push({  
+            key: i,
+            pkId: r.key,
+            date: r.date,
+            img: r.img,
+            title: r.title.toLowerCase(),
+            description: r.description.toLowerCase(),
+            price: r.price,
+            others: r.others.toLowerCase(),
+            cnt: r.cnt,
+        });
+        setData(originData);
+    });
+},[props]);
 
-return<div>
-    data {props.packageItem[0] ? <div>
-            {props.packageItem.map((e, i)=>(
-                <div key={i}>{e.title}</div>
-            ))}
+const saveBtn = () =>{ 
+    
+    var groupDetail = [];
+    data.forEach((element) => {
+        delete element.key;
+       var  obj = {
+            itemCnt: element.cnt,
+            itemPkId: element.pkId,
+            itemPriceD: element.price,
+            img: element.img,
+          };
+      groupDetail.push(obj);
+    }); 
 
-<Form form={form} component={false}>
-<Table size="small" components={{body: {cell: EditableCell,},}} bordered dataSource={data} columns={mergedColumns} rowClassName="editable-row" pagination={{onChange: cancel, }} loading={spinner}/>
+    const body2 = {
+      func: "newGroupItems",
+      title: "groupamraa",
+      cnt: "1",
+      itemPriceTotal: 777,
+      others: "sucess",
+      description: "descr",
+      status: "0",
+      groupDetail: groupDetail,
+    };
+    console.log("groupDeital: ", groupDetail);
+    axios.post("/api/post/Gate", body2).then(
+      (result) => {
+        message.success("Amjilttai"); 
+        props.groupItems();
+      },(error) => {message.error("Error")}
+    );
+}
+return<div> 
+{props.packageItem[0] ? <div>  
+<Form form={form} component={false}> {props.showTable ? <>  
+    <div> 
+        <Input placeholder="Title" style={{marginBottom: "5px"}} allowClear/>
+        <TextArea placeholder="Description" style={{marginBottom: "5px"}} allowClear showCount/>
+    </div>
+<Table size="small" components={{body: {cell: EditableCell,},}} bordered dataSource={data} columns={mergedColumns} rowClassName="editable-row" pagination={{onChange: cancel, }} loading={spinner}  scroll={{y: 500,}}/>
+<div className={css.SaveCss}> 
+    <Button onClick={saveBtn}>Save</Button>
+</div>
+</> : null}
+
 </Form>
-             </div> : "hooson"}
+</div> : null}
 
 
     </div>

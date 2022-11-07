@@ -80,7 +80,7 @@ const StatusChangeModal = (props) => {
   return (
     <div style={{ marginRight: "3px" }}>
       <Button type="default" shape="default" size="small" onClick={showModal} icon={<CaretDownOutlined />}></Button>
-      <Modal title="Status modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+      <Modal title="Status modal" open={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
         <div>
         <div className={css.CompNameCss}>
             <div className={css.CompFlex}><div className={css.CompTitle}>Title:</div><div className={css.CompNameF}>{itemInfo.title}</div></div>

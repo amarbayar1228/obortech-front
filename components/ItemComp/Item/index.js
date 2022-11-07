@@ -1,4 +1,4 @@
-import { Badge, Button, Image, Input, message, Space, Table, Tooltip } from "antd";
+import { Badge, Button, DatePicker, Image, Input, message, Select, Space, Table, Tooltip } from "antd";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import {SearchOutlined ,CheckOutlined, ExclamationCircleOutlined, FormOutlined, ClearOutlined, StarOutlined,SolutionOutlined, FundViewOutlined,DeleteOutlined, EditOutlined} from "@ant-design/icons";
@@ -8,6 +8,9 @@ import StatusChangeModal from "../../StatusChangeModal";
 import ItemEdit from "./ItemChild/ItemEdit";
 import ItemDel from "./ItemChild/ItemDel";
 import ItemAdd from "./ItemChild/ItemAdd";
+import moment from "moment"; 
+const { RangePicker } = DatePicker;
+const dateFormat = "YYYY-MM-DD";
 const Item = (props) =>{
 const [itemData, setItemData] = useState([]);
 const [loading, setLoading] = useState(false);
@@ -23,8 +26,11 @@ const [sortedInfo, setSortedInfo] = useState({});
 const [searchText, setSearchText] = useState('');
 const [searchedColumn, setSearchedColumn] = useState('');   
 const [typeLevel, setType] = useState(null);
+const [selectLevel, setSelectLevel] = useState(-1);
 const searchInput = useRef(null); 
 
+const [date, setDate] = useState([]); 
+const [status, setStatus] = useState(1);
 useEffect(()=>{ 
     getItems();
 },[]);
@@ -33,7 +39,10 @@ const getItems = () => {
     setSpinner(true);
     const body = {
     func: "getItems",
-    status: -1,
+    status: 0,
+    d1: "2022-09-02",
+    d2: "2022-11-07",  
+    type_: 1
     };
     axios.post("/api/post/Gate", body).then((res) => {
     console.log("item axios get", res.data.getItems.list);
@@ -166,10 +175,10 @@ const columns = [
         dataIndex: 'img',
         key: 'img', 
         fixed: "left",
-        width: 90,
+        width: 70,
         // ...getColumnSearchProps('state'), 
         render: (a) => <div> 
-               <Image alt="Obertech" preview={true} className={css.Zurag} src={"data:image/png;base64," + a} style={{width: "50px"}}/>
+               <Image alt="Obertech" preview={true} className={css.Zurag} src={"data:image/png;base64," + a} style={{display: "flex", width: "30px", margin:"0px auto"}}/>
         </div>, 
         // filteredValue: filteredInfo.state || null,
         // onFilter: (value, record) => record.state.includes(value),
@@ -256,13 +265,70 @@ const columns = [
     </div>,
     },
 ];
+const dateOnchange = (a,b) =>{
+const date1 = [];
+b.forEach(element => { 
+    date1.push(element);
+});
+setDate(date1); 
+// setDate1(b[0]);
+// setDate2(b[1]);
+} 
+const selectStatus = (value) =>{
+console.log("value: ", value);
+setStatus(value);
+}
+const selectLevelF = (value) =>{
+    console.log("valiue: ", value);
+    setSelectLevel(value);
+}
+const searchDate = () =>{
+setSpinner(true); 
+console.log("date: ", date[0]);
+console.log("status: ", status);
+console.log("level: ", selectLevel);
+const body = {
+    func: "getItems",
+    d1: date[0],
+    d2: date[1],
+    status: status,
+    type_: selectLevel,
+}
+axios.post("/api/post/Gate", body).then((res)=>{ 
+    console.log("res date change: ", res.data);
+    setSpinner(false); 
+    if(res.data.getItems.error){
+        console.log("aldaa");
+        setItemData([]);
+    }else{
+     setItemData(res.data.getItems.list);
+    }
+
+   
+}).catch((err)=>{console.log("err: ", err)}) 
+}
 return<div>
        <div className={css.StateCss}>
-        <ItemAdd getItems={getItems} typeLevel={typeLevel}/>
-
-        <div className={css.ClearTable}><Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Table sort clear</Button></div>
+        <ItemAdd getItems={getItems} typeLevel={typeLevel}/> <div className={css.ClearTable}><Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Table sort clear</Button></div>
        </div>
-         <Table bordered size="small" columns={columns} dataSource={data} onChange={handleChangeTable} loading={spinner}  scroll={{x:  1000 }} pagination={tableParams.pagination} />
+       <div style={{marginBottom: "5px"}}>
+        <RangePicker showToday defaultValue={[ moment("2022-09-12", dateFormat), moment("2022-09-12", dateFormat)]} format={dateFormat} onChange={dateOnchange}/>
+        <Select value={status} style={{width: 120}} onChange={selectStatus} 
+            options={[
+            {value: -1, label: <div style={{color: "blue"}}>All</div>},
+            {value: 1, label: <div style={{color: "green"}}>Active </div>},
+            {value: 0, label: 'Invisible'}, 
+            {value: 2,label: <div style={{color: "red"}}>Disable </div>,}]}/>
+        <Select value={selectLevel} style={{width: 120}} onChange={selectLevelF} 
+            options={[
+            {value: -1, label: <div style={{color: "blue"}}>All</div>},
+            {value: 1, label: <div style={{color: "blue"}}>Subscribtion</div>},
+            {value: 2, label: <div style={{color: "green"}}>Device 6</div>},
+            {value: 3, label: 'Device 12'}, 
+            {value: 4,label: <div style={{color: "red"}}>Items </div>,}]}/>
+        <Button onClick={searchDate}>search</Button>
+       </div>
+         <Table bordered size="small" columns={columns} dataSource={data} onChange={handleChangeTable} loading={spinner}  scroll={{x:  1000, y: 500 }} pagination={tableParams.pagination} />
 </div>
 }
 export default Item;

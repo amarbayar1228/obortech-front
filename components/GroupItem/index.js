@@ -207,7 +207,7 @@ const GroupItem = (props) => {
         </Button>
         <Modal
           title="Group Item"
-          visible={isModalVisible}
+          open={isModalVisible}
           footer={false}
           onOk={onFinishEditForm}
           onCancel={handleCancel}

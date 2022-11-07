@@ -37,7 +37,7 @@ export default function User() {
         </Button>
         <Modal
           title="Title"
-          visible={visible}
+          open={visible}
           onOk={handleOk}
           confirmLoading={confirmLoading}
           onCancel={handleCancel}

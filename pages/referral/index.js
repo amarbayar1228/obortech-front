@@ -399,7 +399,7 @@ axios.post("/api/post/Gate", body).then((res) => {
         </div>
         </>
       )}
-<Modal title="User Register" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
+<Modal title="User Register" open={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
   <Form form={formUser} name="normal_login" className={css.LoginForm} labelCol={{span: 6,}} wrapperCol={{span: 16,}}
     initialValues={{ 
       firstname: basketContext.userInfoProfile.firstname === "-" ? "" : basketContext.userInfoProfile.firstname,

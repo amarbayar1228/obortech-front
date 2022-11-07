@@ -177,7 +177,7 @@ const GroupItemEdit = (props) => {
   return (
     <div>
       <Button type="primary" shape="circle" onClick={showModal}size="small" icon={<EditOutlined />}></Button>
-      <Modal title="Group Edit" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}> 
+      <Modal title="Group Edit" open={isModalVisible} onOk={handleOk} onCancel={handleCancel}> 
         <div className={css.Title}> Title:
           <Input style={{ marginLeft: "57px" }} defaultValue={titleEdit} placeholder="Title" onChange={(e) => setTitleEdit(e.target.value)}/>
         </div>

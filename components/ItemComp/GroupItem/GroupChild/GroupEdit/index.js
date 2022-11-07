@@ -223,7 +223,7 @@ var dd = [];
   return (
     <div>
       <Button type="primary" shape="circle" onClick={showModal}size="small" icon={<EditOutlined />}></Button>
-      <Modal title="Group Edit" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel} width={620}> 
+      <Modal title="Group Edit" open={isModalVisible} onOk={handleOk} onCancel={handleCancel} width={620}> 
       {itemInfo === "" ? null : 
       <div className={css.CompNameCss}>
             <div className={css.CompFlex}><div className={css.CompTitle}>Title:</div><div className={css.CompNameF}>{itemInfo.title}</div></div>
