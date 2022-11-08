@@ -39,6 +39,7 @@ const Items = () => {
   const getItems = () => {
     const body = {func: "getItems", status: 1};
     axios.post("/api/post/Gate", body).then((res) => {
+      console.log("items: ", res.data);
         setSpinState(false); 
         setItemData(res.data.getItems.list); 
       }).catch((err) => {console.log(err)}); 

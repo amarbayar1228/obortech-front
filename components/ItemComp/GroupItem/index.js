@@ -301,7 +301,7 @@ return<div>
             {value: 1, label: <div style={{color: "green"}}>Active </div>},
             {value: 0, label: 'Invisible'}, 
             {value: 2,label: <div style={{color: "red"}}>Disable </div>,}]}/>
-        <Button onClick={searchDate}>search</Button>
+        <Button onClick={searchDate} icon={<SearchOutlined  />}></Button>
        </div>
      <Table bordered size="small" columns={columns} dataSource={data} onChange={handleChangeTable} loading={spinner}  scroll={{x:  1000 }} pagination={tableParams.pagination}/>
 </div>

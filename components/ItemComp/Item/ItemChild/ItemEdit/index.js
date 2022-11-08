@@ -97,7 +97,9 @@ console.log("errInfo: ", errInfo);
 // formAddItem.resetFields(); 
 }
 return <div>
-<Tooltip title="Edit"><Button size="small" className={css.BtnReject}  icon={<EditOutlined />} onClick={showModal} style={{margin: "0px 5px", color: "#4b4c00", background: "#acf5b5"}}></Button> </Tooltip>
+<Tooltip title="Edit">
+    <Button size="small" className={css.BtnReject}  icon={<EditOutlined />} onClick={showModal} style={{margin: "0px 5px", color: "rgb(22 78 99)",background: "rgb(165 243 252)",borderColor: "rgb(108 151 167)"}}></Button>
+</Tooltip>
 
 <Modal title="Edit item" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
 <Form form={formEdit} name="EditForm" className={css.LoginForm}  

@@ -180,10 +180,6 @@ const columns = [
         render: (a) => <div> 
                <Image alt="Obertech" preview={true} className={css.Zurag} src={"data:image/png;base64," + a} style={{display: "flex", width: "30px", margin:"0px auto"}}/>
         </div>, 
-        // filteredValue: filteredInfo.state || null,
-        // onFilter: (value, record) => record.state.includes(value),
-        // sorter: (a, b) => a.state.state - b.state.state, 
-        // sortOrder: sortedInfo.columnKey === 'state' ? sortedInfo.order : null,
         ellipsis: true,
         }, 
     {
@@ -234,7 +230,7 @@ const columns = [
         sorter: (a, b) => a.others.length - b.others.length,
         sortOrder: sortedInfo.columnKey === 'others' ? sortedInfo.order : null,
         ellipsis: true,
-        }, 
+    }, 
     {
     title: 'Status',
     dataIndex: 'state',
@@ -307,26 +303,29 @@ axios.post("/api/post/Gate", body).then((res)=>{
    
 }).catch((err)=>{console.log("err: ", err)}) 
 }
+const onOk = (value) => {
+    console.log('onOk: ', value);
+  };
 return<div>
        <div className={css.StateCss}>
         <ItemAdd getItems={getItems} typeLevel={typeLevel}/> <div className={css.ClearTable}><Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Table sort clear</Button></div>
        </div>
        <div style={{marginBottom: "5px"}}>
-        <RangePicker showToday defaultValue={[ moment("2022-09-12", dateFormat), moment("2022-09-12", dateFormat)]} format={dateFormat} onChange={dateOnchange}/>
+        <RangePicker showToday defaultValue={[ moment("2022-09-12", dateFormat), moment("2022-09-12", dateFormat)]} format={dateFormat} onChange={dateOnchange}  onOk={onOk}/>
         <Select value={status} style={{width: 120}} onChange={selectStatus} 
             options={[
-            {value: -1, label: <div style={{color: "blue"}}>All</div>},
+            {value: -1, label: <div style={{color: "#096dd9"}}>All</div>},
             {value: 1, label: <div style={{color: "green"}}>Active </div>},
             {value: 0, label: 'Invisible'}, 
             {value: 2,label: <div style={{color: "red"}}>Disable </div>,}]}/>
         <Select value={selectLevel} style={{width: 120}} onChange={selectLevelF} 
             options={[
-            {value: -1, label: <div style={{color: "blue"}}>All</div>},
-            {value: 1, label: <div style={{color: "blue"}}>Subscribtion</div>},
-            {value: 2, label: <div style={{color: "green"}}>Device 6</div>},
+            {value: -1, label: <div style={{color: "#096dd9"}}>All</div>},
+            {value: 1, label: <div>Subscribtion</div>},
+            {value: 2, label: <div>Device 6</div>},
             {value: 3, label: 'Device 12'}, 
-            {value: 4,label: <div style={{color: "red"}}>Items </div>,}]}/>
-        <Button onClick={searchDate}>search</Button>
+            {value: 4,label: <div>Items </div>,}]}/>
+        <Button onClick={searchDate} icon={<SearchOutlined shape="#000" />}></Button>
        </div>
          <Table bordered size="small" columns={columns} dataSource={data} onChange={handleChangeTable} loading={spinner}  scroll={{x:  1000, y: 500 }} pagination={tableParams.pagination} />
 </div>

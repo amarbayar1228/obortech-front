@@ -83,10 +83,17 @@ const GroupEdit = (props) => {
   };
   const columns = [
     {
-        title: 'Image', dataIndex: 'img', width: "20px", editable: false,
+        title: 'Date',
+        dataIndex: 'date', 
+        width: 65,
+        fixed: 'left', 
+        ellipsis: true,
+        },
+    {
+        title: 'Image', dataIndex: 'img', width: 50, editable: false,
         render: (a) => <div><Image alt="Obertech" title="vzeh" preview={true} className={css.Zurag} src={"data:image/png;base64," + a} style={{display: "flex", width: "30px", margin:"0px auto"}}/></div>, 
       },
-    {title: 'Title', dataIndex: 'title', width: 120, editable: false},  
+    {title: 'Title', dataIndex: 'title', width: 120, editable: false,  ellipsis: true,},  
     {title: 'Price', dataIndex: 'itemPriceD', width: 50, editable: true, render: (a) =><div>{a} $</div>},
     { title: 'Cnt', dataIndex: 'itemCnt', width: 30, key: "itemCnt", editable: true},
     { title: 'Action', dataIndex: 'operation',  width: 50, fixed: "right",
@@ -139,11 +146,11 @@ const GroupEdit = (props) => {
         console.log("group item details: ", res.data.data.itemList);
         const originData = [];
         var total = 0;
-        res.data.data.itemList.forEach((element, i) => { 
- 
+        res.data.data.itemList.forEach((element, i) => {  
             total += element.itemCnt * element.itemPriceD; 
             originData.push({ 
                 key: i,
+                date: element.date_,
                 itemPkId: element.itemPkId,
                 title: element.title,
                 itemPriceD: parseInt(element.itemPriceD),
@@ -170,7 +177,7 @@ const GroupEdit = (props) => {
             setOnChangePriceD((onChangePriceD) => [...onChangePriceD, obj]);
           });
         }
-        props.getGroupItems();
+        // props.getGroupItems();
       },(error) => {message.error("Error");}
     ); 
   };
@@ -181,22 +188,14 @@ const GroupEdit = (props) => {
     
   }; 
   const handleOk = () => { 
-var dd = [];
-   data.forEach(element => { 
-        delete element.title; 
-        delete element.key; 
-        dd.push(element);
-   });   
-    //  console.log("title: ", titleEdit);
-    // console.log("descriptionEdit: ", descriptionEdit); 
-    // console.log("price: ", priceTotal); 
-    // console.log("others", others);
-    // var groupDetail = [];
-    // onChangePriceD.forEach((element) => {
-    //   groupDetail.push(element);
-    // });
-    // console.log("ene bol real: ", groupDetail);
-    // console.log("totalPrice: ", totalPrice);
+    console.log("dateL ", data);
+    var dd = [];
+    data.forEach(element => { 
+            delete element.title; 
+            delete element.key;     
+            delete element.date
+            dd.push(element);
+    });    
 
     const body = {
       func: "editGroupItems",
@@ -226,7 +225,7 @@ var dd = [];
       <Modal title="Group Edit" open={isModalVisible} onOk={handleOk} onCancel={handleCancel} width={620}> 
       {itemInfo === "" ? null : 
       <div className={css.CompNameCss}>
-            <div className={css.CompFlex}><div className={css.CompTitle}>Title:</div><div className={css.CompNameF}>{itemInfo.title}</div></div>
+            <div className={css.CompFlex}><div></div><div className={css.CompNameF}>{itemInfo.date_}</div></div>
             <div className={css.StatusCss}>
             {itemInfo.status == 1 ? (<Tooltip title="Active"><Badge status="success" text="active" style={{color: "#52c41a",fontWeight: "600"}}/></Tooltip>) : 
                 itemInfo.status == 0 ? <Tooltip title="Invisible">  <Badge status="default" text="invisible" style={{color: "#8d8d8d",fontWeight: "600"}}/></Tooltip> : 

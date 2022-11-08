@@ -3,3 +3,26 @@
     justify-content: space-between;
     align-items: center;
 }
+
+.PackageItem {
+    animation-name: bankRouteAnimation;
+    animation-duration: 0.3s;
+    animation-timing-function: ease;
+}
+
+@keyframes bankRouteAnimation {
+    0% {
+        transform: scale(0.1);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}

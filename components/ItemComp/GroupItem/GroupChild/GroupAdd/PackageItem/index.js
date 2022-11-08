@@ -5,41 +5,51 @@ import css from "./style.module.css";
 import {EditOutlined,CheckSquareOutlined,CaretRightOutlined} from "@ant-design/icons";
 import axios from "axios"; 
 import TextArea from "antd/lib/input/TextArea";
-const EditableCell = ({
-    editing,
-    dataIndex,
-    title,
-    inputType,
-    record,
-    index,
-    children,
-    ...restProps
-  }) => {
-    const inputNode = inputType === 'number' ? <InputNumber style={{width: "53px"}}/> : <Input  style={{width: "80px"}}/>;
-    return (
-      <td {...restProps}>
-        {editing ? ( <Form.Item name={dataIndex} style={{margin: 0,}} rules={[{required: true,message: `Please Input ${title}!`,},]}>{inputNode}</Form.Item>) : (children)}
-      </td>
+const EditableCell = ({ editing, dataIndex, title, inputType, record, index, children, ...restProps
+  }) => {const inputNode = inputType === 'number' ? <InputNumber style={{width: "53px"}}/> : <Input  style={{width: "80px"}}/>;
+    return (<td {...restProps}>{editing ? ( <Form.Item name={dataIndex} style={{margin: 0,}} rules={[{required: true,message: `Please Input ${title}!`,},]}>{inputNode}</Form.Item>) : (children)}</td>
     );
   };
 const PackageItem = (props) =>{
-    const [isModalVisible, setIsModalVisible] = useState(false);
-    const [getGroupItemsState, setGetGroupItemsState] = useState([]);
-    const [getGroupItemsGbm, setGroupItemsGbm] = useState([]);
-    const [onChangePriceD, setOnChangePriceD] = useState([]);
-    const [titleEdit, setTitleEdit] = useState();
-    const [descriptionEdit, setDescriptionEdit] = useState();
-    const [others, setOthers] = useState("");
-    const [groupItemDetails, setGroupItemDetails] = useState([]);
-    const [itemInfo, setItemInfo] = useState("");
-    const [spinner, setSpinner] = useState(false);
-  //   const [totalPrice, setTotalPrice] = useState();
-    const [priceTotal, setPriceTotal] = useState(0);
-    const [form] = Form.useForm();
-    const [data, setData] = useState("");
-    const [editingKey, setEditingKey] = useState(''); 
-    const isEditing = (record) => record.key === editingKey;
-
+// const [isModalVisible, setIsModalVisible] = useState(false);
+// const [getGroupItemsState, setGetGroupItemsState] = useState([]);
+// const [getGroupItemsGbm, setGroupItemsGbm] = useState([]);
+// const [onChangePriceD, setOnChangePriceD] = useState([]);
+// const [titleEdit, setTitleEdit] = useState();
+// const [descriptionEdit, setDescriptionEdit] = useState();
+// const [others, setOthers] = useState("");
+// const [groupItemDetails, setGroupItemDetails] = useState([]);
+// const [itemInfo, setItemInfo] = useState("");
+const [spinner, setSpinner] = useState(false);
+const [description, setDescription] = useState("");
+const [title, setTitle] = useState("");
+//   const [totalPrice, setTotalPrice] = useState();
+const [priceTotal, setPriceTotal] = useState(0);
+const [form] = Form.useForm();
+const [data, setData] = useState("");
+const [editingKey, setEditingKey] = useState(''); 
+const isEditing = (record) => record.key === editingKey;
+useEffect(()=>{ 
+    const originData = [];
+    const total = 0;
+    props.showTable ? "" : setTitle(""), setDescription("")
+    props.packageItem.forEach((r, i) => {  
+            total += r.cnt * r.price;   
+        originData.push({  
+            key: i,
+            pkId: r.key,
+            date: r.date,
+            img: r.img,
+            title: r.title.toLowerCase(),
+            description: r.description.toLowerCase(),
+            price: r.price,
+            others: r.others.toLowerCase(),
+            cnt: r.cnt,
+        });
+        setPriceTotal(total);
+        setData(originData);
+    });
+},[props]);
 const edit = (record) => { 
 form.setFieldsValue({
     name: '',
@@ -52,8 +62,7 @@ setEditingKey(record.key);
 const cancel = () => {
 setEditingKey('');
 };
-const save = async (key) => { 
-console.log('key: ', key);
+const save = async (key) => {  
 try {
     const row = await form.validateFields();
     const newData = [...data];
@@ -63,23 +72,17 @@ try {
     newData.splice(index, 1, {
         ...item,
         ...row,
-    }); 
+    });  
+    var ff = [];
     var total = 0;
     newData.forEach(element => { 
-        total += element.itemCnt * element.itemPriceD; 
-    });
-    setPriceTotal(parseInt(total));
-    // console.log("new: ",newData);
-    var ff = [];
-    newData.forEach(element => {
-        console.log("element", element); 
+        total += element.cnt * element.price; 
         ff.push(element)
     });
-    console.log("ff", ff);
+    setPriceTotal(parseInt(total)); 
     setData(ff);
     setEditingKey('');
     } else {
-    console.log("data2: ", newData);
     newData.push(row);
     setData(newData);
     setEditingKey('');
@@ -123,28 +126,9 @@ return {
     }),
 };
 });
-useEffect(()=>{
-    console.log("props: ", props);
-    const originData = [];
-    props.packageItem.forEach((r, i) => {
-        console.log("el", r); 
-        originData.push({  
-            key: i,
-            pkId: r.key,
-            date: r.date,
-            img: r.img,
-            title: r.title.toLowerCase(),
-            description: r.description.toLowerCase(),
-            price: r.price,
-            others: r.others.toLowerCase(),
-            cnt: r.cnt,
-        });
-        setData(originData);
-    });
-},[props]);
 
-const saveBtn = () =>{ 
-    
+
+const saveBtn = () =>{
     var groupDetail = [];
     data.forEach((element) => {
         delete element.key;
@@ -159,11 +143,11 @@ const saveBtn = () =>{
 
     const body2 = {
       func: "newGroupItems",
-      title: "groupamraa",
+      title: title,
       cnt: "1",
-      itemPriceTotal: 777,
-      others: "sucess",
-      description: "descr",
+      itemPriceTotal: priceTotal,
+      others: "-",
+      description: description,
       status: "0",
       groupDetail: groupDetail,
     };
@@ -172,19 +156,25 @@ const saveBtn = () =>{
       (result) => {
         message.success("Amjilttai"); 
         props.groupItems();
+        setTitle("");
+        setDescription("");
+        props.modalHide();
       },(error) => {message.error("Error")}
     );
 }
 return<div> 
-{props.packageItem[0] ? <div>  
+{props.packageItem[0] ? <div className={props.showTable ? css.PackageItem : ""}>  
 <Form form={form} component={false}> {props.showTable ? <>  
     <div> 
-        <Input placeholder="Title" style={{marginBottom: "5px"}} allowClear/>
-        <TextArea placeholder="Description" style={{marginBottom: "5px"}} allowClear showCount/>
+        <Input value={title} placeholder="Title" style={{marginBottom: "5px"}} allowClear onChange={(e)=>setTitle(e.target.value)}/>
+        <TextArea value={description} placeholder="Description" style={{marginBottom: "5px"}} allowClear showCount onChange={(e)=>setDescription(e.target.value)}/>
     </div>
-<Table size="small" components={{body: {cell: EditableCell,},}} bordered dataSource={data} columns={mergedColumns} rowClassName="editable-row" pagination={{onChange: cancel, }} loading={spinner}  scroll={{y: 500,}}/>
+<Table size="small" components={{body: {cell: EditableCell,},}} bordered dataSource={data} columns={mergedColumns} rowClassName="editable-row" pagination={{onChange: cancel, }} loading={spinner}  scroll={{y: 300,}}/>
+    <div className={css.Total}>
+        Total price: {priceTotal}$
+    </div>
 <div className={css.SaveCss}> 
-    <Button onClick={saveBtn}>Save</Button>
+    <Button onClick={saveBtn} type="primary">Save</Button>
 </div>
 </> : null}
 

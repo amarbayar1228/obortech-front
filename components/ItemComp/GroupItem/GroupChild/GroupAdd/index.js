@@ -3,7 +3,7 @@ import { Badge, Button, Image, message, Modal, Space, Table, Tooltip } from 'ant
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import css from "./style.module.css"
-import {SearchOutlined ,CheckOutlined, ExclamationCircleOutlined, FormOutlined, ClearOutlined, StarOutlined,SolutionOutlined, FundViewOutlined,DeleteOutlined, EditOutlined} from "@ant-design/icons";
+import {SearchOutlined ,CheckOutlined, ExclamationCircleOutlined, RollbackOutlined, ClearOutlined, StarOutlined,SolutionOutlined, FundViewOutlined,DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import Input from 'rc-input';
 import PackageItem from './PackageItem';
@@ -141,6 +141,7 @@ const handleOk = () => {
     setIsModalOpen(false);
 };
 const handleCancel = () => {
+    setShowTable(false);
     setSelectedRowKeys([]);
     setIsModalOpen(false);
 }; 
@@ -158,12 +159,7 @@ const data = itemData.map((r, i)=>(
     } 
 )); 
 const columns = [
-    {
-    title: 'Date',
-    dataIndex: 'date',
-    key: 'date', 
-    width: 120,
-    fixed: 'left', 
+    { title: 'Date', dataIndex: 'date', key: 'date',  width: 72, fixed: 'left', 
     ...getColumnSearchProps('date'), 
     filteredValue: filteredInfo.date || null,
     onFilter: (value, record) => record.date.includes(value),
@@ -176,7 +172,7 @@ const columns = [
     dataIndex: 'img',
     key: 'img', 
     fixed: "left",
-    width: 90, 
+    width: 70, 
     render: (a) => <div> 
         <Image alt="Obertech" preview={true} className={css.Zurag} src={"data:image/png;base64," + a} style={{width: "50px"}}/>
     </div>,  
@@ -275,24 +271,18 @@ const hasSelected = selectedRowKeys.length > 0;
 const backF = () =>{
     setShowTable(false);
 }
-const sendGroup = (data) =>{
-   if(data){
-    console.log("bn"); 
-   }else {
-    console.log("bhq");
-   }
+const modalShow = () =>{
+    setIsModalOpen(true);
 }
-const saveGroup = () =>{
-console.log("gg");
-console.log("funcL ", sendGroup);
-sendGroup();
+const modalHide = () =>{
+    setIsModalOpen(false);
 }
+ 
 return<div>
     <Button type="primary" onClick={showModal}> + Group insert</Button>
-    <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
-        <div> 
-        
-        {showTable ? <Button type="primary" onClick={backF}>Back</Button> : 
+    <Modal title="Package group" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
+        <div>  
+        {showTable ? <Button type="primary" onClick={backF} icon={<RollbackOutlined />}>Back</Button> : 
         <div className={css.ClearTable}> 
         <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading}>Group Package</Button>     <span >{hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}</span>
         <Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Table sort clear</Button></div>} 
@@ -300,9 +290,11 @@ return<div>
             
             </div>
             {showTable === false ? 
-            <Table  bordered size="small" rowSelection={rowSelection} onChange={handleChangeTable} loading={spinner} columns={columns} dataSource={data} scroll={{y: 300,}} pagination={tableParams.pagination} />
+            <div className={showTable === false ? css.PackageItem : ""}> 
+                <Table  bordered size="small" rowSelection={rowSelection} onChange={handleChangeTable} loading={spinner} columns={columns} dataSource={data} scroll={{y: 400,}} pagination={tableParams.pagination} />
+            </div>
             : null}
-            <PackageItem packageItem={packageItem} showTable={showTable} sendGroup={sendGroup} groupItems={props.groupItems}/>
+            <PackageItem packageItem={packageItem} showTable={showTable}   groupItems={props.groupItems} modalShow={modalShow} modalHide={modalHide}/>
         </div>
     </Modal>
     

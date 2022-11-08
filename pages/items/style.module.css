@@ -615,6 +615,8 @@
 
 .Ddescrip2 {
     color: #6f8391;
+    font-size: 13px;
+    text-transform: lowercase;
 }
 
 .Dtitle {
