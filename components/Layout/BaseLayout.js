@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import {Layout,Menu,Breadcrumb,Row,Col,message,Button,Popover,Tooltip,Image,Drawer,Spin, Empty,} from "antd";
 import React, { useContext } from "react";
 import { useState, useEffect } from "react";
-import {ShoppingCartOutlined,GlobalOutlined,DoubleLeftOutlined,MenuOutlined,HomeOutlined,UserOutlined,DoubleRightOutlined,PlusSquareOutlined,AppstoreAddOutlined,AppstoreOutlined,PieChartOutlined,LogoutOutlined,UserAddOutlined,ContainerOutlined,SettingOutlined} from "@ant-design/icons";
+import {ShoppingCartOutlined,GlobalOutlined,DoubleLeftOutlined,MenuOutlined,HomeOutlined,UserOutlined,DoubleRightOutlined,PlusSquareOutlined,AppstoreAddOutlined,AppstoreOutlined,PieChartOutlined,LogoutOutlined,UnorderedListOutlined,UserAddOutlined,ContainerOutlined,SettingOutlined} from "@ant-design/icons";
 import css from "./style.module.css";
 import BacketComponent from "../Backet";
 import Link from "next/link";
@@ -10,6 +10,7 @@ import { useTranslation } from "next-i18next";
 import BasketContext from "../../context/basketContext/BasketContext";
 import Head from "next/head";
 import axios from "axios";
+// import "antd/dist/antd.css";
 const { Content, Sider, Footer } = Layout;
 export default function BaseLayout(props) {
   const [collapsed, setCollapsed] = useState(false);
@@ -130,13 +131,13 @@ export default function BaseLayout(props) {
   const changeLanguage = (
     <div className={css.LanguageStyle}>
       <Link href="/" locale={router.locales[0] === "en" ? "en" : "en"}>
-        <Button type="link" className={css.LanguageBtn} >
+        <Button type="link" className={router.locale == "en" ? css.LanguageBtnActive : css.LanguageBtn} >
         <Image style={{marginRight: "7px"}} className={css.Flag} alt="Obertech" preview={false} src="/img/united-kingdom.png"/>
           <span className={router.locale == "en"  ? css.ActiveLang : "" }>{t("English")}</span>
         </Button>
       </Link>
       <Link href="/mn" locale={router.locales[3] === "mn" ? "mn" : "en"}>
-        <Button type="link" className={css.LanguageBtn}>
+        <Button type="link" className={router.locale == "mn" ? css.LanguageBtnActive : css.LanguageBtn}>
         <Image className={css.Flag} alt="Obertech" preview={false} src="/img/mongolia.png"/>
           <span className={router.locale == "mn" ? css.ActiveLang : ""}>Монгол</span>
         </Button>
@@ -170,8 +171,9 @@ export default function BaseLayout(props) {
   };
   const changeProfile = (
     <div>
-      <Button type="link" className={css.LanguageBtn} onClick={Profile}><UserOutlined /> Profile</Button>
-      <Button type="link" className={css.LanguageBtn}><SettingOutlined /> Security </Button>
+      <Button type="link" className={router.pathname === "/profile" ? css.LanguageBtnActive : css.LanguageBtn } onClick={Profile}><UserOutlined /> Profile</Button>
+      <Button type="link" className={router.pathname === "/log" ? css.LanguageBtnActive : css.LanguageBtn }  onClick={()=>router.push("/log")} icon={<UnorderedListOutlined /> }>Log</Button>
+      <Button type="link" className={router.pathname === "/security" ? css.LanguageBtnActive : css.LanguageBtn }  onClick={()=>router.push("/security")}><SettingOutlined /> Security </Button>
       <Button type="link" onClick={logoutFunction} className={css.LanguageBtn}><LogoutOutlined /> Log out</Button>
     </div>
   );
@@ -216,7 +218,7 @@ export default function BaseLayout(props) {
       <Popover content={changeLanguage}><Button type="link" className={css.IconsMenu} size="small"><GlobalOutlined /></Button></Popover>
     </div> 
     {localPkId ? (
-      <div className={router.pathname == "/profile" ? css.ProfileBackCss : css.MenuHoverIcon3}>
+      <div className={router.pathname == "/profile" || router.pathname == "/security" ? css.ProfileBackCss : css.MenuHoverIcon3}>
         <div className={css.ProfileBackground}>
           <Popover content={changeProfile}>
             <Button type="link" className={css.IconsMenu} size="small">
@@ -296,7 +298,7 @@ export default function BaseLayout(props) {
     )}
     <div><Popover content={changeLanguage}><Button type="link" className={css.Icons}><GlobalOutlined /></Button></Popover></div>
     {localPkId ? (
-      <div className={ router.pathname == "/profile" ?  css.ProfileBackCss : ""}>
+      <div className={ router.pathname == "/profile" || router.pathname == "/security" ?  css.ProfileBackCss : ""}>
         <div className={css.ProfileBackground}>
           <Popover content={changeProfile}>
             <Button type="link" className={css.Icons}>
@@ -319,7 +321,7 @@ export default function BaseLayout(props) {
 </div>
 <Content>
   {props.pageName === "home" || props.pageName === "login" || props.pageName === "items" || props.pageName === "register" ||
-  props.pageName === "basket" ? null : (
+  props.pageName === "basket"  || props.pageName === "security" ? null : (
     <Breadcrumb style={{margin: "4px 10px",}}>
       <Breadcrumb.Item><AppstoreOutlined /></Breadcrumb.Item>
       <Breadcrumb.Item href="/payment"> <ShoppingCartOutlined /> </Breadcrumb.Item>
@@ -330,12 +332,12 @@ export default function BaseLayout(props) {
 
   <Layout className="site-layout-background">
     {localStorageUserId === "Null" ? ("" ) : (<>
-        {props.pageName === "home" || props.pageName === "login" || props.pageName === "items" ||props.pageName === "register" || props.pageName === "basket" || props.pageName === "profile" ? null : (
-          <Sider trigger={null} collapsible collapsed={basketContext.collapsed} onCollapse={() => basketContext.onCollapse()}
-            style={{ background: "#fff", color: "red", fontWeight: "500", fontSize: "18px",}} width={200}>
+        {props.pageName === "home" || props.pageName === "login" || props.pageName === "items" ||props.pageName === "register" || 
+        props.pageName === "basket" || props.pageName === "profile" ? null : (
+          <Sider trigger={null} collapsible collapsed={basketContext.collapsed} onCollapse={() => basketContext.onCollapse()} style={{ background: "#fff", color: "red", fontWeight: "500", fontSize: "18px",}} width={200}>
             <Menu theme="light" mode="inline"
               defaultSelectedKeys={[
-                router.pathname == "/dashboard" ? "1"
+                    router.pathname == "/dashboard" ? "1"
                   : router.pathname == "/affiliate" ? "6"
                   : router.pathname == "/confirmation-list" ? "7"
                   : router.pathname == "/add-item" ? "2"

@@ -252,7 +252,7 @@ const handleCancelCompany = () =>{
 const data = companyData.map((r, i)=>(
     {
       key: i,
-      date: i,
+      date: r.date1,
       companyName: r.companyName,
       country: r.country, 
       additionalInformation: r.additionalInformation,
@@ -489,7 +489,7 @@ return <div>
 <div>{userSpin ? <Spin size="large" className={css.SpinCss}/> : 
 <>
 <div className={css.CompNameCss}>
-    <div className={css.CompFlex}><div className={css.CompName}>Company name:</div><div className={css.CompTitle}>{companyInfo === undefined ? "": companyInfo.companyName}</div></div>
+    <div className={css.CompFlex}><div></div><div className={css.CompTitle}>{companyInfo === undefined ? "": companyInfo.date1}</div></div>
     <div className={css.StatusCss}>
     {rejectValue == 2 ? (<Tooltip title="Request accepted"><Badge status="warning" text="Request accepted" style={{fontSize: "12px", color: "#faad14"}}/></Tooltip>
     ) : rejectValue== 3 ? (<Tooltip title="Correct your information"><Badge color="red" status="processing" text="Correct your information" style={{fontSize: "12px", color: "#f5222d"}}/></Tooltip>

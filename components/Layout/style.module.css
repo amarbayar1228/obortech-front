@@ -25,6 +25,7 @@
 
 .FlexPro {
     display: flex;
+    color: #fff;
     align-items: center;
 }
 
@@ -125,14 +126,33 @@
     font-size: 16px;
     font-weight: 500;
     align-items: center;
+    width: 100%;
+    margin-bottom: 3px;
+}
+
+.LanguageBtnActive {
+    /* color: red; */
+    display: flex;
+    font-size: 16px;
+    font-weight: 500;
+    align-items: center;
+    width: 100%;
+    color: #fff;
+    background-color: rgb(244 63 94);
+}
+
+.LanguageBtnActive:hover {
+    color: #fff;
+    background-color: rgb(244 63 94);
 }
 
 .LanguageBtn:hover {
-    color: var(--red);
+    color: #fff;
+    background-color: rgb(244 63 94);
 }
 
 .ActiveLang {
-    color: red;
+    color: #fff;
 }
 
 .Icons {
@@ -142,7 +162,7 @@
 }
 
 .Icons:hover {
-    color: var(--red);
+    color: rgb(244 63 94);
 }
 
 .Active {
@@ -162,7 +182,7 @@
 }
 
 .ProfileBackground {
-    background: #f9f9f9;
+    background: rgb(244 63 94);
     border-radius: 10px;
     margin-top: 2px;
     width: 100%;
@@ -179,14 +199,14 @@
 .ProfileCss {
     display: flex;
     align-items: center;
-    color: red;
+    color: #fff;
     font-size: 17px;
 }
 
 /* //border-b-2 border-red-500 -mb-3.5 */
 .ProfileBackCss {
     border-bottom: 1px solid red;
-    margin-bottom: -3.2px;
+    margin-bottom: -5.2px;
 }
 
 /* .text-base text-left font-medium pl-1.5 overflow-hidden whitespace-nowrap text-ellipsis w-24	max-w-xs */
@@ -315,6 +335,11 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.OrgIdText:hover {
+    color: rgb(101 163 13);
+    box-shadow: 1px 1px 1px 1px rgb(22 163 74);
 }
 
 @media only screen and (max-width: 1024px) {

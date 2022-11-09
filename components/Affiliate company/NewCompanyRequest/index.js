@@ -264,7 +264,7 @@ const handleCancelCompany = () =>{
 const data = companyData.map((r, i)=>(
     {
       key: i,
-      date: i,
+      date: r.date1,
       companyName: r.companyName,
       country: r.country, 
       additionalInformation: r.additionalInformation,

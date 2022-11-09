@@ -12,6 +12,7 @@ import { useTranslation } from "next-i18next";
 import { Router, useRouter } from "next/router";
 import ReCAPTCHA from "react-google-recaptcha"; 
 import Spinner from "../components/Spinner";
+// import "antd/dist/antd.css";
 const { Search } = Input;
 const { Option } = Select;
 const { confirm } = Modal;

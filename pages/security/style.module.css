@@ -1,0 +1,80 @@
+.Layout {
+    margin: 10px 0px;
+    border: 1px solid #ccc;
+}
+
+.Title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.Password {
+    width: 98%;
+    margin: 0px auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* margin: 10px 0px; */
+    padding: 10px;
+    margin-bottom: -1px;
+    border-bottom: 1px solid #ccc;
+}
+
+.Hdr {
+    display: flex;
+    align-items: center;
+}
+
+.Descrip {}
+
+.Text1 {
+    color: rgb(25, 25, 25);
+    font-weight: 600;
+}
+
+.Text2 {
+    color: rgb(133, 133, 133);
+    font-weight: 600;
+}
+
+.KeyOutlined {
+    font-size: 18px;
+    color: red;
+}
+
+.Icons {
+    display: flex;
+    width: 28px;
+    background: rgb(254 242 242);
+    height: 28px;
+    align-items: center;
+    margin-right: 7px;
+    border-radius: 3px;
+    justify-content: center;
+}
+
+.Details {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: 20px auto;
+}
+
+.DetailsChild {
+    display: flex;
+    align-items: center;
+    margin: 5px;
+}
+
+.DetailsTitle {
+    font-size: 15px;
+    width: 110px;
+    color: #000;
+}
+
+.TopLine {
+    border-top: 1px solid #e9e9e9;
+    margin-top: 5px;
+    padding-top: 5px;
+}

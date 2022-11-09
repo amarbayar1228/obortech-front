@@ -14,8 +14,7 @@ const Profile = () => {
   useEffect(() => {
     getProfile(); 
   }, []);
-  const getProfile = () =>{
-    console.log("object", basketContext.userInfoProfile);
+  const getProfile = () =>{ 
     // if(basketContext.userInfoProfile){
     //   setInputLastname(basketContext.userInfoProfile.lastname);
     //   setInputFirstname(basketContext.userInfoProfile.firstname);
@@ -144,7 +143,7 @@ const Profile = () => {
                   <span className={css.TitleChild}>{basketContext.userInfoProfile.address === null ? "Null" : basketContext.userInfoProfile.address}</span>
                 </div>
                 <div className={css.TitleSize}> Jobtitle
-                  <span className={css.TitleChild}>+ {basketContext.userInfoProfile.phone === null ? "Null" : basketContext.userInfoProfile.phone}</span>
+                  <span className={css.TitleChild}>+ {basketContext.userInfoProfile.phone === null ? "Null" : basketContext.userInfoProfile.jobtitle}</span>
                 </div>
               </div>  
             </div>
