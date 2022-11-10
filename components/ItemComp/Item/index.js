@@ -306,7 +306,7 @@ axios.post("/api/post/Gate", body).then((res)=>{
 const onOk = (value) => {
     console.log('onOk: ', value);
   };
-return<div>
+return<div className={css.ItemLayout}>
        <div className={css.StateCss}>
         <ItemAdd getItems={getItems} typeLevel={typeLevel}/> <div className={css.ClearTable}><Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Table sort clear</Button></div>
        </div>

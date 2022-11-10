@@ -1,3 +1,157 @@
+.Layout {
+    background-color: #f1f1f1;
+    display: flex;
+    height: 93vh;
+    width: 100%;
+}
+
+.Sidebar {
+    display: flex;
+    width: 233px;
+    background: #fff;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.SidebarHide {
+    display: flex;
+    width: 60px;
+    background: #fff;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.Content {
+    background-color: #fff;
+    width: 100%;
+    margin: 10px;
+    padding: 0px 20px;
+}
+
+.Links {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
+
+.MenuZ {
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: rgb(3, 55, 69);
+    /* padding-left: 10px; */
+    padding: 7px 0px 7px 10px;
+    margin: 3px 0px;
+    font-weight: 500;
+    border-radius: 8px;
+}
+
+.MenuZ:hover {
+    background-color: rgb(244 63 94);
+    color: #fff;
+    cursor: pointer;
+}
+
+.MenuActive {
+    width: 100%;
+    background-color: rgb(244 63 94);
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #fff;
+    /* padding-left: 10px; */
+    padding: 7px 0px 7px 10px;
+    margin: 3px 0px;
+    font-weight: 500;
+    border-radius: 8px;
+    /* border-right: 3px solid #000000; */
+}
+
+.Text {
+    padding-left: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 140px;
+    text-transform: capitalize;
+}
+
+.ProfileZX {
+    position: relative;
+    display: flex;
+    border-radius: 5px;
+    margin-bottom: 30px;
+    font-size: 15px;
+    font-weight: 500;
+    color: rgb(50, 50, 50);
+}
+
+.ImgZ {
+    background-color: #4d5057;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+    border-radius: 5px;
+
+}
+
+.UserDe {
+    line-height: 19px;
+    padding-left: 7px;
+}
+
+.BorderTop {
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+
+.ToogleZX {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 7px;
+    right: -24px;
+}
+
+.BtnToogle {
+    background-color: rgb(244 63 94);
+    color: #fff;
+    border: none;
+
+}
+
+.BtnToogle:hover {
+    background-color: #fff;
+    border: 1px solid rgb(244 63 94);
+    color: rgb(244 63 94);
+}
+
+.UserTitle {
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 90px;
+}
+
+.UserDescr {
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 120px;
+    color: #668fa3;
+}
+
+
+/* 
+============================================================================================================================= */
 .Toggle {
     position: absolute;
     bottom: 0;

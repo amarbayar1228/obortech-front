@@ -288,7 +288,7 @@ axios.post("/api/post/Gate", body).then((res) => {
     
 }).catch((err)=>{console.log("group item err", err)});    
 }
-return<div>
+return<div className={css.GroupLayout}>
     <div className={css.TableHdr}> 
       <div><GroupAdd groupItems={groupItems}/></div>
       <div className={css.ClearTable}><Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Table sort clear</Button></div>

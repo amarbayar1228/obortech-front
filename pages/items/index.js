@@ -106,13 +106,13 @@ const Items = () => {
     <BaseLayout pageName="items" addItemStyle={addItemStyle} style={{ maxWidth: "100%" }}>
       {basketContext.orgId === undefined ? <Empty style={{marginTop: "100px"}}/> :  
        <div className={css.ScrollItemsCont}><div>
-       <Carousel>
-         <div><h3 className={css.BackgrounImg} style={{background: "url(/img/obBack1.png) no-repeat"}}>
-           {/* <Image alt="Obertech" preview={false} className={css.bImg} src="/img/obBack1.png"/> */}
+       {/* <Carousel>
+         <div><h3 className={css.BackgrounImg} style={{background: "url(/img/obBack1.png) no-repeat"}}> 
            </h3></div>
          <div><h3 className={css.BackgrounImg} style={{background: "url(/img/obBack3.png) no-repeat"}}></h3></div>
          <div><h3 className={css.BackgrounImg} style={{background: "url(/img/obBack2.png) no-repeat"}}></h3></div>
-       </Carousel></div>
+       </Carousel> */}
+       </div>
      {spinState === true ? (<div><Spin className={css.SpinCss} tip="" size="large"></Spin></div>) : (
        <>
          {itemData === undefined ? <Empty /> : (
