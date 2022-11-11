@@ -125,16 +125,12 @@ return (
           {btnDis === false ? 
           <div> 
             <div className={css.OrgSelectCSs}>Organization id select?</div>
-          <div className={css.Popcss}>  
-            <div className={css.TitleFlex}><Radio.Group onChange={onChangeRadio}> <Radio value={orgIdState}><div className={css.RadioFrame}>{orgIdState}</div></Radio></Radio.Group></div>   
-          </div>
+            <div className={css.Popcss}>  
+              <div className={css.TitleFlex}><Radio.Group onChange={onChangeRadio}> <Radio value={orgIdState}><div className={css.RadioFrame}>{orgIdState}</div></Radio></Radio.Group></div>   
+            </div>
           </div> 
           : null}
-          {radioS === "a" ? <div className={css.BtnPop}> 
-          {/* obortech: 6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t ============================================================*/} 
-          {/* my ip:  6LfnfrUiAAAAAJ-K132PVlBOqV-fr1F1sBOJcGpR ===============================================================*/}
-          
- 
+          {radioS === "a" ? <div className={css.BtnPop}>   
         <Button disabled={btnDis} style={{ fontWeight: "500",  width: "100%"}} size="large" type="primary" onClick={()=> showConfirm()}>Continue <ArrowRightOutlined /> </Button></div> : ""} </div>}</>}  
 
     </div> 

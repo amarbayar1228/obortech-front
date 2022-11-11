@@ -102,3 +102,22 @@
 .ForgetPasswordCss {
     display: inline;
 }
+
+@media only screen and (max-width: 500px) {
+    .HdrTitle {
+        font-size: 22px;
+    }
+
+    .FromCss {
+        font-size: 15px;
+        /* background: #f1f1f1; */
+        box-shadow: 0px 0px 4px 1px #efefef;
+        border-radius: 10px;
+        padding: 10px 10px;
+        font-weight: 600;
+    }
+
+    .Cont2 {
+        padding: 0px;
+    }
+}

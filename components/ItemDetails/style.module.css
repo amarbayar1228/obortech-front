@@ -1,6 +1,7 @@
 .GroupPackageDtl {
     width: 800px;
     margin-left: 10px;
+    height: 340px;
     /* border: 1px solid #ebebeb;
     background: #fff; */
 }
@@ -33,9 +34,48 @@
 
 .Ddescrip2 {
     color: #6f8391;
+    font-weight: 500;
+    text-transform: capitalize;
+    width: 94%;
+    white-space: nowrap;
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .Dtitle {
     font-weight: 700;
     text-transform: uppercase;
+    width: 94%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* .Content {
+    background-color: green;
+    height: 200px;
+} */
+
+/* .ImageCss {
+    height: 50px;
+} */
+
+/* .ImageSize {
+    height: 50px;
+} */
+
+@media only screen and (max-width: 1024px) {
+    .GroupPackageDtl {
+        width: 100%;
+        margin: 0px auto;
+        /* border: 1px solid #ebebeb;
+        background: #fff; */
+    }
+}
+
+@media only screen and (max-width: 561px) {
+    .GroupPackageDtl {
+        height: 240px;
+    }
 }

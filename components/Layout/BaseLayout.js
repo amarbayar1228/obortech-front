@@ -204,6 +204,7 @@ export default function BaseLayout(props) {
       {basketContext.orgId == undefined ? "" : <div className={css.OrgIdText}>Org ID: {basketContext.orgId}</div>}  
     </div>
   </div>
+  {basketContext.orgId == undefined ? null : <div className={css.OrgIdTextMobile}> <Tooltip placement="left" color="green" title={basketContext.orgId}>Org ID</Tooltip></div> }
 {/* ===============================================================================Moblie ============================================================= */}
   <div className={css.MenuMobile}>
     <div className={basketContext.orgId == undefined? css.MenuHoverIconAdminNo : css.MenuHoverIcon}>
@@ -327,6 +328,7 @@ export default function BaseLayout(props) {
     )}
   </div>
 </div>
+ 
 
 <div className={css.Layout}>
     {props.pageName === "home" || props.pageName === "login" || props.pageName === "items" ||props.pageName === "register" || 
@@ -334,7 +336,9 @@ export default function BaseLayout(props) {
     <div className={toogleCss ? css.Sidebar : css.SidebarHide}>
         <div className={css.Links}> 
         <div className={css.ProfileZX}> 
-        <div className={css.ImgZ}>A</div>
+        <div className={css.ImgZ}>
+          {/* <div><Image alt="Obertech" preview={true} className={css.Zurag} src={"data:image/png;base64,"} style={{display: "flex", width: "30px", margin:"0px auto"}}/> </div> */}
+          </div>
             {toogleCss ? 
             <div className={css.UserDe}> 
                 <div className={css.UserTitle}> Amarbayar </div>
@@ -344,6 +348,7 @@ export default function BaseLayout(props) {
 
             {/* <div className={css.ToogleZX}><Button onClick={sidebarF} icon={<LeftOutlined />} size="small" shape="circle" className={css.BtnToogle}></Button> </div> */}
          </div>
+         <div className={css.Line}> </div>
             <Link href="/dashboard">
             <Tooltip title="Dashboard" placement="right" color="#f43f5e"> 
                 <div className={router.pathname === "/dashboard" ? css.MenuActive : css.MenuZ}>
@@ -406,7 +411,10 @@ export default function BaseLayout(props) {
             </div> 
     </div>
 }
-    <div className={css.Content}>
+    <div className={props.pageName === "items" ?  css.ContentItem : props.pageName === "home" ? css.ContentHome : props.pageName === "login" ? 
+    css.ContentHome : props.pageName === "register" ? css.ContentHome : css.Content}>
+      <div>{console.log(props.pageName)}</div>
+       
          {props.children}
     </div>
  </div> 

@@ -30,7 +30,7 @@ const [selectLevel, setSelectLevel] = useState(-1);
 const searchInput = useRef(null); 
 
 const [date, setDate] = useState([]); 
-const [status, setStatus] = useState(1);
+const [status, setStatus] = useState(-1);
 useEffect(()=>{ 
     getItems();
 },[]);
@@ -158,7 +158,7 @@ const data = itemData.map((r, i)=>(
 ));
 const columns = [
     {
-    title: 'Date',
+    title: <div className={css.TableTitle}>Date</div>,   
     dataIndex: 'date',
     key: 'date', 
     width: 120,
@@ -171,19 +171,19 @@ const columns = [
     ellipsis: true,
     },
     {
-        title: 'Image',
-        dataIndex: 'img',
-        key: 'img', 
-        fixed: "left",
-        width: 70,
-        // ...getColumnSearchProps('state'), 
-        render: (a) => <div> 
-               <Image alt="Obertech" preview={true} className={css.Zurag} src={"data:image/png;base64," + a} style={{display: "flex", width: "30px", margin:"0px auto"}}/>
-        </div>, 
-        ellipsis: true,
-        }, 
+    title:<div className={css.TableTitle}>Image</div>,  
+    dataIndex: 'img',
+    key: 'img', 
+    fixed: "left",
+    width: 70,
+    // ...getColumnSearchProps('state'), 
+    render: (a) => <div> 
+            <Image alt="Obertech" preview={true} className={css.Zurag} src={"data:image/png;base64," + a} style={{display: "flex", width: "30px", margin:"0px auto"}}/>
+    </div>, 
+    ellipsis: true,
+    }, 
     {
-    title: 'Title',
+    title: <div className={css.TableTitle}>Title</div>,
     dataIndex: 'title',
     key: 'title', 
     // width: 120,
@@ -195,7 +195,7 @@ const columns = [
     ellipsis: true,
     },
     {
-    title: 'Desription',
+    title: <div className={css.TableTitle}>Desription</div>,
     dataIndex: 'description',
     key: 'description', 
     // width: 120,
@@ -207,7 +207,7 @@ const columns = [
     ellipsis: true,
     }, 
     {
-    title: 'Price',
+    title: <div className={css.TableTitle}>Price</div>, 
     dataIndex: 'price',
     key: 'price', 
     // width: 120,
@@ -220,7 +220,7 @@ const columns = [
     render: (a) =><div>{a} $</div>
     },
     {
-        title: 'Others',
+        title: <div className={css.TableTitle}>Others</div>,
         dataIndex: 'others',
         key: 'others', 
         // width: 120,
@@ -232,7 +232,7 @@ const columns = [
         ellipsis: true,
     }, 
     {
-    title: 'Status',
+    title: <div className={css.TableTitle}>Status</div>,
     dataIndex: 'state',
     key: 'state', 
     fixed: "right",
@@ -251,7 +251,7 @@ const columns = [
     ellipsis: true,
     }, 
 
-    {title: 'Action', key: 'action', fixed: 'right', width: 140,
+    {title: <div className={css.TableTitle}>Action</div>,   key: 'action', fixed: 'right', width: 140,
     render: (b) => <div className={css.ActionCss}>
          <div style={{display: "flex"}}> 
          <StatusChangeModal addItemStatus={b.state} addItemGetItems={getItems} />

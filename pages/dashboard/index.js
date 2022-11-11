@@ -7,6 +7,7 @@ import { PageHeader, Tag, Descriptions } from "antd";
 import css from "./style.module.css";
 import BasketContext from "../../context/basketContext/BasketContext";
 import { useTranslation } from "next-i18next";
+import Spinner from "../../components/Spinner";
 const Dashboard = () => {
   const { t } = useTranslation("dashboard");
   const basketContext = useContext(BasketContext);
@@ -20,7 +21,10 @@ const Dashboard = () => {
       <Divider orientation="left">
         <div className={css.Title}> {t("title")}</div>
       </Divider>
-      <div>
+ {/* <div style={{margin: "100px"}}> <Spinner /></div> */}
+
+
+      <div style={{width: "98%"}}>
         <div className="site-statistic-demo-card">
           <Row gutter={16}>
             <Col span={12}>

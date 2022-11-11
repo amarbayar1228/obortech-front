@@ -130,6 +130,51 @@
     border-right: 1px solid #111;
 }
 
+.LogBox {
+    /* display: flex;
+    width: 78%;
+    padding: 7px;
+    height: 77%;
+    background: red;
+    flex-direction: column;
+    justify-content: center; */
+    display: flex;
+    width: 77%;
+    padding: 7px;
+    height: 76%;
+    background: red;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.Box {
+    width: 50%;
+}
+
+.BoxChild {
+    width: 7px;
+    background-color: #f00;
+    height: 7px;
+    border: 1px solid #fff;
+}
+
+
+.Line {
+    width: 5px;
+    height: 1px;
+    background-color: #fff;
+}
+
+.BoxTopLine {
+    display: flex;
+}
+
+.UpLine {
+    height: 5px;
+    background-color: rgb(255, 255, 255);
+    width: 1px;
+}
 
 /* typing */
 

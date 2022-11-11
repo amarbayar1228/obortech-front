@@ -17,6 +17,10 @@
 .CompTitle {
     font-weight: 600;
     margin-left: 10px;
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .RadioCss {
@@ -120,4 +124,8 @@
     font-size: 15px;
     color: red;
     margin-bottom: 5px;
+    width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

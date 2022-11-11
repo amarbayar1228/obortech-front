@@ -280,3 +280,18 @@
     font-weight: 600;
     font-size: 15px;
 }
+
+@media only screen and (max-width: 500px) {
+    .SearchCss {
+        display: flex;
+        justify-content: center;
+        /* margin-top: 100px; */
+        margin: 100px 15px;
+        overflow: hidden;
+    }
+
+    .SearchInput {
+        text-transform: uppercase;
+        width: 350px;
+    }
+}

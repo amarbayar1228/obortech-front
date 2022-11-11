@@ -6,5 +6,11 @@
 
 .ItemLayout {
     width: 94%;
-    margin: 0px auto;
+    /* margin: 0px auto; */
+}
+
+.TableTitle {
+    font-size: 14px;
+    font-weight: 600;
+    color: #2b4050;
 }

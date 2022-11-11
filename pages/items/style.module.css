@@ -536,7 +536,8 @@
 
 .GroupPackage {
     display: flex;
-    margin: 12px;
+    margin: 23px 12px;
+    box-shadow: 0px 0px 5px 2px #e9e9e9;
 }
 
 .GroupPackageHdr {
@@ -631,25 +632,62 @@
 }
 
 .GrpBtn {
-    display: none;
+    /* display: none; */
     bottom: 7px;
     right: 14px;
     background-color: #f3f4f6;
     border-radius: 50%;
     position: absolute;
-}
-
-.GroupPackage:hover .GrpBtn {
-    display: flex;
     margin: 12px;
 }
 
+/* .GroupPackage:hover .GrpBtn {
+    display: flex;
+    margin: 12px;
+} */
+.mySwiper {
+    height: 450px;
+}
 
+.SlideCss {
+    background-color: red;
+}
 
 @media only screen and (max-width: 1024px) {
+
+    .Gphdescrip {
+        font-size: 16px;
+        font-weight: 500;
+        color: #6f8391;
+        text-align: justify;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 350px;
+    }
+
+    .Gphprice {
+        font-size: 17px;
+        font-weight: 500;
+        color: #444444;
+        text-align: right;
+        padding-top: 6px;
+    }
+
+    .ItemSection {
+        display: flex;
+        flex-direction: row;
+        /* background: red; */
+        margin: 40px auto;
+        width: 100%;
+        flex-flow: wrap;
+        justify-content: space-around;
+    }
+
     .GroupPackage {
         display: flex;
         flex-direction: column;
+        /* margin-top: 115px; */
     }
 
     .BackgrounImg {
@@ -661,7 +699,64 @@
     }
 
     .GroupPackageHdr {
-        width: 83%;
+        width: 100%;
+        margin: 0px auto;
         margin-bottom: 10px;
+        height: 250px;
     }
+
+    .ScrollItemsCont {
+        max-height: 93.2vh;
+        overflow: auto;
+        background: #f6f6f6;
+    }
+
+    .GroupLayoutCss {
+        width: 100%;
+    }
+}
+
+
+@media only screen and (max-width: 561px) {
+    .mySwiper {
+        height: 350px;
+    }
+
+    .Item {
+        position: relative;
+        width: 185px;
+        height: 245px;
+        border: 1px solid #ebebeb;
+        background-color: #fff;
+        margin: 8px;
+        border-radius: 5px;
+        animation: style_scaledown__Dph5z .2s linear;
+    }
+
+    .ImgItem {
+        height: 109px;
+
+    }
+
+    .ItemPic {
+        height: 95px;
+    }
+
+    .ItemTitle1 {
+        width: 127px;
+    }
+
+    .GroupPackage {
+        display: flex;
+        flex-direction: column;
+        /* margin-top: 25px; */
+    }
+
+    .GroupPackageHdr {
+        width: 100%;
+        margin: 0px auto;
+        margin-bottom: 10px;
+        height: 200px;
+    }
+
 }

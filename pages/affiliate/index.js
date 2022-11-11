@@ -128,9 +128,8 @@ const segmentFuncUser = (a) => {
   return (
     <BaseLayout pageName="affiliate">
       <div className={css.Split}>
-        <div style={{background: "#fff",width: "90%",margin: "0px  auto ",}}>
-        <Tabs
-          defaultActiveKey="4" 
+        <div style={{background: "#fff",width: "97%",marginLeft: "20px"}}>
+        <Tabs defaultActiveKey="4" 
           items={["a","a"].map((Icon, i) => {  
             return {
               label: i=== 0 ? "User" : "Company",

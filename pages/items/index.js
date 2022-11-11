@@ -1,7 +1,7 @@
 
 import {React, useContext, useEffect, useState } from "react";
 import BaseLayout from "../../components/Layout/BaseLayout";
-import { Button, Carousel, Empty, Image, message, Spin } from "antd";
+import { Button, Carousel, Empty, Image, message, Spin, Tooltip } from "antd";
 
 import css from "./style.module.css";
 import {ShoppingCartOutlined, PlusCircleOutlined} from "@ant-design/icons";
@@ -10,6 +10,8 @@ import BasketContext from "../../context/basketContext/BasketContext";
 // import "swiper/css"; 
 // import "swiper/css/free-mode"; 
 // import "swiper/css/pagination"; 
+import { Pagination } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
 import ItemDetails from "../../components/ItemDetails";
 const Items = () => {
   const [itemData, setItemData] = useState([]);
@@ -105,7 +107,13 @@ const Items = () => {
   return (
     <BaseLayout pageName="items" addItemStyle={addItemStyle} style={{ maxWidth: "100%" }}>
       {basketContext.orgId === undefined ? <Empty style={{marginTop: "100px"}}/> :  
-       <div className={css.ScrollItemsCont}><div>
+       <div className={css.ScrollItemsCont}>
+        <div>
+        <Swiper pagination={true} modules={[Pagination]} className={css.mySwiper}>
+          <SwiperSlide className={css.SlideCss}><h3 className={css.BackgrounImg} style={{background: "url(/img/obBack1.png) no-repeat"}}></h3> </SwiperSlide>
+          <SwiperSlide className={css.SlideCss}><h3 className={css.BackgrounImg} style={{background: "url(/img/obBack3.png) no-repeat"}}></h3></SwiperSlide>
+          <SwiperSlide className={css.SlideCss}><h3 className={css.BackgrounImg} style={{background: "url(/img/obBack2.png) no-repeat"}}></h3></SwiperSlide> 
+        </Swiper>
        {/* <Carousel>
          <div><h3 className={css.BackgrounImg} style={{background: "url(/img/obBack1.png) no-repeat"}}> 
            </h3></div>
@@ -147,7 +155,7 @@ const Items = () => {
                            <div className={css.Gphtitle}>{e.title}</div> <div className={css.Gphdescrip}> {e.description}</div>
                            <div className={css.Gphprice}><span>Package price: </span><span>{e.price}$</span></div>
                          </div>
-                         <div className={css.GrpBtn}><Button type="link" shape="circle" size="large" danger icon={<ShoppingCartOutlined />}    onClick={() => groupBasketAdd(e, gst1)}></Button></div>
+                        <Tooltip title="Add basket" color="red" placement="right"><div className={css.GrpBtn}><Button type="link" shape="circle" size="large" danger icon={<ShoppingCartOutlined />}    onClick={() => groupBasketAdd(e, gst1)}></Button></div></Tooltip>
                        </div>
                        <ItemDetails item={e.pkId}/>
                      </div>
