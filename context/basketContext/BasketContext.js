@@ -12,7 +12,7 @@ export const BasketItem = (props) => {
   const [userInfoProfile, setUserInfoProfile] = useState();
   const [hanshnuud, setHanshnuud] = useState([]);
   const [todayDateState,setTodayDateState] = useState();
-  const [orgId, setOrgId] = useState("");
+  const [orgId, setOrgId] = useState(undefined);
   const router = useRouter();
   useEffect(() => {   
     basketStateFunc();
@@ -33,6 +33,9 @@ export const BasketItem = (props) => {
 const orgIdLocal = (orgId) =>{ 
   // setOrgId(localStorage.getItem("orgId"))
   setOrgId(orgId); 
+}
+const orgIdRemove = () =>{
+  setOrgId(undefined); 
 }
   const removeBasketStorage = () => {
     localStorage.removeItem("basket");
@@ -187,7 +190,7 @@ const orgIdLocal = (orgId) =>{
   return (
     <BasketContext.Provider
       value={{
-        orgId, orgIdLocal, groupDetailFuncContext, clearBasket,
+        orgId, orgIdLocal, groupDetailFuncContext, clearBasket,orgIdRemove,
         basketState, getUserProfileFunction, userInfoProfile, onCollapse, toggle, hanshnuud, collapsed, basketItemDelete,
         totalPriceFunction2, totalPriceState, removeBasketStorage, decline,
         MenuKey, todayDateState, localStorageBasketLength, increase, basketStateFunc, menuSelectKeyState,

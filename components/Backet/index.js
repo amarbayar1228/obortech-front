@@ -82,7 +82,7 @@ const clearFunc = () =>{
         <div className={css.BtnOrder}>
           <Button size="small" style={{fontSize: "14px", marginRight: "5px"}} onClick={()=>basketContext.clearBasket()}>clear</Button>
           <Button className={css.OrderIcon} type="primary" icon={<ShoppingCartOutlined style={{ fontSize: "16px" }} />} loading={loadings[1]} size="small" 
-          onClick={() => paymentRoute(1)}>Order</Button>
+          onClick={() => paymentRoute(1)}>View cart</Button>
         </div>
       </div>
     </div>
