@@ -192,7 +192,7 @@ export default function BaseLayout(props) {
   };
   const sidebarF = () =>{
     setToogleCss(!toogleCss);
-    localStorage.setItem("toogle", !toogleCss);
+     
   }
   return (
 <>
@@ -215,11 +215,28 @@ export default function BaseLayout(props) {
 
           <Tooltip title={t("basketName")}>
             <Popover content={<BacketComponent />}
-              title={<div className={css.BasketHeader}><ShoppingCartOutlined style={{ paddingRight: "5px", fontSize: "25px" }}/> {t("basketName")}</div>}
-              trigger="click" open={visibleMenu} onOpenChange={handleVisibleChangeMenu}>
+              title={<div className={css.BasketHeader}> 
+              <div className={css.BasketHdrCss}><ShoppingCartOutlined style={{ paddingRight: "5px", fontSize: "15px" }}/>{t("basketName")}</div>
+                <div>{basketContext.orgId == undefined ? "" : <div className={css.OrgIdText2}>Org ID: {basketContext.orgId}</div>}</div>
+              </div>}
+            trigger="click" open={visibleMenu} onOpenChange={handleVisibleChangeMenu}>
               <Button size="small"type="link" className={router.pathname == "/payment" ? css.ActiveBasket : css.Icons}><ShoppingCartOutlined /></Button>
-            </Popover>
+            </Popover> 
+
+
+            {/* <Popover content={<BacketComponent />} title={<div className={css.BasketHeader}> 
+            <div className={css.BasketHdrCss}><ShoppingCartOutlined style={{ paddingRight: "5px", fontSize: "15px" }}/>{t("basketName")}</div>
+              <div>{basketContext.orgId == undefined ? "" : <div className={css.OrgIdText2}>Org ID: {basketContext.orgId}</div>}</div>
+            </div>} 
+              trigger="click" open={visible} onOpenChange={handleVisibleChange}>
+              <Button type="link" className={router.pathname == "/payment" ? css.ActiveBasket : css.Icons}><ShoppingCartOutlined /></Button>
+            </Popover> */}
+
+
           </Tooltip> 
+
+         
+
         </div>
       )}
     </div> 
@@ -411,10 +428,8 @@ export default function BaseLayout(props) {
             </div> 
     </div>
 }
-    <div className={props.pageName === "items" ?  css.ContentItem : props.pageName === "home" ? css.ContentHome : props.pageName === "login" ? 
-    css.ContentHome : props.pageName === "register" ? css.ContentHome : css.Content}>
-      <div>{console.log(props.pageName)}</div>
-       
+    <div className={props.pageName === "items" ? css.ContentItem : props.pageName === "home" ? css.ContentHome  : props.pageName === "login" ? css.ContentHome :    toogleCss ? css.ContentCss : css.Content}>
+      <div>{console.log(props.pageName)}</div>  
          {props.children}
     </div>
  </div> 

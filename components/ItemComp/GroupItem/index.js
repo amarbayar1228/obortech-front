@@ -155,7 +155,7 @@ const data = group.map((r, i)=>(
 ));
 const columns = [
     {
-    title: 'Date',
+    title: <div className={css.TableTitle}>Date</div>,
     dataIndex: 'date',
     key: 'date', 
     width: 100,
@@ -169,7 +169,7 @@ const columns = [
     },
  
     {
-    title: 'Title',
+    title: <div className={css.TableTitle}>Title</div>,
     dataIndex: 'title',
     key: 'title', 
     // width: 120,
@@ -181,7 +181,7 @@ const columns = [
     ellipsis: true,
     },
     {
-    title: 'Desription',
+    title: <div className={css.TableTitle}>Description</div>,
     dataIndex: 'description',
     key: 'description', 
     // width: 120,
@@ -193,7 +193,7 @@ const columns = [
     ellipsis: true,
     }, 
     {
-    title: 'Price',
+    title: <div className={css.TableTitle}>Price</div>,
     dataIndex: 'price',
     key: 'price', 
     // width: 120,
@@ -206,7 +206,7 @@ const columns = [
     render: (a) =><div>{a} $</div>
     },
     {
-        title: 'Others',
+        title: <div className={css.TableTitle}>Others</div>,
         dataIndex: 'others',
         key: 'others', 
         // width: 120,
@@ -218,7 +218,7 @@ const columns = [
         ellipsis: true,
         }, 
     {
-    title: 'Status',
+    title: <div className={css.TableTitle}>Status</div>,
     dataIndex: 'state',
     key: 'state', 
     fixed: "right",
@@ -237,7 +237,7 @@ const columns = [
     ellipsis: true,
     }, 
 
-    {title: 'Action', key: 'action', fixed: 'right', width: 120,
+    {title: <div className={css.TableTitle}>Action</div>, key: 'action', fixed: 'right', width: 120,
     render: (b) => <div className={css.ActionCss}>  {b.state.status === 2 ? <GroupDisInsert groupData={b.state} getGroupItems={groupItems}/> :  
          <div style={{display: "flex"}}>  
            

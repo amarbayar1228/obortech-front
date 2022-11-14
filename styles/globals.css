@@ -328,6 +328,7 @@ body {
 .ant-table-tbody {
   font-weight: 500;
   color: #677b89;
+  text-transform: capitalize;
 }
 
 .ant-input {

@@ -138,7 +138,7 @@ const segmentFuncUser = (a) => {
                 {/* ------------------------------user segment ----------------------------------- */}
               <Segmented size="middle" block  onChange={segmentFuncUser}
                 options={[{label: "Accept user", value: "acceptUser"},
-                          {label: "New user request",value: "newUserRequest"},
+                          {label: <Badge count={5} size="small" offset={[8, 1]}> New user request2 </Badge>,value: "newUserRequest"},
                           {label: "Admin's accept user", value: "adminAcceptUser"}]}/>
                   {segmentValueUser === "acceptUser" ? <div><UserAcceptAdmin /></div> 
                   : segmentValueUser === "newUserRequest" ? <div className={css.SplitSize}><div><NewUserRequest/> </div></div> 

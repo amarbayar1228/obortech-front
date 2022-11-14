@@ -97,3 +97,14 @@
    border-color: rgb(220 38 38);
    color: rgb(254 242 242);
 }
+
+.NewUserReq {
+   position: relative;
+}
+
+.NewBox {
+   position: absolute;
+   background-color: red;
+   color: #fff;
+   padding: 5px;
+}

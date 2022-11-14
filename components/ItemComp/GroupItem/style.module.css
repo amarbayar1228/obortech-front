@@ -8,3 +8,9 @@
     margin: 0px auto;
     width: 94%;
 }
+
+.TableTitle {
+    font-size: 14px;
+    font-weight: 600;
+    color: #4a5760;
+}

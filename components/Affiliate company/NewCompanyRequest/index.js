@@ -40,7 +40,7 @@ const body = {
     count: 10,
 };
 axios.post("/api/post/Gate", body).then((res) => {
-console.log("res.data: ", res.data.data);
+console.log("new res.data: ", res.data.data);
 setCompanyData(res.data.data);
     setSpinner(false);
     setTableParams({

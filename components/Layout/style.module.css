@@ -6,27 +6,38 @@
 }
 
 .Sidebar {
+    position: relative;
     display: flex;
-    width: 233px;
+    width: 200px;
     background: #fff;
-    flex-direction: column;
-    justify-content: space-between;
+    /* flex-direction: column;
+    justify-content: space-between; */
 }
 
 .SidebarHide {
+    position: relative;
     display: flex;
     width: 60px;
     background: #fff;
-    flex-direction: column;
-    justify-content: space-between;
+    /* flex-direction: column;
+    justify-content: space-between; */
 }
 
 .Content {
     background-color: #fff;
-    width: 96%;
+    width: calc(100% - 60px);
     border-left: 1px solid #ebebeb;
-    /* margin: 10px;
-    padding: 0px 20px; */
+    margin: 5px;
+    padding: 5px 10px;
+
+}
+
+.ContentCss {
+    background: #fff;
+    border-left: 1px solid #ebebeb;
+    width: calc(100% - 200px);
+    margin: 5px;
+    padding: 5px 10px;
 }
 
 .ContentHome {
@@ -62,7 +73,7 @@
     font-size: 14px;
     color: rgb(3, 55, 69);
     /* padding-left: 10px; */
-    padding: 7px 0px 7px 10px;
+    padding: 7px 0px 7px 5px;
     margin: 3px 0px;
     font-weight: 500;
     border-radius: 8px;
@@ -82,7 +93,7 @@
     font-size: 14px;
     color: #fff;
     /* padding-left: 10px; */
-    padding: 7px 0px 7px 10px;
+    padding: 7px 0px 7px 5px;
     margin: 3px 0px;
     font-weight: 500;
     border-radius: 8px;
@@ -135,6 +146,9 @@
 }
 
 .BorderTop {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
 }
@@ -533,6 +547,8 @@
 
 
 @media only screen and (max-width: 1024px) {
+
+
     .MenuHoverIcon {
         display: flex;
         background: #f1f1f1;
