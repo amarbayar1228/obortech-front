@@ -43,7 +43,7 @@
   flex-direction: column;
   background: #fff;
   font-size: 14px;
-  box-shadow: 1px 2px 3px 2px #ccc;
+  box-shadow: 1px 2px 3px 2px #e5e5e5;
   border-radius: 5px;
   text-transform: uppercase;
   padding: 10px;
@@ -153,7 +153,9 @@
   width: 170px;
   text-align: left;
   font-weight: 600;
-  color: #343434;
+  font-family: sans-serif;
+  font-size: 13px;
+  color: #4e5458;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -292,28 +294,17 @@
   padding-right: 5px;
 }
 
-.ItemDivide {
-  display: flex;
-}
 
-.Reminder {
-  width: 360px;
-  margin-left: 10px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 1px 3px 8px 1px #9e9e9e;
-  padding: 10px;
-}
+
 
 .ItemTotal {
   display: flex;
   flex-direction: column;
   /* width: 60%; */
-  width: 100%;
+  width: calc(100% - 310px);
   /* background: #f0f2f5; */
   border-radius: 10px;
-  box-shadow: 1px 3px 8px 1px #9e9e9e;
-  height: 530px;
+  box-shadow: 1px 3px 8px 1px #d5d5d5;
   justify-content: space-between;
   overflow-y: auto;
 }
@@ -694,6 +685,9 @@
   width: 100%;
 }
 
+.PayMethod {
+  border-top: 2px solid #ccc;
+}
 
 .RateLayout {
   display: flex;
@@ -771,13 +765,20 @@
   border-radius: 10px;
   /* border: 1px solid #ccc; */
   box-shadow: 1px 1px 5px 3px #f1f6f9;
-  padding: 50px;
-  font-size: 20px;
-  margin: 20px;
+  /* padding: 21px; */
+  display: flex;
+  font-size: 18px;
+  width: 150px;
+  height: 150px;
+  margin: 10px 20px;
+  /* margin: 20px; */
+  text-align: center;
   color: rgb(239 68 68);
   background-color: #fff;
   cursor: pointer;
-  animation: scaledown .2s linear;
+  animation: style_scaledown__Ojs52 .2s linear;
+  justify-content: center;
+  align-items: center;
 }
 
 .SucessOrderCss {
@@ -786,6 +787,213 @@
 }
 
 .PayLayout:hover {
+  animation: scale 0.2s linear;
+  animation-fill-mode: forwards;
+  box-shadow: 3px 4px 9px 4px #e6e6e6;
+}
+
+
+
+.Balance {
+  font-weight: 500;
+  color: red;
+  background: white;
+  font-size: 20px;
+  padding-left: 20px;
+  border-radius: 10px;
+  padding-right: 10px;
+  text-transform: uppercase;
+}
+
+.CoinTitle {
+  width: 70px;
+  text-align: left;
+  margin-left: 30px;
+}
+
+.ContentCss {
+  width: 100%;
+  margin: 20px auto;
+  max-width: 1000px;
+}
+
+.Reminder {
+  width: 300px;
+  margin-left: 10px;
+  height: 100%;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 1px 3px 8px 1px #d5d5d5;
+  padding: 15px;
+}
+
+.OrderSummary {
+  font-size: 19px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.SubTotal {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  border-bottom: 1px solid #ccc;
+  width: 100%;
+  padding-bottom: 10px;
+  margin-top: 10px;
+}
+
+.TotalLenght {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 15px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.TotalLPrice {
+  font-size: 20px;
+}
+
+.ProceedTo {
+  width: 100%;
+  padding-top: 10px;
+}
+
+.CheckoutBtn {
+  width: 100%;
+  background: rgb(239 68 68);
+  color: #fff;
+
+}
+
+.PayContent {
+  display: flex;
+  width: 100%;
+  padding: 10px;
+  animation-name: bankRouteAnimation;
+  animation-duration: 0.3s;
+  animation-timing-function: ease;
+}
+
+.PayConfirm {
+  width: calc(100% - 300px);
+  padding: 0px 20px;
+}
+
+.PlsName {
+  font-size: 17px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.RadioCont {
+  margin-top: 10px;
+}
+
+.OrgRadio {
+  text-align: left;
+  background: #ffffff;
+  padding: 10px 5px;
+  width: 100%;
+  font-weight: 600;
+  padding-left: 20px;
+  border-radius: 10px;
+  font-size: 15px;
+  box-shadow: 1px 1px 2px 1px #ebebeb;
+}
+
+.BankGroup {
+  animation-name: bankRouteAnimation;
+  animation-duration: 0.3s;
+  animation-timing-function: ease;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+}
+
+.BankRadio {
+  text-align: left;
+  background: #ffffff;
+  padding: 10px 5px;
+  width: 100%;
+  font-weight: 600;
+  padding-left: 20px;
+  margin: 8px 0px;
+  border-radius: 10px;
+  font-size: 15px;
+  box-shadow: 1px 1px 2px 1px #ebebeb;
+}
+
+.BankTitle {
+  text-align: left;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.InfoDetails {
+  margin-top: 15px;
+  text-align: left;
+}
+
+.AlertDesk {
+  display: flex;
+  animation-name: bankRouteAnimation;
+  animation-duration: 0.3s;
+  animation-timing-function: ease;
+}
+
+.AlertText {
+  width: 300px;
+}
+
+.AlertInput {
+  margin-left: 10px;
+  font-size: 17px;
+}
+
+.InputMail {
+  margin-top: 10px;
+}
+
+.AlertName {
+  margin-bottom: 10px;
+}
+
+.PayMethTitle {
+  padding-top: 10px;
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.Methodchild {
+  display: flex;
+
+}
+
+.BankCss {
+  display: flex;
+  width: 185px;
+  height: 85px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 16px;
+  margin: 0px 10px;
+  font-weight: 600;
+  border: 2px solid rgb(239 68 68);
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  cursor: pointer;
+  animation: scaledown .2s linear;
+}
+
+.BankCss:hover {
   animation: scale 0.2s linear;
   animation-fill-mode: forwards;
   box-shadow: 3px 4px 9px 4px #e6e6e6;
@@ -815,19 +1023,35 @@
   }
 }
 
-.Balance {
-  font-weight: 500;
-  color: red;
-  background: white;
-  font-size: 20px;
-  padding-left: 20px;
-  border-radius: 10px;
-  padding-right: 10px;
-  text-transform: uppercase;
+.BankImg {
+  display: flex;
+  align-items: center;
 }
 
-.CoinTitle {
-  width: 70px;
-  text-align: left;
-  margin-left: 30px;
+.BankImgSize {
+  margin-right: 5px;
+}
+
+.ItemDivide {
+  display: flex;
+  animation-name: bankRouteAnimation;
+  animation-duration: 0.3s;
+  animation-timing-function: ease;
+}
+
+@keyframes bankRouteAnimation {
+  0% {
+    transform: scale(0.1);
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }

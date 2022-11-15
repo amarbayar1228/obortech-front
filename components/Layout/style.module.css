@@ -542,11 +542,10 @@
     box-shadow: 1px 1px 1px 1px rgb(22 163 74);
 }
 
-.OrgIdTextMobile {
-    display: none;
-}
-
-.CancelOrgId {
+.OrgIdText:hover .CancelOrgId {
+    /* display: block; */
+    /* color: rgb(101 163 13);
+    box-shadow: 1px 1px 1px 1px rgb(22 163 74); */
     background: rgb(142 189 159);
     border-radius: 50%;
     font-size: 7px;
@@ -558,6 +557,15 @@
     justify-content: center;
 }
 
+.OrgIdTextMobile {
+    display: none;
+}
+
+.CancelOrgId {
+    display: none;
+
+}
+
 .OrgTooltip {
     display: flex;
     align-items: center;
@@ -565,9 +573,10 @@
     width: 100%;
 }
 
-.CancelOrgId:hover {
+
+/* .CancelOrgId:hover {
     background-color: red;
-}
+} */
 
 @media only screen and (max-width: 1024px) {
 

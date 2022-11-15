@@ -281,6 +281,12 @@
     font-size: 15px;
 }
 
+.ErrorBorder {
+    background: #a16161;
+    border-radius: 0px;
+    box-shadow: 0px 0px 4px 1px #d72e2e;
+}
+
 @media only screen and (max-width: 500px) {
     .SearchCss {
         display: flex;

@@ -220,17 +220,10 @@ export default function BaseLayout(props) {
             </div>
         </Tooltip>
       </div>}  
-      
-
-
-        
-
-
-
     </div>
   </div>
   {basketContext.orgId == undefined ? null : <div className={css.OrgIdTextMobile}> <Tooltip placement="left" color="green" title={basketContext.orgId}>{basketContext.orgId}</Tooltip></div> }
-{/* ===============================================================================Moblie ============================================================= */}
+{/* Moblie ============================================================= */}
   <div className={css.MenuMobile}>
     <div className={basketContext.orgId == undefined? css.MenuHoverIconAdminNo : css.MenuHoverIcon}>
       {basketContext.orgId == undefined ? null : (
@@ -457,7 +450,7 @@ export default function BaseLayout(props) {
 </>
 }
     <div className={props.pageName === "items" ? css.ContentItem : props.pageName === "home" ? css.ContentHome  : props.pageName === "login" ? css.ContentHome :    toogleCss ? css.ContentCss : css.Content}>
-      <div>{console.log(props.pageName)}</div>  
+ 
          {props.children}
     </div>
  </div> 
