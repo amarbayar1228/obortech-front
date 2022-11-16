@@ -1,0 +1,18 @@
+.DisplayCss {
+    display: flex;
+    box-shadow: 1px 1px 2px 1px #ebebeb;
+    width: 400px;
+    margin: 20px auto;
+    border-radius: 10px;
+    flex-direction: column;
+    padding: 24px 23px 10px 23px;
+
+}
+
+.Price {
+    display: flex;
+    justify-content: space-between;
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}

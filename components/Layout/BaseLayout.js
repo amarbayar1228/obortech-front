@@ -148,6 +148,7 @@ export default function BaseLayout(props) {
     </div>
   );
   const logoutFunction = () => {
+    basketContext.orgIdRemove();
     localStorage.removeItem("firstname");
     localStorage.removeItem("lastname");
     localStorage.removeItem("email");
@@ -330,9 +331,9 @@ export default function BaseLayout(props) {
       <div className={router.pathname == "/payment" ? css.PopoverStyle2 : css.PopoverStyle1}>
         {basketContext.basketState.length === 0 ? (<div className={css.BasketPopNone}> </div>
         ) : (<div className={ addItemStyleProps === undefined ? [css.BasketPop] : addItemStyleProps}>{basketContext.basketState.length}</div>)}
-        <Tooltip title={t("basketName")}>
+        <Tooltip title={"Cart"}>
           <Popover content={<BacketComponent />} title={<div className={css.BasketHeader}>
-          <div className={css.BasketHdrCss}><ShoppingCartOutlined style={{ paddingRight: "5px", fontSize: "15px" }}/>{t("basketName")}</div>
+          <div className={css.BasketHdrCss}><ShoppingCartOutlined style={{ paddingRight: "5px", fontSize: "15px" }}/>{"Cart"}</div>
             <div>{basketContext.orgId == undefined ? "" : <div className={css.OrgIdText2}>{basketContext.orgId}</div>}</div></div>} 
             trigger="click" open={visible} onOpenChange={handleVisibleChange}>
             <Button type="link" className={router.pathname == "/payment" ? css.ActiveBasket : css.Icons}><ShoppingCartOutlined /></Button>
@@ -368,7 +369,7 @@ export default function BaseLayout(props) {
 <div className={css.Layout}>
 {localStorageUserId === "Null" ? null  : <>
 {props.pageName === "home" || props.pageName === "login" || props.pageName === "items" ||props.pageName === "register" || 
-    props.pageName === "basket" || props.pageName === "profile" ? null : 
+    props.pageName === "basket" || props.pageName === "profile" || props.pageName === "payment" ? null : 
 <div className={toogleCss ? css.Sidebar : css.SidebarHide}>
     <div className={css.Links}> 
     <div className={css.ProfileZX}> 
@@ -377,8 +378,10 @@ export default function BaseLayout(props) {
       </div>
         {toogleCss ? 
         <div className={css.UserDe}> 
-            <div className={css.UserTitle}> Amarbayar </div>
-            <div className={css.UserDescr}>Web developer111111 </div>   
+            <div className={css.UserTitle}> {admin === "0" ? basketContext.userInfoProfile === undefined ? "" : basketContext.userInfoProfile.email
+                    : admin === "1" ? basketContext.userInfoProfile.email  : admin === "2" ? basketContext.userInfoProfile.email : ""} </div>
+            <div className={css.UserDescr}>{admin === "0" ? basketContext.userInfoProfile === undefined ? "" : basketContext.userInfoProfile.firstname
+                    : admin === "1" ?  "Admin" : admin === "2" ? "Operator": ""}  </div>   
         </div> 
         : ""}
 
@@ -449,7 +452,8 @@ export default function BaseLayout(props) {
 }
 </>
 }
-    <div className={props.pageName === "items" ? css.ContentItem : props.pageName === "home" ? css.ContentHome  : props.pageName === "login" ? css.ContentHome :    toogleCss ? css.ContentCss : css.Content}>
+    <div className={props.pageName === "items" ? css.ContentItem : props.pageName === "home" ? css.ContentHome  : props.pageName === "login" ? css.ContentHome :    toogleCss ? css.ContentCss : 
+    props.pageName === "payment" ? css.ContentPayment : css.Content}>
  
          {props.children}
     </div>

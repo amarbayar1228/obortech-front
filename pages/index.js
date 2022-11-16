@@ -80,9 +80,11 @@ export default function Home(props) {
   };
   const showConfirm = () => {
   confirm({
-    title: 'Your chosen organization id?', icon: <ExclamationCircleOutlined />,
-    content: <div style={{display: "flex", alignItems: "center"}}>Organization ID: <div style={{fontWeight: "700", paddingLeft: "5px"}}>{value} </div></div>,
+    title: 'Your chosen organization name?', icon: <ExclamationCircleOutlined />,
+    content: <div style={{display: "flex", alignItems: "center"}}>Organization name: <div style={{fontWeight: "700", paddingLeft: "5px"}}>{value} </div></div>,
     onOk() { 
+      {console.log("orgID: ", basketContext.orgId)}
+      basketContext.orgId === undefined ? null : basketContext.clearBasket()
       basketContext.orgIdLocal(value);
       router.push("/items")
     }, 
@@ -125,7 +127,7 @@ return (
         <div className={css.CaptchaCss}><ReCAPTCHA sitekey="6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t" onChange={onChangeCaptcha}/></div>
           {btnDis === false ? 
           <div> 
-            <div className={css.OrgSelectCSs}>Organization id select?</div>
+            <div className={css.OrgSelectCSs}>Choose a name for your organization?</div>
             <div className={css.Popcss}>  
               <div className={css.TitleFlex}><Radio.Group onChange={onChangeRadio}> <Radio value={orgIdState}><div className={css.RadioFrame}>{orgIdState}</div></Radio></Radio.Group></div>   
             </div>

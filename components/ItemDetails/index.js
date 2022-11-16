@@ -40,8 +40,8 @@ pkId: props.item,
                             <SwiperSlide key={i}> 
                                 <div className={css.Content}>
 
-                                <div className={css.LogoAbGroup}>
-                                    <Image alt="Obertech" preview={false} src="/img/OBORTECH_logo_V_clean.svg" style={{ marginLeft: "6px", width: "60px" }}/>
+                                <div className={css.LogoAbGroup} style={{height: "60px"}}>
+                                    {/* <Image alt="Obertech" preview={false} src="/img/OBORTECH_logo_V_clean.svg" style={{ marginLeft: "6px", width: "60px" }}/> */}
                                 </div>
                                 {/* {matches && (<h1>Big Screen</h1>)}
                                 {!matches && (<h3>Small Screen</h3>)} */}

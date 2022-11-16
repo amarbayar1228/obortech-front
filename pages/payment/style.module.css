@@ -686,7 +686,9 @@
 }
 
 .PayMethod {
-  border-top: 2px solid #ccc;
+  animation-name: bankRouteAnimation;
+  animation-duration: 0.3s;
+  animation-timing-function: ease;
 }
 
 .RateLayout {
@@ -834,6 +836,7 @@
 }
 
 .SubTotal {
+  position: relative;
   display: flex;
   justify-content: space-between;
   font-size: 14px;
@@ -841,6 +844,17 @@
   width: 100%;
   padding-bottom: 10px;
   margin-top: 10px;
+}
+
+.SubTotalSuccess {
+  display: flex;
+  align-items: center;
+  color: green;
+}
+
+.CheckOut2 {
+  margin-right: 5px;
+  color: #14bd40;
 }
 
 .TotalLenght {
@@ -877,6 +891,47 @@
   animation-name: bankRouteAnimation;
   animation-duration: 0.3s;
   animation-timing-function: ease;
+}
+
+.PayBanks {
+  position: relative;
+  width: 94%;
+  margin: 0px auto;
+  animation-name: bankRouteAnimation;
+  animation-duration: 0.3s;
+  animation-timing-function: ease;
+}
+
+.BackCss {
+  position: absolute;
+  right: 30px;
+  top: 10px;
+  z-index: 1;
+}
+
+.CreditTitle {
+  text-align: left;
+  font-weight: 600;
+  font-size: 17px;
+  margin: 12px 0px 19px 20px;
+}
+
+.PayForm {
+
+  width: 400px;
+  padding-left: 20px;
+}
+
+.CoinFlex1 {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.CoinFlex2 {
+  display: flex;
+  align-items: center;
 }
 
 .PayConfirm {
@@ -916,7 +971,9 @@
 }
 
 .BankRadio {
+  position: relative;
   text-align: left;
+  line-height: 13px;
   background: #ffffff;
   padding: 10px 5px;
   width: 100%;
@@ -926,6 +983,42 @@
   border-radius: 10px;
   font-size: 15px;
   box-shadow: 1px 1px 2px 1px #ebebeb;
+}
+
+.BankRadioInActive {
+  position: relative;
+  text-align: left;
+  line-height: 13px;
+  background: #c2f3bf;
+  padding: 10px 5px;
+  width: 100%;
+  font-weight: 600;
+  padding-left: 20px;
+  margin: 8px 0px;
+  border-radius: 10px;
+  font-size: 15px;
+  box-shadow: 1px 1px 2px 1px #ebebeb;
+}
+
+.CheckOut {
+  position: absolute;
+  /* background: red; */
+  color: #14bd40;
+  left: 15px;
+  top: 14px;
+  font-size: 25px;
+  border-radius: 18px;
+  background: #c2f3bf;
+}
+
+.PaySuccess {
+  position: absolute;
+  height: 53px;
+  width: 100%;
+  top: 0px;
+  left: 0px;
+  border-radius: 10px;
+
 }
 
 .BankTitle {
@@ -941,18 +1034,93 @@
 
 .AlertDesk {
   display: flex;
+  flex-direction: column;
   animation-name: bankRouteAnimation;
   animation-duration: 0.3s;
   animation-timing-function: ease;
 }
 
+.Qpay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  line-height: 20px;
+  margin-top: 50px;
+}
+
+.QpaySize {
+  height: 150px;
+  background-color: red;
+  width: 150px;
+}
+
+.QpayTitle {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #818181;
+}
+
+.QpayPrice {
+  font-size: 23px;
+  font-weight: 600;
+}
+
+.Shiljvvleg {
+  display: flex;
+  margin-top: 5px;
+}
+
+.ShilTitle {
+  font-size: 15px;
+  margin-right: 5px;
+  font-weight: 600;
+  color: #545454;
+  width: 150px;
+  text-align: left;
+}
+
+.ShilTitle2 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-right: 5px;
+  width: 125px;
+  text-align: left;
+}
+
+.PaymentCss {
+  animation-name: bankRouteAnimation;
+  animation-duration: 0.3s;
+  animation-timing-function: ease;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ShiljvvlegCont {
+  display: flex;
+  flex-direction: column;
+  /* margin-top: 20px; */
+  align-items: center;
+  width: 500px;
+  padding: 22px 0px;
+  border-radius: 2px;
+  margin: 14px auto;
+  box-shadow: 0px 1px 2px 1px #e1e1e1;
+}
+
+.Copy {
+  width: 80px;
+}
+
 .AlertText {
-  width: 300px;
+  /* width: 300px; */
 }
 
 .AlertInput {
   margin-left: 10px;
   font-size: 17px;
+  margin-top: 10px;
+  width: 68%;
 }
 
 .InputMail {
@@ -964,7 +1132,7 @@
 }
 
 .PayMethTitle {
-  padding-top: 10px;
+  /* padding-top: 10px; */
   font-size: 17px;
   font-weight: 600;
   margin-bottom: 10px;
@@ -973,6 +1141,24 @@
 .Methodchild {
   display: flex;
 
+}
+
+.ForgeinSideBar {
+  display: flex;
+}
+
+.ForgeinSideContent1 {
+  width: 250px;
+}
+
+.ForgeinSideContent2 {
+  animation-name: bankRouteAnimation;
+  animation-duration: 0.3s;
+  animation-timing-function: ease;
+  width: calc(100% - 270px);
+  border-radius: 10px;
+  margin: 0px auto;
+  box-shadow: 0px 0px 2px 1px #ebebeb;
 }
 
 .BankCss {
@@ -985,6 +1171,24 @@
   margin: 0px 10px;
   font-weight: 600;
   border: 2px solid rgb(239 68 68);
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  cursor: pointer;
+  animation: scaledown .2s linear;
+}
+
+.BankCssActive {
+  display: flex;
+  width: 185px;
+  height: 85px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 16px;
+  margin: 0px 10px;
+  font-weight: 600;
+  border: 2px solid #4d5057;
   flex-direction: column;
   align-items: center;
   align-content: center;

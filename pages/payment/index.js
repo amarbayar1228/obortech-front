@@ -1,4 +1,4 @@
-import {Input,Button,message,Empty,Steps,Modal,Image,InputNumber,Row,Col,Radio,Form,Spin, Tooltip, Alert, Typography} from "antd";
+import {Input,Button,message,Empty,Steps,Modal,Image,InputNumber,Row,Col,Radio,Form,Spin, Tooltip, Alert, Typography, notification, DatePicker} from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import BaseLayout from "../../components/Layout/BaseLayout";
 import css from "./style.module.css";
@@ -7,12 +7,19 @@ import { WalletOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import BasketContext from "../../context/basketContext/BasketContext";
 import axios from "axios";
-import {CaretRightOutlined,ShoppingCartOutlined,MailOutlined ,CaretUpOutlined,DeleteOutlined, PhoneOutlined} from "@ant-design/icons";
+import {CaretRightOutlined,ShoppingCartOutlined,MailOutlined ,SmileFilled,DeleteOutlined, PhoneOutlined, CheckCircleOutlined} from "@ant-design/icons";
 // import jsPDF from "jspdf"; 
 import { Tabs } from "antd"; 
-import SuccessOrder from "../../components/PaymentCom/SuccessOrder";
+import SuccessOrder from "../../components/PaymentCom/SuccessOrder"; 
+import KhanBank from "../../components/PaymentCom/khanBank";
+import moment from 'moment';
+import CreditOrDebitCard from "../../components/PaymentCom/CreditOrDebitCard";
+import Coin from "../../components/PaymentCom/Coin";
 const { TabPane } = Tabs;
 const { Step } = Steps;
+const { Paragraph } = Typography;
+
+const monthFormat = 'YYYY/MM';
 const Payment = () => {
   const basketContext = useContext(BasketContext); 
   const router = useRouter();
@@ -33,13 +40,18 @@ const Payment = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [itemSpin, setItemSpin] = useState(false);
   const [groupDetails, setGroupDetails] = useState([]);
-  const [orgIdRadio, setOrgIdRadio] = useState(undefined);
+  const [orgIdRadio, setOrgIdRadio] = useState(0);
   const [formOrgId] = Form.useForm();
   const [checkFalse, setCheckFalse] = useState(false);
   const [itemHdr, setItemHdr] = useState();
   const [showMethod, setShowMethod] = useState(false);
   const [bankChoose, setBankChoose] = useState(undefined);
   const [bankValue, setBankValue] = useState(undefined);
+  const [bankPay, setBankPay] = useState(undefined);
+  const [foreignValue, setForeignValue] = useState(1);
+  const [payInInstallmentsValue, setPayInInstallments] = useState(undefined);
+  const [orgOnChange, setOrgOnChange] = useState(0);
+  
   const validateMessages = {
     required: "${label} is required!",
     types: {
@@ -117,9 +129,7 @@ const Payment = () => {
      
     setDollarResult(rs);
     setIsModalVisibleOrgId2(true);
-  };
-
-  
+  }; 
 const handleOkOrgId2 = () => {
 // console.log("orgIdInput2: ", orgIdInput2);
 // console.log("dollarResult: ", dollarResult);
@@ -128,11 +138,10 @@ console.log("tugrugState: ", tugrugState);
 console.log("coinState: ", coinState);
 console.log("usd: ", usdState);
 console.log("orgID: ", orgIdRadio);
+
 if(orgIdRadio == ""){
 message.error("Organization ID choose ? ")
 }else{
-
-
 const tugrugResult = 0;
 if (tugrugState == 0) {
 console.log("tugrugState: Hooson", tugrugState);
@@ -155,14 +164,15 @@ console.log("coin null");
 } else {
 payment.push({ paymentMethod: 2, paymentPrice: coinState });
 } 
+
 const arr = basketContext.basketState;
 console.log("ORGiD", payment);
 arr.forEach((element, i) => {
 if (element.img) {arr[i].state = 2} else {arr[i].state = 1; arr[i].img = "";}
 });  
+
 if (localStorage.getItem("token")) {
 const body = arr;
-
 const body2 = {
   func: "neworder",
   item: body,
@@ -198,7 +208,7 @@ axios.post("/api/post/Gate", bodyNoId).then((result) => {
 }
 
   }
-  };
+};
  
   const handleCancelOrgId2 = () => {
     setOrgIdRadio("");
@@ -241,7 +251,12 @@ axios.post("/api/post/Gate", bodyNoId).then((result) => {
   };
 const orgIdChoose = (e) =>{ 
   console.log("e.target: ", e.target.value); 
+  // setOrgOnChange()
   setOrgIdRadio(e.target.value);
+   
+  if(localStorage.getItem("pkId")){
+    setShowMethod(true);
+  }
 } 
 const  onFinishOrgId= (values) =>{ 
   console.log("values: ", values);
@@ -261,6 +276,7 @@ const onFinishFailedOrgId = (errInfo)=>{
   console.log("errInfo: ", errInfo);
   // formAddItem.resetFields(); 
 }
+
 const BankTypo = (value) =>{ 
   setBankValue(undefined);
   setBankChoose(value);
@@ -280,6 +296,31 @@ const bankOnChange = (e) =>{
 }
 const placeOrder = () =>{
   console.log("place order: ", bankValue );
+  if(bankValue === undefined){
+    notification["warning"]({
+      message: 'Error',
+      description:
+        'Do you select a Method!!!',
+    });
+  }
+ 
+  setBankPay(bankValue);
+}
+const BackFunc = () =>{
+  setBankPay(undefined);
+  setBankValue(undefined);
+}
+const foreignOnChange = (value) =>{
+
+  setForeignValue(value.target.value);
+}
+const PayInInstallmentsForeign = () =>{
+setPayInInstallments(1);
+localStorage.setItem("Bank", 1);
+}
+const PayInInstallmentsCoin = () =>{
+setPayInInstallments(2);
+localStorage.setItem("Bank", 2);
 }
   var sss = 0;
 const steps = [
@@ -361,19 +402,23 @@ const steps = [
 },
 {
   title: "Pay",
-  content: (
+  content: ( <div> 
+    {bankPay === undefined ?
     <div className={css.PayContent}>
+
       <div className={css.PayConfirm}>
-        <div >
+    
+        <div>
           <div className={css.PlsName}>Please select the name of your organization?</div>
           <div className={css.RadioCont}> 
-              <Radio.Group onChange={orgIdChoose} style={{width: "100%"}}> 
+              <Radio.Group onChange={orgIdChoose} style={{width: "100%"}} value={orgIdRadio}> 
                 <Radio  className={css.OrgRadio} value={basketContext.orgId}>{basketContext.orgId}</Radio> 
               </Radio.Group>  
           </div>
         </div>
+
         <div className={css.InfoDetails}>
-          {orgIdRadio === undefined ? null : 
+          {orgIdRadio === 0  || showMethod || localStorage.getItem("pkId") ?  null : 
             <div className={css.AlertDesk}>
               <div className={css.AlertText}>
                 <Alert message="Informational Notes"
@@ -389,58 +434,71 @@ const steps = [
                   <Form.Item name="email" label="Email" rules={[{ type: "email", required: true, message: (<div style={{ fontWeight: "500" }}>Please input your Email!</div>)}]}>
                     <Input size="middle" prefix={<MailOutlined className={css.Title} />} placeholder={"Email"}/>
                   </Form.Item>
-                  <Form.Item name="username" label="Phone" rules={[{type: "number", required: true, message: (<div style={{ fontWeight: "500" }}>Please input your Phone number!</div>)}]}>
-                    <InputNumber size="middle" prefix={<PhoneOutlined className={css.Title} rotate={90} />} placeholder={"username"} style={{width: "100%"}}/>
+                  <Form.Item name="phone" label="Phone" rules={[{type: "number", required: true, message: (<div style={{ fontWeight: "500" }}>Please input your Phone number!</div>)}]}>
+                    <InputNumber size="middle" prefix={<PhoneOutlined className={css.Title} rotate={90} />} placeholder={"Phone number"} style={{width: "100%"}}/>
                   </Form.Item>   
                   <Form.Item  wrapperCol={{span: 24}}> <div className={css.Login}><Button style={{width: "100%"}} type="primary" htmlType="submit" className="login-form-button">Save</Button></div></Form.Item>
                 </Form>  
              </div>
             </div>
           }
+
         {showMethod ? <div className={css.PayMethod}> 
             <div className={css.PayMethTitle}>Payment Methods</div>
             <div className={css.Methodchild}>
-            <Typography.Text onClick={()=> BankTypo("Mongol")}> 
-              <div className={css.BankCss}>
-                <div>Mongolian banks</div>
-                <div className={css.BankImg}>  
-                  <div className={css.BankImgSize}> 
-                    <Image alt="Obertech" preview={false} src="img/boderkhan.png" width={25}/>
-                  </div>
-                  <div className={css.BankImgSize}> 
-                    <Image alt="Obertech" preview={false} src="img/borderGolomt.png" width={25} style={{borderRadius: "5px"}}/>
-                  </div>
-                  <div className={css.BankImgSize}> 
-                    <Image alt="Obertech" preview={false} src="img/borderHas.png" width={25}/>
-                  </div>
-                  <div className={css.BankImgSize}> 
-                    <Image alt="Obertech" preview={false} src="img/borderTdb.png" width={26}/>
-                  </div>
+            {payInInstallmentsValue === 1 || payInInstallmentsValue === 2 ? 
+               <Typography.Text onClick={()=> BankTypo("Coin")}> 
+               <div className={bankChoose === "Coin" ? css.BankCssActive  : css.BankCss}>
+                   60% USD / 40% Coin
+               </div>
+               </Typography.Text>
+              :
+                <> 
+                 <Typography.Text onClick={()=> BankTypo("Mongol")}> 
+                 <div className={bankChoose === "Mongol" ? css.BankCssActive : css.BankCss}>
+                   <div>Mongolian banks</div>
+                   <div className={css.BankImg}>  
+                     <div className={css.BankImgSize}> 
+                       <Image alt="Obertech" preview={false} src="img/boderkhan.png" width={25}/>
+                     </div>
+                     <div className={css.BankImgSize}> 
+                       <Image alt="Obertech" preview={false} src="img/borderGolomt.png" width={25} style={{borderRadius: "5px"}}/>
+                     </div>
+                     <div className={css.BankImgSize}> 
+                       <Image alt="Obertech" preview={false} src="img/borderHas.png" width={25}/>
+                     </div>
+                     <div className={css.BankImgSize}> 
+                       <Image alt="Obertech" preview={false} src="img/borderTdb.png" width={26}/>
+                     </div>
+                   </div>
+                 </div>
+                 </Typography.Text>
+
+                 <Typography.Text onClick={()=> BankTypo("Usd")}> 
+                 <div className={bankChoose === "Usd" ? css.BankCssActive : css.BankCss}>
+                   <div>Foreign banks</div>
+                   <div className={css.BankImg}>  
+                     <div className={css.BankImgSize}> 
+                       <Image alt="Obertech" preview={false} src="img/borderPayPal2.jpg" width={25}/>
+                     </div>
+                     <div className={css.BankImgSize}> 
+                       <Image alt="Obertech" preview={false} src="img/borderMastercard.webp" width={25} style={{borderRadius: "5px"}}/>
+                     </div>
+                     <div className={css.BankImgSize}> 
+                       <Image alt="Obertech" preview={false} src="img/borderGooglePay.png" width={25}/>
+                     </div>
+                      
+                   </div>
+                 </div>
+                 </Typography.Text>
+
+                <Typography.Text onClick={()=> BankTypo("Coin")}> 
+                <div className={bankChoose === "Coin" ? css.BankCssActive  : css.BankCss}>
+                    60% USD / 40% Coin
                 </div>
-              </div>
-              </Typography.Text>
-              <Typography.Text onClick={()=> BankTypo("Usd")}> 
-              <div className={css.BankCss}>
-                <div>Foreign banks</div>
-                <div className={css.BankImg}>  
-                  <div className={css.BankImgSize}> 
-                    <Image alt="Obertech" preview={false} src="img/borderPayPal2.jpg" width={25}/>
-                  </div>
-                  <div className={css.BankImgSize}> 
-                    <Image alt="Obertech" preview={false} src="img/borderMastercard.webp" width={25} style={{borderRadius: "5px"}}/>
-                  </div>
-                  <div className={css.BankImgSize}> 
-                    <Image alt="Obertech" preview={false} src="img/borderGooglePay.png" width={25}/>
-                  </div>
-                   
-                </div>
-              </div>
-              </Typography.Text>
-              <Typography.Text onClick={()=> BankTypo("Coin")}> 
-              <div className={css.BankCss}>
-                  60% USD / 40% Coin
-              </div>
-              </Typography.Text>
+                </Typography.Text>
+                </>
+                } 
             </div>
         </div>
         : null}
@@ -449,7 +507,7 @@ const steps = [
       <div className={css.Reminder}>
       {bankChoose === "Mongol" ? 
         <div className={css.BankGroup}>  
-          <div className={css.BankTitle}>Ta banknuudaa songono uu?</div> 
+          <div className={css.BankTitle}>Do you select a Method?</div> 
           <Radio.Group onChange={bankOnChange} style={{width: "100%"}}> 
               <Radio  className={css.BankRadio} value={"khan"}><Image alt="Obertech" preview={false} src="img/khanbank.png" width={100}/></Radio> 
               <Radio  className={css.BankRadio} value={"Monpay"}><Image alt="Obertech" preview={false} src="img/monpay.png" width={100}/></Radio> 
@@ -460,7 +518,7 @@ const steps = [
         : null}
          {bankChoose === "Usd" ? 
         <div className={css.BankGroup}> 
-          <div className={css.BankTitle}>Ta banknuudaa songono uu?</div> 
+          <div className={css.BankTitle}>Do you select a Method?</div> 
           <Radio.Group onChange={bankOnChange} style={{width: "100%"}}> 
               <Radio  className={css.BankRadio} value={"Paypal"}><Image alt="Obertech" preview={false} src="img/paypalLine.png" width={60}/></Radio> 
               <Radio  className={css.BankRadio} value={"Master"}><Image alt="Obertech" preview={false} src="img/masterCardLine.png" width={60}/></Radio>  
@@ -469,18 +527,54 @@ const steps = [
 
         {bankChoose === "Coin" ? 
         <div className={css.BankGroup}> 
-          <div className={css.BankTitle}>Ta banknuudaa songono uu?</div> 
+          <div className={css.BankTitle}>Do you select a Method?</div> 
           <Radio.Group onChange={bankOnChange} style={{width: "100%"}}> 
-              <Radio  className={css.BankRadio} value={"Paypal"}><Image alt="Obertech" preview={false} src="img/paypalLine.png" width={60}/></Radio> 
-              <Radio  className={css.BankRadio} value={"Coin"}><Image alt="Obertech" preview={false} src="img/coinLogo.png" width={20}/> Coin</Radio> 
+               
+              <Radio disabled={payInInstallmentsValue === 1 ? true : false} className={payInInstallmentsValue === 1 ? css.BankRadioInActive : css.BankRadio} value={"Foreign"}> 
+                {payInInstallmentsValue === 1 ? 
+                <Tooltip title="Tips" placement="topLeft">
+                  <div className={css.PaySuccess}></div>
+                </Tooltip> : null}
+
+              {payInInstallmentsValue === 1 ? <div className={css.CheckOut}><CheckCircleOutlined /></div> : null}
+                <div style={{width: "210px"}}> 
+                  <div className={css.CoinFlex1}> 
+                    <div><div style={{marginLeft: "5px"}}>Foreign banks</div> <Image alt="Obertech" preview={false} src="img/cardnuud.png" width={100} style={{marginLeft: "5px"}}/></div> 
+                    <div>60%</div>
+                  </div>
+                </div>  
+              </Radio> 
+
+              <Radio  disabled={payInInstallmentsValue === 2 ? true : false} className={payInInstallmentsValue === 2 ? css.BankRadioInActive : css.BankRadio} value={"Coin"} style={{width: "100%"}}>
+              {payInInstallmentsValue === 2 ? 
+                <Tooltip title="Tips">
+                  <div className={css.PaySuccess}></div>
+                </Tooltip> : null}
+              {payInInstallmentsValue === 2 ? <div className={css.CheckOut}><CheckCircleOutlined /></div> : null}
+                <div style={{width: "210px"}}> 
+                  <div className={css.CoinFlex1}> 
+                    <div className={css.CoinFlex2}><Image alt="Obertech" preview={false} src="img/coinLogo.png" width={20}/> <div style={{marginLeft: "5px"}}>Coin</div></div> 
+                    <div>40%</div>
+                  </div>
+                </div>
+              </Radio> 
           
           </Radio.Group>  
         </div> : null}
         <div className={css.OrderSummary}>Total</div>
+        {bankChoose === "Coin" ? <> 
+        <div className={css.SubTotal}><div>Usd</div><div className={payInInstallmentsValue === 1 ? css.SubTotalSuccess : null}>  {totalPriceState * 0.6}$</div></div>
+        <div className={css.SubTotal}><div>Coin</div><div className={payInInstallmentsValue === 2 ? css.SubTotalSuccess : null}> {totalPriceState * 0.4}$</div></div>
+        </>
+        : null }
+
         <div className={css.SubTotal}><div>Subtotal</div> <div> {totalPriceState.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}$</div></div>
-        <div className={css.TotalLenght}><div>Total(4)</div> <div className={css.TotalLPrice}> {totalPriceState.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}$</div></div>
+        <div className={css.TotalLenght}><div>Total({basketContext.basketState.length})</div> <div className={css.TotalLPrice}> 
+                
+        {payInInstallmentsValue === 1 ? totalPriceState * 0.4 : payInInstallmentsValue === 2 ? totalPriceState * 0.6 : totalPriceState.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}$</div></div>
         <div className={css.ProceedTo}><Button className={css.CheckoutBtn} size="large" onClick={placeOrder}>Place order</Button></div>
       </div>
+
     {/* <div className={css.HanshRate}> */}
       {/* <div className={css.HanshLayout}> 
         {basketContext.hanshnuud.map((e, i) => (
@@ -525,7 +619,110 @@ const steps = [
         </div>
       </div> */}
     {/* </div>  */}
-  </div>),
+    </div>
+    : <div className={css.PayBanks}> 
+        <Button onClick={BackFunc} className={css.BackCss}>Back</Button>
+        {bankValue === "khan" || bankValue === "golomt" || bankValue === "Tdb" || bankValue === "Monpay"? 
+        <div> 
+        <Tabs defaultActiveKey="4" items={["a","b", "c"].map((Icon, i) => {  
+        
+        return {label: i === 0 ?  <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>Cart {console.log("key", i)}</div> :
+                      i === 1 ? <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>QPay</div> : 
+                      i === 2 ? <div  style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>Шилжүүлэг</div> : null,
+          
+          key: i, children: i === 0? 
+          <div className={css.PaymentCss}>
+            {bankValue === "khan" ? 
+            <KhanBank totalPriceState={totalPriceState} orgIdRadio={orgIdRadio} basketState={basketContext.basketState}/> 
+            : null}
+            {bankValue === "Golomt" ? <div>Golomt </div> : null}
+            {bankValue === "Tdb" ? <div>Tdb </div> : null}
+            {bankValue === "Monpay" ? <div>Monpay </div> : null}
+
+          </div> 
+          : i === 1 ? <div className={css.PaymentCss}>
+           
+              <div className={css.Qpay}> 
+                <div className={css.QpaySize}>
+                <Image alt="Obertech" preview={false} src="img/qr.png" width={150}/>
+                </div>
+                <div className={css.QpayTitle}>Төлөх дүн </div>
+                <div className={css.QpayPrice}>{totalPriceState.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}$</div>
+              </div>
+
+          </div> : 
+            i === 2 ? <div className={css.PaymentCss}>
+
+              <div className={css.ShiljvvlegCont}> 
+                <div className={css.Shiljvvleg}>
+                  <div className={css.ShilTitle}>Дансны дугаар </div>
+                  <div className={css.ShilTitle2}> 5220042965</div>
+                  <div className={css.Copy}> <Paragraph copyable={{ text: "5220042965",  icon: ["Хуулах", "Хуулагдсан"],   tooltips: ['Хуулах', 'Хуулагдсан']}} ></Paragraph></div>
+                </div>
+                
+                <div className={css.Shiljvvleg}>
+                  <div className={css.ShilTitle}>Хүлээн авагч </div>
+                  <div className={css.ShilTitle2}> Obortech XXK</div>
+                  <div className={css.Copy}>  <Paragraph copyable={{ text: "Obortech XXK",  icon: ["Хуулах", "Хуулагдсан"],   tooltips: ['Хуулах', 'Хуулагдсан']}} ></Paragraph></div>
+                </div>
+
+                <div className={css.Shiljvvleg}>
+                  <div className={css.ShilTitle}>Төлөх дүн </div>
+                  <div className={css.ShilTitle2}> {totalPriceState.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}$</div>
+                  <div className={css.Copy}> 
+                    <Paragraph copyable={{ text: totalPriceState,  icon: ["Хуулах", "Хуулагдсан"],   tooltips: ['Хуулах', 'Хуулагдсан']}} ></Paragraph>
+                  </div>
+                </div>
+
+                <div className={css.Shiljvvleg}>
+                  <div className={css.ShilTitle}>Гүйлгээний утга </div>
+                  <div className={css.ShilTitle2}> 5220042965</div>
+                  <div className={css.Copy}> <Paragraph copyable={{ text: "5220042965",  icon: ["Хуулах", "Хуулагдсан"],   tooltips: ['Хуулах', 'Хуулагдсан']}} ></Paragraph></div>
+                </div> 
+              
+              </div>
+
+            </div> : null,
+        };
+        })}/>   
+        </div> 
+        : null }
+
+        {bankValue === "Coin" ? 
+          <div> 
+            <Coin totalPriceState={totalPriceState} orgIdRadio={orgIdRadio} basketState={basketContext.basketState} BackFunc={BackFunc} PayInInstallmentsCoin={PayInInstallmentsCoin}
+             payInInstallmentsValue={payInInstallmentsValue}/>  
+          </div>
+          : null}
+
+        {bankValue === "Foreign" ? <div>
+          <div className={css.ForgeinSideBar}> 
+          <div className={css.ForgeinSideContent1}> 
+            <Radio.Group onChange={foreignOnChange} style={{width: "100%"}} value={foreignValue}> 
+                  <Radio  className={css.BankRadio} value={1}><Image alt="Obertech" preview={false} src="img/paypalLine.png" width={60}/></Radio> 
+                  <Radio  className={css.BankRadio} value={2}>
+                    <div> Credit or Debit Card</div>
+                    <Image alt="Obertech" preview={false} src="img/cardnuud.png" width={130}/></Radio>  
+              </Radio.Group>   
+            </div>
+
+            {foreignValue === 1 ?
+            <div className={css.ForgeinSideContent2}>PayPal</div> 
+            : null }
+
+            {foreignValue === 2 ? <div className={css.ForgeinSideContent2}> 
+            <div className={css.CreditTitle}>Credit or Debit Card </div>
+            <div className={css.PayForm}> 
+              <CreditOrDebitCard totalPriceState={totalPriceState} orgIdRadio={orgIdRadio} basketState={basketContext.basketState} BackFunc={BackFunc} PayInInstallmentsForeign={PayInInstallmentsForeign} payInInstallmentsValue={payInInstallmentsValue}/> 
+            </div>
+            
+            </div> : null}
+
+          </div>
+           </div> : null}
+      </div>}
+
+      </div>),
 },
 {
   title: "Completed",
@@ -657,7 +854,8 @@ const steps = [
                 {steps.map((item) => (<Step key={item.title} title={item.title} />))}
               </Steps>
               <div className="steps-content">{steps[current].content}</div>
-              <div className="steps-action">{current < steps.length - 1 && (<Button type="primary" onClick={() => next()}>Continue</Button>)}
+              <div className="steps-action">
+                {/* {current < steps.length - 1 && (<Button type="primary" onClick={() => next()}>Continue</Button>)} */}
                 {current === steps.length - 1 && (
                   <>
                     <Button icon={<ShoppingCartOutlined />} type="primary" onClick={orderOrgId2}>Done</Button>
@@ -681,7 +879,7 @@ const steps = [
                     </Modal>
                   </>
                 )}
-                {current > 0 && (<Button style={{margin: "0 8px",}}onClick={() => prev()}>Back</Button>)}
+                {/* {current > 0 && (<Button style={{margin: "0 8px",}}onClick={() => prev()}>Back</Button>)} */}
               </div>
             </div>
           )}

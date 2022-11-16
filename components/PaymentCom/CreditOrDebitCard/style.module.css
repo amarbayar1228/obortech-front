@@ -1,0 +1,7 @@
+.Price {
+    display: flex;
+    justify-content: space-between;
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}

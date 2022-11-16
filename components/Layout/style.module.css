@@ -32,6 +32,14 @@
 
 }
 
+.ContentPayment {
+    background-color: #fff;
+    width: calc(100% - 60px);
+    border-left: 1px solid #ebebeb;
+    margin: 5px auto;
+    padding: 5px 10px;
+}
+
 .ContentCss {
     background: #fff;
     border-left: 1px solid #ebebeb;

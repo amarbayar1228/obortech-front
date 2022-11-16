@@ -127,7 +127,9 @@ const Items = () => {
            <div className={css.ItemSection}>
              {itemData.map((iData, index) => (
                <div className={css.Item} key={index}>
-                 <div className={css.ItemLogo}><Image preview={false} alt="Obertech" src="/img/OBORTECH_logo_V_clean.svg"/></div>
+                 <div className={css.ItemLogo}>
+                  {/* <Image preview={false} alt="Obertech" src="/img/OBORTECH_logo_V_clean.svg"/> */}
+                 </div>
                  <div className={css.ItemPic}>
                    <Image preview={false} alt="Obertech" src={"data:image/png;base64," + iData.img} className={css.ImgItem}/>
                    <div className={css.BtnPlus}><Button type="link" shape="circle" size="large" onClick={() => SagsandNemeh(iData, index)} icon={<ShoppingCartOutlined />}></Button></div>
