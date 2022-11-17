@@ -15,6 +15,7 @@ import KhanBank from "../../components/PaymentCom/khanBank";
 import moment from 'moment';
 import CreditOrDebitCard from "../../components/PaymentCom/CreditOrDebitCard";
 import Coin from "../../components/PaymentCom/Coin";
+import Paypal from "../../components/PaymentCom/Paypal";
 const { TabPane } = Tabs;
 const { Step } = Steps;
 const { Paragraph } = Typography;
@@ -568,7 +569,7 @@ const steps = [
         </>
         : null }
 
-        <div className={css.SubTotal}><div>Subtotal</div> <div> {totalPriceState.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}$</div></div>
+        <div className={css.SubTotal}><div>Subtotal</div> <div> {totalPriceState}$</div></div>
         <div className={css.TotalLenght}><div>Total({basketContext.basketState.length})</div> <div className={css.TotalLPrice}> 
                 
         {payInInstallmentsValue === 1 ? totalPriceState * 0.4 : payInInstallmentsValue === 2 ? totalPriceState * 0.6 : totalPriceState.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}$</div></div>
@@ -686,7 +687,11 @@ const steps = [
         };
         })}/>   
         </div> 
-        : null }
+        : 
+          bankValue === "Paypal" ? <div> 
+            <Paypal bankValue={bankValue} totalPriceState={totalPriceState} orgIdRadio={orgIdRadio} basketState={basketContext.basketState} BackFunc={BackFunc} PayInInstallmentsForeign={PayInInstallmentsForeign} payInInstallmentsValue={payInInstallmentsValue}/>
+          </div> : null 
+        }
 
         {bankValue === "Coin" ? 
           <div> 
@@ -707,7 +712,10 @@ const steps = [
             </div>
 
             {foreignValue === 1 ?
-            <div className={css.ForgeinSideContent2}>PayPal</div> 
+            <div className={css.ForgeinSideContent2}>
+              
+              <Paypal totalPriceState={totalPriceState} orgIdRadio={orgIdRadio} basketState={basketContext.basketState} BackFunc={BackFunc} PayInInstallmentsForeign={PayInInstallmentsForeign} payInInstallmentsValue={payInInstallmentsValue}/>
+            </div> 
             : null }
 
             {foreignValue === 2 ? <div className={css.ForgeinSideContent2}> 

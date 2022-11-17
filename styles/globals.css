@@ -45,6 +45,17 @@ a:hover {
   border-color: #4D5057;
 }
 
+.ant-drawer-header {
+  background-color: #4D5057;
+  color: #fff;
+}
+
+
+
+.ant-drawer-close {
+  color: #fff;
+}
+
 .ant-checkbox-inner {
   border: 1px solid #4D5057;
 }
@@ -583,15 +594,15 @@ body {
 
 @media only screen and (max-width: 561px) {
   .swiper {
-    width: 100%;
-    height: 240px;
+    width: 97%;
+    height: 235px;
     margin-left: auto;
     margin-right: auto;
   }
 
   .swiper-slide img {
     display: flex;
-    width: 93px;
+    width: 100px;
     margin: 0px auto;
     height: 100%;
     -o-object-fit: contain;

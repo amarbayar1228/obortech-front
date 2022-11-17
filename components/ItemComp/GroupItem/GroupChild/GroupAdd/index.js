@@ -279,19 +279,20 @@ const modalHide = () =>{
 }
  
 return<div>
-    <Button type="primary" onClick={showModal}> + Group insert</Button>
+    <Button type="primary" onClick={showModal}> + Item package</Button>
     <Modal title="Package group" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
         <div>  
         {showTable ? <Button type="primary" onClick={backF} icon={<RollbackOutlined />}>Back</Button> : 
-        <div className={css.ClearTable}> 
-        <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading}>Group Package</Button>     <span >{hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}</span>
-        <Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Table sort clear</Button></div>} 
+        <div className={css.ClearTable}>  <Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Clear</Button></div>} 
             <div style={{marginBottom: 16,}}> 
             
             </div>
             {showTable === false ? 
             <div className={showTable === false ? css.PackageItem : ""}> 
                 <Table  bordered size="small" rowSelection={rowSelection} onChange={handleChangeTable} loading={spinner} columns={columns} dataSource={data} scroll={{y: 400,}} pagination={tableParams.pagination} />
+                <div style={{borderTop: "1px solid #ccc", paddingTop:"5px"}}> 
+                <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading}>Item Package</Button>     <span >{hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}</span>
+                </div>
             </div>
             : null}
             <PackageItem packageItem={packageItem} showTable={showTable}   groupItems={props.groupItems} modalShow={modalShow} modalHide={modalHide}/>

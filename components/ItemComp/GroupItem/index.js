@@ -291,9 +291,9 @@ axios.post("/api/post/Gate", body).then((res) => {
 return<div className={css.GroupLayout}>
     <div className={css.TableHdr}> 
       <div><GroupAdd groupItems={groupItems}/></div>
-      <div className={css.ClearTable}><Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Table sort clear</Button></div>
+     
     </div>
-    <div style={{marginBottom: "5px"}}>
+    <div style={{marginBottom: "5px", position: "relative"}}>
         <RangePicker showToday defaultValue={[ moment("2022-09-12", dateFormat), moment("2022-09-12", dateFormat)]} format={dateFormat} onChange={dateOnchange}/>
         <Select value={status} style={{width: 120}} onChange={selectStatus} 
             options={[
@@ -302,7 +302,9 @@ return<div className={css.GroupLayout}>
             {value: 0, label: 'Invisible'}, 
             {value: 2,label: <div style={{color: "red"}}>Disable </div>,}]}/>
         <Button onClick={searchDate} icon={<SearchOutlined  />}></Button>
-       </div>
+
+        <div className={css.ClearTable}><Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Clear</Button></div>
+    </div>
      <Table bordered size="small" columns={columns} dataSource={data} onChange={handleChangeTable} loading={spinner}  scroll={{x:  1000 }} pagination={tableParams.pagination}/>
 </div>
  }

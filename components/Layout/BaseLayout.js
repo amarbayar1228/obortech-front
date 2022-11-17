@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import {Layout,Menu,Breadcrumb,Row,Col,message,Button,Popover,Tooltip,Image,Drawer,Spin, Empty, Typography,} from "antd";
 import React, { useContext } from "react";
 import { useState, useEffect } from "react";
-import {ShoppingCartOutlined,GlobalOutlined,DoubleLeftOutlined,MenuOutlined,HomeOutlined,UserOutlined,DoubleRightOutlined,PlusSquareOutlined,LeftOutlined,AppstoreAddOutlined,AppstoreOutlined,PieChartOutlined,LogoutOutlined,UnorderedListOutlined,UserAddOutlined,ContainerOutlined,SettingOutlined} from "@ant-design/icons";
+import {ShoppingCartOutlined,GlobalOutlined,ArrowLeftOutlined,MenuOutlined,HomeOutlined,UserOutlined,DoubleRightOutlined,PlusSquareOutlined,LeftOutlined,AppstoreAddOutlined,AppstoreOutlined,PieChartOutlined,LogoutOutlined,UnorderedListOutlined,UserAddOutlined,ContainerOutlined,SettingOutlined} from "@ant-design/icons";
 import css from "./style.module.css";
 import BacketComponent from "../Backet";
 import Link from "next/link";
@@ -28,6 +28,7 @@ export default function BaseLayout(props) {
   const [mnState, setMnState] = useState("mn");
   const [profileS, setProfileS] = useState();
   const [toogleCss, setToogleCss] = useState(false);
+  const [settingToggle, setSettingToggle] = useState(false);
   useEffect(() => {  
     getProfile();
     // basketContext.basketStateFunc();
@@ -173,13 +174,27 @@ export default function BaseLayout(props) {
   const Profile = () => {
     router.push("/profile");
   };
+  const securityBtn = () =>{
+    setSettingToggle(true);
+  }
   const changeProfile = (
     <div>
-      
+       {settingToggle ? 
+       <div className={css.SettingToggleCss}>
+       <div className={css.SettingTitle}><Button type="ghost" shape="circle" size="small" onClick={()=>setSettingToggle(false)}><ArrowLeftOutlined /></Button> Setting & privacy </div>
+       {admin === "1" ?
+       <Button type="link" className={router.pathname === "/global-settings" ? css.LanguageBtnActive : css.LanguageBtn } onClick={()=> router.push("/global-settings")}><SettingOutlined /> Global settings</Button> 
+       : null}
+       <Button type="link" className={router.pathname === "/security" ? css.LanguageBtnActive : css.LanguageBtn } onClick={()=>router.push("/security")}><SettingOutlined /> Security </Button> 
+       </div>
+       :
+       <div> 
       <Button type="link" className={router.pathname === "/profile" ? css.LanguageBtnActive : css.LanguageBtn } onClick={Profile}><UserOutlined /> Profile</Button> 
-      <Button type="link" className={router.pathname === "/security" ? css.LanguageBtnActive : css.LanguageBtn }  onClick={()=>router.push("/security")}><SettingOutlined /> Security </Button>
+      <Button type="link" className={router.pathname === "/security" ? css.LanguageBtnActive : css.LanguageBtn }  onClick={securityBtn}><SettingOutlined /> Settings</Button>  
       <Button type="link" className={router.pathname === "/log" ? css.LanguageBtnActive : css.LanguageBtn }  onClick={()=>router.push("/log")} icon={<UnorderedListOutlined /> }>Log</Button>
       <Button type="link" onClick={logoutFunction} className={css.LanguageBtn}><LogoutOutlined /> Log out</Button>
+      </div>
+      }
     </div>
   );
   const showDrawer2 = () => {
@@ -223,14 +238,15 @@ export default function BaseLayout(props) {
       </div>}  
     </div>
   </div>
-  {basketContext.orgId == undefined ? null : <div className={css.OrgIdTextMobile}> <Tooltip placement="left" color="green" title={basketContext.orgId}>{basketContext.orgId}</Tooltip></div> }
+
+  {/* {basketContext.orgId == undefined ? null : <div className={css.OrgIdTextMobile}> <Tooltip placement="left" color="green" title={basketContext.orgId}>{basketContext.orgId}</Tooltip></div> } */}
 {/* Moblie ============================================================= */}
   <div className={css.MenuMobile}>
+      {/* =====> Sags */}
     <div className={basketContext.orgId == undefined? css.MenuHoverIconAdminNo : css.MenuHoverIcon}>
       {basketContext.orgId == undefined ? null : (
         <div className={ router.pathname == "/payment" ? css.PopoverStyle2 : css.PopoverStyle1}>
-          {basketContext.basketState.length === 0 ? (<div className={css.BasketPopNone}> </div>
-          ) : (<div className={ addItemStyleProps === undefined ? [css.BasketPop] : addItemStyleProps }>{basketContext.basketState.length}</div>)}
+          {basketContext.basketState.length === 0 ? (<div className={css.BasketPopNone}> </div>) : (<div className={ addItemStyleProps === undefined ? [css.BasketPop] : [css.BasketPop] }>{basketContext.basketState.length}</div>)}
 
           <Tooltip title={t("basketName")}>
             <Popover content={<BacketComponent />}
@@ -240,29 +256,17 @@ export default function BaseLayout(props) {
               </div>}
               trigger="click" open={visibleMenu} onOpenChange={handleVisibleChangeMenu}>
               <Button size="small"type="link" className={router.pathname == "/payment" ? css.ActiveBasket : css.Icons}><ShoppingCartOutlined /></Button>
-            </Popover> 
-
-
-            {/* <Popover content={<BacketComponent />} title={<div className={css.BasketHeader}> 
-            <div className={css.BasketHdrCss}><ShoppingCartOutlined style={{ paddingRight: "5px", fontSize: "15px" }}/>{t("basketName")}</div>
-              <div>{basketContext.orgId == undefined ? "" : <div className={css.OrgIdText2}>Org ID: {basketContext.orgId}</div>}</div>
-            </div>} 
-              trigger="click" open={visible} onOpenChange={handleVisibleChange}>
-              <Button type="link" className={router.pathname == "/payment" ? css.ActiveBasket : css.Icons}><ShoppingCartOutlined /></Button>
-            </Popover> */}
-
-
-          </Tooltip> 
-
-         
-
+            </Popover>
+          </Tooltip>
         </div>
       )}
     </div> 
+    {/* language */}
     <div className={css.MenuHoverIcon}>
       <Popover content={changeLanguage}><Button type="link" className={css.IconsMenu} size="small"><GlobalOutlined /></Button></Popover>
     </div> 
-    {localPkId ? (
+
+    {/* {localPkId ? (
       <div className={router.pathname == "/profile" || router.pathname == "/security" ? css.ProfileBackCss : css.MenuHoverIcon3}>
         <div className={css.ProfileBackground}>
           <Popover content={changeProfile}>
@@ -282,29 +286,56 @@ export default function BaseLayout(props) {
           <Button size="small" onClick={loginRouter} shape="circle" className={css.IconsMenu}><UserOutlined style={{ fontSize: "21px" }} /></Button>
         </Tooltip>
       </div>
-    )}
-    <Drawer title="Menu" placement="left" onClose={onClose2} open={open2} width={250}>
-      <div className={css.MenuCont}>
-        <div className={router.pathname === "/" ? css.ActiveMenu : ""}>
-          <Button onClick={homeRouter} type="link" className={css.IconsMenu}><HomeOutlined /> {t("homeName")}</Button>
-        </div>
-        {basketContext.orgId == undefined ? "" : 
-        <div className={router.pathname == "/items" ? css.ActiveMenu : ""}>
-          <Button onClick={() => router.push("/items")} type="link" className={css.IconsMenu}><AppstoreAddOutlined /> Item </Button></div>}
-        
-        {localPkId ? (
-          <div className={
-              router.pathname == "/dashboard" ||
-              router.pathname == "/affiliate" ||
-              router.pathname == "/confirmation-list" ||
-              router.pathname == "/order-history" ||
-              router.pathname == "/referral" ||
-              router.pathname == "/add-admin" ||
-              router.pathname == "/add-item"? css.ActiveMenu : ""}>
-            <Button onClick={userDashboard} type="link" className={css.IconsMenu}><AppstoreOutlined /> {t("dashboardTitle")}</Button>
-          </div>) : ("")}
-      </div>  
-    </Drawer>
+    )} */}
+<Drawer title={<div className={css.MenuTitle}> 
+
+{localPkId ? <>{admin === "0" ? basketContext.userInfoProfile === undefined ? null : basketContext.userInfoProfile.email : admin === "1" ? "Admin" : admin === "2" ? "Operator " : ""} </>: "Menu" }
+
+ </div>} placement="left" onClose={onClose2} open={open2} width={220}>
+<div className={css.MenuCont}>  
+ 
+{/* Login */}
+{localPkId ? "" : <div className={css.RoutCss}><Button onClick={loginRouter} type="link" className={router.pathname === "/login" ? css.LanguageBtnActive : css.LanguageBtn}><UserOutlined/>Login</Button></div>}
+
+{/* Home */} 
+<div className={css.RoutCss}><Button onClick={homeRouter} type="link" className={router.pathname === "/" ? css.LanguageBtnActive : css.LanguageBtn}><HomeOutlined /> {t("homeName")}</Button></div>
+{/* Item */}
+{basketContext.orgId == undefined ? "" : 
+<div className={css.RoutCss}> <Button onClick={() => router.push("/items")} type="link" className={router.pathname === "/items" ? css.LanguageBtnActive  : css.LanguageBtn}><AppstoreAddOutlined /> Items </Button></div>}
+
+{/* Dashboard */}
+{localPkId ? (<div><Button onClick={userDashboard} type="link" className={router.pathname === "/dashboard" ?  css.LanguageBtnActive : css.LanguageBtn}><AppstoreOutlined /> {t("dashboardTitle")}</Button></div>) : ("")}
+{/* Profile */}
+{localPkId ? (<div><Button onClick={Profile} type="link" className={router.pathname === "/profile" ? css.LanguageBtnActive : css.LanguageBtn}><UserOutlined />Profile</Button></div>) : ("")}
+{/* Log */}
+{localPkId ? (<div><Button onClick={()=>router.push("/log")} type="link" className={router.pathname === "/log" ? css.LanguageBtnActive: css.LanguageBtn}><UnorderedListOutlined />Log</Button></div>) : ("")}
+{/* Security  */}
+{localPkId ? (<div><Button onClick={()=>router.push("/security")} type="link" className={router.pathname === "/security" ? css.LanguageBtnActive: css.LanguageBtn}><SettingOutlined />Security </Button></div>) : ("")}
+{/* Global settings */}
+{localPkId ? admin === "1" ?
+<div><Button onClick={()=> router.push("/global-settings")} type="link" className={router.pathname === "/global-settings" ? css.LanguageBtnActive : css.LanguageBtn}><SettingOutlined />Global settings</Button></div>
+: null : null}
+
+
+{/* Log out */}
+{localPkId ? <div><Button type="link" onClick={logoutFunction} className={css.LanguageBtn}><LogoutOutlined /> Log out</Button></div> : null }
+
+ 
+
+{/* {settingToggle ? 
+<div className={css.SettingToggleCss}> 
+<div className={css.SettingTitle}><Button type="ghost" shape="circle" size="small" onClick={()=>setSettingToggle(false)}><ArrowLeftOutlined /></Button> Setting & privacy </div>
+<Button type="link" className={router.pathname === "/global-settings" ? css.LanguageBtnActive : css.LanguageBtn } onClick={()=> router.push("/global-settings")}><SettingOutlined /> Global settings</Button> 
+<Button type="link" className={router.pathname === "/security" ? css.LanguageBtnActive : css.LanguageBtn } onClick={()=>router.push("/security")}><SettingOutlined /> Security </Button> 
+</div>
+:
+<div> 
+<Button type="link" className={router.pathname === "/profile" ? css.LanguageBtnActive : css.LanguageBtn } onClick={Profile}><UserOutlined /> Profile</Button> 
+<Button type="link" className={router.pathname === "/security" ? css.LanguageBtnActive : css.LanguageBtn }  onClick={securityBtn}><SettingOutlined /> Settings</Button>  
+<Button type="link" className={router.pathname === "/log" ? css.LanguageBtnActive : css.LanguageBtn }  onClick={()=>router.push("/log")} icon={<UnorderedListOutlined /> }>Log</Button>
+<Button type="link" onClick={logoutFunction} className={css.LanguageBtn}><LogoutOutlined /> Log out</Button> */}
+</div>  
+</Drawer>
   </div> 
 {/* Desktop ============================================================================== */}
   <div className={css.HeaderItem}>
@@ -341,6 +372,7 @@ export default function BaseLayout(props) {
         </Tooltip>
       </div>
     )}
+
     <div><Popover content={changeLanguage}><Button type="link" className={css.Icons}><GlobalOutlined /></Button></Popover></div>
     {localPkId ? (
       <div className={ router.pathname == "/profile" || router.pathname == "/security" ?  css.ProfileBackCss : ""}>
@@ -349,8 +381,7 @@ export default function BaseLayout(props) {
             <Button type="link" className={css.Icons}>
               <div className={ router.pathname == "/profile" ? css.ProfileCss : css.FlexPro}><UserOutlined />
                 <span className={css.ProfileText}>
-                  {admin === "0" ? basketContext.userInfoProfile === undefined ? "" : basketContext.userInfoProfile.email
-                    : admin === "1" ? "Admin" : admin === "2" ? "Operator " : ""}
+                  {admin === "0" ? basketContext.userInfoProfile === undefined ? "" : basketContext.userInfoProfile.email : admin === "1" ? "Admin" : admin === "2" ? "Operator " : ""}
                 </span>
               </div>
             </Button>
@@ -358,14 +389,13 @@ export default function BaseLayout(props) {
         </div>
       </div>
     ) : (
-      <div className={router.pathname == "/login" ? css.Active : ""}>
-        <Tooltip title={t("loginName")}><Button onClick={loginRouter} type="link" className={css.Icons}><UserOutlined /></Button></Tooltip>
-      </div>
+      <div className={router.pathname == "/login" ? css.Active : ""}><Tooltip title={t("loginName")}><Button onClick={loginRouter} type="link" className={css.Icons}><UserOutlined /></Button></Tooltip></div>
     )}
+
   </div>
 </div>
  
-
+{/* Layout ============================================================================== */}
 <div className={css.Layout}>
 {localStorageUserId === "Null" ? null  : <>
 {props.pageName === "home" || props.pageName === "login" || props.pageName === "items" ||props.pageName === "register" || 
@@ -452,11 +482,11 @@ export default function BaseLayout(props) {
 }
 </>
 }
-    <div className={props.pageName === "items" ? css.ContentItem : props.pageName === "home" ? css.ContentHome  : props.pageName === "login" ? css.ContentHome :    toogleCss ? css.ContentCss : 
-    props.pageName === "payment" ? css.ContentPayment : css.Content}>
- 
-         {props.children}
-    </div>
+{/* Content ============================================================================== */}
+<div className={props.pageName === "items" ? css.ContentItem : props.pageName === "home" ? css.ContentHome  : props.pageName === "login" ? css.ContentHome :    toogleCss ? css.ContentCss : 
+props.pageName === "payment" ? css.ContentPayment : css.Content}> 
+      {props.children}
+</div>
  </div> 
  
 

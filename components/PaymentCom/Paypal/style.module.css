@@ -6,4 +6,7 @@
     margin-bottom: 10px;
 }
 
- 
+.Content {
+    width: 350px;
+    margin: auto;
+}

@@ -288,6 +288,28 @@
 }
 
 @media only screen and (max-width: 500px) {
+    .RadioCss {
+        width: 100%;
+    }
+
+    .CaptchaCss {
+        margin-top: 10px;
+    }
+
+    .OrgIdCss {
+        margin-top: 10px;
+        font-size: 17px;
+        font-weight: 500;
+        color: rgb(51, 51, 51);
+        width: 96%;
+        margin: 0px auto;
+        text-align: center;
+    }
+
+    .OrgSelectCSs {
+        font-size: 15px;
+    }
+
     .SearchCss {
         display: flex;
         justify-content: center;

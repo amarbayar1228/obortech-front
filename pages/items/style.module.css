@@ -724,13 +724,13 @@
 
     .Item {
         position: relative;
-        width: 185px;
+        width: 171px;
         height: 245px;
         border: 1px solid #ebebeb;
         background-color: #fff;
         margin: 8px;
         border-radius: 5px;
-        animation: style_scaledown__Dph5z .2s linear;
+        animation: scaledown .2s linear;
     }
 
     .ImgItem {
@@ -749,6 +749,7 @@
     .GroupPackage {
         display: flex;
         flex-direction: column;
+        background-color: #fff;
         /* margin-top: 25px; */
     }
 
@@ -757,6 +758,15 @@
         margin: 0px auto;
         margin-bottom: 10px;
         height: 200px;
+    }
+
+    .GroupPackageTitle {
+        position: relative;
+        width: 100%;
+    }
+
+    .Gphdescrip {
+        width: 300px;
     }
 
 }

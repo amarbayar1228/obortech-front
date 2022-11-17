@@ -14,3 +14,9 @@
     font-weight: 600;
     color: #4a5760;
 }
+
+.ClearTable {
+    position: absolute;
+    top: 0;
+    right: 0px;
+}

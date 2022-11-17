@@ -32,13 +32,13 @@ const BacketComponent = (props) => {
   const totalPriceFunction = () => {
     let price = 0;
     basketContext.basketState.forEach((element) => { 
-      console.log("delete: ", element);
+      
       price += element.cnt * element.price;
     });
      setTotalPriceState(price);
   };
 const clearFunc = () =>{
-  console.log("clear");
+
   localStorage.removeItem("basket");
 
 }

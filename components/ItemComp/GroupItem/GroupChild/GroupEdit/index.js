@@ -222,7 +222,7 @@ const GroupEdit = (props) => {
   return (
     <div>
       <Button type="primary" shape="circle" onClick={showModal}size="small" icon={<EditOutlined />}></Button>
-      <Modal title="Group Edit" open={isModalVisible} onOk={handleOk} onCancel={handleCancel} width={620}> 
+      <Modal title="Group Edit" open={isModalVisible} onOk={handleOk} onCancel={handleCancel} width={620} okText="Update"> 
       {itemInfo === "" ? null : 
       <div className={css.CompNameCss}>
             <div className={css.CompFlex}><div></div><div className={css.CompNameF}>{itemInfo.date_}</div></div>

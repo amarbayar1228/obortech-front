@@ -23,6 +23,37 @@
     justify-content: space-between; */
 }
 
+.SettingToggleCss {
+    animation-name: bankRouteAnimation;
+    animation-duration: 0.3s;
+    animation-timing-function: ease;
+    height: 150px;
+}
+
+.SettingTitle {
+    margin-bottom: 3px;
+    font-size: 16px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+}
+
+@keyframes bankRouteAnimation {
+    0% {
+        transform: scale(0.1);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
 .Content {
     background-color: #fff;
     width: calc(100% - 60px);
@@ -516,7 +547,7 @@
 .OrgIdText {
     display: flex;
     padding: 2px 10px;
-    box-shadow: 1px 1px 1px 1px rgb(194 225 131);
+    box-shadow: 1px 1px 1px 1px rgb(255 224 217);
     /* border: 1px solid rgb(145 167 99); */
     margin-left: 10px;
     width: 223px;
@@ -525,7 +556,7 @@
     height: 21px;
     font-weight: 600;
     font-size: 11px;
-    color: rgb(101 163 13);
+    color: rgb(213 5 5);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -535,8 +566,8 @@
 }
 
 .OrgIdText2 {
-    box-shadow: 1px 1px 1px 1px rgb(194 225 131);
-    color: rgb(101 163 13);
+    box-shadow: 1px 1px 1px 1px rgb(255 224 217);
+    color: rgb(213 5 5);
     border-radius: 5px;
     padding: 0px 10px;
     width: 120px;
@@ -574,6 +605,10 @@
 
 }
 
+.RoutCss {
+    margin: 5px 0px;
+}
+
 .OrgTooltip {
     display: flex;
     align-items: center;
@@ -581,6 +616,13 @@
     width: 100%;
 }
 
+.MenuTitle {
+    width: 163px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #fff;
+}
 
 /* .CancelOrgId:hover {
     background-color: red;
@@ -588,6 +630,11 @@
 
 @media only screen and (max-width: 1024px) {
 
+    .PopoverStyle2 {
+        position: relative;
+        border-bottom: none;
+        margin-bottom: 0px;
+    }
 
     .MenuHoverIcon {
         display: flex;
@@ -686,14 +733,14 @@
         position: absolute;
         display: flex;
         padding: 2px 10px;
-        box-shadow: 1px 1px 1px 1px rgb(194 225 131);
+        box-shadow: 1px 1px 1px 1px rgb(255 224 217);
         width: 140px;
         border-radius: 10px;
         height: 21px;
         font-weight: 600;
         left: 177px;
         font-size: 11px;
-        color: rgb(101 163 13);
+        color: rgb(213 5 5);
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -703,12 +750,25 @@
 }
 
 @media only screen and (max-width: 590px) {
+    .ContentPayment {
+        width: 100%;
+    }
+
     .OrgIdText {
-        display: none;
+        display: block;
+        width: 71px;
+    }
+
+    .OrgIdText:hover .CancelOrgId {
+        position: fixed;
+        color: #fff;
+        margin-left: -26px;
+        z-index: 1;
+
     }
 
     .Layout {
-        height: 87vh;
+        height: 93vh;
     }
 
     .OrgIdTextMobile {
@@ -719,8 +779,8 @@
         font-size: 11px;
         font-weight: 600;
         background-color: #fff;
-        box-shadow: -1px 1px 4px 2px rgb(194 225 131);
-        color: rgb(101 163 13);
+        box-shadow: 1px 1px 1px 1px rgb(255 224 217);
+        color: rgb(213 5 5);
         z-index: 10;
         top: 63px;
         border-top-left-radius: 3px;

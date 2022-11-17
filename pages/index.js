@@ -126,7 +126,7 @@ return (
         <div className={css.OrgIdCss}> 
         <div className={css.CaptchaCss}><ReCAPTCHA sitekey="6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t" onChange={onChangeCaptcha}/></div>
           {btnDis === false ? 
-          <div> 
+          <div className={css.RadioCss}> 
             <div className={css.OrgSelectCSs}>Choose a name for your organization?</div>
             <div className={css.Popcss}>  
               <div className={css.TitleFlex}><Radio.Group onChange={onChangeRadio}> <Radio value={orgIdState}><div className={css.RadioFrame}>{orgIdState}</div></Radio></Radio.Group></div>   
