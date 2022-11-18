@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import BaseLayout from "../../components/Layout/BaseLayout";
-import { Button, Divider  } from "antd";
+import { Button, Divider, message  } from "antd";
 import { Statistic, Card, Row, Col } from "antd";
 import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
 import { PageHeader, Tag, Descriptions } from "antd";
@@ -11,16 +11,22 @@ import Spinner from "../../components/Spinner";
 const Dashboard = () => {
   const { t } = useTranslation("dashboard");
   const basketContext = useContext(BasketContext);
-  // useEffect(() => {
-  //   basketContext.MenuKey();
-  //   basketContext.basketStateFunc();
-  // }, []);
+useEffect(() => {
+  window.onpopstate = (event) =>{
+   
+    history.go(1)
+    console.log("event", event);
+    message.success("Back hiih gj bn ")
+  }
+}, []);
 
   return (
     <BaseLayout pageName="dashboard">
       <Divider orientation="left">
+
         <div className={css.Title}> {t("title")}</div>
       </Divider>
+
  {/* <div style={{margin: "100px"}}> <Spinner /></div> */}
 
 

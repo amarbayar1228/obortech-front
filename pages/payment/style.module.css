@@ -1261,7 +1261,24 @@
   }
 }
 
+.flexAb {
+  position: absolute;
+}
+
 @media only screen and (max-width: 1024px) {
+  .PayContent {
+    flex-direction: column;
+  }
+
+  .Reminder {
+    width: 100%;
+    margin: 10px 0px;
+  }
+
+  .PayConfirm {
+    width: 100%;
+  }
+
   .Items {
     width: 100%;
   }
@@ -1272,6 +1289,10 @@
 }
 
 @media only screen and (max-width: 760px) {
+  .AlertInput {
+    width: 100%;
+  }
+
   .ForgeinSideBar {
     display: flex;
     flex-direction: column;
@@ -1308,7 +1329,7 @@
   }
 
   .Reminder {
-    width: 100%;
+    width: 90%;
     /* margin-top: auto; */
     margin: 10px auto;
     /* height: 208px; */
@@ -1372,5 +1393,24 @@
 
   .ShiljvvlegCont {
     width: 100%;
+  }
+
+  .ShilTitle {
+    font-size: 13px;
+    margin-right: 5px;
+    font-weight: 600;
+    color: #545454;
+    width: 115px;
+    text-align: left;
+  }
+
+  .ShilTitle2 {
+    font-size: 15px;
+    width: 105px;
+  }
+
+  .Copy {
+    font-size: 13px;
+    width: 65px;
   }
 }

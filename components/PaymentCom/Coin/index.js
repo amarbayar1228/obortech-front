@@ -29,8 +29,8 @@ const Coin = (props) =>{
         if (element.img) {arr[i].state = 2} else {arr[i].state = 1; arr[i].img = "";}
         });  
 if(props.payInInstallmentsValue === 1){
-
     basketContext.removeBasketStorage();
+    props.sucessOrder();
 }else {
 // newtersen hereglegch bwl Axiosru shidne
 if (localStorage.getItem("token")) {
@@ -47,7 +47,7 @@ if (localStorage.getItem("token")) {
     axios.post("/api/post/Gate", body2).then((result) => {
     //   basketContext.removeBasketStorage();   
     message.success("Success");
-    props.payInInstallmentsValue === 1 ? basketContext.removeBasketStorage() : props.PayInInstallmentsCoin(), props.BackFunc();
+    props.payInInstallmentsValue === 1 ? (basketContext.removeBasketStorage(),  props.sucessOrder()) : props.PayInInstallmentsCoin(), props.BackFunc();
     
     
         
@@ -63,7 +63,7 @@ if (localStorage.getItem("token")) {
     console.log("bodyNoId: ", bodyNoId);
     axios.post("/api/post/Gate", bodyNoId).then((result) => {
     message.success("Success");
-    props.payInInstallmentsValue === 1 ? basketContext.removeBasketStorage() : props.PayInInstallmentsCoin(), props.BackFunc();
+    props.payInInstallmentsValue === 1 ? (basketContext.removeBasketStorage(),  props.sucessOrder()) : props.PayInInstallmentsCoin(), props.BackFunc();
     //   basketContext.removeBasketStorage();  
     },(error) => {console.log(error)});
     }

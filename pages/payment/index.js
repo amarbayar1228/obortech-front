@@ -52,6 +52,8 @@ const Payment = () => {
   const [foreignValue, setForeignValue] = useState(1);
   const [payInInstallmentsValue, setPayInInstallments] = useState(undefined);
   const [orgOnChange, setOrgOnChange] = useState(0);
+  const [successOrderValue, setSuccessOrderValue] = useState(0);
+  const [successOrderPrice, setSuccessOrderPrice] = useState(0);
   
   const validateMessages = {
     required: "${label} is required!",
@@ -97,6 +99,11 @@ const Payment = () => {
   useEffect(() => {
     totalPriceFunction();
     dateFunction();
+    window.onpopstate = (event) =>{
+   
+      history.go(1)
+      console.log("event", event); 
+    }
     // totalPriceFunction();
   }, []);
 
@@ -112,7 +119,7 @@ const Payment = () => {
     setDatePlusState(datePlus.getFullYear() +"/" +mounths[datePlus.getMonth()] +"/" +datePlus.getDate()); 
   };  
   const totalPriceFunction = () => {
-    console.log("total");
+  
     let itemPrice = 0;
     let result = 0; 
      basketContext.basketState.forEach((element) => {
@@ -123,6 +130,7 @@ const Payment = () => {
       }
       itemPrice += element.cnt * result; 
     })
+    setSuccessOrderPrice(itemPrice);
     setTotalPriceState(itemPrice);
   };
   const orderOrgId2 = () => {
@@ -323,9 +331,16 @@ const PayInInstallmentsCoin = () =>{
 setPayInInstallments(2);
 localStorage.setItem("Bank", 2);
 }
+const sucessOrder = () =>{ 
+
+  setSuccessOrderValue(2); 
+}
+const removeBask = () =>{ 
+  setSuccessOrderValue(4);
+}
   var sss = 0;
 const steps = [
-{title: "Shopping Cart",content: (
+{title: "Cart",content: (
 <div>
   <div className={css.orderItem}>
     {basketContext.basketState.length === 0 ? (<Empty description="Empty"></Empty>) : (
@@ -622,7 +637,7 @@ const steps = [
     {/* </div>  */}
     </div>
     : <div className={css.PayBanks}> 
-        <Button onClick={BackFunc} className={css.BackCss}>Back</Button>
+        {/* <Button onClick={BackFunc} className={css.BackCss}>Back</Button> */}
         {bankValue === "khan" || bankValue === "golomt" || bankValue === "Tdb" || bankValue === "Monpay"? 
         <div> 
         <Tabs defaultActiveKey="4" items={["a","b", "c"].map((Icon, i) => {  
@@ -634,7 +649,7 @@ const steps = [
           key: i, children: i === 0? 
           <div className={css.PaymentCss}>
             {bankValue === "khan" ? 
-            <KhanBank totalPriceState={totalPriceState} orgIdRadio={orgIdRadio} basketState={basketContext.basketState}/> 
+            <KhanBank totalPriceState={totalPriceState} orgIdRadio={orgIdRadio} basketState={basketContext.basketState} sucessOrder={sucessOrder}/> 
             : null}
             {bankValue === "Golomt" ? <div>Golomt </div> : null}
             {bankValue === "Tdb" ? <div>Tdb </div> : null}
@@ -645,7 +660,7 @@ const steps = [
            
               <div className={css.Qpay}> 
                 <div className={css.QpaySize}>
-                <Image alt="Obertech" preview={false} src="img/qr.png" width={150}/>
+                  <Image alt="Obertech" preview={false} src="img/qr.png" width={150}/>
                 </div>
                 <div className={css.QpayTitle}>Төлөх дүн </div>
                 <div className={css.QpayPrice}>{totalPriceState.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}$</div>
@@ -689,13 +704,13 @@ const steps = [
         </div> 
         : 
           bankValue === "Paypal" ? <div> 
-            <Paypal bankValue={bankValue} totalPriceState={totalPriceState} orgIdRadio={orgIdRadio} basketState={basketContext.basketState} BackFunc={BackFunc} PayInInstallmentsForeign={PayInInstallmentsForeign} payInInstallmentsValue={payInInstallmentsValue}/>
+            <Paypal sucessOrder={sucessOrder} bankValue={bankValue} totalPriceState={totalPriceState} orgIdRadio={orgIdRadio} basketState={basketContext.basketState} BackFunc={BackFunc} PayInInstallmentsForeign={PayInInstallmentsForeign} payInInstallmentsValue={payInInstallmentsValue}/>
           </div> : null 
         }
 
         {bankValue === "Coin" ? 
           <div> 
-            <Coin totalPriceState={totalPriceState} orgIdRadio={orgIdRadio} basketState={basketContext.basketState} BackFunc={BackFunc} PayInInstallmentsCoin={PayInInstallmentsCoin}
+            <Coin sucessOrder={sucessOrder} totalPriceState={totalPriceState} orgIdRadio={orgIdRadio} basketState={basketContext.basketState} BackFunc={BackFunc} PayInInstallmentsCoin={PayInInstallmentsCoin}
              payInInstallmentsValue={payInInstallmentsValue}/>  
           </div>
           : null}
@@ -714,14 +729,14 @@ const steps = [
             {foreignValue === 1 ?
             <div className={css.ForgeinSideContent2}>
               
-              <Paypal totalPriceState={totalPriceState} orgIdRadio={orgIdRadio} basketState={basketContext.basketState} BackFunc={BackFunc} PayInInstallmentsForeign={PayInInstallmentsForeign} payInInstallmentsValue={payInInstallmentsValue}/>
+              <Paypal sucessOrder={sucessOrder} totalPriceState={totalPriceState} orgIdRadio={orgIdRadio} basketState={basketContext.basketState} BackFunc={BackFunc} PayInInstallmentsForeign={PayInInstallmentsForeign} payInInstallmentsValue={payInInstallmentsValue}/>
             </div> 
             : null }
 
             {foreignValue === 2 ? <div className={css.ForgeinSideContent2}> 
             <div className={css.CreditTitle}>Credit or Debit Card </div>
             <div className={css.PayForm}> 
-              <CreditOrDebitCard totalPriceState={totalPriceState} orgIdRadio={orgIdRadio} basketState={basketContext.basketState} BackFunc={BackFunc} PayInInstallmentsForeign={PayInInstallmentsForeign} payInInstallmentsValue={payInInstallmentsValue}/> 
+              <CreditOrDebitCard sucessOrder={sucessOrder} totalPriceState={totalPriceState} orgIdRadio={orgIdRadio} basketState={basketContext.basketState} BackFunc={BackFunc} PayInInstallmentsForeign={PayInInstallmentsForeign} payInInstallmentsValue={payInInstallmentsValue}/> 
             </div>
             
             </div> : null}
@@ -735,114 +750,11 @@ const steps = [
 {
   title: "Completed",
   content: (
-    <div>
-    <div className={css.InvoiceBorder} id="content2">
-      <div className={css.Header}>
-        <div className={css.InvoiceLogo}>
-          <Image
-            alt="Obertech"
-            preview={false}
-            style={{
-              position: "relative",
-              width: "120px",
-              height: "100px",
-              objectFit: "inherit",
-            }}
-            src="/img/OBORTECH_logo_H_clean.svg"
-          />
-        </div>
-        <div> Invoice number - 0037038387</div>
-      </div>
-      <div className={css.InvoiceTable}>
-        <div className={css.Contract1}>
-          <div className={css.InvoiceDate}>
-            {dateState} - Tulburiin nehemjlel
-          </div>
-          <div className={css.InvoiceLayout}>
-            <div> Hereglegch ner: </div>
-            <div> 9011826614 BEC</div>
-          </div>
-
-          <div className={css.InvoiceLayout}>
-            <div>Gereenii dugaar: </div>
-            <div> 9011826614</div>
-          </div>
-
-          <div className={css.InvoiceLayout}>
-            <div>Hamragdah hugatsaa: </div>
-            <div>
-              {" "}
-              {dateState} - {datePlusState}
-            </div>
-          </div>
-        </div>
-        <div className={css.Contract2}>
-          <div className={css.ContractLayout}>
-            <div className={css.PayState}>Төлбөр төлөх сувгууд</div>
-            <div className={css.Sector}>
-              <div className={css.SectorText}>
-                <div className={css.IconCaretRight}>
-                  <CaretRightOutlined />
-                </div>
-                <div>Үйлчилгээний салбар</div>
-              </div>
-              <div className={css.SectorText}>
-                <div className={css.IconCaretRight}>
-                  <CaretRightOutlined />
-                </div>
-                <div> Банкны данс</div>
-              </div>
-            </div>
-          </div>
-          <div className={css.ContractLayout}>
-            <div className={css.PayState}>Нэмэлт хэрэглээ</div>
-
-            <div>
-              {basketContext.basketState.map((e, i) => (
-                <div className={css.ItemLayout} key={i}>
-                  <div className={css.ContractItemText}>{e.title}</div>
-                  <div
-                    style={{
-                      width: "20%",
-                      borderRight: "1px solid #ccc",
-                    }}
-                  >
-                    Qty: {e.quantity}
-                  </div>
-                  <div className={css.ContractItemTotalBorder}>
-                    {e.price}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className={css.ItemLayout}>
-              <div className={css.ContractItemTotalT}>Total Price: </div>
-              <div className={css.ContractItemTotalBorder}>4,555,00 </div>
-            </div>
-          </div>
-          <div className={css.ContractLayout}> 
-            <div className={css.PayState}> Нэхэмлэх дүн</div>
-            <div className={css.ItemLayout}>
-              <div className={css.ContractItemText}>
-                Татвар тооцоогүй дүн:{" "}
-              </div>
-              <div className={css.ContractItemTotalBorder}>4,555,00 </div>
-            </div>
-            <div className={css.ItemLayout}>
-              <div className={css.ContractItemText}>Нөат 10%:</div>
-              <div className={css.ContractItemTotalBorder}>4,555,00 </div>
-            </div>
-            <div className={css.ItemLayout}>
-              <div className={css.ContractItemText}>
-                Нийт төлбөл зохих дүн:{" "}
-              </div>
-              <div className={css.ContractItemTotalBorder}>4,555,00 </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> 
+    <div> 
+     
+      <SuccessOrder totalPriceState={successOrderPrice}/>
+      <Button onClick={removeBask} shape="circle"> X</Button>
+     
   </div>
   ),
 },
@@ -852,16 +764,17 @@ const steps = [
     <div>
       <BaseLayout pageName="payment">
         <div style={{ fontSize: "14px", fontWeight: "500" }}>
+       
           {basketContext.basketState.length === 0 || basketContext.orgId === undefined ? (
-            <div><Empty description="Basket is empty"></Empty>
-            <SuccessOrder totalPriceState={totalPriceState}/>
+            <div style={successOrderValue === 2 ? {display: "none"} : {fontSize: "15px", marginTop: "50px"}}><Empty description="Basket is empty"></Empty>
+            {/* <SuccessOrder totalPriceState={totalPriceState}/> */}
             </div>
           ) : (
             <div className={css.ContentCss}>
-              <Steps current={current}>
+              <Steps current={successOrderValue === 2 ? 2 : current}>
                 {steps.map((item) => (<Step key={item.title} title={item.title} />))}
               </Steps>
-              <div className="steps-content">{steps[current].content}</div>
+              <div className="steps-content">{steps[successOrderValue === 2 ? 2 : current].content}</div>
               <div className="steps-action">
                 {/* {current < steps.length - 1 && (<Button type="primary" onClick={() => next()}>Continue</Button>)} */}
                 {current === steps.length - 1 && (
@@ -886,11 +799,26 @@ const steps = [
                       </Form> 
                     </Modal>
                   </>
-                )}
-                {/* {current > 0 && (<Button style={{margin: "0 8px",}}onClick={() => prev()}>Back</Button>)} */}
+                )} 
+                {bankPay === undefined ? current > 0 && (<Button style={{margin: "0 8px",}}onClick={() => prev()}>Back</Button>) :  <Button onClick={BackFunc}>Back</Button>}
               </div>
             </div>
           )}
+
+          <div>
+            {successOrderValue === 2 ? 
+               <div className={css.ContentCss}>
+               <Steps current={successOrderValue === 2 ? 2 : current}>
+                 {steps.map((item) => (<Step key={item.title} title={item.title} />))}
+               </Steps>
+               <div className="steps-content">{steps[successOrderValue === 2 ? 2 : current].content}</div>
+               <div className="steps-action">
+               
+                 {/* {bankPay === undefined ? current > 0 && (<Button style={{margin: "0 8px",}}onClick={() => prev()}>Back</Button>) :  <Button onClick={BackFunc}>Back</Button>} */}
+               </div>
+             </div>
+            : null}
+          </div>
         </div>
       </BaseLayout>
     </div>

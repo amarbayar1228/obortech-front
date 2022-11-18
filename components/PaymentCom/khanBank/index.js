@@ -51,6 +51,8 @@ const KhanBank = (props) => {
       console.log("bodyId:2  ===>> ", body2);
       var basketLocal = [];
       axios.post("/api/post/Gate", body2).then((result) => {
+          
+          props.sucessOrder();
           basketContext.removeBasketStorage();   
         },(error) => {console.log(error)}); 
       } else {
@@ -63,7 +65,8 @@ const KhanBank = (props) => {
       };
       console.log("bodyNoId: ", bodyNoId);
       axios.post("/api/post/Gate", bodyNoId).then((result) => {
-          message.success("Success");
+          // message.success("Success");
+          props.sucessOrder();
           basketContext.removeBasketStorage();  
         },(error) => {console.log(error)});
       }

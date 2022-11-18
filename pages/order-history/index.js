@@ -180,7 +180,11 @@ const columns = [
   {
     title: <span>Order id</span>,
     dataIndex: 'orderid',
-    key: 'orderid',
+    key: 'orderid', 
+    fixed: "left",
+    width: 80,
+    responsive: ['md'],
+    ellipsis: true,
     render: (text) => <a>{text}</a>,
     ...getColumnSearchProps('orderid'),
   },
@@ -188,61 +192,83 @@ const columns = [
     title: 'Date',
     dataIndex: 'date',
     key: 'date', 
+    ellipsis: true,
+    width: 80,
   },
   {
     title: 'Organization id',
     dataIndex: 'organization',
     key: 'organization',
+    width: 120,
     render: (text) => <a>{text}</a>,
     ...getColumnSearchProps('organization'),
+    responsive: ['md'],
+    ellipsis: true,
   },
+  
   {
     title: 'Total price',
     dataIndex: 'price',
     key: 'price',
+    ellipsis: true,
+    width: 80,
   },
-  {
-    title: 'Items',
-    key: 'action',
-    render: (_, record) => (
-      <Space size="middle">
-        <Button onClick={()=>showModal (record)} size={"small"} type="dashed" shape="round">Show item</Button> 
-    
-      </Space>
-    ),
-  },
+
   {
     title: 'Invoice', 
     key: 'invoice',
+    ellipsis: true,
+    width: 90,
     render: (_, record) => (
       <Space size="middle">
         <Invoice orderId={record} />
         {/* <Button type="dashed" size="small" onClick={()=>detailsItem(record.orderid)}>Invoice</Button>  */}
       </Space>
     ),
+    responsive: ['md'],
   },
   {
     title: 'Paymethod',
     dataIndex: 'paymethod',
     key: 'paymethod',
+    width: 50,
+    ellipsis: true,
   },
   {
     title: 'Status', 
+    dataIndex: 'status',
     key: 'status',
+    ellipsis: true, 
     render: (_, tag) => (
       <Tag color="blue" key={tag}>
           {tag.status === 0 ? "Pending" : "1"}
         </Tag>
     ), 
+    width: 90,
+  },
+  {
+    title: 'Items',
+    width: 80,
+    key: 'action',
+    fixed: "right",
+    ellipsis: true,
+    render: (_, record) => (
+      <Space size="middle">
+        <Button onClick={()=>showModal (record)} size="small" type="dashed" shape="round">Show</Button> 
+    
+      </Space>
+    ),
   },
   {
     title: 'Action', 
     key: 'action',
+    width: 80,
     render: (_, record) => (
       <Space size="middle"><Button type="default" size="small" onClick={()=>orderSend(record)}>Test ordID</Button>
       {record.all.userPkId === "-" || record.all.userPkId === localStorage.getItem("pkId") ? null : <Button onClick={()=>userInfo(record)} icon={<SolutionOutlined />} >User info</Button>}
       </Space>
     ),
+    responsive: ['md'],
   },
 ]; 
 const data = orderHdr.map((r, i)=>(
@@ -374,12 +400,12 @@ const groupDeitalsFunc = (data, index) =>{
 
 {/* ------------------------------end--------------------------------------------------------------------- */}
 <div style={{marginBottom: "10px"}}>
-  <RangePicker showToday defaultValue={[ moment(todayDateState, dateFormat), moment(todayDateState, dateFormat)]} format={dateFormat} onChange={dateOnchange}/>
-  <Button onClick={searchDate}>search</Button>
+  <RangePicker size="small" showToday defaultValue={[ moment(todayDateState, dateFormat), moment(todayDateState, dateFormat)]} format={dateFormat} onChange={dateOnchange}/>
+  <Button onClick={searchDate} size="small" icon={<SearchOutlined/>}></Button>
 </div>
 
 {orderHdr === null? <Empty style={{display: "flex", justifyContent: "center" }}  description="null"/> :
-  <div style={{fontSize: "15px"}}><Table size="small" columns={columns} dataSource={data} loading={loading}/></div> 
+  <div className={css.TableScroll}><Table size="small" columns={columns} dataSource={data} loading={loading} scroll={{x:  400, y: 300 }} /></div> 
 } 
 </div>: loadingPage ? <Spin className={css.SpinCss}/> : <Empty />} 
 </BaseLayout>

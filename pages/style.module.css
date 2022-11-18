@@ -288,6 +288,10 @@
 }
 
 @media only screen and (max-width: 500px) {
+    .stes-content {
+        height: 100%;
+    }
+
     .RadioCss {
         width: 100%;
     }

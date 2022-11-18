@@ -53,11 +53,7 @@ return <div>
                 <div style={{color: "#484848"}}> #833800326492</div>
             </div>
             </div>
-            <div className={css.Cancel}> 
-            <Button type="link" shape="circle" onClick={cancelF}>
-                X
-            </Button>
-            </div>
+            
         </div>
         </div>
     </div>

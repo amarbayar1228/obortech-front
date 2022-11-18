@@ -46,7 +46,7 @@ const onFinished = (values) =>{
       axios.post("/api/post/Gate", body2).then((result) => {
         //   basketContext.removeBasketStorage();   
         message.success("Success");
-        props.payInInstallmentsValue === 2 ? basketContext.removeBasketStorage() : props.PayInInstallmentsForeign(), props.BackFunc()
+        props.payInInstallmentsValue === 2 ? (basketContext.removeBasketStorage(),  props.sucessOrder()) : props.PayInInstallmentsForeign(), props.BackFunc()
      
         },(error) => {console.log(error)}); 
       } else {
@@ -60,7 +60,7 @@ const onFinished = (values) =>{
       console.log("bodyNoId: ", bodyNoId);
       axios.post("/api/post/Gate", bodyNoId).then((result) => {
         message.success("Success");
-        props.payInInstallmentsValue === 2 ? basketContext.removeBasketStorage() : props.PayInInstallmentsForeign(), props.BackFunc()
+        props.payInInstallmentsValue === 2 ? (basketContext.removeBasketStorage(),  props.sucessOrder()) : props.PayInInstallmentsForeign(), props.BackFunc()
         //   basketContext.removeBasketStorage();  
         },(error) => {console.log(error)});
       }

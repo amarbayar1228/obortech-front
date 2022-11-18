@@ -29,8 +29,11 @@ export default function BaseLayout(props) {
   const [profileS, setProfileS] = useState();
   const [toogleCss, setToogleCss] = useState(false);
   const [settingToggle, setSettingToggle] = useState(false);
+  const [matches, setMatches] = useState("(min-width: 590px)"); 
   useEffect(() => {  
     getProfile();
+ 
+    window.matchMedia("(min-width: 590px)").addEventListener('change', e => setMatches( e.matches ));
     // basketContext.basketStateFunc();
     setLocalPkid(localStorage.getItem("pkId"));
     // localStorage.setItem("orgId", "0");
@@ -396,7 +399,7 @@ export default function BaseLayout(props) {
 </div>
  
 {/* Layout ============================================================================== */}
-<div className={css.Layout}>
+<div className={props.pageName === "payment" ? css.Layout2 : css.Layout}>
 {localStorageUserId === "Null" ? null  : <>
 {props.pageName === "home" || props.pageName === "login" || props.pageName === "items" ||props.pageName === "register" || 
     props.pageName === "basket" || props.pageName === "profile" || props.pageName === "payment" ? null : 
@@ -419,57 +422,66 @@ export default function BaseLayout(props) {
       </div>
       <div className={css.Line}> </div>
         <Link href="/dashboard">
-        <Tooltip title="Dashboard" placement="right" color="#f43f5e"> 
+        <Tooltip title={!matches && "" || matches && "Dashboard"} placement="right" color="#f43f5e"> 
             <div className={router.pathname === "/dashboard" ? css.MenuActive : css.MenuZ}>
-                <PieChartOutlined style={{fontSize: "20px"}}/>
+                <PieChartOutlined style={!matches && {fontSize: "15px"} || matches && {fontSize: "20px"}}/>
                 {toogleCss ?  <div className={css.Text}>Dashboard</div> : ""}
+                {!matches &&  <div className={css.Text}>Dashboard</div>}
             </div>
             </Tooltip>
         </Link> 
         
         { admin === "1" ? 
         <Link href="/add-item">
-          <Tooltip title="Item / Coupon" placement="right" color="#f43f5e"> 
+          <Tooltip title={!matches && "" || matches && "Item / Coupon"} placement="right" color="#f43f5e"> 
             <div className={router.pathname === "/add-item" ? css.MenuActive : css.MenuZ}>
-                <AppstoreAddOutlined style={{fontSize: "20px"}}/>
-                {toogleCss ?  <div className={css.Text}>Item / Coupon</div> : ""}
+                <AppstoreAddOutlined style={!matches && {fontSize: "15px"} || matches && {fontSize: "20px"}}/>
+                {toogleCss ?  <div className={css.Text}>Item / Coupon</div> : ""} 
+                {!matches &&  <div className={css.Text}>Item</div>}
+              {/* {matches && (<h1>Big Screen</h1>)}
+                {!matches && (<h3>Small Screen</h3>)} */} 
             </div>
+            
             </Tooltip>
         </Link> : null}
         {admin === "1" || admin === "2"  ? 
         <Link href="/affiliate">
-            <Tooltip title="affiliate" placement="right" color="#f43f5e"> 
+            <Tooltip title={!matches && "" || matches && "affiliate"} placement="right" color="#f43f5e"> 
             <div className={router.pathname === "/affiliate" ? css.MenuActive : css.MenuZ}>
-                <PlusSquareOutlined style={{fontSize: "20px"}}/>
+                <PlusSquareOutlined style={!matches && {fontSize: "15px"} || matches && {fontSize:"20px"}}/>
                 {toogleCss ?  <div className={css.Text}> affiliate</div>  : ""}
+                {!matches &&  <div className={css.Text}>affiliate</div>}
             </div>
             </Tooltip>
         </Link> : null}
             
         <Link href="/order-history">
-          <Tooltip title="Order" placement="right" color="#f43f5e"> 
+          <Tooltip title={!matches && "" || matches && "Order"}  placement="right" color="#f43f5e"> 
             <div className={router.pathname === "/order-history" ? css.MenuActive : css.MenuZ}>
-                <ContainerOutlined style={{fontSize: "20px"}}/>
+                <ContainerOutlined style={!matches && {fontSize: "15px"} || matches && {fontSize: "20px"}}/>
                 {toogleCss ?  <div className={css.Text}>Order</div> : ""}
+                {!matches &&  <div className={css.Text}>Order</div>}
             </div>
             </Tooltip>
         </Link>
         { admin === "1" ? 
         <Link href="/add-admin">
-            <Tooltip title="User management" placement="right" color="#f43f5e"> 
+            <Tooltip title={!matches && "" || matches && "User management"}  placement="right" color="#f43f5e"> 
             <div className={router.pathname === "/add-admin" ? css.MenuActive : css.MenuZ}>
-                <UserAddOutlined style={{fontSize: "20px"}}/>
+                <UserAddOutlined style={!matches && {fontSize: "15px"} || matches && {fontSize: "20px"}}/>
                 {toogleCss ?  <div className={css.Text}>User management </div> : ""}
+                {!matches &&  <div className={css.Text}>User</div>}
             </div>
             </Tooltip>
         </Link> : null}
 
           {admin === "1" || admin === "2" ? "" :
         <Link href="/referral">
-            <Tooltip title="Referral management" placement="right" color="#f43f5e"> 
+            <Tooltip title={!matches && "" || matches && "Referral management"} placement="right" color="#f43f5e"> 
             <div className={router.pathname === "/referral" ? css.MenuActive : css.MenuZ}>
-                <PlusSquareOutlined style={{fontSize: "20px"}}/>
+                <PlusSquareOutlined style={!matches && {fontSize: "15px"} || matches && {fontSize: "20px"}}/>
                 {toogleCss ?  <div className={css.Text}>Referral management</div> : ""}
+                {!matches &&  <div className={css.Text}>Referral</div>}
             </div>
             </Tooltip>
         </Link>}

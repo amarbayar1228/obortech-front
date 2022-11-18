@@ -7,6 +7,15 @@
 }
 
 .Content {
-    width: 350px;
+    width: 365px;
     margin: auto;
+}
+
+
+@media only screen and (max-width: 760px) {
+    .Content {
+        width: 290px;
+        margin: auto;
+    }
+
 }

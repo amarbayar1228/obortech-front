@@ -10,13 +10,9 @@ import css from "./style.module.css"
 const ItemDetails = (props) =>{
 const [item, setItem]= useState([]);
 const [toogle, setToogle] = useState(false);
-const [matches, setMatches] = useState(
-    window.matchMedia("(min-width: 768px)").matches
-  )
+const [matches, setMatches] = useState(window.matchMedia("(min-width: 768px)").matches)
 useEffect(()=>{
-    window
-    .matchMedia("(min-width: 768px)")
-    .addEventListener('change', e => setMatches( e.matches ));
+    window.matchMedia("(min-width: 768px)").addEventListener('change', e => setMatches( e.matches ));
 const body = { 
 func: "getGroups",
 status: 1,

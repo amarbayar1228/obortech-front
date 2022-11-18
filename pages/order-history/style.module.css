@@ -422,3 +422,8 @@
     background-color: rgb(111, 104, 104);
     border-radius: 10px;
 }
+
+.TableScroll {
+    /* height: 57vh;
+    overflow-y: auto; */
+}
