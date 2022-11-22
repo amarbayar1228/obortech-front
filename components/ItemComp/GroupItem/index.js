@@ -154,19 +154,19 @@ const data = group.map((r, i)=>(
     } 
 ));
 const columns = [
-    {
-    title: <div className={css.TableTitle}>Date</div>,
-    dataIndex: 'date',
-    key: 'date', 
-    width: 100,
-    fixed: 'left', 
-    ...getColumnSearchProps('date'), 
-    filteredValue: filteredInfo.date || null,
-    onFilter: (value, record) => record.date.includes(value),
-    // sorter: (a, b) => a.date.length - b.date.length,
-    sortOrder: sortedInfo.columnKey === 'date' ? sortedInfo.order : null,
-    ellipsis: true,
-    },
+    // {
+    // title: <div className={css.TableTitle}>Date</div>,
+    // dataIndex: 'date',
+    // key: 'date', 
+    // width: 100,
+    // fixed: 'left', 
+    // ...getColumnSearchProps('date'), 
+    // filteredValue: filteredInfo.date || null,
+    // onFilter: (value, record) => record.date.includes(value),
+    // // sorter: (a, b) => a.date.length - b.date.length,
+    // sortOrder: sortedInfo.columnKey === 'date' ? sortedInfo.order : null,
+    // ellipsis: true,
+    // },
  
     {
     title: <div className={css.TableTitle}>Title</div>,

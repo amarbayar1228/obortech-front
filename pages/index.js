@@ -1,5 +1,5 @@
 import BaseLayout from "../components/Layout/BaseLayout";
-import { Badge, Button, Col, Divider, Input, Modal, Radio, Result, Row, Select, Spin } from "antd";
+import { Alert, Badge, Button, Col, Divider, Input, Modal, Radio, Result, Row, Select, Spin } from "antd";
 import Head from "next/head";
 import { useCallback, useContext, useEffect, useState } from "react";
 import css from "./style.module.css";
@@ -117,9 +117,9 @@ return (
   <div className={css.SearchCss}> 
     <div className={css.SearchInput}>
       <Divider style={{fontSize: "18px", color: "#000"}}>{t("Search of organizations")}</Divider>
-
+  
       <Search placeholder={t("Enter your organization ID")} allowClear  size="large" onSearch={onSearch} enterButton  />
-         
+       
         {orgIdState === "" ? spin ?  <div className={css.SpinCss}> <Spinner /> </div> : orgError === "" ? "" :  
         <div className={css.OrgError}><Result status="warning" title={orgError} style={{fontWeight: "600"}}/></div> : 
         <>{spin ? <div className={css.SpinCss}> <Spinner /> </div> : 

@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import {Layout,Menu,Breadcrumb,Row,Col,message,Button,Popover,Tooltip,Image,Drawer,Spin, Empty, Typography,} from "antd";
 import React, { useContext } from "react";
 import { useState, useEffect } from "react";
-import {ShoppingCartOutlined,GlobalOutlined,ArrowLeftOutlined,MenuOutlined,HomeOutlined,UserOutlined,DoubleRightOutlined,PlusSquareOutlined,LeftOutlined,AppstoreAddOutlined,AppstoreOutlined,PieChartOutlined,LogoutOutlined,UnorderedListOutlined,UserAddOutlined,ContainerOutlined,SettingOutlined} from "@ant-design/icons";
+import {ShoppingCartOutlined,GlobalOutlined,ArrowLeftOutlined,MenuOutlined,HomeOutlined,UserOutlined,RightOutlined,PlusSquareOutlined,LeftOutlined,AppstoreAddOutlined,AppstoreOutlined,PieChartOutlined,LogoutOutlined,UnorderedListOutlined,UserAddOutlined,ContainerOutlined,SettingOutlined,DoubleLeftOutlined, DoubleRightOutlined} from "@ant-design/icons";
 import css from "./style.module.css";
 import BacketComponent from "../Backet";
 import Link from "next/link";
@@ -138,13 +138,13 @@ export default function BaseLayout(props) {
   const changeLanguage = (
     <div className={css.LanguageStyle}>
       <Link href="/" locale={router.locales[0] === "en" ? "en" : "en"}>
-        <Button type="link" className={router.locale == "en" ? css.LanguageBtnActive : css.LanguageBtn} >
+        <Button type="link" className={router.locale == "en" ? css.LanguageBtnActive : css.LanguageBtn} style={{width: "100%"}}>
         <Image style={{marginRight: "7px"}} className={css.Flag} alt="Obertech" preview={false} src="/img/united-kingdom.png"/>
           <span className={router.locale == "en"  ? css.ActiveLang : "" }>{t("English")}</span>
         </Button>
       </Link>
       <Link href="/mn" locale={router.locales[3] === "mn" ? "mn" : "en"}>
-        <Button type="link" className={router.locale == "mn" ? css.LanguageBtnActive : css.LanguageBtn}>
+        <Button type="link" className={router.locale == "mn" ? css.LanguageBtnActive : css.LanguageBtn} style={{width: "100%"}}>
         <Image className={css.Flag} alt="Obertech" preview={false} src="/img/mongolia.png"/>
           <span className={router.locale == "mn" ? css.ActiveLang : ""}>Монгол</span>
         </Button>
@@ -186,14 +186,15 @@ export default function BaseLayout(props) {
        <div className={css.SettingToggleCss}>
        <div className={css.SettingTitle}><Button type="ghost" shape="circle" size="small" onClick={()=>setSettingToggle(false)}><ArrowLeftOutlined /></Button> Setting & privacy </div>
        {admin === "1" ?
-       <Button type="link" className={router.pathname === "/global-settings" ? css.LanguageBtnActive : css.LanguageBtn } onClick={()=> router.push("/global-settings")}><SettingOutlined /> Global settings</Button> 
+       <Button type="link" className={router.pathname === "/global-settings" ? css.LanguageBtnActive : css.LanguageBtn } onClick={()=> router.push("/global-settings")} style={{width: "100%"}}><SettingOutlined /> Global settings</Button> 
        : null}
-       <Button type="link" className={router.pathname === "/security" ? css.LanguageBtnActive : css.LanguageBtn } onClick={()=>router.push("/security")}><SettingOutlined /> Security </Button> 
+       <Button type="link" className={router.pathname === "/security" ? css.LanguageBtnActive : css.LanguageBtn } onClick={()=>router.push("/security")} style={{width: "100%"}}><SettingOutlined /> Security </Button> 
        </div>
        :
        <div> 
+     
+      <Button type="link" className={router.pathname === "/security" ? css.LanguageBtnActive : css.LanguageBtn }  onClick={securityBtn}><div><SettingOutlined /> Settings</div> <div style={{position: "absolute", right: "2px"}}><RightOutlined /></div></Button>  
       <Button type="link" className={router.pathname === "/profile" ? css.LanguageBtnActive : css.LanguageBtn } onClick={Profile}><UserOutlined /> Profile</Button> 
-      <Button type="link" className={router.pathname === "/security" ? css.LanguageBtnActive : css.LanguageBtn }  onClick={securityBtn}><SettingOutlined /> Settings</Button>  
       <Button type="link" className={router.pathname === "/log" ? css.LanguageBtnActive : css.LanguageBtn }  onClick={()=>router.push("/log")} icon={<UnorderedListOutlined /> }>Log</Button>
       <Button type="link" onClick={logoutFunction} className={css.LanguageBtn}><LogoutOutlined /> Log out</Button>
       </div>
@@ -488,7 +489,7 @@ export default function BaseLayout(props) {
         
     </div>
         <div className={css.BorderTop}>
-        <Button style={{width: "100%"}} onClick={sidebarF} icon={<LeftOutlined />} size="small"  type="primary"></Button>
+        <Button style={{width: "100%"}} onClick={sidebarF} icon={toogleCss ? <DoubleLeftOutlined /> : <DoubleRightOutlined />} size="small"  type="primary"></Button>
         </div> 
 </div>
 }
@@ -498,6 +499,7 @@ export default function BaseLayout(props) {
 <div className={props.pageName === "items" ? css.ContentItem : props.pageName === "home" ? css.ContentHome  : props.pageName === "login" ? css.ContentHome :    toogleCss ? css.ContentCss : 
 props.pageName === "payment" ? css.ContentPayment : css.Content}> 
       {props.children}
+      
 </div>
  </div> 
  

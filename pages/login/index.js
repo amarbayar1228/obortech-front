@@ -27,13 +27,18 @@ export default function Login() {
     },800)
   },[])
   const onFinish = (values) => { 
+
     var passwordHash = sha256(password); 
+
     const body = {func: "signIn",username: username,password: passwordHash,};  
     axios.post("/api/post/Gate", body).then((res) => {
+        console.log("res.data: ", res.data.data);
         if (res.data.data.username) {
           message.success(t("Success"));
           localStorage.setItem("pkId", res.data.data.pkId);
           localStorage.setItem("token", res.data.data.token);
+          console.log("hansh: ", passwordHash); 
+          localStorage.setItem("pz2r3t5", passwordHash);
           // localStorage.setItem("username", res.data.data.username);
           // localStorage.setItem("lastname", res.data.data.lastname);
           // localStorage.setItem("phone", res.data.phone);

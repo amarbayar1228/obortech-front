@@ -724,8 +724,8 @@
 
     .Item {
         position: relative;
-        width: 171px;
-        height: 245px;
+        width: 45%;
+        height: 210px;
         border: 1px solid #ebebeb;
         background-color: #fff;
         margin: 8px;
@@ -739,7 +739,8 @@
     }
 
     .ItemPic {
-        height: 95px;
+        margin-top: 5px;
+        height: 83px;
     }
 
     .ItemTitle1 {
@@ -769,4 +770,12 @@
         width: 300px;
     }
 
+    .ContText {
+        margin: 36px 10px;
+
+    }
+
+    .ItemTitle1 {
+        width: 100%;
+    }
 }

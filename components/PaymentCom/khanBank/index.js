@@ -7,6 +7,7 @@ import moment from "moment";
 import axios from "axios";
 import BasketContext from "../../../context/basketContext/BasketContext";
 
+
 const KhanBank = (props) => {
   const [basketState, setBasketState] = useState([]);
   const basketContext = useContext(BasketContext); 
@@ -17,6 +18,9 @@ const KhanBank = (props) => {
   const weekFormat = "MM/DD";
   const monthFormat = "YYYY/MM";
   const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
+  useEffect(()=>{
+    console.log("kanbank: ", router.query);
+  })
 
   const customFormat = (value) => `custom format: ${value.format(dateFormat)}`;
   //aaaaaaaaaaaaaaaaaaa

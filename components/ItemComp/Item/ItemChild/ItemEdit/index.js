@@ -112,7 +112,7 @@ initialValues={{
     type: 3,
 }} onFinish={onFinishEdit} onFinishFailed={onFinishFailedEdit}> 
 <div className={css.CompNameCss}>
-<div className={css.CompFlex}><div className={css.CompTitle}>Title:</div><div className={css.CompNameF}>{itemInfo.title}</div></div>
+<div className={css.CompFlex}><div className={css.CompTitle}>Item name:</div><div className={css.CompNameF}>{itemInfo.title}</div></div>
 <div className={css.StatusCss}>
 {/* {itemInfo.status == 0 ? (<Tooltip title="New request"><Badge status="warning" text="New request" style={{fontSize: "12px", color: "#faad14"}}/></Tooltip>) :  ""}  */}
 {itemInfo.status == 1 ? (<Tooltip title="Active"><Badge status="success" text="active" style={{color: "#52c41a",fontWeight: "600"}}/></Tooltip>) : 
@@ -121,7 +121,7 @@ initialValues={{
     }
 </div>
 </div>
-<Form.Item label={"Title"} name="title"   rules={[{required: true,message: "Please input your First name!"}]}><Input placeholder={"itemName"} allowClear/></Form.Item>
+<Form.Item label={"Item name"} name="title"   rules={[{required: true,message: "Please input your First name!"}]}><Input placeholder={"itemName"} allowClear/></Form.Item>
 <Form.Item label={"Description"} name="descrip" rules={[{required: true,message: "Please input your description!"}]}><TextArea placeholder={"itemDescription"} allowClear showCount/></Form.Item> 
 <Form.Item label={"Price"} name="price" rules={[{  type: 'number', required: true, message: "Please input your price!"}]}>
     <InputNumber style={{width: "100px"}} formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} parser={(value) => value.replace(/\$\s?|(,*)/g, '')} placeholder={"itemPrice"}/>

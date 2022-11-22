@@ -86,7 +86,7 @@ const AddAdmin = () => {
         <div className={css.Layout}>
 
         <Tabs defaultActiveKey="2"
-          items={["a","a"].map((Icon, i) => { 
+          items={["a"].map((Icon, i) => { 
             const labelName = "";
             i === 0 ? labelName = "Add operator" : labelName="Incentive add"
             const content = "";

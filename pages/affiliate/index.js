@@ -37,23 +37,23 @@ const showModalIncentive = () => {
     console.log("incentive: ", e);
     console.log("orgID: ", e.orgId);
     console.log("userPkId: ", e.userPkId);
-    const body = {
-      func: "setInsentive",
-      insentive: incPercents,
-      orgId: e.orgId,
-      userId: e.userPkId,
-      type_: value,
-      operatorID: localStorage.getItem("pkId"),
-    };
-    axios
-      .post("/api/post/Gate", body)
-      .then((res) => {
-        message.success("Success");
-        setIsModalVisibleIncentive(false); 
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // const body = {
+    //   func: "setInsentive",
+    //   insentive: incPercents,
+    //   orgId: e.orgId,
+    //   userId: e.userPkId,
+    //   type_: value,
+    //   operatorID: localStorage.getItem("pkId"),
+    // };
+    // axios
+    //   .post("/api/post/Gate", body)
+    //   .then((res) => {
+    //     message.success("Success");
+    //     setIsModalVisibleIncentive(false); 
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   };  
  
   
@@ -138,7 +138,8 @@ const segmentFuncUser = (a) => {
                 {/* ------------------------------user segment ----------------------------------- */}
               <Segmented size="middle" block  onChange={segmentFuncUser}
                 options={[{label: "Accept user", value: "acceptUser"},
-                          {label: <Badge count={5} size="small" offset={[8, 1]}> New user request2 </Badge>,value: "newUserRequest"},
+                       // {label: <Badge count={5} size="small" offset={[8, 1]}> New user request2 </Badge>,value: "newUserRequest"},
+                          {label: "New user request", value: "newUserRequest"},
                           {label: "Admin's accept user", value: "adminAcceptUser"}]}/>
                   {segmentValueUser === "acceptUser" ? <div><UserAcceptAdmin /></div> 
                   : segmentValueUser === "newUserRequest" ? <div className={css.SplitSize}><div><NewUserRequest/> </div></div> 

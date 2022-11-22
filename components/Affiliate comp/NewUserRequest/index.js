@@ -141,19 +141,19 @@ const data = userData.map((r, i)=>(
 } 
 ));
 const columns = [
-{
-    title: 'Date',
-    dataIndex: 'date',
-    key: 'date', 
-    width: 100,
-    fixed: 'left', 
-    ...getColumnSearchProps('date'), 
-    filteredValue: filteredInfo.date || null,
-    onFilter: (value, record) => record.date.includes(value),
-    // sorter: (a, b) => a.date.length - b.date.length,
-    sortOrder: sortedInfo.columnKey === 'date' ? sortedInfo.order : null,
-    ellipsis: true,
-},
+// {
+//     title: 'Date',
+//     dataIndex: 'date',
+//     key: 'date', 
+//     width: 100,
+//     fixed: 'left', 
+//     ...getColumnSearchProps('date'), 
+//     filteredValue: filteredInfo.date || null,
+//     onFilter: (value, record) => record.date.includes(value),
+//     // sorter: (a, b) => a.date.length - b.date.length,
+//     sortOrder: sortedInfo.columnKey === 'date' ? sortedInfo.order : null,
+//     ellipsis: true,
+// },
 {
     title: 'Last name',
     dataIndex: 'lastname',
@@ -254,7 +254,7 @@ return <div>
     {/* <Button onClick={setAgeSort}>Sort age</Button> */}
     
     {/* <Button onClick={clearFilters}>Clear filters</Button> */}
-    <Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Table sort clear</Button>
+    {/* <Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Table sort clear</Button> */}
     </Space>
     <Table size="small" columns={columns} dataSource={data} onChange={handleChangeTable}  scroll={{x:  1200, }}/> 
 

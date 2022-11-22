@@ -371,7 +371,7 @@
     font-size: 16px;
     font-weight: 500;
     align-items: center;
-    width: 100%;
+    width: 140px;
     margin-top: 2px;
     margin-bottom: 2px;
 }
@@ -844,6 +844,7 @@
     .OrgIdText {
         display: block;
         width: 71px;
+        left: 145px;
     }
 
     .OrgIdText:hover .CancelOrgId {
@@ -872,5 +873,40 @@
         top: 63px;
         border-top-left-radius: 3px;
         border-bottom-left-radius: 3px;
+    }
+
+    .Header {
+        padding-right: 0px;
+    }
+
+    .MenuHoverIcon {
+        padding: 3px 0px;
+    }
+
+    .ActiveBasket {
+        font-size: 17px;
+    }
+
+    .Icons {
+        font-size: 17px;
+    }
+
+    .IconsMenu {
+        font-size: 17px;
+    }
+
+    .BasketPop {
+        right: -7px;
+        top: -14px;
+        border-radius: 29% 29% 29% 0px;
+    }
+
+    .ImgLogo {
+        width: 100px;
+        height: 100%;
+    }
+
+    .LanguageBtn {
+        width: 100%;
     }
 }

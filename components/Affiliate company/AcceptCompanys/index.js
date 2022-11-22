@@ -35,7 +35,8 @@ const [tableParams, setTableParams] = useState({
   const [others, setOthers] = useState(""); 
   const [isModalOpenUser, setIsModalOpenUser] = useState(false);
   
- 
+  const [showIncentive, setShowIncentive] = useState(0);
+   
   const showModal = (a) => {
     console.log("showModal: ", a.action);
     
@@ -88,6 +89,18 @@ axios.post("/api/post/Gate", body).then((res) => {
       });
       setSpinner(false); setLoading(false);
 }) .catch((err) => {console.log(err)});  
+
+const body5 = {
+  func: "getPercentage"
+}
+axios.post("/api/post/Gate", body5).then((res)=>{
+  console.log("ress", res.data);
+  setShowIncentive(res.data.data[0].percentage);
+ 
+}).catch((err)=>{
+  console.log("err");
+})
+
 };
 
 
@@ -503,13 +516,14 @@ const body = {
       message.success("Success"); 
     }).catch((err) => {console.log(err)});
 }else { 
+  console.log("incenitive");
     // const body = {
     //   func: "setInsentive",
     //   insentive: values.percentage,
     //   orgId: companyInfo.orgId,
     //   userId: companyInfo.userPkId,
     //   type_: values.percentageChoose,
-    //   operatorID: localStorage.getItem("pkId"),
+    //   operatorID:  companyInfo.adminPkId,
     // };
     // axios.post("/api/post/Gate", body).then((res) => {
     //     message.success("Success");
@@ -558,7 +572,9 @@ const othersOnChange = (e) =>{
 return <div>
 {spinner ? <Spin className={css.SpinCss}/> : 
 <div> 
-<div className={css.ClearTable}><Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Table sort clear</Button></div>
+<div className={css.ClearTable}>
+  <Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Clear</Button></div>
+
     <Table size="small" columns={columns} dataSource={data} onChange={handleChangeTable} loading={loading}  scroll={{x:  1500, }} pagination={tableParams.pagination}/> 
     {/* ------------------------------------------------Modals------------------------------------ */}
     <Modal title={modalTitle} open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
@@ -585,13 +601,18 @@ return <div>
         <Form.Item label={"Percentage choose"} name={"percentageChoose"}   rules={[{required: true,message: "Please choose"}]}>
             <Radio.Group onChange={onChangeRadio} value={value}>
             <Space direction="vertical">
-            <Radio value={1}>Percentage</Radio>
-            <Radio value={2}>Dollar</Radio>
-            <Radio value={3}>Coin</Radio></Space>
+              <Radio value={1}>Percentage</Radio>
+              <Radio value={2}>Dollar</Radio>
+              {/* <Radio value={3}>Coin</Radio> */}
+            </Space>
             </Radio.Group> 
         </Form.Item>
         <Form.Item label={"Incenitve percent"} name={"percentage"}   rules={[ {required: true,message: "input your incentive"}]}>
+            {showIncentive}
+            
             <Input placeholder="incenitve percent" type="number"/>
+
+
         </Form.Item>
         </div>
         : "Reject"

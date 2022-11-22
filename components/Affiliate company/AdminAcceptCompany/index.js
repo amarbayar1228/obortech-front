@@ -424,7 +424,7 @@ const columns = [
 ];
 
 return <div>
-    <div className={css.ClearTable}><Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Table sort clear</Button></div>
+    <div className={css.ClearTable}><Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Clear</Button></div>
     <Table size="small" columns={columns} dataSource={data} onChange={handleChangeTable} loading={spinner}  scroll={{x:  1500, y: 600 }} pagination={tableParams.pagination}/>
 
     {/* --------------------------------------------------------userInfo modal---------------------------------------------------------------------- */}

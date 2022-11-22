@@ -179,7 +179,7 @@ const columns = [
     ellipsis: true,
     }, 
     {
-    title: 'Title',
+    title: 'Item name',
     dataIndex: 'title',
     key: 'title', 
     // width: 120,

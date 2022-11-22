@@ -16,6 +16,8 @@ import moment from 'moment';
 import CreditOrDebitCard from "../../components/PaymentCom/CreditOrDebitCard";
 import Coin from "../../components/PaymentCom/Coin";
 import Paypal from "../../components/PaymentCom/Paypal";
+import TdbBank from "../../components/PaymentCom/TdbBank";
+ 
 const { TabPane } = Tabs;
 const { Step } = Steps;
 const { Paragraph } = Typography;
@@ -53,7 +55,9 @@ const Payment = () => {
   const [payInInstallmentsValue, setPayInInstallments] = useState(undefined);
   const [orgOnChange, setOrgOnChange] = useState(0);
   const [successOrderValue, setSuccessOrderValue] = useState(0);
-  const [successOrderPrice, setSuccessOrderPrice] = useState(0);
+  const [successOrderPrice, setSuccessOrderPrice] = useState(0); 
+  //const { amaraa } = router.query;
+ 
   
   const validateMessages = {
     required: "${label} is required!",
@@ -98,15 +102,32 @@ const Payment = () => {
   };
   useEffect(() => {
     totalPriceFunction();
-    dateFunction();
+    dateFunction(); 
+    // console.log("url",window.location.href); 
+    const queryString = window.location.search;
+  
+
+
+    var url_string = "http://192.168.1.14:3000/payment?parameter1=amaraa&parameter2=000&body=asdjflajsdlkfjaklsjfklhadbd2626251dsf3as5df1as53df1as5df1as3fd51as3df153sadfas&fbclid=IwAR24B-dJ611MB46g-9X2v0rK3P8_7NgWmDtCnZxPTY1ZVraFwFfzM4pd760"; 
+    
+    
+    console.log('amaraa', router.query);
+  
+
     window.onpopstate = (event) =>{
-   
+      
       history.go(1)
       console.log("event", event); 
     }
     // totalPriceFunction();
   }, []);
 
+  const sentTdb = ()  =>{
+    var url_string = "http://192.168.1.14:3000/payment?parameter1=amaraa&parameter2=000&body=asdjflajsdlkfjaklsjfklhadbd2626251dsf3as5df1as53df1as5df1as3fd51as3df153sadfas&fbclid=IwAR24B-dJ611MB46g-9X2v0rK3P8_7NgWmDtCnZxPTY1ZVraFwFfzM4pd760";
+    const urlParams = new URLSearchParams(url_string);
+    console.log("query: "); 
+    console.log("url param: ", urlParams);
+  }
 
   const dateFunction = () => {
     console.log("date time: ");
@@ -311,6 +332,8 @@ const placeOrder = () =>{
       description:
         'Do you select a Method!!!',
     });
+  }else if(bankValue === "Tdb"){ 
+    router.push("/payment?parameter1=amaraa&parameter2=000&body=asdjflajsdlkfjaklsjfklhadbd2626251dsf3as5df1as53df1as5df1as3fd51as3df153sadfas&fbclid=IwAR24B-dJ611MB46g-9X2v0rK3P8_7NgWmDtCnZxPTY1ZVraFwFfzM4pd760");
   }
  
   setBankPay(bankValue);
@@ -444,7 +467,7 @@ const steps = [
                 />
               </div>
              <div className={css.AlertInput}> 
-                <div className={css.AlertName}>Та өөрийнхөө мэдээлэлийг бөглөнө үү!</div>
+                <div className={css.AlertName}>Please fill in your information!</div>
                 <Form name="normal_login" className="login-form" initialValues={{ remember: true}} validateMessages={validateMessages} labelAlign="left" labelCol={{span: 6,}} wrapperCol={{span: 22}}
                   onFinish={onFinishUserInfo} onFinishFailed={onFinishFailedUserInfo}>
                   <Form.Item name="email" label="Email" rules={[{ type: "email", required: true, message: (<div style={{ fontWeight: "500" }}>Please input your Email!</div>)}]}>
@@ -652,7 +675,9 @@ const steps = [
             <KhanBank totalPriceState={totalPriceState} orgIdRadio={orgIdRadio} basketState={basketContext.basketState} sucessOrder={sucessOrder}/> 
             : null}
             {bankValue === "Golomt" ? <div>Golomt </div> : null}
-            {bankValue === "Tdb" ? <div>Tdb </div> : null}
+            {bankValue === "Tdb" ? <div>
+                <TdbBank />
+               </div> : null}
             {bankValue === "Monpay" ? <div>Monpay </div> : null}
 
           </div> 
@@ -765,6 +790,7 @@ const steps = [
       <BaseLayout pageName="payment">
         <div style={{ fontSize: "14px", fontWeight: "500" }}>
        
+        {/*  */}
           {basketContext.basketState.length === 0 || basketContext.orgId === undefined ? (
             <div style={successOrderValue === 2 ? {display: "none"} : {fontSize: "15px", marginTop: "50px"}}><Empty description="Basket is empty"></Empty>
             {/* <SuccessOrder totalPriceState={totalPriceState}/> */}

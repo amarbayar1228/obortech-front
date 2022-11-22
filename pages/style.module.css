@@ -281,6 +281,7 @@
     font-size: 15px;
 }
 
+
 .ErrorBorder {
     background: #a16161;
     border-radius: 0px;
@@ -325,5 +326,14 @@
     .SearchInput {
         text-transform: uppercase;
         width: 350px;
+    }
+
+    .RadioCss {
+        width: 95%;
+        margin: 0px auto;
+    }
+
+    .RadioFrame {
+        width: 100%;
     }
 }

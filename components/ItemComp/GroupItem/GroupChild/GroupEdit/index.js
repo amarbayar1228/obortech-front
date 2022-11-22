@@ -234,7 +234,7 @@ const GroupEdit = (props) => {
             </div>
         </div>
             }
-        <div className={css.Title}>Title: <Input allowClear style={{ marginLeft: "77px" }} value={titleEdit} placeholder="Title" onChange={(e) => setTitleEdit(e.target.value)}/></div>
+        <div className={css.Title}>Item name: <Input allowClear style={{ marginLeft: "77px" }} value={titleEdit} placeholder="Title" onChange={(e) => setTitleEdit(e.target.value)}/></div>
         <div className={css.Title}>Description: <TextArea allowClear style={{ marginLeft: "23px" }} value={descriptionEdit} placeholder="Description" onChange={(e) => setDescriptionEdit(e.target.value)} /></div>
         <div className={css.Title}>Others: <TextArea allowClear style={{ marginLeft: "59px" }} value={others} placeholder="Others" onChange={(e) => setOthers(e.target.value)} />
         </div>

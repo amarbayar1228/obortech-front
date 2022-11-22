@@ -172,19 +172,19 @@ const handleCancelUserInfo = () =>{
     } 
 ));
   const columns = [
-    {
-      title: 'Date',
-      dataIndex: 'date',
-      key: 'date', 
-      width: 100,
-      fixed: 'left', 
-      ...getColumnSearchProps('date'), 
-      filteredValue: filteredInfo.date || null,
-      onFilter: (value, record) => record.date.includes(value),
-      // sorter: (a, b) => a.date.length - b.date.length,
-      sortOrder: sortedInfo.columnKey === 'date' ? sortedInfo.order : null,
-      ellipsis: true,
-    },
+    // {
+    //   title: 'Date',
+    //   dataIndex: 'date',
+    //   key: 'date', 
+    //   width: 100,
+    //   fixed: 'left', 
+    //   ...getColumnSearchProps('date'), 
+    //   filteredValue: filteredInfo.date || null,
+    //   onFilter: (value, record) => record.date.includes(value),
+    //   // sorter: (a, b) => a.date.length - b.date.length,
+    //   sortOrder: sortedInfo.columnKey === 'date' ? sortedInfo.order : null,
+    //   ellipsis: true,
+    // },
     {
       title: 'Last name',
       dataIndex: 'lastname',
@@ -295,7 +295,7 @@ const handleCancelUserInfo = () =>{
             {spinState2 === true ? (<div><Spin className={css.SpinCss} size="large"></Spin></div>) : ("")}
             {userData[0] ? (
               <div>
-              <Space style={{marginBottom: 16}}><Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Table sort clear</Button></Space>
+              {/* <Space style={{marginBottom: 16}}><Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Table sort clear</Button></Space> */}
               <Table size="small" columns={columns} dataSource={data} onChange={handleChangeTable}  scroll={{x:  1000}}/> 
               <Modal title="User" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
               <div className={css.Choose}>

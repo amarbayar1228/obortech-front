@@ -4,26 +4,41 @@ import BaseLayout from "../../components/Layout/BaseLayout"
 import css from "./style.module.css"
 import {KeyOutlined} from "@ant-design/icons";
 import axios from "axios";
+import sha256 from "sha256";
 const Security = () =>{
 const [toogle, setToogle] = useState(false);
 const [current, setCurrent] = useState(""); 
 const [newP, setNewP] = useState("");
 const [reType, setReType] = useState(""); 
+
 const saveBtn = () =>{
+ 
+    
     if(newP == reType){ 
-        // const body ={
-        //     func: "changePass",
-        //     pkId: localStorage.getItem("pkId"),
-        //     pass: current,
-        //     changePass:reType,
-        // }
-        // axios.post("/api/post/Gate", body).then((res)=>{
-        //     console.log("res: ", res.data); 
-        // }).catch((err)=>{
-        //     console.log("err", err);
-        // })
+       
+        if(localStorage.getItem("pz2r3t5") == sha256(current)){
+            console.log('newp: ', newP);
+            const body ={ 
+                func: "changePass",
+                pkId:  localStorage.getItem("pkId"),
+                password: sha256(newP)
+            }
+            axios.post("/api/post/Gate", body).then((res)=>{
+                message.success("Password changed successfully");
+                setToogle(false);
+                setCurrent("");
+                setReType("");
+                setNewP("");
+                localStorage.setItem("pz2r3t5", sha256(newP));
+                console.log("res: ", res.data); 
+            }).catch((err)=>{
+                console.log("err", err);
+            }) 
+        }else{
+            message.error("Password is incorrect");
+        }
     } else{
-        message.error("p1 p2 tarahq bn");
+        message.error("passwords do not match.");
     }
 }
 const toogleFunc = () =>{
@@ -32,7 +47,7 @@ const toogleFunc = () =>{
     
 }
 return<BaseLayout pageName="security">
-<div>
+<div style={{padding: "10px"}}>
     <div className={css.Title}>Security and login</div>
     <div className={css.Layout}> 
         <div className={css.Password}>

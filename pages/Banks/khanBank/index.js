@@ -24,6 +24,7 @@ const KhanBank = (props) => {
       .format(weekFormat)}`;
   var basketLocal = [];
   useEffect(() => {
+    console.log("router: ", router.query);
     SetTest("amraa");
     // basketStateFunc();
   }, []);
