@@ -83,7 +83,7 @@ return <div className={css.DisplayCss}>
                 {/* <div style={{textAlign: "left"}}>Obortech address</div> */}
                 <Input  maxLength={16} size="middle" placeholder={"Your current Obortech address is"} style={{width: "100%"}}/>
             </Form.Item>
-           
+                                                                                                                                                    
              
             <div className={css.Price}> <div>Total Payment</div> <div>{props.totalPriceState * 0.4}$</div></div>
             <Form.Item  wrapperCol={{span: 24}}> <div className={css.Login}><Button style={{width: "100%"}} type="primary" htmlType="submit" className="login-form-button">Pay now</Button></div></Form.Item>

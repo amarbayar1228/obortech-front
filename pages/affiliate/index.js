@@ -132,15 +132,17 @@ const segmentFuncUser = (a) => {
         <Tabs defaultActiveKey="4" 
           items={["a","a"].map((Icon, i) => {  
             return {
-              label: i=== 0 ? "User" : "Company",
+              label: i=== 0 ? "Users" : "Organizations",
               key: i,
               children: i === 0? <div>
                 {/* ------------------------------user segment ----------------------------------- */}
               <Segmented size="middle" block  onChange={segmentFuncUser}
-                options={[{label: "Accept user", value: "acceptUser"},
+                options={[
+                  {label: "New Requests", value: "newUserRequest"},
+                  {label: "Accepted Users", value: "acceptUser"},
                        // {label: <Badge count={5} size="small" offset={[8, 1]}> New user request2 </Badge>,value: "newUserRequest"},
-                          {label: "New user request", value: "newUserRequest"},
-                          {label: "Admin's accept user", value: "adminAcceptUser"}]}/>
+                          
+                  {label: "All Users", value: "adminAcceptUser"}]}/>
                   {segmentValueUser === "acceptUser" ? <div><UserAcceptAdmin /></div> 
                   : segmentValueUser === "newUserRequest" ? <div className={css.SplitSize}><div><NewUserRequest/> </div></div> 
                   : segmentValueUser === "adminAcceptUser" ?<div className={css.SplitSize}> <AdminAcceptUser /> </div>: ""}
@@ -150,9 +152,10 @@ const segmentFuncUser = (a) => {
                       {/* ------------------------------Company segment ----------------------------------- */}
               <Segmented size="middle" block onChange={segmentFunc}
                 options={[
-                          {label: "Accept companys", value: "accept"},
-                          {label: "New company request",value: "newCompany"},
-                          {label: "Admin's accept company", value: "adminAccept"}]}/>
+                          {label: "New Requests",value: "newCompany"},
+                          {label: "Accepted Organizations", value: "accept"},
+                          
+                          {label: "All Organizations", value: "adminAccept"}]}/>
                   {segmentValue == "accept" ?   
                   <div className={css.SplitSize}> <AcceptCompanys /></div>  
                   :  

@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import {Layout,Menu,Breadcrumb,Row,Col,message,Button,Popover,Tooltip,Image,Drawer,Spin, Empty, Typography,} from "antd";
 import React, { useContext } from "react";
 import { useState, useEffect } from "react";
-import {ShoppingCartOutlined,GlobalOutlined,ArrowLeftOutlined,MenuOutlined,HomeOutlined,UserOutlined,RightOutlined,PlusSquareOutlined,LeftOutlined,AppstoreAddOutlined,AppstoreOutlined,PieChartOutlined,LogoutOutlined,UnorderedListOutlined,UserAddOutlined,ContainerOutlined,SettingOutlined,DoubleLeftOutlined, DoubleRightOutlined} from "@ant-design/icons";
+import {ShoppingCartOutlined,GlobalOutlined,ArrowLeftOutlined,MenuOutlined,HomeOutlined,UserOutlined,RightOutlined,PlusSquareOutlined,CaretRightOutlined,AppstoreAddOutlined,AppstoreOutlined,PieChartOutlined,LogoutOutlined,UnorderedListOutlined,UserAddOutlined,ContainerOutlined,SettingOutlined,DoubleLeftOutlined, DoubleRightOutlined} from "@ant-design/icons";
 import css from "./style.module.css";
 import BacketComponent from "../Backet";
 import Link from "next/link";
@@ -228,17 +228,16 @@ export default function BaseLayout(props) {
     <div className={css.ImageLogo}> <Image onClick={LogoFunction} className={css.ImgLogo} alt="Obertech" preview={false} src="/img/OBORTECH_logo_H_clean.svg"/>
       {basketContext.orgId == undefined ? "" :  
       <div className={css.OrgIdText}>
-          <Tooltip color="rgb(101 163 13)" title={
-                          <div>
-                            <div>Organization name: </div>
-                            <div style={{marginLeft: "10px"}}> * ObortechMn</div>
-                            <div style={{marginLeft: "10px"}}> * ObortechEng</div>
-                          </div>} placement="bottomLeft"> 
-            <div className={css.OrgTooltip}> 
-              <div> {basketContext.orgId}  </div>  
-              <Typography.Text onClick={removeOrgId} className={css.CancelOrgId}> X </Typography.Text>
-            </div>
-        </Tooltip>
+         <Tooltip color="rgb(244 63 94)" title={
+                      <div>
+                        <div><CaretRightOutlined /> Organization name: {basketContext.orgId}</div> 
+                        <div><CaretRightOutlined /> Organization ID: <span>obogti7601</span> </div>
+                      </div>} placement="bottomLeft"> 
+                      <div className={css.OrgTooltip}> 
+                        <div> {basketContext.orgId}  </div>  
+                        <Typography.Text onClick={removeOrgId} className={css.CancelOrgId}> X </Typography.Text>
+                      </div>
+                </Tooltip>
       </div>}  
     </div>
   </div>
@@ -254,9 +253,22 @@ export default function BaseLayout(props) {
 
           <Tooltip title={t("basketName")}>
             <Popover content={<BacketComponent />}
+              placement="topRight"
               title={<div className={css.BasketHeader}> 
-              <div className={css.BasketHdrCss}><ShoppingCartOutlined style={{ paddingRight: "5px", fontSize: "15px" }}/>{t("basketName")}</div>
-                <div>{basketContext.orgId == undefined ? "" : <div className={css.OrgIdText2}>{basketContext.orgId}</div>}</div>
+              <div className={css.BasketHdrCss}><ShoppingCartOutlined style={{ paddingRight: "5px", fontSize: "15px" }}/>Cart</div>
+                <div>{basketContext.orgId == undefined ? "" : <div className={css.OrgIdText2}>
+                <Tooltip color="rgb(244 63 94)" title={
+                      <div>
+                        <div><CaretRightOutlined /> Organization name: {basketContext.orgId}</div> 
+                        <div><CaretRightOutlined /> Organization ID: <span>obogti7601</span> </div>
+                      </div>} placement="bottomLeft"> 
+                      <div className={css.OrgTooltip}> 
+                        <div> {basketContext.orgId}  </div>  
+                        <Typography.Text onClick={removeOrgId} className={css.CancelOrgId}> X </Typography.Text>
+                      </div>
+                </Tooltip>
+                  
+                  </div>}</div>
               </div>}
               trigger="click" open={visibleMenu} onOpenChange={handleVisibleChangeMenu}>
               <Button size="small"type="link" className={router.pathname == "/payment" ? css.ActiveBasket : css.Icons}><ShoppingCartOutlined /></Button>
@@ -367,9 +379,23 @@ export default function BaseLayout(props) {
         {basketContext.basketState.length === 0 ? (<div className={css.BasketPopNone}> </div>
         ) : (<div className={ addItemStyleProps === undefined ? [css.BasketPop] : addItemStyleProps}>{basketContext.basketState.length}</div>)}
         <Tooltip title={"Cart"}>
-          <Popover content={<BacketComponent />} title={<div className={css.BasketHeader}>
+          <Popover content={<BacketComponent />} title={<div className={css.BasketHeader} >
           <div className={css.BasketHdrCss}><ShoppingCartOutlined style={{ paddingRight: "5px", fontSize: "15px" }}/>{"Cart"}</div>
-            <div>{basketContext.orgId == undefined ? "" : <div className={css.OrgIdText2}>{basketContext.orgId}</div>}</div></div>} 
+            <div>{basketContext.orgId == undefined ? "" : <div className={css.OrgIdText2}>
+              
+            <Tooltip color="rgb(244 63 94)" title={
+                      <div>
+                        <div><CaretRightOutlined /> Organization name: {basketContext.orgId}</div> 
+                        <div><CaretRightOutlined /> Organization ID: <span>obogti7601</span> </div>
+                      </div>} placement="bottomLeft"> 
+                      <div className={css.OrgTooltip}> 
+                        <div> {basketContext.orgId}  </div>  
+                        <Typography.Text onClick={removeOrgId} className={css.CancelOrgId}> X </Typography.Text>
+                      </div>
+                </Tooltip>
+              
+              
+              </div>}</div></div>} 
             trigger="click" open={visible} onOpenChange={handleVisibleChange}>
             <Button type="link" className={router.pathname == "/payment" ? css.ActiveBasket : css.Icons}><ShoppingCartOutlined /></Button>
           </Popover>
@@ -499,7 +525,7 @@ export default function BaseLayout(props) {
 <div className={props.pageName === "items" ? css.ContentItem : props.pageName === "home" ? css.ContentHome  : props.pageName === "login" ? css.ContentHome :    toogleCss ? css.ContentCss : 
 props.pageName === "payment" ? css.ContentPayment : css.Content}> 
       {props.children}
-      
+
 </div>
  </div> 
  

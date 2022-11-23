@@ -1171,7 +1171,7 @@
   font-size: 16px;
   margin: 0px 10px;
   font-weight: 600;
-  border: 2px solid rgb(239 68 68);
+  border: 2px solid #4d5057;
   flex-direction: column;
   align-items: center;
   align-content: center;
@@ -1189,9 +1189,10 @@
   font-size: 16px;
   margin: 0px 10px;
   font-weight: 600;
-  border: 2px solid #4d5057;
+  border: 2px solid rgb(244, 63, 94);
   flex-direction: column;
   align-items: center;
+  box-shadow: 6px 4px 7px 1px rgb(243 107 131);
   align-content: center;
   justify-content: center;
   cursor: pointer;
@@ -1265,6 +1266,15 @@
   position: absolute;
 }
 
+.OrgConfirm {
+  display: flex;
+  justify-content: space-between;
+  width: 127%;
+  max-width: 510px;
+  margin-left: 7px;
+  color: #4d5057;
+}
+
 @media only screen and (max-width: 1024px) {
   .PayContent {
     flex-direction: column;
@@ -1289,6 +1299,12 @@
 }
 
 @media only screen and (max-width: 760px) {
+  .OrgConfirm {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
   .AlertInput {
     width: 100%;
   }

@@ -448,13 +448,25 @@ const steps = [
       <div className={css.PayConfirm}>
     
         <div>
-          <div className={css.PlsName}>Please select the name of your organization?</div>
+          <div className={css.PlsName}>Please select your organization name to confirm!</div>
           <div className={css.RadioCont}> 
               <Radio.Group onChange={orgIdChoose} style={{width: "100%"}} value={orgIdRadio}> 
-                <Radio  className={css.OrgRadio} value={basketContext.orgId}>{basketContext.orgId}</Radio> 
+                <Radio  className={css.OrgRadio} value={basketContext.orgId}>
+                  <div className={css.OrgConfirm}> 
+                  <div> 
+                    <div>Organization name: {basketContext.orgId} </div>
+                    <div>Байгууллагын нэр: Обортек</div>
+                  </div>
+                  <div> 
+                    <div>Organization ID: obogti760</div>
+                    <div>Байгууллагын ID: obogti760</div>
+                  </div>
+                  </div>
+                  </Radio> 
+
               </Radio.Group>  
           </div>
-        </div>
+        </div>  
 
         <div className={css.InfoDetails}>
           {orgIdRadio === 0  || showMethod || localStorage.getItem("pkId") ?  null : 
@@ -476,7 +488,7 @@ const steps = [
                   <Form.Item name="phone" label="Phone" rules={[{type: "number", required: true, message: (<div style={{ fontWeight: "500" }}>Please input your Phone number!</div>)}]}>
                     <InputNumber size="middle" prefix={<PhoneOutlined className={css.Title} rotate={90} />} placeholder={"Phone number"} style={{width: "100%"}}/>
                   </Form.Item>   
-                  <Form.Item  wrapperCol={{span: 24}}> <div className={css.Login}><Button style={{width: "100%"}} type="primary" htmlType="submit" className="login-form-button">Save</Button></div></Form.Item>
+                  <Form.Item  wrapperCol={{span: 24}}> <div className={css.Login}><Button style={{width: "100%"}} type="primary" htmlType="submit" className="login-form-button">Continue</Button></div></Form.Item>
                 </Form>  
              </div>
             </div>
@@ -546,7 +558,7 @@ const steps = [
       <div className={css.Reminder}>
       {bankChoose === "Mongol" ? 
         <div className={css.BankGroup}>  
-          <div className={css.BankTitle}>Do you select a Method?</div> 
+          <div className={css.BankTitle}>Select your payment method?</div> 
           <Radio.Group onChange={bankOnChange} style={{width: "100%"}}> 
               <Radio  className={css.BankRadio} value={"khan"}><Image alt="Obertech" preview={false} src="img/khanbank.png" width={100}/></Radio> 
               <Radio  className={css.BankRadio} value={"Monpay"}><Image alt="Obertech" preview={false} src="img/monpay.png" width={100}/></Radio> 
@@ -557,7 +569,7 @@ const steps = [
         : null}
          {bankChoose === "Usd" ? 
         <div className={css.BankGroup}> 
-          <div className={css.BankTitle}>Do you select a Method?</div> 
+          <div className={css.BankTitle}>Select your payment method?</div> 
           <Radio.Group onChange={bankOnChange} style={{width: "100%"}}> 
               <Radio  className={css.BankRadio} value={"Paypal"}><Image alt="Obertech" preview={false} src="img/paypalLine.png" width={60}/></Radio> 
               <Radio  className={css.BankRadio} value={"Master"}><Image alt="Obertech" preview={false} src="img/masterCardLine.png" width={60}/></Radio>  
@@ -566,7 +578,7 @@ const steps = [
 
         {bankChoose === "Coin" ? 
         <div className={css.BankGroup}> 
-          <div className={css.BankTitle}>Do you select a Method?</div> 
+          <div className={css.BankTitle}>Select your payment method?</div> 
           <Radio.Group onChange={bankOnChange} style={{width: "100%"}}> 
                
               <Radio disabled={payInInstallmentsValue === 1 ? true : false} className={payInInstallmentsValue === 1 ? css.BankRadioInActive : css.BankRadio} value={"Foreign"}> 
@@ -597,6 +609,7 @@ const steps = [
                   </div>
                 </div>
               </Radio> 
+              
           
           </Radio.Group>  
         </div> : null}
@@ -611,7 +624,7 @@ const steps = [
         <div className={css.TotalLenght}><div>Total({basketContext.basketState.length})</div> <div className={css.TotalLPrice}> 
                 
         {payInInstallmentsValue === 1 ? totalPriceState * 0.4 : payInInstallmentsValue === 2 ? totalPriceState * 0.6 : totalPriceState.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}$</div></div>
-        <div className={css.ProceedTo}><Button className={css.CheckoutBtn} size="large" onClick={placeOrder}>Place order</Button></div>
+        <div className={css.ProceedTo}><Button disabled={bankValue === undefined ? true : false} className={css.CheckoutBtn} size="large" onClick={placeOrder}>Place order</Button></div>
       </div>
 
     {/* <div className={css.HanshRate}> */}

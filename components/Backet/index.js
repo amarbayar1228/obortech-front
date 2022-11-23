@@ -80,9 +80,9 @@ const clearFunc = () =>{
       )}
       <div className={css.Orderbtns}> 
         <div className={css.BtnOrder}>
-        {basketContext.basketState.length === 0 ? null : <Button size="small" style={{fontSize: "14px", marginRight: "5px"}} onClick={()=>basketContext.clearBasket()}>clear</Button>}
-          <Button className={css.OrderIcon} type="primary" icon={<ShoppingCartOutlined style={{ fontSize: "16px" }} />} loading={loadings[1]} size="small" 
-          onClick={() => paymentRoute(1)}>View cart</Button>
+        {basketContext.basketState.length === 0 ? null : <Button size="small" style={{fontSize: "14px", marginRight: "5px"}} onClick={()=>basketContext.clearBasket()}>Clear</Button>}
+          <Button className={css.OrderIcon} type="primary" style={{background: "rgb(244 63 94)", border: "none"}} icon={<ShoppingCartOutlined style={{ fontSize: "16px" }} />} loading={loadings[1]} size="small" 
+          onClick={() => paymentRoute(1)}>View Cart</Button>
         </div>
       </div>
     </div>

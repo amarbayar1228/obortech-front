@@ -174,8 +174,8 @@ const mergedColumns = columns.map((col) => {
     return<BaseLayout pageName="global-settings">
         <Tabs defaultActiveKey="4" items={["a","b"].map((Icon, i) => {  
         
-        return {label: i === 0 ?  <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>Default incentive percentage</div> :
-                      i === 1 ? <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>Default Maximum</div> : null,
+        return {label: i === 0 ?  <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>Incentive Percentage</div> :
+                      i === 1 ? <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>Token Percentage</div> : null,
           
           key: i, children: i === 0? 
           <div className={css.PaymentCss}> 
