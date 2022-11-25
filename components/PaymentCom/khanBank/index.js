@@ -55,9 +55,20 @@ const KhanBank = (props) => {
       console.log("bodyId:2  ===>> ", body2);
       var basketLocal = [];
       axios.post("/api/post/Gate", body2).then((result) => {
-          
-          props.sucessOrder();
+        console.log("res orderId: ", result.data.orderid); 
+          props.sucessOrder();  
           basketContext.removeBasketStorage();   
+
+          const bodySmart = {
+            func: "orderSend",
+            orderid: result.data.orderid
+           }
+           axios.post("/api/post/Gate", bodySmart).then((res)=>{
+            console.log("res: ", res.data);
+           }).catch((err)=>{
+            console.log("object", err);
+           });
+
         },(error) => {console.log(error)}); 
       } else {
     // newtreeq hereglegch bwl Axiosru shidne
@@ -67,11 +78,22 @@ const KhanBank = (props) => {
         totalPrice: props.totalPriceState,
         item: arr, 
       };
-      console.log("bodyNoId: ", bodyNoId);
+      // console.log("bodyNoId: ", bodyNoId);
       axios.post("/api/post/Gate", bodyNoId).then((result) => {
+        console.log("res orderId: ", result.data.orderid); 
           // message.success("Success");
+
           props.sucessOrder();
           basketContext.removeBasketStorage();  
+          const bodySmart = {
+            func: "orderSend",
+            orderid: result.data.orderid
+           }
+           axios.post("/api/post/Gate", bodySmart).then((res)=>{
+            console.log("res: ", res.data);
+           }).catch((err)=>{
+            console.log("object", err);
+           });
         },(error) => {console.log(error)});
       }
   };

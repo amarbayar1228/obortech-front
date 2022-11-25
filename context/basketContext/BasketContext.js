@@ -13,6 +13,7 @@ export const BasketItem = (props) => {
   const [hanshnuud, setHanshnuud] = useState([]);
   const [todayDateState,setTodayDateState] = useState();
   const [orgId, setOrgId] = useState(undefined);
+  const [orgNames, setOrgNames] = useState([]);
   const router = useRouter();
   useEffect(() => {   
     basketStateFunc();
@@ -30,9 +31,12 @@ export const BasketItem = (props) => {
   const toggle = () => {
     setCollapsed(!collapsed);
   };
-const orgIdLocal = (orgId) =>{ 
+const orgIdLocal = (orgName, orgId) =>{ 
   // setOrgId(localStorage.getItem("orgId"))
-  setOrgId(orgId); 
+  console.log("orgID: ",  orgId);
+  setOrgNames([{orgIdstate: orgId}]);
+  setOrgId(orgName); 
+  console.log("ornames: ", orgNames);
 }
 const orgIdRemove = () =>{
   setOrgId(undefined); 
@@ -189,7 +193,7 @@ const orgIdRemove = () =>{
   }
   return (
     <BasketContext.Provider
-      value={{
+      value={{ orgNames,
         orgId, orgIdLocal, groupDetailFuncContext, clearBasket,orgIdRemove,
         basketState, getUserProfileFunction, userInfoProfile, onCollapse, toggle, hanshnuud, collapsed, basketItemDelete,
         totalPriceFunction2, totalPriceState, removeBasketStorage, decline,

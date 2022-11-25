@@ -229,9 +229,9 @@ export default function BaseLayout(props) {
       {basketContext.orgId == undefined ? "" :  
       <div className={css.OrgIdText}>
          <Tooltip color="rgb(244 63 94)" title={
-                      <div>
+                      <div style={{fontSize: "12px"}}>
                         <div><CaretRightOutlined /> Organization name: {basketContext.orgId}</div> 
-                        <div><CaretRightOutlined /> Organization ID: <span>obogti7601</span> </div>
+                        <div><CaretRightOutlined /> Organization ID: <span>{basketContext.orgNames[0].orgIdstate}</span> </div>
                       </div>} placement="bottomLeft"> 
                       <div className={css.OrgTooltip}> 
                         <div> {basketContext.orgId}  </div>  
@@ -258,9 +258,9 @@ export default function BaseLayout(props) {
               <div className={css.BasketHdrCss}><ShoppingCartOutlined style={{ paddingRight: "5px", fontSize: "15px" }}/>Cart</div>
                 <div>{basketContext.orgId == undefined ? "" : <div className={css.OrgIdText2}>
                 <Tooltip color="rgb(244 63 94)" title={
-                      <div>
+                      <div style={{fontSize: "12px"}}>
                         <div><CaretRightOutlined /> Organization name: {basketContext.orgId}</div> 
-                        <div><CaretRightOutlined /> Organization ID: <span>obogti7601</span> </div>
+                        <div><CaretRightOutlined /> Organization ID: <span>{basketContext.orgNames[0].orgIdstate}</span> </div>
                       </div>} placement="bottomLeft"> 
                       <div className={css.OrgTooltip}> 
                         <div> {basketContext.orgId}  </div>  
@@ -384,9 +384,9 @@ export default function BaseLayout(props) {
             <div>{basketContext.orgId == undefined ? "" : <div className={css.OrgIdText2}>
               
             <Tooltip color="rgb(244 63 94)" title={
-                      <div>
+                      <div style={{fontSize: "12px"}}>
                         <div><CaretRightOutlined /> Organization name: {basketContext.orgId}</div> 
-                        <div><CaretRightOutlined /> Organization ID: <span>obogti7601</span> </div>
+                        <div><CaretRightOutlined /> Organization ID: <span>{basketContext.orgNames[0].orgIdstate}</span> </div>
                       </div>} placement="bottomLeft"> 
                       <div className={css.OrgTooltip}> 
                         <div> {basketContext.orgId}  </div>  

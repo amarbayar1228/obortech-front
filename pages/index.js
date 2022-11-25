@@ -27,6 +27,7 @@ export default function Home(props) {
   const [value, setValue] = useState("");
   const [btnDis, setBtnDis]= useState(true);
   const [valueError, setValueError] = useState(0);
+  const [orgId, setOrgId] = useState(undefined);
   const router = useRouter(); 
   useEffect(() => { 
     tokenFunc(); 
@@ -58,6 +59,7 @@ export default function Home(props) {
       setSpin(false);
       setOrgIdState("");
     }else {
+      setOrgId(value);
       setValueError(0);
       setSpin(true);
       axios.post("/api/post/Gate", body).then((res)=>{  
@@ -85,7 +87,9 @@ export default function Home(props) {
     onOk() { 
       {console.log("orgID: ", basketContext.orgId)}
       basketContext.orgId === undefined ? null : basketContext.clearBasket()
-      basketContext.orgIdLocal(value);
+
+      basketContext.orgIdLocal(value, orgId);
+
       router.push("/items")
     }, 
     onCancel() {

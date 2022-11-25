@@ -24,6 +24,7 @@ const Items = () => {
     // basketContext.MenuKey();
     // basketContext.basketStateFunc();
     // popFunc();
+    
     getItems();
     getGroupItemsS1();
   }, []);
@@ -108,6 +109,7 @@ const Items = () => {
     <BaseLayout pageName="items" addItemStyle={addItemStyle} style={{ maxWidth: "100%" }}>
       {basketContext.orgId === undefined ? <Empty style={{marginTop: "100px"}}/> :  
        <div className={css.ScrollItemsCont}>
+      
         <div>
         <Swiper pagination={true} modules={[Pagination]} className={css.mySwiper}>
           <SwiperSlide className={css.SlideCss}><h3 className={css.BackgrounImg} style={{background: "url(/img/obBack1.png) no-repeat"}}></h3> </SwiperSlide>
