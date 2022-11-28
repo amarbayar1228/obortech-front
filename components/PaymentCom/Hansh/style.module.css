@@ -1,0 +1,65 @@
+.HanshLayout {
+    width: 300px;
+    margin: 20px 10px 10px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+.HanshCss {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #e1e9f5;
+    padding: 6px;
+    font-weight: 600;
+    color: #4a4747;
+}
+
+.CodeCsss {
+    border-left: 1px solid #ccc;
+    padding-left: 10px;
+    width: 100px;
+    text-align: left;
+}
+
+.HanshRate {
+    display: flex
+}
+
+.Huwaalt {
+    display: flex;
+    margin-top: 25px;
+    border-top: 1px solid #f43f5e;
+}
+
+.Fontcss {
+    padding: 20px 15px;
+    font-size: 13px;
+    color: #4d5057;
+    font-weight: 600;
+}
+
+.Fontcss2 {
+    font-size: 12px;
+    color: #7e7e7e;
+}
+
+.MntHuwi {
+    display: flex;
+    /* border-bottom: 1px solid #ccc; */
+    background-color: rgb(255 241 242);
+}
+
+.MntHuwi2 {
+    width: 130px;
+    padding: 3px 4px;
+    display: flex;
+    font-size: 12px;
+}
+
+.HanshIcon {
+    width: 100%;
+    background: #f43f5e;
+    color: #fff;
+    padding: 2px 0px;
+    font-size: 13px;
+}

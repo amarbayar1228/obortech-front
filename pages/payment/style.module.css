@@ -880,7 +880,7 @@
 
 .CheckoutBtn {
   width: 100%;
-  background: rgb(239 68 68);
+  background: rgb(244, 63, 94);
   color: #fff;
 
 }
@@ -1273,13 +1273,17 @@
   max-width: 510px;
   margin-left: 7px;
   color: #4d5057;
+  align-items: center;
 }
 
 .OrgDesc {
-  background: #fffbe6;
+  background: #fff1f2;
   font-size: 12px;
+  /* font-family: 'Poppins'; */
+  font-weight: 600;
   padding: 10px 25px;
-  color: #957e06;
+  color: #f43f5e;
+  width: 80%;
 }
 
 @media only screen and (max-width: 1024px) {

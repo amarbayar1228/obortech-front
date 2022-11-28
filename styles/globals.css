@@ -544,6 +544,10 @@ body {
   border-radius: 2px;
 }
 
+.react-tel-input .form-control {
+  width: 100%;
+}
+
 .steps-action {
   margin-top: 24px;
 }

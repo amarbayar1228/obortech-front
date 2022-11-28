@@ -26,6 +26,7 @@
     "react-dom": "18.2.0",
     "react-google-recaptcha": "^2.1.0",
     "react-highlight-words": "^0.18.0",
+    "react-phone-input-2": "^2.15.1",
     "resize-base64": "^1.0.12",
     "sha256": "^0.2.0",
     "swiper": "^8.3.2"
