@@ -28,9 +28,14 @@ export default function Home(props) {
   const [btnDis, setBtnDis]= useState(true);
   const [valueError, setValueError] = useState(0);
   const [orgId, setOrgId] = useState(undefined);
+  // const [massive, setMassive] = useState([]);
   const router = useRouter(); 
   useEffect(() => { 
     tokenFunc(); 
+    // setMassive(massive =>({...massive, amraa: "bataa"}));
+    // setMassive(massive =>({...massive, amraa: "boldoo"}));
+    // setMassive([...massive, {bataa: "3"}]);
+    // setMassive([...massive, {bataa: "4"}]);
     console.log("url",window.location.href);
   }, []);
  
@@ -121,7 +126,7 @@ return (
   <div className={css.SearchCss}> 
     <div className={css.SearchInput}>
       <Divider style={{fontSize: "18px", color: "#000"}}>{t("Search of organizations")}</Divider>
-  
+     
       <Search placeholder={t("Enter your organization ID")} allowClear  size="large" onSearch={onSearch} enterButton  />
        
         {orgIdState === "" ? spin ?  <div className={css.SpinCss}> <Spinner /> </div> : orgError === "" ? "" :  

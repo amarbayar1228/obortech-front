@@ -3,7 +3,14 @@
     margin: 20px 10px 10px 10px;
     border-radius: 5px;
     font-size: 12px;
+    animation-name: bankRouteAnimation;
+    animation-duration: 0.3s;
+    animation-timing-function: ease;
 }
+
+
+
+
 
 .HanshCss {
     display: flex;
@@ -36,6 +43,9 @@
     font-size: 13px;
     color: #4d5057;
     font-weight: 600;
+    animation-name: bankRouteAnimation;
+    animation-duration: 0.3s;
+    animation-timing-function: ease;
 }
 
 .Fontcss2 {
@@ -62,4 +72,21 @@
     color: #fff;
     padding: 2px 0px;
     font-size: 13px;
+}
+
+@keyframes bankRouteAnimation {
+    0% {
+        transform: scale(0.1);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }

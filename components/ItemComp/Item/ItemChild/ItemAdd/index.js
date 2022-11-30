@@ -75,9 +75,9 @@ return <div>
     <div>
     <Form form={formAddItem} name="normal_login" className={css.LoginForm} labelCol={{span: 7}} wrapperCol={{span: 16}} initialValues={{remember: true}} onFinish={onFinishAddItem} onFinishFailed={onFinishFailedAddItem}>
    
-    <Form.Item label={"Title"} name="itemName" rules={[{required: true,message: "Please input your First name!"}]}><Input placeholder={"itemName"}/></Form.Item>
-    <Form.Item label={"Description"} name="descrip2" rules={[{required: true, message: "Please input your description!"}]}><TextArea placeholder={"itemDescription"}/></Form.Item>  
-    <Form.Item label={"Price"} name="price" rules={[{type: 'number', required: true, message: "Please input your price!"}]}><InputNumber  placeholder={"itemPrice"}/></Form.Item>
+    <Form.Item label={"Item name"} name="itemName" rules={[{required: true,message: "Please input your First name!"}]}><Input placeholder={"Item name"}/></Form.Item>
+    <Form.Item label={"Description"} name="descrip2" rules={[{required: true, message: "Please input your description!"}]}><TextArea placeholder={"Item description"}/></Form.Item>  
+    <Form.Item label={"Price"} name="price" rules={[{type: 'number', required: true, message: "Please input your price!"}]}><InputNumber  placeholder={"Item price"}/></Form.Item>
     <Form.Item label="Image" name="img" rules={[{required: true,message: "Please input your Image!"}]}>
     <Upload onPreview={onPreview} listType="picture-card" fileList={fileList} onChange={onChangeImage} >{fileList.length < 1 && "+ Image"}</Upload>
     </Form.Item> 

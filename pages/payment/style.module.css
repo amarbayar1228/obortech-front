@@ -841,6 +841,9 @@
   display: flex;
   justify-content: space-between;
   font-size: 14px;
+  color: #4d5057;
+  font-weight: 600;
+  font-family: sans-serif;
   border-bottom: 1px solid #ccc;
   width: 100%;
   padding-bottom: 10px;
@@ -1238,11 +1241,24 @@
   margin-right: 5px;
 }
 
+.BankImgSize2 {
+  margin-left: 5px;
+  margin-top: 2px;
+}
+
 .ItemDivide {
   display: flex;
   animation-name: bankRouteAnimation;
   animation-duration: 0.3s;
   animation-timing-function: ease;
+}
+
+.HuwiCss {
+  background: #F43F5E;
+  color: rgb(255 241 242);
+  padding: 5px;
+  border-radius: 5px;
+  font-weight: 500;
 }
 
 @keyframes bankRouteAnimation {

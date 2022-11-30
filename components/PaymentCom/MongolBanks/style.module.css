@@ -1,0 +1,67 @@
+.Cont {
+    position: relative;
+    width: 96%;
+    display: flex;
+    margin: 0px auto;
+    align-items: center;
+}
+
+.Scroll {
+    display: flex;
+    width: 100%;
+
+    overflow-x: hidden;
+    margin: 10px;
+    animation-duration: 0.3s;
+    animation-timing-function: ease;
+}
+
+.Banks {
+    display: flex;
+    min-width: 90px;
+    height: 90px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 3px 4px 9px 4px #e6e6e6;
+    margin: 20px 10px;
+    font-size: 11px;
+    line-height: 12px;
+    font-weight: 600;
+
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    cursor: pointer;
+    animation: scaledown .2s linear;
+}
+
+.Banks:hover {
+    animation: scale 0.2s linear;
+    animation-fill-mode: forwards;
+    box-shadow: 3px 4px 9px 4px #e6e6e6;
+}
+
+@keyframes scaledown {
+    0% {
+        -webkit-transform: scale(1.05);
+        transform: scale(1.05);
+    }
+
+    100% {
+        -webkit-transform: scale(1.0);
+        transform: scale(1.0);
+    }
+}
+
+@keyframes scale {
+    0% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+
+    100% {
+        -webkit-transform: scale(1.05);
+        transform: scale(1.05);
+    }
+}

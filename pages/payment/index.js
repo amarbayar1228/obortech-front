@@ -20,6 +20,7 @@ import TdbBank from "../../components/PaymentCom/TdbBank";
 import PhoneInput from "react-phone-input-2";
 import 'react-phone-input-2/lib/style.css'
 import Hansh from "../../components/PaymentCom/Hansh";
+import MongolBanks from "../../components/PaymentCom/MongolBanks";
 const { TabPane } = Tabs;
 const { Step } = Steps;
 const { Paragraph } = Typography;
@@ -59,6 +60,9 @@ const Payment = () => {
   const [successOrderValue, setSuccessOrderValue] = useState(0);
   const [successOrderPrice, setSuccessOrderPrice] = useState(0); 
   const [countryCode, setCountryCode] = useState();
+  const [tulsunMnUsd, setTulsunMnUsd] = useState(0);
+  const [orderIdLocal, setOrderId]= useState(0);
+  const [propsItem, setPropsItems] =useState([]);
   //const { amaraa } = router.query;
  
   
@@ -107,7 +111,8 @@ const Payment = () => {
     totalPriceFunction();
     dateFunction(); 
     // console.log("url",window.location.href); 
-    
+    console.log("object");
+    setOrderId(localStorage.getItem("or"));
     const queryString = window.location.search;
   
 
@@ -343,7 +348,7 @@ const placeOrder = () =>{
   }else if(bankValue === "Tdb"){ 
     router.push("/payment?parameter1=amaraa&parameter2=000&body=asdjflajsdlkfjaklsjfklhadbd2626251dsf3as5df1as53df1as5df1as3fd51as3df153sadfas&fbclid=IwAR24B-dJ611MB46g-9X2v0rK3P8_7NgWmDtCnZxPTY1ZVraFwFfzM4pd760");
   }
- 
+  setPropsItems(basketContext.basketState);
   setBankPay(bankValue);
 }
 const BackFunc = () =>{
@@ -368,6 +373,17 @@ const sucessOrder = () =>{
 }
 const removeBask = () =>{ 
   setSuccessOrderValue(4);
+}
+const TulsunFunc=()=>{
+  setTulsunMnUsd("MN");
+ 
+}
+const usdTulsun = () =>{
+  setTulsunMnUsd("USD");
+  localStorage.setItem("or", 2);
+}
+const ValueTulbur = () =>{
+  setForeignValue(3);
 }
   var sss = 0;
 const steps = [
@@ -453,8 +469,7 @@ const steps = [
     {bankPay === undefined ?
     <div className={css.PayContent}>
 
-      <div className={css.PayConfirm}>
-    
+      <div className={css.PayConfirm}> 
         <div>
           <div className={css.PlsName}>Please select your organization name to confirm!</div>
           <div className={css.RadioCont}> 
@@ -476,8 +491,7 @@ const steps = [
 
               </Radio.Group>  
           </div>
-        </div>  
-
+        </div>   
         <div className={css.InfoDetails}>
           {orgIdRadio === 0  || showMethod || localStorage.getItem("pkId") ?  null : 
             <div className={css.AlertDesk}>
@@ -572,13 +586,13 @@ const steps = [
           
         
                 <Hansh bankChoose={bankChoose} totalPriceState={totalPriceState} />
-           
-           
+            
             </div>
         </div>
         : null}
         </div>
       </div>
+
       <div className={css.Reminder}>
       {bankChoose === "Mongol" ? 
         <div className={css.BankGroup}>  
@@ -620,10 +634,24 @@ const steps = [
                   <div className={css.CoinFlex1}> 
                     <div>
                       <div style={{marginLeft: "5px"}}>Foreign banks</div> <Image alt="Obertech" preview={false} src="img/cardnuud.png" width={100} style={{marginLeft: "5px"}}/>
-                      <div style={{marginLeft: "5px", marginTop: "9px"}}>Mongolian banks</div> <Image alt="Obertech" preview={false} src="img/cardnuud.png" width={100} style={{marginLeft: "5px"}}/>
+                      <div style={{marginLeft: "5px", marginTop: "9px"}}>Mongolian banks</div> 
+                        <div style={{display: "flex"}}> 
+                            <div className={css.BankImgSize2}> 
+                            <Image alt="Obertech" preview={false} src="img/boderkhan.png" width={15}/>
+                            </div>
+                            <div className={css.BankImgSize2}> 
+                              <Image alt="Obertech" preview={false} src="img/borderGolomt.png" width={15} style={{borderRadius: "5px"}}/>
+                            </div>
+                            <div className={css.BankImgSize2}> 
+                              <Image alt="Obertech" preview={false} src="img/borderHas.png" width={15}/>
+                            </div>
+                            <div className={css.BankImgSize2}> 
+                              <Image alt="Obertech" preview={false} src="img/borderTdb.png" width={16}/>
+                            </div>
+                        </div>
                     </div> 
                     
-                    <div>60%</div>
+                    <div className={css.HuwiCss}>60%</div>
                   </div>
                 </div>  
               </Radio> 
@@ -637,7 +665,7 @@ const steps = [
                 <div style={{width: "210px"}}> 
                   <div className={css.CoinFlex1}> 
                     <div className={css.CoinFlex2}><Image alt="Obertech" preview={false} src="img/HeaderLogo.png" width={20}/> <div style={{marginLeft: "5px"}}>OBOT</div></div> 
-                    <div>40%</div>
+                    <div className={css.HuwiCss}>40%</div>
                   </div>
                 </div>
               </Radio> 
@@ -647,9 +675,18 @@ const steps = [
         </div> : null}
 
         <div className={css.OrderSummary}>Total</div>
-        {bankChoose === "Coin" ? <> 
-        <div className={css.SubTotal}><div><Image alt="Obertech" preview={false} src="img/united-kingdom.png" width={20}  />Usd</div><div className={payInInstallmentsValue === 1 ? css.SubTotalSuccess : null}>  {totalPriceState * 0.6}$</div></div>
-        <div className={css.SubTotal}><div><Image alt="Obertech" preview={false} src="img/HeaderLogo.png" width={20}/>Coin</div><div className={payInInstallmentsValue === 2 ? css.SubTotalSuccess : null}> {totalPriceState * 0.4}$</div></div>
+        {bankChoose === "Coin" ? <>
+        <Tooltip title={<div>
+            <div>MNT: {totalPriceState * 0.6 * basketContext.hanshnuud[1].rate}₮</div>
+            <div>USD:  {totalPriceState * 0.6}$ </div>
+        </div>}>  
+        <div className={css.SubTotal}><div><Image alt="Obertech" preview={false} src="img/usFlag.svg" width={20} /> <span style={{marginLeft: "0px"}}>Usd</span></div><div className={payInInstallmentsValue === 1 ? css.SubTotalSuccess : null}>  {totalPriceState * 0.6}$<span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / 60%</span></div></div></Tooltip>
+
+        <div className={css.SubTotal}><div><Image alt="Obertech" preview={false} src="img/mnFlag.png" width={20} /> <span style={{marginLeft: "0px"}}>MNT</span></div><div className={payInInstallmentsValue === 1 ? css.SubTotalSuccess : null}>  {totalPriceState * 0.6 * basketContext.hanshnuud[1].rate}₮
+        <span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / 60%</span>
+        
+        </div></div>
+        <div className={css.SubTotal}><div><Image alt="Obertech" preview={false} src="img/HeaderLogo.png" width={20}/><span style={{marginLeft: "2px"}}>Obot</span></div><div className={payInInstallmentsValue === 2 ? css.SubTotalSuccess : null}> {totalPriceState * 0.4 / basketContext.hanshnuud[2].rate}<span style={{fontSize: "10px", fontWeight: "600"}}> Obot</span><span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / 40%</span></div></div>
         </>
         : null }
 
@@ -660,38 +697,9 @@ const steps = [
         <div className={css.ProceedTo}><Button disabled={bankValue === undefined ? true : false} className={css.CheckoutBtn} size="large" onClick={placeOrder}>Place order</Button></div>
       </div>
 
- 
-
-      {/* <div className={css.Section2}>
-        <div className={css.RateHdr}>
-          <div className={css.RateTitle}>Total price:{totalPriceState.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,")}$
-          </div>
-          <div className={css.RateLine}> </div>
-        </div>
-        <div className={css.RateL}>
-          <div className={css.PayLayout}>
-            <div> 
-              <div>MNT</div>
-              <div>100% MNT</div>
-            </div>
-          </div>
-
-            <div className={css.PayLayout}>
-              <div> 
-                <div>USD</div>
-                <div>100% MNT</div>
-              </div>
-            </div>
-            <div className={css.PayLayout}>
-            <div> 
-              <div>USD/TOKEN</div>
-              <div>60% USD/40% token</div>
-            </div>
-          </div> 
-        </div>
-      </div> */}
-    {/* </div>  */}
+  
     </div>
+
     : <div className={css.PayBanks}> 
         {/* <Button onClick={BackFunc} className={css.BackCss}>Back</Button> */}
         {bankValue === "khan" || bankValue === "golomt" || bankValue === "Tdb" || bankValue === "Monpay"? 
@@ -773,21 +781,48 @@ const steps = [
           </div>
           : null}
 
+
+        {/* Mongol gadaad banknuuud */}
         {bankValue === "Foreign" ? <div>
           <div className={css.ForgeinSideBar}> 
           <div className={css.ForgeinSideContent1}> 
-            <Radio.Group onChange={foreignOnChange} style={{width: "100%"}} value={foreignValue}> 
-                  <Radio  className={css.BankRadio} value={1}><Image alt="Obertech" preview={false} src="img/paypalLine.png" width={60}/></Radio> 
-                  <Radio  className={css.BankRadio} value={2}>
-                    <div> Credit or Debit Card</div>
-                    <Image alt="Obertech" preview={false} src="img/cardnuud.png" width={130}/></Radio>  
+
+            <Radio.Group onChange={foreignOnChange} style={{width: "100%"}} value={foreignValue}>
+              {tulsunMnUsd === 0 || orderIdLocal === 1 ? 
+              <> 
+              <Radio  className={css.BankRadio} value={1}> 
+                  <div style={{marginLeft: "5px", marginTop: "9px"}}>Mongolian banks</div> 
+                    <div style={{display: "flex"}}> 
+                        <div className={css.BankImgSize2}> 
+                        <Image alt="Obertech" preview={false} src="img/boderkhan.png" width={15}/>
+                        </div>
+                        <div className={css.BankImgSize2}> 
+                          <Image alt="Obertech" preview={false} src="img/borderGolomt.png" width={15} style={{borderRadius: "5px"}}/>
+                        </div>
+                        <div className={css.BankImgSize2}> 
+                          <Image alt="Obertech" preview={false} src="img/borderHas.png" width={15}/>
+                        </div>
+                        <div className={css.BankImgSize2}> 
+                          <Image alt="Obertech" preview={false} src="img/borderTdb.png" width={16}/>
+                        </div>
+                    </div>
+              </Radio> 
+              <Radio  className={css.BankRadio} value={2}><div style={{marginLeft: "5px"}}>Foreign banks</div> <Image alt="Obertech" preview={false} src="img/cardnuud.png" width={100} style={{marginLeft: "5px"}}/></Radio> 
+              </>
+              : tulsunMnUsd === "MN" ? 
+              <Radio  className={css.BankRadio} value={3}><div style={{marginLeft: "5px"}}>Obot</div> <Image alt="Obertech" preview={false} src="img/cardnuud.png" width={100} style={{marginLeft: "5px"}}/></Radio> 
+              : ""
+              }
+               
               </Radio.Group>   
+              {tulsunMnUsd === "MN" ? <div>Coin</div> : <div className={css.ForgeinSideContent2}>Hooson </div>}
             </div>
 
+            {/* deeerh songoson radio */}
             {foreignValue === 1 ?
             <div className={css.ForgeinSideContent2}>
-              
-              <Paypal sucessOrder={sucessOrder} totalPriceState={totalPriceState} orgIdRadio={orgIdRadio} basketState={basketContext.basketState} BackFunc={BackFunc} PayInInstallmentsForeign={PayInInstallmentsForeign} payInInstallmentsValue={payInInstallmentsValue}/>
+              <MongolBanks totalPriceState={totalPriceState} orgIdRadio={basketContext.orgNames[0].orgIdstate} basketState={basketContext.basketState} Tulsun={TulsunFunc} ValueTulbur={ValueTulbur}/>
+
             </div> 
             : null }
 
@@ -795,12 +830,17 @@ const steps = [
             <div className={css.CreditTitle}>Credit or Debit Card </div>
             <div className={css.PayForm}> 
               <CreditOrDebitCard sucessOrder={sucessOrder} totalPriceState={totalPriceState} orgIdRadio={orgIdRadio} basketState={basketContext.basketState} BackFunc={BackFunc} PayInInstallmentsForeign={PayInInstallmentsForeign} payInInstallmentsValue={payInInstallmentsValue}/> 
-            </div>
-            
-            </div> : null}
-
+            </div> 
+            </div> : null} 
+            {foreignValue === 3 ? <div className={css.ForgeinSideContent2}> 
+            <div className={css.CreditTitle}>Coin </div>
+            <div className={css.PayForm}> 
+              Coin
+            </div> 
+            </div> : null} 
           </div>
-           </div> : null}
+          
+           </div> : null} 
       </div>}
 
       </div>),
@@ -810,7 +850,7 @@ const steps = [
   content: (
     <div> 
      
-      <SuccessOrder totalPriceState={successOrderPrice}/>
+      <SuccessOrder totalPriceState={successOrderPrice} items={propsItem}/>
       <Button onClick={removeBask} shape="circle"> X</Button>
      
   </div>

@@ -19,7 +19,7 @@ const KhanBank = (props) => {
   const monthFormat = "YYYY/MM";
   const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
   useEffect(()=>{
-    console.log("kanbank: ", router.query);
+    console.log("kanbank: ", props);
   })
 
   const customFormat = (value) => `custom format: ${value.format(dateFormat)}`;
@@ -33,70 +33,150 @@ const KhanBank = (props) => {
  
   const sendOrders = () => {
   
-    console.log("orgIdRadio: ",props.orgIdRadio );
-    console.log("basketState: ",props.basketState );
-    console.log("price: ", props.totalPriceState);
-    const arr = props.basketState ;
-    // img tei bol Item, imggui bol Group
-    arr.forEach((element, i) => {
-    if (element.img) {arr[i].state = 2} else {arr[i].state = 1; arr[i].img = "";}
-    });  
 
-    // newtersen hereglegch bwl Axiosru shidne
-    if (localStorage.getItem("token")) {
-      const body = arr;
-      const body2 = {
-        func: "neworder",
-        item: body,
-        orgId: props.orgIdRadio,
-        totalPrice: props.totalPriceState, 
-        pkId: localStorage.getItem("pkId"), 
-      };
-      console.log("bodyId:2  ===>> ", body2);
-      var basketLocal = [];
-      axios.post("/api/post/Gate", body2).then((result) => {
-        console.log("res orderId: ", result.data.orderid); 
-          props.sucessOrder();  
-          basketContext.removeBasketStorage();   
+if(props.data){
+  // ene bol Huuwaaj tuluh
+  console.log("data");
+  const arr = props.data.basketState;
+// img tei bol Item, imggui bol Group
 
-          const bodySmart = {
-            func: "orderSend",
-            orderid: result.data.orderid
-           }
-           axios.post("/api/post/Gate", bodySmart).then((res)=>{
-            console.log("res: ", res.data);
-           }).catch((err)=>{
-            console.log("object", err);
-           });
+arr.forEach((element, i) => {
+if (element.img) {arr[i].state = 2} else {arr[i].state = 1; arr[i].img = "";}
+});  
 
-        },(error) => {console.log(error)}); 
-      } else {
-    // newtreeq hereglegch bwl Axiosru shidne
-      const bodyNoId = {
-        func: "neworder",
-        orgId: props.orgIdRadio,
-        totalPrice: props.totalPriceState,
-        item: arr, 
-      };
-      // console.log("bodyNoId: ", bodyNoId);
-      axios.post("/api/post/Gate", bodyNoId).then((result) => {
-        console.log("res orderId: ", result.data.orderid); 
-          // message.success("Success");
+// newtersen hereglegch bwl Axiosru shidne
+if (localStorage.getItem("token")) {
+const body = arr;
+const body2 = {
+func: "neworder",
+item: body,
+orgId: props.data.orgIdRadio,
+totalPrice: props.data.totalPriceState, 
+pkId: localStorage.getItem("pkId"), 
+};
+console.log("bodyId:2  ===>> ", body2);
+var basketLocal = [];
+axios.post("/api/post/Gate", body2).then((result) => {
+  console.log("res orderId: ", result.data.orderid); 
+  localStorage.setItem("or", result.data.orderid);  
+  message.success("Success");
+  props.data.Tulsun();
+  props.data.ValueTulbur();  
 
-          props.sucessOrder();
-          basketContext.removeBasketStorage();  
-          const bodySmart = {
-            func: "orderSend",
-            orderid: result.data.orderid
-           }
-           axios.post("/api/post/Gate", bodySmart).then((res)=>{
-            console.log("res: ", res.data);
-           }).catch((err)=>{
-            console.log("object", err);
-           });
-        },(error) => {console.log(error)});
-      }
-  };
+    // const bodySmart = {
+    //   func: "orderSend",
+    //   orderid: result.data.orderid
+    //  }
+    //  axios.post("/api/post/Gate", bodySmart).then((res)=>{
+    //   console.log("res: ", res.data);
+    //  }).catch((err)=>{
+    //   console.log("object", err);
+    //  });
+
+  },(error) => {console.log(error)}); 
+} else {
+// newtreeq hereglegch bwl Axiosru shidne
+const bodyNoId = {
+func: "neworder",
+orgId: props.data.orgIdRadio,
+totalPrice: props.data.totalPriceState,
+item: arr, 
+}; 
+console.log("no body: ", bodyNoId);
+axios.post("/api/post/Gate", bodyNoId).then((result) => {
+  console.log("res orderId: ", result.data.orderid); 
+  localStorage.setItem("or", result.data.orderid);  
+  message.success("Success");
+    props.data.Tulsun();
+    props.data.ValueTulbur();
+    
+    // props.sucessOrder();
+    // basketContext.removeBasketStorage();  
+    // const bodySmart = {
+    //   func: "orderSend",
+    //   orderid: result.data.orderid
+    //  }
+    //  axios.post("/api/post/Gate", bodySmart).then((res)=>{
+    //   console.log("res: ", res.data);
+    //  }).catch((err)=>{
+    //   console.log("object", err);
+    //  });
+
+  },(error) => {console.log(error)});
+}
+
+}else{
+  // ene bol shuud tuluhud 
+  console.log("props: ", props);
+  console.log("orgIdRadio: ",props.orgIdRadio );
+  console.log("basketState: ",props.basketState );
+  console.log("price: ", props.totalPriceState);
+const arr = props.basketState;
+// img tei bol Item, imggui bol Group
+
+arr.forEach((element, i) => {
+if (element.img) {arr[i].state = 2} else {arr[i].state = 1; arr[i].img = "";}
+});  
+
+// newtersen hereglegch bwl Axiosru shidne
+if (localStorage.getItem("token")) {
+const body = arr;
+const body2 = {
+func: "neworder",
+item: body,
+orgId: props.orgIdRadio,
+totalPrice: props.totalPriceState, 
+pkId: localStorage.getItem("pkId"), 
+};
+console.log("bodyId:2  ===>> ", body2);
+var basketLocal = [];
+axios.post("/api/post/Gate", body2).then((result) => {
+  console.log("res orderId: ", result.data.orderid); 
+    props.sucessOrder();  
+    basketContext.removeBasketStorage();   
+
+    const bodySmart = {
+      func: "orderSend",
+      orderid: result.data.orderid
+     }
+     axios.post("/api/post/Gate", bodySmart).then((res)=>{
+      console.log("res: ", res.data);
+     }).catch((err)=>{
+      console.log("object", err);
+     });
+
+  },(error) => {console.log(error)}); 
+} else {
+// newtreeq hereglegch bwl Axiosru shidne
+const bodyNoId = {
+func: "neworder",
+orgId: props.orgIdRadio,
+totalPrice: props.totalPriceState,
+item: arr, 
+}; 
+
+axios.post("/api/post/Gate", bodyNoId).then((result) => {
+  console.log("res orderId: ", result.data.orderid); 
+    // message.success("Success");
+
+    props.sucessOrder();
+    basketContext.removeBasketStorage();  
+    const bodySmart = {
+      func: "orderSend",
+      orderid: result.data.orderid
+     }
+     axios.post("/api/post/Gate", bodySmart).then((res)=>{
+      console.log("res: ", res.data);
+     }).catch((err)=>{
+      console.log("object", err);
+     });
+
+  },(error) => {console.log(error)});
+}
+}
+
+
+};
   const eneBolProps = () => {
     console.log("object");
   };
