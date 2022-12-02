@@ -21,46 +21,7 @@ useEffect(() => {
     message.success("Back hiih gj bn ")
   }
 }, []);
-const func1 = () =>{
  
-  const too = ["0","1","2"]; 
-  const temdegt = ["#","!","%","."];
-  console.log("pass: ", password);
-
-   
-  for(var i=0; i<=too.length; i++){ 
-      for(var k=0; k<=password.length; k++){
-          if(password[k] === too[i]){
-            var aa = 256;  
-          }else{ 
-            if(aa === 256){ 
-              // setStateToo("Too bn");
-              var toobn = "toobn"; 
-            }else{
-              // setStateToo("ta zaawal too oruulna uu!!")
-            } 
-        }
-      } 
-  }
-
- 
-  if(toobn === undefined){
-    console.log("temdegt bhq");
-    setPassword("temdegt bhq bn")
-  }else{
-    console.log("temdegt bn");
-    for(var z=0; z<=temdegt.length; z++){
-      for(var t=0; t<=password.length; t++){
-        if(password[t] ===  temdegt[z]){
-            setPassword(...password, "temdegt bn");
-        }else{
-          setPassword("temdegt bhq");
-        }
-      }
-    }
-  }
-
-}
 
   return (
     <BaseLayout pageName="dashboard">
@@ -71,11 +32,7 @@ const func1 = () =>{
 
  {/* <div style={{margin: "100px"}}> <Spinner /></div> */}
 
-      <div>
-        <Input placeholder="password"  onChange={(e)=> setPassword(e.target.value)}/>
-        <Button onClick={func1} >Login</Button>
-        {stateToo}
-      </div>
+      
       <div style={{width: "98%"}}>
         <div>
           

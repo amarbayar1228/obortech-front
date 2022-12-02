@@ -57,9 +57,9 @@ const Hansh = (props) =>{
         {basketContext.hanshnuud.map((e, i) => (
             
           <div key={i} className={css.HanshCss}> 
-            <div style={{paddingRight: "10px"}}> 
-              {e.code_ === "USD" ?  <Image alt="Obertech" preview={false} style={{position: "relative",width: "20px",height: "20px",objectFit: "inherit"}} src="/img/united-kingdom.png"/> 
-              : e.code_ === "TUG" ? <Image alt="Obertech" preview={false} style={{position: "relative",width: "20px", height: "20px",objectFit: "inherit"}} src="/img/mongolia.png"/> 
+            <div className={css.Tugrug}> 
+              {e.code_ === "USD" ?  <div> $</div>
+              : e.code_ === "TUG" ?  <div> ₮ </div>
               : e.code_ === "COIN" ? <Image alt="Obertech" preview={false} style={{position: "relative",width: "20px",height: "20px",objectFit: "inherit"}} src="/img/HeaderLogo.png"/>: "" } 
 
               
@@ -81,16 +81,16 @@ const Hansh = (props) =>{
             
       {props.bankChoose === "Mongol" ? 
         <div className={css.Fontcss}>
-             <div style={{width: "100%",background: "#f43f5e", color: "#fff",padding: "2px 0px", fontSize: "13px",fontWeight: "500" }}><CaretRightOutlined /> Amount</div>
+             {/* <div style={{width: "100%",background: "#f43f5e", color: "#fff",padding: "2px 0px", fontSize: "13px",fontWeight: "500" }}><CaretRightOutlined /> Amount</div>
 
             <div style={{fontSize: "15px ", color: "#F43F5E"}}><WalletOutlined style={{marginRight: "5px"}}/>Total: {props.totalPriceState}$ </div>
-            {/* <div>Dollar: {basketContext.hanshnuud[0].rate}$ </div> */}
-            <div style={{fontSize: "15px ", color: "#F43F5E"}}><WalletOutlined style={{marginRight: "5px"}}/>Нийт үнэ: {tugrugHansh}₮ / <span className={css.Fontcss2}> {props.totalPriceState}$ </span>  </div>
+        
+            <div style={{fontSize: "15px ", color: "#F43F5E"}}><WalletOutlined style={{marginRight: "5px"}}/>Нийт үнэ: {tugrugHansh}₮ / <span className={css.Fontcss2}> {props.totalPriceState}$ </span>  </div> */}
         </div>
         : props.bankChoose === "Coin" ?
         <div className={css.Fontcss}>
              {/* <div className={css.HanshIcon}><CaretRightOutlined /> Hansh</div> */}
-            <div className={css.MntHuwi} style={{background: "rgb(244, 63, 94)", color: "rgb(255 241 242)", fontSize: "14px"}}> 
+            {/* <div className={css.MntHuwi} style={{background: "rgb(244, 63, 94)", color: "rgb(255 241 242)", fontSize: "14px"}}> 
                 <div className={css.MntHuwi2}>
                 <div style={{display: "flex", alignItems: "center"}}> <Image alt="Obertech" preview={false} 
                 style={{display: "flex",alignItems: "center", textAlign: "center", padding: "1px",width: "24px", marginRight: "6px",borderRadius: "1px",height: "15px",background: "#fff"}} src="/img/mnFlag.png"/></div>
@@ -125,21 +125,15 @@ const Hansh = (props) =>{
                 <div className={css.MntHuwi2}> {coinHansh} Obot</div>
                 <div className={css.MntHuwi2}>{dollar[0] ? dollar[0].dollar1  : "bhq"}$  </div>
                 <div className={css.MntHuwi2} style={{width: "100px"}}> {niitVneObot}₮ </div>
-            </div>
-
-            {/* <div>Total: {props.totalPriceState}$</div>
-            <div>Нийт үнэ: {niitVne}₮</div>
-            <div>Dollar: {props.totalPriceState * 0.6}$ / <span className={css.Fontcss2}>60% </span>  </div>
-            <div>Төгрөг: {tugrugHansh}₮ / <span className={css.Fontcss2}> 60% </span>  </div>
-            <div>OBOT: {coinHansh} / <span className={css.Fontcss2}> 40% 79800tugrug - dollar - 28$</span>  </div> */}
+            </div>  */}
         </div>
         : props.bankChoose === "Usd" ?
         <div className={css.Fontcss}>
-            <div style={{width: "100%",background: "#f43f5e", color: "#fff",padding: "2px 0px", fontSize: "13px",fontWeight: "500" }}><CaretRightOutlined /> Amount</div>
+{/* <div style={{width: "100%",background: "#f43f5e", color: "#fff",padding: "2px 0px", fontSize: "13px",fontWeight: "500" }}><CaretRightOutlined /> Amount</div>
 
 <div style={{fontSize: "15px ", color: "#F43F5E"}}><WalletOutlined style={{marginRight: "5px"}}/>Total: {props.totalPriceState}$ </div>
- 
-<div style={{fontSize: "15px ", color: "#F43F5E"}}><WalletOutlined style={{marginRight: "5px"}}/>Нийт үнэ: {tugrugHansh}₮ / <span className={css.Fontcss2}> {props.totalPriceState}$ </span>  </div>
+
+<div style={{fontSize: "15px ", color: "#F43F5E"}}><WalletOutlined style={{marginRight: "5px"}}/>Нийт үнэ: {tugrugHansh}₮ / <span className={css.Fontcss2}> {props.totalPriceState}$ </span>  </div> */}
         </div>
         : null}
     </div>

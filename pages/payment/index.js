@@ -63,6 +63,9 @@ const Payment = () => {
   const [tulsunMnUsd, setTulsunMnUsd] = useState(0);
   const [orderIdLocal, setOrderId]= useState(0);
   const [propsItem, setPropsItems] =useState([]);
+  const [defaultMaxFi, setDefaultMaxFi] = useState();
+  const [mntUsdPrice, setMntUsdPrice] = useState([]);
+  const [orderIdLocal2, setOrderIdLocal] = useState(0);
   //const { amaraa } = router.query;
  
   
@@ -108,14 +111,22 @@ const Payment = () => {
     setCurrent(current - 1);
   };
   useEffect(() => {
+
     totalPriceFunction();
     dateFunction(); 
     // console.log("url",window.location.href); 
-    console.log("object");
+    getDefMaximFi(); 
     setOrderId(localStorage.getItem("or"));
     const queryString = window.location.search;
   
-
+    if(localStorage.getItem("oAiD") === undefined){
+     
+      setOrderIdLocal(0);
+    }else {
+      setOrderIdLocal(localStorage.getItem("oAiD"))
+      console.log("object", localStorage.getItem("oAiD"));
+    }
+    
 
     var url_string = "http://192.168.1.14:3000/payment?parameter1=amaraa&parameter2=000&body=asdjflajsdlkfjaklsjfklhadbd2626251dsf3as5df1as53df1as5df1as3fd51as3df153sadfas&fbclid=IwAR24B-dJ611MB46g-9X2v0rK3P8_7NgWmDtCnZxPTY1ZVraFwFfzM4pd760"; 
     
@@ -319,6 +330,28 @@ const onFinishFailedOrgId = (errInfo)=>{
 const BankTypo = (value) =>{ 
   setBankValue(undefined);
   setBankChoose(value);
+
+  // Hansh bodoh
+  console.log("def", defaultMaxFi);
+
+  
+
+  const usd = 0;
+  usd = totalPriceState  * defaultMaxFi.USD/100;
+
+  const obot = 0;
+  const convert = defaultMaxFi.Coin / 100;
+  obot = totalPriceState * convert / basketContext.hanshnuud[2].rate;
+
+  const mnt = 0;
+  const convert2 = defaultMaxFi.USD / 100;
+  mnt = totalPriceState * convert2 * basketContext.hanshnuud[1].rate
+   
+  
+  setMntUsdPrice([{ usd: usd.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,"), obot: obot.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,"), mnt: mnt.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,") }]);
+  
+  
+
 }
 const onFinishUserInfo = (values) =>{
   setShowMethod(true);
@@ -336,8 +369,17 @@ const bankOnChange = (e) =>{
 const onSearch = (value) => {
   console.log('search:', value);
 };
- 
+const getOrderId = () =>{
+  if(localStorage.getItem("oAiD") === undefined){
+     
+    setOrderIdLocal(0);
+  }else {
+    setOrderIdLocal(localStorage.getItem("oAiD"))
+    console.log("object", localStorage.getItem("oAiD"));
+  }
+}
 const placeOrder = () =>{
+
   console.log("place order: ", bankValue );
   if(bankValue === undefined){
     notification["warning"]({
@@ -348,8 +390,79 @@ const placeOrder = () =>{
   }else if(bankValue === "Tdb"){ 
     router.push("/payment?parameter1=amaraa&parameter2=000&body=asdjflajsdlkfjaklsjfklhadbd2626251dsf3as5df1as53df1as5df1as3fd51as3df153sadfas&fbclid=IwAR24B-dJ611MB46g-9X2v0rK3P8_7NgWmDtCnZxPTY1ZVraFwFfzM4pd760");
   }
+
   setPropsItems(basketContext.basketState);
   setBankPay(bankValue);
+
+  if(bankValue === "Foreign"){
+    // <KhanBank totalPriceState={totalPriceState} orgIdRadio={basketContext.orgNames[0].orgIdstate} basketState={basketContext.basketState} sucessOrder={sucessOrder}/>  
+    const arr = basketContext.basketState;
+    // img tei bol Item, imggui bol Group
+    
+    arr.forEach((element, i) => {
+    if (element.img) {arr[i].state = 2} else {arr[i].state = 1; arr[i].img = "";}
+    });  
+    
+    // newtersen hereglegch bwl Axiosru shidne
+    if (localStorage.getItem("token")) {
+    const body = arr;
+    const body2 = {
+    func: "neworder",
+    item: body,
+    orgId: basketContext.orgNames[0].orgIdstate,
+    totalPrice: totalPriceState, 
+    pkId: localStorage.getItem("pkId"), 
+    };
+    console.log("bodyId:2  ===>> ", body2);
+    var basketLocal = [];
+    axios.post("/api/post/Gate", body2).then((result) => {
+      console.log("res orderId: ", result.data.orderid); 
+       localStorage.setItem("oAiD", result.data.orderid); 
+       
+        // props.sucessOrder();  
+        basketContext.removeBasketStorage();   
+        getOrderId();
+        const bodySmart = {
+          func: "orderSend",
+          orderid: result.data.orderid
+         }
+         axios.post("/api/post/Gate", bodySmart).then((res)=>{
+          console.log("res: ", res.data);
+         
+         }).catch((err)=>{
+          console.log("object", err);
+         });
+    
+      },(error) => {console.log(error)}); 
+    } else {
+    // newtreeq hereglegch bwl Axiosru shidne
+    const bodyNoId = {
+    func: "neworder",
+    orgId: basketContext.orgNames[0].orgIdstate,
+    totalPrice: totalPriceState,
+    item: arr, 
+    }; 
+    
+    axios.post("/api/post/Gate", bodyNoId).then((result) => {
+      console.log("res orderId: ", result.data.orderid); 
+      localStorage.setItem("oAiD", result.data.orderid); 
+        // message.success("Success"); 
+        // props.sucessOrder();
+        basketContext.removeBasketStorage();  
+        getOrderId();
+        const bodySmart = {
+          func: "orderSend",
+          orderid: result.data.orderid
+         }
+         axios.post("/api/post/Gate", bodySmart).then((res)=>{
+          console.log("res: ", res.data);
+         }).catch((err)=>{
+          console.log("object", err);
+         });
+    
+      },(error) => {console.log(error)});
+    } 
+  }
 }
 const BackFunc = () =>{
   setBankPay(undefined);
@@ -384,6 +497,19 @@ const usdTulsun = () =>{
 }
 const ValueTulbur = () =>{
   setForeignValue(3);
+}
+const getDefMaximFi = () =>{
+
+ 
+  const body = {
+    func: "getDefMaximFi",
+}
+axios.post("api/post/Gate", body).then((res)=>{
+    console.log("rs", res.data);
+    setDefaultMaxFi(res.data.data);
+}).catch((err)=>{
+    console.log("err");
+})
 }
   var sss = 0;
 const steps = [
@@ -454,7 +580,7 @@ const steps = [
         <div className={css.Reminder}>
           <div className={css.OrderSummary}>Order summary</div>
           <div className={css.SubTotal}><div>Subtotal</div> <div> {totalPriceState.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}$</div></div>
-          <div className={css.TotalLenght}><div>Total(4)</div> <div className={css.TotalLPrice}> {totalPriceState.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}$</div></div>
+          <div className={css.TotalLenght}><div>Total({basketContext.basketState.length})</div> <div className={css.TotalLPrice}> {totalPriceState.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}$</div></div>
           <div className={css.ProceedTo}><Button className={css.CheckoutBtn} size="large" onClick={() => next()}>Proceed to Checkout</Button></div>
         </div>
       </div>
@@ -634,7 +760,24 @@ const steps = [
                   <div className={css.CoinFlex1}> 
                     <div>
                       <div style={{marginLeft: "5px"}}>Foreign banks</div> <Image alt="Obertech" preview={false} src="img/cardnuud.png" width={100} style={{marginLeft: "5px"}}/>
-                      <div style={{marginLeft: "5px", marginTop: "9px"}}>Mongolian banks</div> 
+                      
+                    </div> 
+                    
+                    <div className={css.HuwiCss}>{defaultMaxFi.USD}%</div>
+                  </div>
+                </div>  
+              </Radio> 
+
+              <Radio  disabled={payInInstallmentsValue === 3 ? true : false} className={payInInstallmentsValue === 3 ? css.BankRadioInActive : css.BankRadio} value={"Mongol"} style={{width: "100%"}}>
+              {payInInstallmentsValue === 3? 
+                <Tooltip title="Tips">
+                  <div className={css.PaySuccess}></div>
+                </Tooltip> : null}
+              {payInInstallmentsValue === 3 ? <div className={css.CheckOut}><CheckCircleOutlined /></div> : null}
+                <div style={{width: "210px"}}> 
+                  <div className={css.CoinFlex1}> 
+                   
+                    <div> <div style={{marginLeft: "5px" }}>Mongolian banks</div> 
                         <div style={{display: "flex"}}> 
                             <div className={css.BankImgSize2}> 
                             <Image alt="Obertech" preview={false} src="img/boderkhan.png" width={15}/>
@@ -648,45 +791,62 @@ const steps = [
                             <div className={css.BankImgSize2}> 
                               <Image alt="Obertech" preview={false} src="img/borderTdb.png" width={16}/>
                             </div>
-                        </div>
-                    </div> 
-                    
-                    <div className={css.HuwiCss}>60%</div>
+                        </div></div>
+                    <div className={css.HuwiCss}>{defaultMaxFi.Coin}%</div>
                   </div>
-                </div>  
+                </div>
               </Radio> 
-
-              <Radio  disabled={payInInstallmentsValue === 2 ? true : false} className={payInInstallmentsValue === 2 ? css.BankRadioInActive : css.BankRadio} value={"Coin"} style={{width: "100%"}}>
-              {payInInstallmentsValue === 2 ? 
-                <Tooltip title="Tips">
-                  <div className={css.PaySuccess}></div>
-                </Tooltip> : null}
+              
+              <div  disabled={payInInstallmentsValue === 2 ? true : false} className={payInInstallmentsValue === 2 ? css.BankRadioInActive : css.BankRadio} value={"Coin"} style={{width: "100%"}}>
+          
               {payInInstallmentsValue === 2 ? <div className={css.CheckOut}><CheckCircleOutlined /></div> : null}
-                <div style={{width: "210px"}}> 
+                <div style={{width: "234px"}}> 
                   <div className={css.CoinFlex1}> 
                     <div className={css.CoinFlex2}><Image alt="Obertech" preview={false} src="img/HeaderLogo.png" width={20}/> <div style={{marginLeft: "5px"}}>OBOT</div></div> 
                     <div className={css.HuwiCss}>40%</div>
                   </div>
                 </div>
-              </Radio> 
-              
+              </div> 
           
           </Radio.Group>  
         </div> : null}
 
         <div className={css.OrderSummary}>Total</div>
         {bankChoose === "Coin" ? <>
-        <Tooltip title={<div>
-            <div>MNT: {totalPriceState * 0.6 * basketContext.hanshnuud[1].rate}₮</div>
-            <div>USD:  {totalPriceState * 0.6}$ </div>
-        </div>}>  
-        <div className={css.SubTotal}><div><Image alt="Obertech" preview={false} src="img/usFlag.svg" width={20} /> <span style={{marginLeft: "0px"}}>Usd</span></div><div className={payInInstallmentsValue === 1 ? css.SubTotalSuccess : null}>  {totalPriceState * 0.6}$<span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / 60%</span></div></div></Tooltip>
+        {bankValue === "Foreign" ?  
+        <> 
+        <div className={css.SubTotal}> 
+          <div> 
+            <span style={{display: "flex"}}><div className={css.Tugrug}> $ </div> Usd</span>
+          </div>
+          <div className={payInInstallmentsValue === 1 ? css.SubTotalSuccess : null}>  
+              {mntUsdPrice[0].usd}$ 
+            <span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / 60%</span>
+            
+          </div>
+        </div>
 
-        <div className={css.SubTotal}><div><Image alt="Obertech" preview={false} src="img/mnFlag.png" width={20} /> <span style={{marginLeft: "0px"}}>MNT</span></div><div className={payInInstallmentsValue === 1 ? css.SubTotalSuccess : null}>  {totalPriceState * 0.6 * basketContext.hanshnuud[1].rate}₮
-        <span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / 60%</span>
+        <div className={css.SubTotal}><div><Image alt="Obertech" preview={false} src="img/HeaderLogo.png" width={20}/><span style={{marginLeft: "2px"}}>Obot</span></div><div className={payInInstallmentsValue === 2 ? css.SubTotalSuccess : null}> 
+          {mntUsdPrice[0].obot}
+        <span style={{fontSize: "10px", fontWeight: "600"}}> Obot</span><span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / 40%</span></div></div>
+        </>
+        : 
         
-        </div></div>
-        <div className={css.SubTotal}><div><Image alt="Obertech" preview={false} src="img/HeaderLogo.png" width={20}/><span style={{marginLeft: "2px"}}>Obot</span></div><div className={payInInstallmentsValue === 2 ? css.SubTotalSuccess : null}> {totalPriceState * 0.4 / basketContext.hanshnuud[2].rate}<span style={{fontSize: "10px", fontWeight: "600"}}> Obot</span><span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / 40%</span></div></div>
+        <> 
+        <div className={css.SubTotal}><div>  <span style={{display: "flex"}}><div className={css.Tugrug}> ₮ </div> MNT</span></div>
+          <div className={payInInstallmentsValue === 1 ? css.SubTotalSuccess : null}>   {mntUsdPrice[0].mnt}₮
+            <span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / 60%</span>
+          </div>
+        </div>
+        <div className={css.SubTotal}><div><Image alt="Obertech" preview={false} src="img/HeaderLogo.png" width={20}/><span style={{marginLeft: "4px"}}>Obot</span></div><div className={payInInstallmentsValue === 2 ? css.SubTotalSuccess : null}>  {mntUsdPrice[0].obot}<span style={{fontSize: "10px", fontWeight: "600"}}> Obot</span><span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / 40%</span></div></div>
+        </>
+        }
+
+        
+
+        
+
+
         </>
         : null }
 
@@ -865,8 +1025,10 @@ const steps = [
        
         {/*  */}
           {basketContext.basketState.length === 0 || basketContext.orgId === undefined ? (
-            <div style={successOrderValue === 2 ? {display: "none"} : {fontSize: "15px", marginTop: "50px"}}><Empty description="Basket is empty"></Empty>
-            {/* <SuccessOrder totalPriceState={totalPriceState}/> */}
+
+            <div style={successOrderValue === 2 ? {display: "none"} : {fontSize: "15px", marginTop: "50px"}}>
+                {orderIdLocal2}
+              <Empty description="Cart is empty"></Empty> 
             </div>
           ) : (
             <div className={css.ContentCss}>

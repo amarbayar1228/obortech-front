@@ -1,16 +1,9 @@
 .Absolute {
-    width: 100%;
-}
-
-.Layout {
-
-    background-color: #fff;
-    box-shadow: 0px 0px 7px 6px #efefef;
-    width: 300px;
-    margin: 31px auto;
-    border-radius: 16px;
-    /* display: flex; */
-    height: 250px;
+    width: 96%;
+    margin: 20px;
+    font-size: 17px;
+    font-family: sans-serif;
+    color: #000;
 }
 
 .Title {
@@ -109,4 +102,53 @@
     cursor: pointer;
     color: #000;
     box-shadow: 0px 0px 7px 6px #a4a4a4;
+}
+
+.Logo {
+    display: flex;
+
+}
+
+.textDesc {
+    margin: 10px 0px;
+    /* background-color: red; */
+    padding: 30px;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+
+.Layout {
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    margin: 20px;
+}
+
+.Items {
+    display: flex;
+    width: 100%;
+    margin: 10px;
+}
+
+.Image {
+    background-color: #ccc;
+    width: 100px;
+    height: 82px;
+}
+
+
+.DescWidth {
+    width: 100%;
+    text-align: left;
+    margin: 10px;
+}
+
+.Descr {
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.Descrtext {
+    font-size: 14px;
+    color: rgb(84, 84, 84);
 }

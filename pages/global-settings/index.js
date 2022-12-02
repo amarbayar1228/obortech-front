@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import BaseLayout from "../../components/Layout/BaseLayout";
 import css from "./style.module.css"
 import { Form, InputNumber, Popconfirm, Table, Typography } from 'antd';
+import TokenPercentage from "../../components/Setting comp/tokenPercentage";
 
 const EditableCell = ({
   editing,
@@ -197,7 +198,9 @@ const mergedColumns = columns.map((col) => {
          
           </div> 
           : i === 1 ? <div className={css.PaymentCss}> 
-              <div>Default Maximum</div>
+              <div>
+                <TokenPercentage />
+              </div>
                  
           </div> : null,
         };

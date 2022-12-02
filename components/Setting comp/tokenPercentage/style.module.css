@@ -1,0 +1,21 @@
+.Coincss {
+    display: flex;
+
+}
+
+.Coinper {
+    width: 150px;
+    /* border: 1px solid; */
+    border-top: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    padding: 7px;
+}
+
+.getCoin {
+    border-right: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding: 7px;
+    width: 50px;
+}

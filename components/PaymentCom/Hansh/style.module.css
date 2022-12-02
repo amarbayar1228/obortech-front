@@ -68,10 +68,23 @@
 
 .HanshIcon {
     width: 100%;
-    background: #f43f5e;
+    background: #ff0000d9;
     color: #fff;
     padding: 2px 0px;
     font-size: 13px;
+}
+
+.Tugrug {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 21px;
+    height: 21px;
+    font-size: 14px;
+    /* font-weight: 400; */
+    margin-right: 9px;
+    color: #fddddd;
+    background: #ff0000;
 }
 
 @keyframes bankRouteAnimation {
