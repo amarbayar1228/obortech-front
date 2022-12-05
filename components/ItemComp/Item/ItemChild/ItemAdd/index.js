@@ -21,6 +21,7 @@ const  onFinishAddItem = (values) =>{
 
 if(fileList[0]){
 let baseImg2 = fileList[0].thumbUrl.split("base64,")[1];
+
 const data = {
 func: "newItem", title: values.itemName, description: values.descrip2, 
 quantity: 0, price: values.price, cnt: 1, img: baseImg2, others: "-", status: 0, type_: values.type
@@ -32,6 +33,8 @@ setIsModalVisible(false);
 message.success("Success");  
 props.getItems();
 }).catch((err) => {console.log("err", err)}); 
+
+
 }else{
     message.error("bhq");
 }
@@ -57,6 +60,7 @@ image.src = src;
 const imgWindow = window.open(src);
 imgWindow?.document.write(image.outerHTML);
 };
+
 const onChangeImage = ({ fileList: newFileList }) => {
 console.log("newFile: ",newFileList );
 setFileList(newFileList);

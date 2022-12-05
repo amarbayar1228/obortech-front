@@ -159,11 +159,9 @@ const orgIdRemove = () =>{
         pkId: localStorage.getItem("pkId"),
       };
       axios.post("/api/post/Gate", body).then((res) => { 
+        console.log("profile: ", res.data.data);
           setUserInfoProfile(res.data.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+        }).catch((err) => {console.log(err)});
     } else {
       console.log("null");
     } 

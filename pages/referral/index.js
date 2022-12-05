@@ -5,6 +5,7 @@ import {CaretRightOutlined,TeamOutlined,InfoCircleOutlined,CheckCircleOutlined,E
 import axios from "axios";
 import css from "./style.module.css";
 import BasketContext from "../../context/basketContext/BasketContext";
+import { Router, useRouter } from "next/router";
 import TextArea from "antd/lib/input/TextArea";
 import Company from "../../components/Referral comp/Company";
 const { Panel } = Collapse; 
@@ -14,7 +15,7 @@ const Referral = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalVisibleCorporation, setIsModalVisibleCorporation] =useState(false);
   const [isModalVisibleEdit, setIsModalVisibleEdit] = useState(false);
-
+  const router = useRouter(); 
   const [phoneState, setPhoneState] = useState();
   const [addressState, setAddressState] = useState();
   const [spin, setSpin] = useState(false);
@@ -114,23 +115,7 @@ axios.post("/api/post/Gate", body).then((res) => {
     setIsModalVisible(true);
   };
   const handleOk = () => {
-    const body = {
-      pkId: localStorage.getItem("pkId"),
-      phone: phoneState,
-      address: addressState,
-      state: 1,
-    };
-    // axios
-    //   .post("/api/post/user/updateUser", body)
-    //   .then((res) => {
-    //     message.success("Succesfull");
-    //     setIntroductionText(1);
-    //     localStorage.setItem("introductionText", 1);
-    //     setIsModalVisible(false);
-    //   })
-    //   .catch((err) => {
-    //     // message.error(err);
-    //   });
+    setIsModalVisible(false);
   };
 
   const handleCancel = () => {
@@ -399,8 +384,19 @@ axios.post("/api/post/Gate", body).then((res) => {
         </div>
         </>
       )}
-<Modal title="User Register" open={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
-  <Form form={formUser} name="normal_login" className={css.LoginForm} labelCol={{span: 6,}} wrapperCol={{span: 16,}}
+<Modal title="User Register" open={isModalVisible} onOk={handleOk} onCancel={handleCancel} >
+          <div>
+          {basketContext.userInfoProfile.firstname === "-" ?  
+            <div>
+              <div> Medeeleleee delegrengui buglnu vv </div>
+              <div><Button onClick={()=> router.push("profile")}>Бөглөх</Button> </div>
+            </div> 
+            : <div>
+              quetion
+              </div>
+          }
+          </div>
+  {/* <Form form={formUser} name="normal_login" className={css.LoginForm} labelCol={{span: 6,}} wrapperCol={{span: 16,}}
     initialValues={{ 
       firstname: basketContext.userInfoProfile.firstname === "-" ? "" : basketContext.userInfoProfile.firstname,
       lastname: basketContext.userInfoProfile.lastname === "-" ? "" : basketContext.userInfoProfile.lastname,
@@ -408,6 +404,7 @@ axios.post("/api/post/Gate", body).then((res) => {
       phone: basketContext.userInfoProfile.lastname === "-" ? "" : basketContext.userInfoProfile.phone,
     
     }} onFinish={onFinishUserSend} onFinishFailed={onFinishFailedUserSend}>
+
     <Form.Item label="First name" name="firstname" rules={[{required: true,message: "Please input your First name!",},]}>
       <Input placeholder={"First name:"}/>
     </Form.Item>
@@ -420,7 +417,7 @@ axios.post("/api/post/Gate", body).then((res) => {
     <Form.Item label="Phone number"name="phone" rules={[{required: true,message: "Please input your Phone!",},]}>
       <Input placeholder={"Phone:"}/></Form.Item>
     <Form.Item><div className={css.Ok}><Button type="primary" htmlType="submit" className="login-form-button">Send</Button></div></Form.Item>
-  </Form> 
+  </Form>  */}
 </Modal>
     </div>
   </div>
@@ -432,25 +429,23 @@ axios.post("/api/post/Gate", body).then((res) => {
 <div className={css.Layout}>
 <div style={{background: "#fff"}}>
   <div style={{ display: "flex", alignItems: "center" }}>
-    <Divider orientation="left">Corporation list</Divider> <Divider type="vertical" />
+    <Divider orientation="left">Organization list</Divider> <Divider type="vertical" />
     <Tooltip title="More information on company invitations"> <InfoCircleOutlined style={{ fontSize: "18px" }} /></Tooltip>
   </div>
   {/* {lstate == 2 ? ( */}
 <div className={css.Corporation}>
   <Company />
 {/* <Button type="dashed" shape="round" onClick={CorporationShowModal}>+ Corporation</Button> */}
-<Modal title="Corporation" closable={false} open={isModalVisibleCorporation}footer={null} >
+{/* <Modal title="Corporation" closable={false} open={isModalVisibleCorporation}footer={null} >
 <div>
-  <Form form={form} name="basic" labelCol={{span: 9}}wrapperCol={{span: 16}} initialValues={{totalAnnualRevenue: 10000, before: "http://",after: ".com"}} 
-  onFinish={onFinish} onFinishFailed={onFinishFailed}autoComplete="off">
+  <Form form={form} name="basic" labelCol={{span: 9}}wrapperCol={{span: 16}} initialValues={{totalAnnualRevenue: 10000, before: "http://",after: ".com"}} onFinish={onFinish} onFinishFailed={onFinishFailed}autoComplete="off">
     <div><Button size="small" onClick={() => {form.resetFields();}}>Clear</Button></div>
     
     <Form.Item label="Company name" name="companyName" rules={[{required: true,message: "Please input your Web site!"}]}><Input /></Form.Item>
 
     <Form.Item label="Web site" name="website" rules={[{required: true,message: "Please input your Web site!"}]}>
       <Input addonBefore={selectBefore} addonAfter={selectAfter} placeholder="" />
-    </Form.Item>
-
+    </Form.Item> 
     <Form.Item label="Country" name="country" rules={[{required: true, message: "Please input your Country!"}]}><Input /></Form.Item>
 
     <Form.Item label="How many employees" name="employees" rules={[{required: true,message: "Please input your employees!"}]}>
@@ -472,7 +467,7 @@ axios.post("/api/post/Gate", body).then((res) => {
       <Button type="primary" htmlType="submit">Send</Button></Form.Item>
   </Form>
 </div>
-</Modal>
+</Modal> */}
 </div>
 <div className={css.ContainerCss}> 
   {/* <div>

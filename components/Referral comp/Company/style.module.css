@@ -36,6 +36,7 @@
 
 .imgL {
     display: flex;
+    flex-direction: column;
     margin-bottom: 20px;
 }
 
@@ -125,4 +126,41 @@
     font-size: 15px;
     color: red;
     margin-bottom: 5px;
+}
+
+.BackCss {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.Step1 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.Step2 {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.Prospect1 {
+    display: flex;
+    padding-bottom: 10px;
+    padding-top: 4px;
+    padding-left: 7px;
+    margin-left: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.ProspectTitle {
+    width: 190px;
+    color: #4d5057;
+    font-weight: 600;
+}
+
+.ProspectTitle2 {
+    color: #777d89;
+    font-weight: 600;
 }

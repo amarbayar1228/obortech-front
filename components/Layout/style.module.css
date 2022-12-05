@@ -67,7 +67,7 @@
     background-color: #fff;
     width: calc(100% - 60px);
     border-left: 1px solid #ebebeb;
-    margin: 5px;
+    margin: 5px auto;
     padding: 5px 10px;
 
 }

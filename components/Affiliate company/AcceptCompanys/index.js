@@ -22,7 +22,7 @@ const [tableParams, setTableParams] = useState({
       pageSize: 10,
     },
   });
-  const [modalTitle, setModalTitle] = useState("Organzation id send");
+  const [modalTitle, setModalTitle] = useState("Organization update");
   const [modalCount, setModalCount] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [rejectValue, setRejectValue] = useState(3); 
@@ -41,7 +41,7 @@ const [tableParams, setTableParams] = useState({
     console.log("showModal: ", a.action);
     
     if(a.action.state === 6){
-        setModalTitle("Organzation id send");
+        setModalTitle("Organization update");
         setModalCount(1)
         setCompanyInfo(a.action);
     }else if(a.action.state === 7){
@@ -470,7 +470,7 @@ const columns = [
         //ene Edit hiii gsn state
         ) : a.state == 4 ? (<Tooltip title="Rejected"><Badge color="red" status="processing"text="Rejected"style={{fontSize: "12px", color: "#f5222d"}}/></Tooltip>
         ) : a.state == 5 ? (<Tooltip title={a.others}><Badge color="gray" status="processing"text="Others"style={{fontSize: "12px", color: "#808080"}}/></Tooltip>
-        ) : a.state == 6 ? (<Tooltip title="Invitation Send..."><Badge color="purple" status="processing" text="Invitation Send." style={{fontSize: "12px", color: "#722ed1"}}/></Tooltip>
+        ) : a.state == 6 ? (<Tooltip title="Invitation Sent"><Badge color="purple" status="processing" text="Invitation Sent" style={{fontSize: "12px", color: "#722ed1"}}/></Tooltip>
         ) : a.state == 7 ? (<Tooltip title="Organization Onboarded..."><Badge color="cyan" text="Org id" style={{fontSize: "12px", color: "#13c2c2"}}/></Tooltip>
         ) : a.state == 8 ? (<Tooltip title="Canceled"><Badge status="error" text="C" style={{fontSize: "12px", color: "#722ed1"}}/></Tooltip>) : (<Tooltip title="..."><Badge status="default" text="..." /></Tooltip>)}
     </div>, 
@@ -488,12 +488,16 @@ const columns = [
     render: (b) => <div className={css.ActionCss}>
         {b.orgId === "-" ? <div> 
             {b.action.state === 6 ? <Tooltip title="Organization id"><Button size="small" className={css.BtnRight} type="primary" onClick={()=>showModal(b)} icon={<InsertRowAboveOutlined />}></Button> </Tooltip>
-            : <Tooltip title="Invitation send"><Button size="small" type="primary" className={css.BtnRight} onClick={()=>showPromiseConfirm(b)} icon={<SendOutlined />}></Button></Tooltip>
+            : <Tooltip title="Invitation sent"><Button size="small" type="primary" className={css.BtnRight} onClick={()=>showPromiseConfirm(b)} icon={<SendOutlined />}></Button></Tooltip>
             }
             <Tooltip title="Reject"><Button size="small" className={css.BtnReject}  onClick={()=> showModalReject(b)} icon={<FormOutlined />}></Button> </Tooltip>
             <Tooltip title="User info"><Button size="small" className={css.BtnRight}  onClick={()=> showUserInfo(b)} icon={<SolutionOutlined/>}></Button> </Tooltip>
             <Tooltip title="Company info"><Button size="small" className={css.BtnRight}  onClick={()=> companyInfof(b)} icon={<FundViewOutlined />}></Button> </Tooltip>
-        </div> : <div><Tooltip title="Incentive"><Button size="small" onClick={()=> showModal(b)} icon={<StarOutlined />}></Button></Tooltip></div>}
+        </div> : <div><Tooltip title="Incentive">
+
+          <Button size="small" onClick={()=> showModal(b)} icon={<StarOutlined />}></Button>
+          
+          </Tooltip></div>}
     
     </div>,
     },
@@ -513,10 +517,12 @@ const body = {
     };
     axios.post("/api/post/Gate", body).then((res) => {
       companyDataFunc();
+      setIsModalOpen(false);
       message.success("Success"); 
     }).catch((err) => {console.log(err)});
 }else { 
   console.log("incenitive");
+  
     // const body = {
     //   func: "setInsentive",
     //   insentive: values.percentage,
@@ -597,7 +603,7 @@ return <div>
         <div className={css.CompNameCss}>
             <div>Company name:</div>
             <div className={css.CompTitle}>{companyInfo === undefined ? "": companyInfo.companyName}</div>
-            </div>
+        </div>
         <Form.Item label={"Percentage choose"} name={"percentageChoose"}   rules={[{required: true,message: "Please choose"}]}>
             <Radio.Group onChange={onChangeRadio} value={value}>
             <Space direction="vertical">
@@ -619,7 +625,7 @@ return <div>
         }
         {/* <div><Button onClick={()=> form.resetFields()}>Reset</Button></div> */}
         <Form.Item style={{display: "flex", justifyContent: "flex-end"}}>
-            <div ><Button type="primary" htmlType="submit" className="login-form-button">Send</Button></div>
+            <div ><Button type="primary" htmlType="submit" className="login-form-button">Update</Button></div>
         </Form.Item> 
         </Form> 
     </Modal>
@@ -635,7 +641,7 @@ return <div>
         //ene Edit hiii gsn state
         ) : rejectValue == 4 ? (<Tooltip title="Rejected"><Badge color="red" status="processing"text="Rejected"style={{fontSize: "12px", color: "#f5222d"}}/></Tooltip>
         ) : rejectValue == 5 ? (<Tooltip title={companyInfo === undefined ? "": others}><Badge color="gray" status="processing"text="Others"style={{fontSize: "12px", color: "#808080"}}/></Tooltip>
-        ) : rejectValue == 6 ? (<Tooltip title="Invitation Send..."><Badge color="purple" status="processing" text="Invitation Send." style={{fontSize: "12px", color: "#722ed1"}}/></Tooltip>
+        ) : rejectValue == 6 ? (<Tooltip title="Invitation Sent"><Badge color="purple" status="processing" text="Invitation Sent" style={{fontSize: "12px", color: "#722ed1"}}/></Tooltip>
         ) : rejectValue == 7 ? (<Tooltip title="Organization Onboarded..."><Badge color="cyan" text="Org id" style={{fontSize: "12px", color: "#13c2c2"}}/></Tooltip>
         ) : rejectValue == 8 ? (<Tooltip title="Canceled"><Badge status="error" text="C" style={{fontSize: "12px", color: "#722ed1"}}/></Tooltip>) : (<Tooltip title="..."><Badge status="default" text="..." /></Tooltip>)}
         
@@ -667,7 +673,7 @@ return <div>
     //ene Edit hiii gsn state
     ) : rejectValue == 4 ? (<Tooltip title="Rejected"><Badge color="red" status="processing"text="Rejected"style={{fontSize: "12px", color: "#f5222d"}}/></Tooltip>
     ) : rejectValue == 5 ? (<Tooltip title={companyInfo === undefined ? "": others}><Badge color="gray" status="processing"text="Others"style={{fontSize: "12px", color: "#808080"}}/></Tooltip>
-    ) : rejectValue == 6 ? (<Tooltip title="Invitation Send..."><Badge color="purple" status="processing" text="Invitation Send." style={{fontSize: "12px", color: "#722ed1"}}/></Tooltip>
+    ) : rejectValue == 6 ? (<Tooltip title="Invitation Sent"><Badge color="purple" status="processing" text="Invitation Sent" style={{fontSize: "12px", color: "#722ed1"}}/></Tooltip>
     ) : rejectValue == 7 ? (<Tooltip title="Organization Onboarded..."><Badge color="cyan" text="Org id" style={{fontSize: "12px", color: "#13c2c2"}}/></Tooltip>
     ) : rejectValue == 8 ? (<Tooltip title="Canceled"><Badge status="error" text="C" style={{fontSize: "12px", color: "#722ed1"}}/></Tooltip>) : (<Tooltip title="..."><Badge status="default" text="..." /></Tooltip>)} 
     </div>
@@ -707,7 +713,7 @@ return <div>
     //ene Edit hiii gsn state
     ) : rejectValue == 4 ? (<Tooltip title="Rejected"><Badge color="red" status="processing"text="Rejected" style={{fontSize: "12px", color: "#f5222d"}}/></Tooltip>
     ) : rejectValue == 5 ? (<Tooltip title={companyInfo === undefined ? "": others}> <Badge color="gray" status="processing"text="Others" style={{fontSize: "12px", color: "#808080"}}/></Tooltip>
-    ) : rejectValue == 6 ? (<Tooltip title="Invitation Send..."><Badge color="purple" status="processing" text="Invitation Send." style={{fontSize: "12px", color: "#722ed1"}}/></Tooltip>
+    ) : rejectValue == 6 ? (<Tooltip title="Invitation Sent"><Badge color="purple" status="processing" text="Invitation Sent" style={{fontSize: "12px", color: "#722ed1"}}/></Tooltip>
     ) : rejectValue == 7 ? (<Tooltip title="Organization Onboarded..."><Badge color="cyan" text="Org id" style={{fontSize: "12px", color: "#13c2c2"}}/></Tooltip>
     ) : rejectValue == 8 ? (<Tooltip title="Canceled"><Badge status="error" text="C" style={{fontSize: "12px", color: "#722ed1"}}/></Tooltip>) : (<Tooltip title="..."><Badge status="default" text="..." /></Tooltip>)} 
     </div>
