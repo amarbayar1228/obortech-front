@@ -1,4 +1,4 @@
-import {Badge,Button,Collapse,Descriptions,Divider,Empty,Form,Image,Input,InputNumber,message,Modal,Pagination,Result,Select,Spin,Tooltip} from "antd";
+import {Badge,Button,Collapse,Descriptions,Divider,Empty,Form,Image,Input,InputNumber,message,Modal,Pagination,Result,Select,Spin,Table,Tooltip} from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import BaseLayout from "../../components/Layout/BaseLayout";
 import {CaretRightOutlined,TeamOutlined,InfoCircleOutlined,CheckCircleOutlined,ExclamationCircleOutlined,} from "@ant-design/icons";
@@ -343,6 +343,69 @@ axios.post("/api/post/Gate", body).then((res) => {
     </Select>
     </Form.Item>
   );
+  const data = [
+    {
+      key: 1, 
+      img: basketContext.userInfoProfile ?  basketContext.userInfoProfile.img : "",
+      firstname: basketContext.userInfoProfile ?  basketContext.userInfoProfile.firstname : "",
+      lastname: basketContext.userInfoProfile ?  basketContext.userInfoProfile.lastname : "",
+      state: basketContext.userInfoProfile ?  basketContext.userInfoProfile.state : "",
+      action: basketContext.userInfoProfile ?  basketContext.userInfoProfile.state : "",
+    }];
+const columns = [
+    {
+    title:<div className={css.TableTitle}>Image</div>,  
+    dataIndex: 'img',
+    key: 'img', 
+    fixed: "left",
+    width: 70,
+    // ...getColumnSearchProps('state'), 
+    render: (a) => <div> 
+            <Image alt="Obertech" preview={true} className={css.Zurag} src={"data:image/png;base64," + a} style={{display: "flex", width: "30px", margin:"0px auto"}}/>
+    </div>, 
+    ellipsis: true,
+    }, 
+    {
+    title: <div className={css.TableTitle}>First name</div>,
+    dataIndex: 'firstname',
+    key: 'firstname',  
+    ellipsis: true,
+    },
+    {
+    title: <div className={css.TableTitle}>Last name</div>,
+    dataIndex: 'lastname',
+    key: 'lastname',  
+    // sorter: (a, b) => a.lastname.length - b.lastname.length, 
+    ellipsis: true,
+    }, 
+    
+    {
+    title: <div className={css.TableTitle}>Status</div>,
+    dataIndex: 'state',
+    key: 'state', 
+    fixed: "right",
+    width: 90, 
+    render: (a) => <div>
+        {console.log("a", a)}
+        {a == 1 ? (<Tooltip title="Request pending"><Badge status="processing" text="Request pending" style={{color: "rgb(24 144 255)", fontWeight: "600"}}/></Tooltip>) : 
+        a == 0 ? <Tooltip title="Invisible">  <Badge status="default" text="invisible" style={{color: "#8d8d8d",fontWeight: "600"}}/></Tooltip> : 
+        a == 3 ? <Tooltip title="Rejected">  <Badge status="error" text="Rejected" style={{color: "red",fontWeight: "600"}}/></Tooltip>  : ""
+        }
+    </div>,   
+    ellipsis: true,
+    }, 
+
+    {title: <div className={css.TableTitle}>Action</div>,   key: 'action', fixed: 'right', width: 140,
+    render: (b) => <div className={css.ActionCss}>
+         <div style={{display: "flex"}}> 
+          {b.state == 3 ? <Button>Edit</Button> : ""}
+         {/* <StatusChangeModal addItemStatus={b.state} addItemGetItems={getItems} />
+         <ItemEdit addItemStatus={b.state} addItemGetItems={getItems} typeLevel={typeLevel}/>
+         <ItemDel addItemStatus={b.state} addItemGetItems={getItems}/>  */}
+        </div>   
+    </div>,
+    },
+];
   return (
 <BaseLayout pageName="referral">
   <div className={css.LayoutRef}>
@@ -367,29 +430,57 @@ axios.post("/api/post/Gate", body).then((res) => {
     {spin === true ? <Spin style={{display: "flex", alignItems: "center", justifyContent: "center"}}/> : ""}
       {userInfo.state === 1 ? (
         <div style={{ marginTop: "-30px" }}>
-          <Result icon={<Image style={{ marginBottom: "-24px" }} alt="Obertech" preview={false} src="/img/send4.png" width={100}/>}
-            subTitle="Admin will check your request and reply soon." title="Your request has been sent to an administrator."/>
+        <Result icon={<Image style={{ marginBottom: "-24px" }} alt="Obertech" preview={false} src="/img/send4.png" width={100}/>} subTitle="Admin will check your request and reply soon." title="Your request has been sent to an administrator."/>
+
+        <Table bordered size="small" columns={columns} dataSource={data}/>
         </div>
       ) : (
         <>
         <Button type="dashed" shape="round" onClick={showModal}>+ Information</Button>
         <div style={{ marginTop: "-30px" }}>
-          {userInfo.lastname === "-" ? <Result icon={<Image style={{ marginBottom: "-24px" }} alt="Obertech" preview={false} src="/img/info.png" width={100}/>}
-            subTitle="Then you will be able to invite company. " title="Fill in your details."/> :
-            <Result icon={<Image style={{ marginBottom: "-24px" }} alt="Obertech" preview={false} src="/img/info.png" width={100}/>}
-            subTitle="Medeelelee zasnu. " title="Hvselt butsaagdsan."/>
+          {userInfo.lastname === "-" ? 
+          <Result icon={<Image style={{ marginBottom: "-24px" }} alt="Obertech" preview={false} src="/img/info.png" width={100}/>} subTitle="Then you will be able to invite company. " title="Fill in your details."/> :
+          
+          <Result icon={<Image style={{ marginBottom: "-24px" }} alt="Obertech" preview={false} src="/img/info.png" width={100}/>} subTitle="Medeelelee zasnu. " title="Hvselt butsaagdsan."/>
           }
           
 
         </div>
         </>
       )}
-<Modal title="User Register" open={isModalVisible} onOk={handleOk} onCancel={handleCancel} >
+<Modal title="Form for Affiliate" open={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
           <div>
           {basketContext.userInfoProfile.firstname === "-" ?  
             <div>
-              <div> Medeeleleee delegrengui buglnu vv </div>
-              <div><Button onClick={()=> router.push("profile")}>Бөглөх</Button> </div>
+              <div className={css.FormAffiliate}>
+                <div className={css.FormTitle}>Email: </div>
+                <div className={css.FormDescrip}>{basketContext.userInfoProfile.email}</div>
+              </div>
+              <div className={css.FormAffiliate}>
+                <div className={css.FormTitle}>Web site: </div>
+                <div className={css.FormDescrip}>{basketContext.userInfoProfile.website}</div>
+              </div>
+              <div className={css.FormAffiliate}>
+                <div className={css.FormTitle}>Country: </div>
+                <div className={css.FormDescrip}>{basketContext.userInfoProfile.countryregion}</div>
+              </div>
+              <div className={css.FormAffiliate}>
+                <div className={css.FormTitle}>City: </div>
+                <div className={css.FormDescrip}>{basketContext.userInfoProfile.city}</div>
+              </div>
+              <div className={css.FormAffiliate}>
+                <div className={css.FormTitle}>Address: </div>
+                <div className={css.FormDescrip}>{basketContext.userInfoProfile.address}</div>
+              </div>
+              <div className={css.FormAffiliate}>
+                <div className={css.FormTitle}>Phone number: </div>
+                <div className={css.FormDescrip}>{basketContext.userInfoProfile.phone}</div>
+              </div>
+              <div className={css.FormAffiliate} style={{marginBottom: "10px"}}>
+                <div className={css.FormTitle}>Job title: </div>
+                <div className={css.FormDescrip}>{basketContext.userInfoProfile.jobtitle}</div>
+              </div>
+              <div><Button onClick={()=> router.push("profile")}>Update</Button> </div>
             </div> 
             : <div>
               quetion

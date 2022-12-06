@@ -52,6 +52,8 @@ const getItems = () => {
 
 const itemLevel = {
 func: "getTypes",
+parid:0,
+type_:2,
 }
 axios.post("/api/post/Gate", itemLevel).then((res)=>{
 console.log("item level type: ", res.data);
@@ -142,7 +144,7 @@ console.log("result page: ", resultPage);
 setFilteredInfo(filters);
 setSortedInfo(sorter);
 };
-const data = itemData.map((r, i)=>(
+const data = itemData ? itemData.map((r, i)=>(
     {
       key: i,
       date: r.date_,
@@ -155,7 +157,18 @@ const data = itemData.map((r, i)=>(
       state: r, 
       action: r
     } 
-));
+)) : [{
+    key: 1,
+    date: "",
+    img: "",
+    title: "",
+    description: "",
+    price: "",
+    others: "",
+    cnt: "",
+    state: "", 
+    action: ""
+}];
 const columns = [
     // {
     // title: <div className={css.TableTitle}>Date</div>,   
@@ -239,10 +252,12 @@ const columns = [
     width: 90,
     // ...getColumnSearchProps('state'), 
     render: (a) => <div>
+
         {a.status == 1 ? (<Tooltip title="Active"><Badge status="success" text="active" style={{color: "#349f3c",fontWeight: "600"}}/></Tooltip>) : 
         a.status == 0 ? <Tooltip title="Invisible">  <Badge status="default" text="invisible" style={{color: "#8d8d8d",fontWeight: "600"}}/></Tooltip> : 
         a.status == 2 ? <Tooltip title="Disable">  <Badge status="error" text="Disable" style={{color: "red",fontWeight: "600"}}/></Tooltip>  : ""
         }
+        
     </div>, 
     filteredValue: filteredInfo.state || null,
     onFilter: (value, record) => record.state.includes(value),

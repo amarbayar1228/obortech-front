@@ -139,7 +139,7 @@ console.log("result page: ", resultPage);
 setFilteredInfo(filters);
 setSortedInfo(sorter);
 };
-const data = group.map((r, i)=>(
+const data = group ?  group.map((r, i)=>(
     {
       key: i,
       date: r.date_,
@@ -152,7 +152,18 @@ const data = group.map((r, i)=>(
       state: r, 
       action: r
     } 
-));
+)) : [{ 
+        key: null,
+        date: null,
+        img: null,
+        title: null,
+        description: null,
+        price: null,
+        others: null,
+        cnt: null,
+        state: null ,
+        action: null,
+}];
 const columns = [
     // {
     // title: <div className={css.TableTitle}>Date</div>,
@@ -225,10 +236,14 @@ const columns = [
     width: 90,
     // ...getColumnSearchProps('state'), 
     render: (a) => <div>
+        {group ? 
+        <>
         {a.status == 1 ? (<Tooltip title="Active"><Badge status="success" text="active" style={{color: "#349f3c",fontWeight: "600"}}/></Tooltip>) : 
         a.status == 0 ? <Tooltip title="Invisible">  <Badge status="default" text="invisible" style={{color: "#8d8d8d",fontWeight: "600"}}/></Tooltip> : 
         a.status == 2 ? <Tooltip title="Disable">  <Badge status="error" text="Disable" style={{color: "red",fontWeight: "600"}}/></Tooltip>  : ""
         }
+        </>
+        : ""}
     </div>, 
     filteredValue: filteredInfo.state || null,
     onFilter: (value, record) => record.state.includes(value),
@@ -238,7 +253,10 @@ const columns = [
     }, 
 
     {title: <div className={css.TableTitle}>Action</div>, key: 'action', fixed: 'right', width: 120,
-    render: (b) => <div className={css.ActionCss}>  {b.state.status === 2 ? <GroupDisInsert groupData={b.state} getGroupItems={groupItems}/> :  
+    render: (b) => <div className={css.ActionCss}>  
+    {group ? 
+        <> 
+        {b.state.status === 2 ? <GroupDisInsert groupData={b.state} getGroupItems={groupItems}/> :  
          <div style={{display: "flex"}}>  
            
             <StatusChangeModal groupData={b.state} getGroupItems={groupItems}/>
@@ -250,6 +268,8 @@ const columns = [
          <ItemDel addItemStatus={b.state} addItemGetItems={getItems}/>  */}
         </div>   
          }
+</>
+: ""}
     </div>,
     },
 ];

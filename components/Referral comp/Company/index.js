@@ -557,19 +557,19 @@ onFinish={onFinish} onFinishFailed={onFinishFailed}autoComplete="off">
       <div style={{color: "rgb(14 14 14)",fontWeight: "600"}}>1. Prospect contact information</div>
       <div className={css.Prospect1}>
         <div className={css.ProspectTitle}>First name:</div>
-        <div className={css.ProspectTitle2}>{companyInfo.firstname}</div>
+        <div className={css.ProspectTitle2}>{companyInfo ? companyInfo.firstname : "null"}</div>
       </div>
       <div className={css.Prospect1}>
         <div className={css.ProspectTitle}>Last name:</div>
-        <div className={css.ProspectTitle2}>{companyInfo.lastname}</div>
+        <div className={css.ProspectTitle2}>{companyInfo ? companyInfo.lastname : "null"}</div>
       </div>
       <div className={css.Prospect1}>
         <div className={css.ProspectTitle}>Job title:</div>
-        <div className={css.ProspectTitle2}>{companyInfo.jobtitle}</div>
+        <div className={css.ProspectTitle2}>{companyInfo ? companyInfo.jobtitle : "null"}</div>
       </div>
       <div className={css.Prospect1}>
         <div className={css.ProspectTitle}>Email: </div>
-        <div className={css.ProspectTitle2}>{companyInfo.email}</div>
+        <div className={css.ProspectTitle2}>{companyInfo ? companyInfo.email : "null"}</div>
       </div>
     </div>
 

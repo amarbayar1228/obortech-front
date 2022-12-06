@@ -148,3 +148,20 @@
  }
 
  .IncentiveText {}
+
+ .FormAffiliate {
+   border-bottom: 1px solid #ccc;
+   padding: 5px;
+   display: flex;
+ }
+
+ .FormTitle {
+   font-size: 14px;
+   font-weight: 600;
+   width: 140px;
+ }
+
+ .FormDescrip {
+   font-size: 14px;
+   color: #8b8b8b;
+ }

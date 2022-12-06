@@ -1,4 +1,4 @@
-import { Button, Form, Input, InputNumber, message, Modal, Radio, Upload } from "antd";
+import { Button, Form, Input, InputNumber, message, Modal, Radio, Spin, Upload } from "antd";
 import TextArea from "antd/lib/input/TextArea";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -8,6 +8,10 @@ const [fileList, setFileList] = useState([]);
 const [formAddItem] = Form.useForm(); 
 const [isModalVisible, setIsModalVisible]= useState(false);
 const [vType, setVType] = useState(1);
+const [typeLevelValue, setTypeLevelValue] = useState(14);
+const [typeLevelSub, setTypeLevelSub] = useState(14);
+const [typeSubValue, setTypeSubValue] = useState(0);
+const [levelSpin, setLevelSping] = useState(false);
 useEffect(()=>{
     console.log("props: ", props);
 },[])
@@ -24,7 +28,9 @@ let baseImg2 = fileList[0].thumbUrl.split("base64,")[1];
 
 const data = {
 func: "newItem", title: values.itemName, description: values.descrip2, 
-quantity: 0, price: values.price, cnt: 1, img: baseImg2, others: "-", status: 0, type_: values.type
+quantity: 0, price: values.price, cnt: 1, img: baseImg2, others: "-", status: 0, 
+
+type_: typeLevelSub,
 };
 axios.post("/api/post/Gate", data).then((res) => {
 setFileList([]);
@@ -65,13 +71,31 @@ const onChangeImage = ({ fileList: newFileList }) => {
 console.log("newFile: ",newFileList );
 setFileList(newFileList);
 };
-const onChangeType = (e) =>{
-setVType(e.target.value);
-}
+ 
 const handleCancel = ()=>{
     setFileList([]);
     setIsModalVisible(false);
     formAddItem.resetFields();
+}
+const onChangeType = (e) =>{
+    setTypeLevelValue(e.target.value)
+    console.log("value: ", e.target.value);
+    setLevelSping(true);
+    const body = {
+        func:"getTypes",  
+        parid:e.target.value,
+        type_:2
+    }
+    axios.post("api/post/Gate", body).then((res)=>{
+        console.log("res", res.data);
+        setLevelSping(false);
+        setTypeSubValue(res.data.data);
+        
+    }).catch((err)=>console.log("err"));
+}
+const onChangeTypeSub = (e) =>{
+    console.log("subs: ", e.target.value);
+    setTypeLevelSub(e.target.value); 
 }
 return <div>
     <Button type="dashed" shape="round" onClick={showModal}>+ add item</Button>
@@ -85,14 +109,31 @@ return <div>
     <Form.Item label="Image" name="img" rules={[{required: true,message: "Please input your Image!"}]}>
     <Upload onPreview={onPreview} listType="picture-card" fileList={fileList} onChange={onChangeImage} >{fileList.length < 1 && "+ Image"}</Upload>
     </Form.Item> 
-    <Form.Item label={"type: "} name="type" rules={[{  type: 'number', required: true, message: "Please input your type!"}]}>
-    <Radio.Group>
-        {props.typeLevel === null ? "" : <>{props.typeLevel.typeName.map((e,i)=>(
-            <Radio value={i+1} key={i}>{e}</Radio>
-        ))}</>}
-    </Radio.Group>
-    </Form.Item>
-  
+<div> 
+   <div style={{marginRight: "1px"}}>Type:</div> 
+<Radio.Group size="small" onChange={onChangeType} value={typeLevelValue}> 
+    {props.typeLevel === null ? "" : <>{props.typeLevel.map((e,i)=>(
+    <>
+    <Radio.Button value={e.index_} key={i}>{e.nameeng}</Radio.Button>  
+    </>
+))}</>} 
+</Radio.Group>
+<>
+{typeLevelValue == 14 || typeLevelValue == 15  || typeLevelValue == 16 || typeLevelValue == 17 ? 
+<div style={{margin: "10px"}}> 
+{levelSpin ? <Spin /> : 
+<Radio.Group size="small" onChange={onChangeTypeSub} value={typeLevelSub}> 
+{typeSubValue === 0 ? "" : <>{typeSubValue.map((e,i)=>(
+    <> 
+    <Radio value={e.index_} key={i}>{e.nameeng}</Radio> 
+    
+    </>
+))}</>} 
+</Radio.Group>
+} 
+</div>: null}
+</>
+</div>
     <Form.Item><div className={css.Ok}><Button type="primary" htmlType="submit" className="login-form-button">Send</Button></div></Form.Item>
     </Form>   
     </div>

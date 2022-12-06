@@ -1,4 +1,4 @@
-import { Badge, Button, Form, Input, InputNumber, message, Modal, notification, Radio, Tooltip, Upload } from "antd";
+import { Badge, Button, Form, Input, InputNumber, message, Modal, notification, Radio, Spin, Tooltip, Upload } from "antd";
 import React, { useState } from "react";
 import css from "./style.module.css"
 import {SearchOutlined ,CheckOutlined, ExclamationCircleOutlined, FormOutlined, ClearOutlined, StarOutlined,SolutionOutlined, FundViewOutlined,DeleteOutlined, EditOutlined} from "@ant-design/icons";
@@ -10,6 +10,10 @@ const [formEdit] = Form.useForm();
 const [itemInfo, setItemInfo] = useState("");
 const [fileListUpdate, setFileListUpdate] = useState([]);
 const [imgNullText, setImgNullText] = useState("");
+const [typeLevelValue, setTypeLevelValue] = useState(14);
+const [typeLevelSub, setTypeLevelSub] = useState(14);
+const [typeSubValue, setTypeSubValue] = useState(0);
+const [levelSpin, setLevelSping] = useState(false);
 const showModal = () => {
 console.log("edit modal", props);
 setItemInfo(props.addItemStatus);
@@ -69,7 +73,7 @@ const body ={
     description: values.descrip,
     price: values.price,
     img: baseImg, 
-    type_: 1,
+    type_: typeLevelSub,
 }
     axios.post("/api/post/Gate", body).then((res) => { 
     if(res.data.error){
@@ -95,6 +99,26 @@ const body ={
 const onFinishFailedEdit = (errInfo)=>{
 console.log("errInfo: ", errInfo);
 // formAddItem.resetFields(); 
+}
+const onChangeType = (e) =>{
+    setTypeLevelValue(e.target.value)
+    console.log("value: ", e.target.value);
+    setLevelSping(true);
+    const body = {
+        func:"getTypes",  
+        parid:e.target.value,
+        type_:2
+    }
+    axios.post("api/post/Gate", body).then((res)=>{
+        console.log("res", res.data);
+        setLevelSping(false);
+        setTypeSubValue(res.data.data);
+        
+    }).catch((err)=>console.log("err"));
+}
+const onChangeTypeSub = (e) =>{
+    console.log("subs: ", e.target.value);
+    setTypeLevelSub(e.target.value); 
 }
 return <div>
 <Tooltip title="Edit">
@@ -131,15 +155,36 @@ initialValues={{
         {fileListUpdate.length < 1 && "+ Image"}</Upload> <span className={css.ImgErr}>{imgNullText}</span>
 </Form.Item>  
 <Form.Item label={"type: "} name="type" rules={[{  type: 'number', required: true, message: "Please input your type!"}]}>
-    <Radio.Group> 
-         {props.typeLevel === null ? "" : <>{props.typeLevel.typeName.map((e,i)=>(
-            <Radio value={i+1} key={i}>{e}</Radio>
-        ))}</>}
-        {/* <Radio value={1}>Subscribtion</Radio>
-        <Radio value={2}>Device 6</Radio>
-        <Radio value={3}>Device 12</Radio>
-        <Radio value={4}>Items</Radio> */}
-    </Radio.Group>
+
+<Radio.Group size="small" onChange={onChangeType} value={typeLevelValue}> 
+        {props.typeLevel === null ? "" : <>{props.typeLevel.map((e,i)=>(
+        <>
+
+        <Radio.Button value={e.index_} key={i}>{e.nameeng}
+            
+        </Radio.Button> 
+        
+        </>
+    ))}</>} 
+</Radio.Group>
+<>
+{typeLevelValue == 14 || typeLevelValue == 15  || typeLevelValue == 16 || typeLevelValue == 17 ? 
+<div style={{margin: "10px"}}> 
+{levelSpin ? <Spin /> :
+
+<Radio.Group size="small" onChange={onChangeTypeSub} value={typeLevelSub}> 
+{typeSubValue === 0 ? "" : <>{typeSubValue.map((e,i)=>(
+    <> 
+    <Radio value={e.index_} key={i}>{e.nameeng}</Radio> 
+    
+    </>
+))}</>} 
+</Radio.Group>
+}
+
+
+</div>: null}
+</>
     </Form.Item>
 {/* <div><Button onClick={()=> formEdit.resetFields()}>Reset</Button></div> */}
 <Form.Item><div style={{marginBottom: "-35px"}}><Button type="primary" htmlType="submit" className="login-form-button" style={{width: "100%"}}>Update</Button></div></Form.Item> 

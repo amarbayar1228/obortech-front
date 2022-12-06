@@ -117,8 +117,8 @@ const getItems = () =>{
     console.log("props add: ", props);
     const body = {
     func: "getItems",
-    d1: "2022-09-11",
-    d2: "2022-11-07",
+    d1: "2022-12-06",
+    d2: "2022-12-06",
     status: "0,1",
     };
     axios.post("/api/post/Gate", body).then((res) => { 

@@ -149,7 +149,7 @@ const Items = () => {
          <div className={css.Package}> <div className={css.PackageLine}></div> <div className={css.PackageTitle}>Package items</div></div>
          <div className={css.GroupLayoutCss}> 
            <div>
-             {groupState1 === undefined ? ("item bhq") : (
+             {groupState1 === undefined ?  <Empty /> : (
                <>
                  {groupState1.map((e, gst1) => (
                    <div key={gst1}>
