@@ -165,3 +165,18 @@
    font-size: 14px;
    color: #8b8b8b;
  }
+
+ .BackCss {
+   display: flex;
+   align-items: center;
+ }
+
+ .Title {
+   margin-left: 2px;
+   font-weight: 600;
+ }
+
+ .ScrollCss {
+   height: 600px;
+   overflow: auto;
+ }

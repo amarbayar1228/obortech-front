@@ -98,7 +98,7 @@ const onChangeTypeSub = (e) =>{
     setTypeLevelSub(e.target.value); 
 }
 return <div>
-    <Button type="dashed" shape="round" onClick={showModal}>+ add item</Button>
+    <Button type="primary"  onClick={showModal}>+ add item</Button>
     <Modal title="Add item" footer={null} open={isModalVisible} cancelText="cancel" okText="OK"  onCancel={handleCancel}>
     <div>
     <Form form={formAddItem} name="normal_login" className={css.LoginForm} labelCol={{span: 7}} wrapperCol={{span: 16}} initialValues={{remember: true}} onFinish={onFinishAddItem} onFinishFailed={onFinishFailedAddItem}>

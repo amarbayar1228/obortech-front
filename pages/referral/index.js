@@ -1,100 +1,106 @@
 import {Badge,Button,Collapse,Descriptions,Divider,Empty,Form,Image,Input,InputNumber,message,Modal,Pagination,Result,Select,Spin,Table,Tooltip} from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import BaseLayout from "../../components/Layout/BaseLayout";
-import {CaretRightOutlined,TeamOutlined,InfoCircleOutlined,CheckCircleOutlined,ExclamationCircleOutlined,} from "@ant-design/icons";
+import {CaretRightOutlined,ArrowLeftOutlined,InfoCircleOutlined,CheckCircleOutlined,ExclamationCircleOutlined,} from "@ant-design/icons";
 import axios from "axios";
 import css from "./style.module.css";
 import BasketContext from "../../context/basketContext/BasketContext";
 import { Router, useRouter } from "next/router";
 import TextArea from "antd/lib/input/TextArea";
 import Company from "../../components/Referral comp/Company";
+import QuestionDetails from "../../components/Referral comp/QuestionDetails";
 const { Panel } = Collapse; 
 const { Option } = Select;
 const Referral = () => {
   const basketContext = useContext(BasketContext);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isModalVisibleCorporation, setIsModalVisibleCorporation] =useState(false);
-  const [isModalVisibleEdit, setIsModalVisibleEdit] = useState(false);
+  const [question, setQuestion] = useState(0);
+  const [questionData, setQuestionData] = useState(0);
+  const [questionArray, setQuestionArray] = useState([]);
+  const [ques1, setQues1] = useState(0); 
+  const [quesValue1, setQuesValue1] = useState(0); 
+  // const [isModalVisibleCorporation, setIsModalVisibleCorporation] =useState(false);
+  // const [isModalVisibleEdit, setIsModalVisibleEdit] = useState(false);
   const router = useRouter(); 
-  const [phoneState, setPhoneState] = useState();
-  const [addressState, setAddressState] = useState();
+  // const [phoneState, setPhoneState] = useState();
+  // const [addressState, setAddressState] = useState();
   const [spin, setSpin] = useState(false);
   // user Medeeleliig haruulj bga State
-  const [lusername, setlUsername] = useState();
-  const [llastname, setllastname] = useState();
-  const [lphone, setlphone] = useState();
-  const [lfirstname, setlfirstname] = useState();
-  const [lstate, setlstate] = useState();
-  const [lemail, setlemail] = useState();
-  const [laddress, setladdress] = useState();
-  const [introductionText, setIntroductionText] = useState(0);
+  // const [lusername, setlUsername] = useState();
+  // const [llastname, setllastname] = useState();
+  // const [lphone, setlphone] = useState();
+  // const [lfirstname, setlfirstname] = useState();
+  // const [lstate, setlstate] = useState();
+  // const [lemail, setlemail] = useState();
+  // const [laddress, setladdress] = useState();
+  // const [introductionText, setIntroductionText] = useState(0);
 
   //  Company medeelel haruulj bga state
-  const [companyName, setCompanyName] = useState();
-  const [register, setRegister] = useState();
-  const [areasOfActivity, setAreasOfActivity] = useState();
-  const [telephone, setTelephone] = useState();
-  const [address, setAddress] = useState();
-  const [dateCompany, setDateCompany] = useState();
+  // const [companyName, setCompanyName] = useState();
+  // const [register, setRegister] = useState();
+  // const [areasOfActivity, setAreasOfActivity] = useState();
+  // const [telephone, setTelephone] = useState();
+  // const [address, setAddress] = useState();
+  // const [dateCompany, setDateCompany] = useState();
 
-  const [companyUserGet, setCompanyUserGet] = useState([]);
-  const [userInfoGet, setUserInfoGet] = useState([]);
-  const [CompanyListState, setCompanyListState] = useState([]);
+  // const [companyUserGet, setCompanyUserGet] = useState([]);
+  // const [userInfoGet, setUserInfoGet] = useState([]);
+  // const [CompanyListState, setCompanyListState] = useState([]);
 
-  //CompanyEdit Modal Input value
-  const [companyNameInput, setCompanyNameInput] = useState("");
-  const [additionalInformationInput, setAdditionalInformationInput] =
-    useState("");
-  const [websiteInput, setWebSite] = useState("");
-  const [countryInput, setCountryInput] = useState("");
-  const [employeesInput, setEmployeesInput] = useState("");
-  const [totalAnnualRevenueInput, setTotalAnnualRevenue] = useState("");
+  // //CompanyEdit Modal Input value
+  // const [companyNameInput, setCompanyNameInput] = useState("");
+  // const [additionalInformationInput, setAdditionalInformationInput] =
+  //   useState("");
+  // const [websiteInput, setWebSite] = useState("");
+  // const [countryInput, setCountryInput] = useState("");
+  // const [employeesInput, setEmployeesInput] = useState("");
+  // const [totalAnnualRevenueInput, setTotalAnnualRevenue] = useState("");
 
-  const [companyPkIdInput, setCompanyPkIdInput] = useState();
-  const [insentive, setInsentive] = useState([]);
-  const [incentiveTotalPrice, setIncentiveTotalPrice] = useState(0);
+  // const [companyPkIdInput, setCompanyPkIdInput] = useState();
+  // const [insentive, setInsentive] = useState([]);
+  // const [incentiveTotalPrice, setIncentiveTotalPrice] = useState(0);
 
   const [formUser] = Form.useForm();
   const [form] = Form.useForm();
-  const [spinState, setSpinState] = useState(false);
+  // const [spinState, setSpinState] = useState(false);
   const [userInfo, setUserInfo] = useState("");
   useEffect(() => { 
     userCompany();
   }, []);
-  const CorporationShowModal = () => {
-    setIsModalVisibleCorporation(true);
-  };
-  const EditShowModal = (e) => {
-    console.log("edit modal: ", e);
+  // const CorporationShowModal = () => {
+  //   setIsModalVisibleCorporation(true);
+  // };
+  // const EditShowModal = (e) => {
+  //   console.log("edit modal: ", e);
 
-    setCompanyPkIdInput(e.PkId);
+  //   setCompanyPkIdInput(e.PkId);
 
-    setAdditionalInformationInput(e.additionalInformation);
-    setCompanyNameInput(e.companyName);
-    setCountryInput(e.country);
-    setEmployeesInput(e.employees);
-    setTotalAnnualRevenue(e.totalAnnualRevenue);
-    setWebSite(e.website);
+  //   setAdditionalInformationInput(e.additionalInformation);
+  //   setCompanyNameInput(e.companyName);
+  //   setCountryInput(e.country);
+  //   setEmployeesInput(e.employees);
+  //   setTotalAnnualRevenue(e.totalAnnualRevenue);
+  //   setWebSite(e.website);
 
-    setIsModalVisibleEdit(true);
-  };
-  const onFinishEdit = () => {
-    setIsModalVisibleEdit(false);
-  };
-  const handleCancelEdit = () => {
-    formUser.resetFields();
-    setIsModalVisibleEdit(false);
-  };
+  //   setIsModalVisibleEdit(true);
+  // };
+  // const onFinishEdit = () => {
+  //   setIsModalVisibleEdit(false);
+  // };
+  // const handleCancelEdit = () => {
+  //   formUser.resetFields();
+  //   setIsModalVisibleEdit(false);
+  // };
 const userCompany = () => {
 //userPkId gaar awchirj bgn
 
-const body = {
-  func: "getCompany",
-  userPkId: localStorage.getItem("pkId"),
-};
-axios.post("/api/post/Gate", body).then((res) => {
-    setCompanyUserGet(res.data.data);
-  }).catch((err) => {console.log(err)});
+// const body = {
+//   func: "getCompany",
+//   userPkId: localStorage.getItem("pkId"),
+// };
+// axios.post("/api/post/Gate", body).then((res) => {
+//     setCompanyUserGet(res.data.data);
+//   }).catch((err) => {console.log(err)});
 
   if (localStorage.getItem("pkId")) {
     const body = {
@@ -109,7 +115,32 @@ axios.post("/api/post/Gate", body).then((res) => {
   } else {
     console.log("null");
   } 
+
+const question = {
+  func:"getTypes",  
+  parid:0,
+  type_:3
+}
+axios.post("/api/post/Gate", question).then((res)=>{
+  console.log("Header", res.data.data); 
+  setQuestionData(res.data.data)
+}).catch((err)=>{console.log("err", err)})
+questions();
+
 };
+const questions = () =>{
+// question 1
+  const question1 = {
+    func:"getTypes",  
+    parid:32,
+    type_:3
+  }
+  axios.post("/api/post/Gate", question1).then((res)=>{
+    console.log("Header", res.data.data); 
+    setQues1(res.data.data)
+  }).catch((err)=>{console.log("err", err)})
+}
+
 
   const showModal = () => {
     setIsModalVisible(true);
@@ -292,6 +323,12 @@ axios.post("/api/post/Gate", body).then((res) => {
     // });
   };
  
+  const onFinishQuestion = (values) =>{
+    console.log("values: ", values);
+  }
+const onFinishFailedQuestion = (err) =>{
+    console.log("value", err);
+}
   const onFinishUserSend = (values) => {
     // console.log("Received values of form: ", values);
     setSpin(true);
@@ -406,7 +443,12 @@ const columns = [
     </div>,
     },
 ];
-  return (
+const onBlueFun = (e, b, c) =>{
+  console.log("blur", e);
+  console.log("b", b);
+  console.log("c", c);
+}
+return (
 <BaseLayout pageName="referral">
   <div className={css.LayoutRef}>
     <div className={css.DisplayLayout}>
@@ -438,7 +480,7 @@ const columns = [
         <>
         <Button type="dashed" shape="round" onClick={showModal}>+ Information</Button>
         <div style={{ marginTop: "-30px" }}>
-          {userInfo.lastname === "-" ? 
+          {userInfo.state === 0 ? 
           <Result icon={<Image style={{ marginBottom: "-24px" }} alt="Obertech" preview={false} src="/img/info.png" width={100}/>} subTitle="Then you will be able to invite company. " title="Fill in your details."/> :
           
           <Result icon={<Image style={{ marginBottom: "-24px" }} alt="Obertech" preview={false} src="/img/info.png" width={100}/>} subTitle="Medeelelee zasnu. " title="Hvselt butsaagdsan."/>
@@ -448,9 +490,9 @@ const columns = [
         </div>
         </>
       )}
-<Modal title="Form for Affiliate" open={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null}>
-          <div>
-          {basketContext.userInfoProfile.firstname === "-" ?  
+<Modal title="Form for Affiliate" open={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null} width={700}>
+          <div> 
+            {question === 0 ? 
             <div>
               <div className={css.FormAffiliate}>
                 <div className={css.FormTitle}>Email: </div>
@@ -480,12 +522,21 @@ const columns = [
                 <div className={css.FormTitle}>Job title: </div>
                 <div className={css.FormDescrip}>{basketContext.userInfoProfile.jobtitle}</div>
               </div>
+              {basketContext.userInfoProfile.firstname === "-" ? 
               <div><Button onClick={()=> router.push("profile")}>Update</Button> </div>
+              : <div>
+                  <div> If you are a Standard member and wish to apply for the Affiliate Program, you will be requested to fill in the following forms.
+                    <Button onClick={()=> setQuestion(1)} >Here</Button> </div> 
+                  </div>
+              } 
             </div> 
-            : <div>
-              quetion
-              </div>
-          }
+            : <div>  
+                <div className={css.BackCss}> 
+                  <Button onClick={()=> setQuestion(0)} size="small" type="link"> <ArrowLeftOutlined /></Button> 
+                  <div className={css.Title}> Please fill in the questions below correctly?</div>
+                </div>
+                  <QuestionDetails />
+                </div>}
           </div>
   {/* <Form form={formUser} name="normal_login" className={css.LoginForm} labelCol={{span: 6,}} wrapperCol={{span: 16,}}
     initialValues={{ 
@@ -628,7 +679,7 @@ const columns = [
   </div> */}
 
 {/* --------------------------------------------------Incentive============================================================= */}
-{spinState == true ? (<div><Spin /></div>) : ("")}
+{/* {spinState == true ? (<div><Spin /></div>) : ("")}
 {insentive[0] ? (
 <div className={css.InsentiveCon}>
   <div>
@@ -657,7 +708,7 @@ const columns = [
 </div>
 ) : (
 ""
-)}
+)} */}
 </div>
 </div>
 </div>

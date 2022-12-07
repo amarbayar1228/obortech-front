@@ -210,8 +210,8 @@ const Profile = () => {
     <div className={css.Text}>
       <div className={css.descr1}>Industry: </div>
       <div className={css.descr2}> 
-      {industryData.map((e)=>(
-        <div>{e.index_ == basketContext.userInfoProfile.industry ? e.nameeng : null}</div>
+      {industryData.map((e,i)=>(
+        <div key={i}>{e.index_ == basketContext.userInfoProfile.industry ? e.nameeng : null}</div>
       ))}
       </div>
     </div>

@@ -27,7 +27,7 @@ return <div>
 
     <div style={{marginTop: "22px"}}> 
         <div>Сайн байна уу? OBORTECH 5355907</div>
-        <div>Таны <span style={{color: 'red'}}> R441340050</span> дугаартай <span style={{color: 'red'}}> 2047,900 </span> төгрөг захиалгын төлбөр амжилттай <span style={{color: 'red'}}>ТӨЛӨГДЛӨӨ </span></div>
+        <div>Таны <span style={{color: 'red'}}> R441340050</span> дугаартай <span style={{color: 'red'}}>{price} </span> төгрөг захиалгын төлбөр амжилттай <span style={{color: 'red'}}>ТӨЛӨГДЛӨӨ </span></div>
     </div>
     <div className={css.textDesc}> 
         Асууж лавлах зүйл байвал <span> 7719-9999 </span> дугаараас, <span>online@obortech.mn</span>  Хаягаар бидэнд хандана уу.
@@ -41,7 +41,9 @@ return <div>
     <div className={css.Layout}>
          {items.map((e)=>(
             <div className={css.Items}>
-                <div className={css.Image}>Zurag </div>
+                <div className={css.Image}>
+                <Image preview={false} alt="Obertech" src={"data:image/png;base64," + e.img} className={css.Img}/>
+                </div>
                 <div className={css.DescWidth}> 
                     <div style={{textTransform: "uppercase"}}>{e.title} </div>
                     <div className={css.Descr}> 

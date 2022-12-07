@@ -40,9 +40,7 @@ useEffect(()=>{
 const groupItems = () => {
     setSpinner(true); 
     const body = {
-        func:"getGroups",  
-        d1: "2022-09-02",
-        d2: "2022-11-07"
+        func:"getGroups",   
     }
     axios.post("/api/post/Gate", body).then((res) => { 
         setSpinner(false);

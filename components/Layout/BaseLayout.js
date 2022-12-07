@@ -228,10 +228,10 @@ export default function BaseLayout(props) {
     <div className={css.ImageLogo}> <Image onClick={LogoFunction} className={css.ImgLogo} alt="Obertech" preview={false} src="/img/OBORTECH_logo_H_clean.svg"/>
       {basketContext.orgId == undefined ? "" :  
       <div className={css.OrgIdText}>
-         <Tooltip color="rgb(244 63 94)" title={
+         <Tooltip  title={
                       <div style={{fontSize: "12px"}}>
-                        <div><CaretRightOutlined /> Organization name: {basketContext.orgId}</div> 
-                        <div><CaretRightOutlined /> Organization ID: <span>{basketContext.orgNames[0].orgIdstate}</span> </div>
+                        <div>Organization name: {basketContext.orgId}</div> 
+                        <div>Organization ID: <span>{basketContext.orgNames[0].orgIdstate}</span> </div>
                       </div>} placement="bottomLeft"> 
                       <div className={css.OrgTooltip}> 
                         <div> {basketContext.orgId}  </div>  
@@ -257,10 +257,10 @@ export default function BaseLayout(props) {
               title={<div className={css.BasketHeader}> 
               <div className={css.BasketHdrCss}><ShoppingCartOutlined style={{ paddingRight: "5px", fontSize: "15px" }}/>Cart</div>
                 <div>{basketContext.orgId == undefined ? "" : <div className={css.OrgIdText2}>
-                <Tooltip color="rgb(244 63 94)" title={
+                <Tooltip  title={
                       <div style={{fontSize: "12px"}}>
-                        <div><CaretRightOutlined /> Organization name: {basketContext.orgId}</div> 
-                        <div><CaretRightOutlined /> Organization ID: <span>{basketContext.orgNames[0].orgIdstate}</span> </div>
+                        <div>Organization name: {basketContext.orgId}</div> 
+                        <div>Organization ID: <span>{basketContext.orgNames[0].orgIdstate}</span> </div>
                       </div>} placement="bottomLeft"> 
                       <div className={css.OrgTooltip}> 
                         <div> {basketContext.orgId}  </div>  
@@ -383,10 +383,10 @@ export default function BaseLayout(props) {
           <div className={css.BasketHdrCss}><ShoppingCartOutlined style={{ paddingRight: "5px", fontSize: "15px" }}/>{"Cart"}</div>
             <div>{basketContext.orgId == undefined ? "" : <div className={css.OrgIdText2}>
               
-            <Tooltip color="rgb(244 63 94)" title={
+            <Tooltip   title={
                       <div style={{fontSize: "12px"}}>
-                        <div><CaretRightOutlined /> Organization name: {basketContext.orgId}</div> 
-                        <div><CaretRightOutlined /> Organization ID: <span>{basketContext.orgNames[0].orgIdstate}</span> </div>
+                        <div>Organization name: {basketContext.orgId}</div> 
+                        <div>Organization ID: <span>{basketContext.orgNames[0].orgIdstate}</span> </div>
                       </div>} placement="bottomLeft"> 
                       <div className={css.OrgTooltip}> 
                         <div> {basketContext.orgId}  </div>  
@@ -460,10 +460,10 @@ export default function BaseLayout(props) {
         
         { admin === "1" ? 
         <Link href="/add-item">
-          <Tooltip title={!matches && "" || matches && "Item / Coupon"} placement="right" color="#f43f5e"> 
+          <Tooltip title={!matches && "" || matches && "Item / Group"} placement="right" color="#f43f5e"> 
             <div className={router.pathname === "/add-item" ? css.MenuActive : css.MenuZ}>
                 <AppstoreAddOutlined style={!matches && {fontSize: "15px"} || matches && {fontSize: "20px"}}/>
-                {toogleCss ?  <div className={css.Text}>Item / Coupon</div> : ""} 
+                {toogleCss ?  <div className={css.Text}>Item / Group</div> : ""} 
                 {!matches &&  <div className={css.Text}>Item</div>}
               {/* {matches && (<h1>Big Screen</h1>)}
                 {!matches && (<h3>Small Screen</h3>)} */} 

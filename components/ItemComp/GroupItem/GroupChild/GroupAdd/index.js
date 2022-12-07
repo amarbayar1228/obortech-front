@@ -29,7 +29,7 @@ const GroupAdd  = (props) =>{
     const [showTable, setShowTable] = useState(false);
 useEffect(()=>{
     
-    getItems();
+    // getItems();
 },[]);
 const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -117,8 +117,6 @@ const getItems = () =>{
     console.log("props add: ", props);
     const body = {
     func: "getItems",
-    d1: "2022-12-06",
-    d2: "2022-12-06",
     status: "0,1",
     };
     axios.post("/api/post/Gate", body).then((res) => { 
@@ -135,6 +133,7 @@ const getItems = () =>{
     }); 
 }
 const showModal = () => {
+    getItems();
     setIsModalOpen(true);
 };
 const handleOk = () => {
@@ -159,14 +158,14 @@ const data = itemData.map((r, i)=>(
     } 
 )); 
 const columns = [
-    { title: 'Date', dataIndex: 'date', key: 'date',  width: 72, fixed: 'left', 
-    ...getColumnSearchProps('date'), 
-    filteredValue: filteredInfo.date || null,
-    onFilter: (value, record) => record.date.includes(value),
-    // sorter: (a, b) => a.date.length - b.date.length,
-    sortOrder: sortedInfo.columnKey === 'date' ? sortedInfo.order : null,
-    ellipsis: true,
-    },
+    // { title: 'Date', dataIndex: 'date', key: 'date',  width: 72, fixed: 'left', 
+    // ...getColumnSearchProps('date'), 
+    // filteredValue: filteredInfo.date || null,
+    // onFilter: (value, record) => record.date.includes(value),
+    // // sorter: (a, b) => a.date.length - b.date.length,
+    // sortOrder: sortedInfo.columnKey === 'date' ? sortedInfo.order : null,
+    // ellipsis: true,
+    // },
     {
     title: 'Image',
     dataIndex: 'img',
@@ -190,18 +189,19 @@ const columns = [
     sortOrder: sortedInfo.columnKey === 'title' ? sortedInfo.order : null,
     ellipsis: true,
     },
-    // {
-    // title: 'Desription',
-    // dataIndex: 'description',
-    // key: 'description', 
-    // // width: 120,
-    // ...getColumnSearchProps('description'), 
-    // filteredValue: filteredInfo.description || null,
-    // onFilter: (value, record) => record.description.includes(value),
-    // // sorter: (a, b) => a.lastname.length - b.lastname.length,
-    // sortOrder: sortedInfo.columnKey === 'description' ? sortedInfo.order : null,
-    // ellipsis: true,
-    // }, 
+
+    {
+    title: 'Desription',
+    dataIndex: 'description',
+    key: 'description', 
+    // width: 120,
+    ...getColumnSearchProps('description'), 
+    filteredValue: filteredInfo.description || null,
+    onFilter: (value, record) => record.description.includes(value),
+    // sorter: (a, b) => a.lastname.length - b.lastname.length,
+    sortOrder: sortedInfo.columnKey === 'description' ? sortedInfo.order : null,
+    ellipsis: true,
+    }, 
     {
     title: 'Price',
     dataIndex: 'price',
@@ -280,10 +280,11 @@ const modalHide = () =>{
  
 return<div>
     <Button type="primary" onClick={showModal}> + Item package</Button>
-    <Modal title="Package group" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
+    <Modal title="Package group" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null} width={700}>
         <div>  
-        {showTable ? <Button type="primary" onClick={backF} icon={<RollbackOutlined />}>Back</Button> : 
-        <div className={css.ClearTable}>  <Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Clear</Button></div>} 
+        {showTable ? <Button type="primary" onClick={backF} icon={<RollbackOutlined />}>Back</Button> : <div className={css.ClearTable}>  
+        {/* <Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Clear</Button> */}
+        </div>} 
             <div style={{marginBottom: 16,}}> 
             
             </div>

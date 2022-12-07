@@ -1,0 +1,28 @@
+.Layout {
+    padding: 4px 20px;
+}
+
+.Star {
+    width: 14px;
+    /* position: absolute; */
+    height: 14px;
+    color: red;
+    font-size: 19px;
+    font-weight: 600;
+}
+
+.Secletcss {
+    margin-left: 19px;
+}
+
+.Scrollcss {
+    height: 600px;
+    overflow: auto;
+}
+
+.BtnSave {
+    margin-left: 39px;
+    margin-top: 6px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+}

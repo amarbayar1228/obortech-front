@@ -13,6 +13,7 @@ import BasketContext from "../../context/basketContext/BasketContext";
 import { Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ItemDetails from "../../components/ItemDetails";
+import Snowflake from "../../components/Snowflake";
 const Items = () => {
   const [itemData, setItemData] = useState([]);
   const [addItemStyle, setAddItemStyle] = useState([css.addItemStyle]);
@@ -104,7 +105,20 @@ const Items = () => {
       }
     });
   }; 
-  
+  const  snow=()=> {
+    let animationDelay = '0s';
+    let fontSize = '100px';
+    let arr = Array.from('Snowflakes are awesome!!! They are like little pieces of magic!!! Love snowflakes!!! Snowflakes are awesome!!! They are like little pieces of magic!!! Love snowflakes!!! Snowflakes are awesome!!! They are like little pieces of magic!!! Love snowflakes!!!')
+     return arr.map((el, i) => {
+      animationDelay = `${(Math.random()*16).toFixed(2)}s`;
+      fontSize = `${(Math.floor(Math.random()*10) + 10)}px`;
+      let style = {
+        animationDelay,
+        fontSize
+      }
+      return (<Snowflake key={i} id={i} style={style}/>)
+     })
+  }
   return (
     <BaseLayout pageName="items" addItemStyle={addItemStyle} style={{ maxWidth: "100%" }}>
       {basketContext.orgId === undefined ? <Empty style={{marginTop: "100px"}}/> :  
@@ -112,7 +126,7 @@ const Items = () => {
       
         <div>
         <Swiper pagination={true} modules={[Pagination]} className={css.mySwiper}>
-          <SwiperSlide className={css.SlideCss}><h3 className={css.BackgrounImg} style={{background: "url(/img/obBack1.png) no-repeat"}}></h3> </SwiperSlide>
+          <SwiperSlide className={css.SlideCss}><h3 className={css.BackgrounImg} style={{background: "url(/img/obBack1.png) no-repeat",display: "flex", justifyContent: "space-between", margin: 0, padding: "0", overflow: 'hidden'}}>{snow()}</h3> </SwiperSlide>
           <SwiperSlide className={css.SlideCss}><h3 className={css.BackgrounImg} style={{background: "url(/img/obBack3.png) no-repeat"}}></h3></SwiperSlide>
           <SwiperSlide className={css.SlideCss}><h3 className={css.BackgrounImg} style={{background: "url(/img/obBack2.png) no-repeat"}}></h3></SwiperSlide> 
         </Swiper>

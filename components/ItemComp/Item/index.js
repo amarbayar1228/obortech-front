@@ -39,10 +39,7 @@ const getItems = () => {
     setSpinner(true);
     const body = {
     func: "getItems",
-    status: 0,
-    d1: "2022-09-02",
-    d2: "2022-11-07",  
-    type_: 1
+    status: "0,1"
     };
     axios.post("/api/post/Gate", body).then((res) => {
     console.log("item axios get", res.data.getItems.list);

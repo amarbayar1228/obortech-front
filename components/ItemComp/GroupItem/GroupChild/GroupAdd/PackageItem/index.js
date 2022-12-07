@@ -92,11 +92,12 @@ try {
 }
 };
 const columns = [
-{title: 'Date', dataIndex: 'date', width: 50, editable: false, ellipsis: true,},  
+// {title: 'Date', dataIndex: 'date', width: 50, editable: false, ellipsis: true,},  
+
 {title: 'Image', dataIndex: 'img', width: "50px", editable: false, ellipsis: true,
 render: (a) => <div><Image alt="Obertech" title="vzeh" preview={true} className={css.Zurag} src={"data:image/png;base64," + a} style={{display: "flex", width: "30px", margin:"0px auto"}}/></div>, 
 },
-{title: 'Title', dataIndex: 'title', width: 70, editable: false, ellipsis: true,},  
+{title: 'Title', dataIndex: 'title', width: 70, editable: false, ellipsis: true,},     
 {title: 'Price', dataIndex: 'price', width: 50, editable: true,ellipsis: true, render: (a) =><div>{a} $</div>},
 { title: 'Cnt', dataIndex: 'cnt', width: 50, key: "itemCnt", editable: true, ellipsis: true,},
 { title: 'Action', dataIndex: 'operation',  width: 50, fixed: "right",
@@ -141,26 +142,31 @@ const saveBtn = () =>{
       groupDetail.push(obj);
     }); 
 
+if(title === "" || description === ""){
+    message.error("Fill in all fields!");
+}else{
     const body2 = {
-      func: "newGroupItems",
-      title: title,
-      cnt: "1",
-      itemPriceTotal: priceTotal,
-      others: "-",
-      description: description,
-      status: "0",
-      groupDetail: groupDetail,
-    };
-    console.log("groupDeital: ", groupDetail);
-    axios.post("/api/post/Gate", body2).then(
-      (result) => {
-        message.success("Amjilttai"); 
-        props.groupItems();
-        setTitle("");
-        setDescription("");
-        props.modalHide();
-      },(error) => {message.error("Error")}
-    );
+        func: "newGroupItems",
+        title: title,
+        cnt: "1",
+        itemPriceTotal: priceTotal,
+        others: "-",
+        description: description,
+        status: "0",
+        groupDetail: groupDetail,
+      };
+      console.log("groupDeital: ", groupDetail);
+      axios.post("/api/post/Gate", body2).then(
+        (result) => {
+          message.success("Amjilttai"); 
+          props.groupItems();
+          setTitle("");
+          setDescription("");
+          props.modalHide();
+        },(error) => {message.error("Error")}
+      );
+}
+
 }
 return<div> 
 {props.packageItem[0] ? <div className={props.showTable ? css.PackageItem : ""}>  
@@ -174,7 +180,7 @@ return<div>
         Total price: {priceTotal}$
     </div>
 <div className={css.SaveCss}> 
-    <Button onClick={saveBtn} type="primary">Save</Button>
+    <Button onClick={saveBtn} type="primary">Add</Button>
 </div>
 </> : null}
 

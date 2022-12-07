@@ -82,21 +82,21 @@ const GroupEdit = (props) => {
     }
   };
   const columns = [
-    {
-        title: 'Date',
-        dataIndex: 'date', 
-        width: 65,
-        fixed: 'left', 
-        ellipsis: true,
-        },
+    // {
+    //     title: 'Date',
+    //     dataIndex: 'date', 
+    //     width: 65,
+    //     fixed: 'left', 
+    //     ellipsis: true,
+    //     },
     {
         title: 'Image', dataIndex: 'img', width: 50, editable: false,
         render: (a) => <div><Image alt="Obertech" title="vzeh" preview={true} className={css.Zurag} src={"data:image/png;base64," + a} style={{display: "flex", width: "30px", margin:"0px auto"}}/></div>, 
       },
     {title: 'Title', dataIndex: 'title', width: 120, editable: false,  ellipsis: true,},  
     {title: 'Price', dataIndex: 'itemPriceD', width: 50, editable: true, render: (a) =><div>{a} $</div>},
-    { title: 'Cnt', dataIndex: 'itemCnt', width: 30, key: "itemCnt", editable: true},
-    { title: 'Action', dataIndex: 'operation',  width: 50, fixed: "right",
+    { title: 'Cnt', dataIndex: 'itemCnt', width: 50, key: "itemCnt", editable: true},
+    { title: 'Action', dataIndex: 'operation',  width: 70, fixed: "right",
       render: (_, record) => {
         const editable = isEditing(record);
         return editable ? (
@@ -209,7 +209,7 @@ const GroupEdit = (props) => {
       cnt: 1,
     }; 
     if(others === "" || titleEdit == "" || descriptionEdit == "" ){
-        message.error("Input hooson bn");
+        message.error("Fill in all fields?");
     }else{ 
         axios.post("/api/post/Gate", body).then((res) => { 
         message.success("Edit");
@@ -234,7 +234,7 @@ const GroupEdit = (props) => {
             </div>
         </div>
             }
-        <div className={css.Title}>Item name: <Input allowClear style={{ marginLeft: "77px" }} value={titleEdit} placeholder="Title" onChange={(e) => setTitleEdit(e.target.value)}/></div>
+        <div className={css.Title}><span style={{width: "141px"}}>Item name:</span><Input allowClear value={titleEdit} placeholder="Title" onChange={(e) => setTitleEdit(e.target.value)}/></div>
         <div className={css.Title}>Description: <TextArea allowClear style={{ marginLeft: "23px" }} value={descriptionEdit} placeholder="Description" onChange={(e) => setDescriptionEdit(e.target.value)} /></div>
         <div className={css.Title}>Others: <TextArea allowClear style={{ marginLeft: "59px" }} value={others} placeholder="Others" onChange={(e) => setOthers(e.target.value)} />
         </div>
