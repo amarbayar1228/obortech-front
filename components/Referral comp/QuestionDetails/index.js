@@ -7,6 +7,7 @@ const { TextArea } = Input;
 const QuestionDetails = (props)=>{
 const [questionData, setQuestionData] = useState([]);
 const router = useRouter();
+const [isOk, setIsOk] = useState(0);
 
 const [ques1, setQues1] = useState([]); 
 const [quesValue1, setQuesValue1] = useState(822); 
@@ -64,6 +65,13 @@ const [ques9Status, setQues9Status] = useState("");
 const [others9Value, setOthers9Value] = useState("");
 const [others9Status, setOthers9Status] = useState("");
 const [ques9Label, setQues9Label] = useState("");
+
+const [ques10Data, setQues10Data] = useState([{namemn: "aaa"},{nameeng: "bbb"}]);
+const [ques10Value, setQues10Value] = useState(822);
+const [ques10Status, setQues10Status] = useState("");
+const [others10Value, setOthers10Value] = useState("");
+const [others10Status, setOthers10Status] = useState("");
+const [ques10Label, setQues10Label] = useState("");
 
 useEffect(()=>{
 getDatas();
@@ -174,12 +182,22 @@ const question9 = {
         setQues9Data(res.data.data)
     }).catch((err)=>{console.log("err", err)})
 
+// question 10
+const question10 = {
+    func:"getTypes",  
+    parid:41,
+    type_:3
+    }
+    axios.post("/api/post/Gate", question10).then((res)=>{ 
+        setQues10Data(res.data.data)
+    }).catch((err)=>{console.log("err", err)})
 } 
 const selectFnc1 = (e,b,c) =>{ 
 console.log("b", b); 
 setSelectState("");
 setQues1Label(b.label)
 setQuesValue1(b.value);
+setOthersValue("");
 }
 
 const quest2Onchange = (e)=>{
@@ -187,6 +205,7 @@ const quest2Onchange = (e)=>{
     setQues2Status("");
 }
 const saveFunc = () =>{
+    const error = 0;
     console.log("a", othersValue);
     if(quesValue1 === 822 ){ 
         setSelectState("error");
@@ -196,6 +215,7 @@ const saveFunc = () =>{
     if(quesValue1 === 9){
         if(othersValue === ""){ 
             setOtherStatus("error");
+            error = 1;
         }
     }
 
@@ -211,6 +231,7 @@ const saveFunc = () =>{
     if(ques4Value === 9){
         if(others4Value === ""){ 
             setOthers4Status("error");
+            error = 1;
         }
     }
 
@@ -220,6 +241,7 @@ const saveFunc = () =>{
     if(ques5Value === 11){
         if(others5Value === ""){
             setOthers5Status("error");
+            error = 1;
         }
     }
     if(ques6Value === 822){
@@ -228,6 +250,7 @@ const saveFunc = () =>{
     if(ques6Value === 13){
         if(others6Value === ""){
             setOthers6Status("error");
+            error = 1;
         }
     }
 
@@ -237,6 +260,7 @@ const saveFunc = () =>{
     if(ques7Value === 1){
         if(others7Value === ""){
             setOthers7Status("error");
+            error = 1;
         }
     }
 
@@ -248,16 +272,87 @@ const saveFunc = () =>{
         setQues9Status("error");
     }
 
-    if(ques2value === "" || quesValue1 === 822 || ques3Value === "" || ques4Value === 822 || ques5Value === 822 || ques6Value === 822 || ques7Value === 822 || ques8Value === 822 || ques9Value === 822){
+    if(ques10Value === 822){
+        setQues10Status("error");
+    }
+    if(ques10Value === 4){
+        if(others10Value === ""){
+            setOthers10Status("error");
+            error = 1;
+        }
+    }
+
+
+    if(ques2value === "" || quesValue1 === 822 || ques3Value === "" || ques4Value === 822 || ques5Value === 822 || ques6Value === 822 || ques7Value === 822 || ques8Value === 822 || ques9Value === 822 || ques2value === 822){
         message.error("Fill in all fields?");
-    }else {
+    }else { 
+        if(error === 1 ){
+            message.error("Fill in all fields?");
+        }else {
+            message.success("is ok");
         console.log("question 1 label", ques1Label, "value: ", othersValue);
         console.log("question 2 value", ques2value);
         console.log("question 3 value", ques3Value);
         console.log("question 4 label", ques4Label, "value: ", others4Value);
         console.log("question 5 label", ques5Label, "value: ", others5Value);
         console.log("question 6 label", ques6Label, "value: ", others6Value);
-        console.log("question 8 label", ques8Value);
+        console.log("question 7 label", ques7Label, "value: ", others7Value);
+        console.log("question 8 label", ques8Label);
+        console.log("question 9 label", ques9Label);
+        console.log("question 10 label", ques10Label, "value: ", others10Value);
+        const arrayList = [];
+
+        if(othersValue === ""){
+                arrayList.push(ques1Label);
+        }else{
+            arrayList.push(othersValue);
+        }
+        arrayList.push(ques2value);
+        arrayList.push(ques3Value);
+
+        if(others4Value === ""){
+            arrayList.push(ques4Label);
+        }else{
+            arrayList.push(others4Value);
+        }
+
+        if(others5Value === ""){
+            arrayList.push(ques5Label);
+        }else{
+            arrayList.push(others5Value);
+        }
+
+        if(others6Value === ""){
+            arrayList.push(ques6Label);
+        }else{
+            arrayList.push(others6Value);
+        }
+
+        if(others7Value === ""){
+            arrayList.push(ques7Label);
+        }else{
+            arrayList.push(others7Value);
+        }
+
+        arrayList.push(ques8Label);
+        arrayList.push(ques9Label);
+        if(others10Value === ""){
+            arrayList.push(ques10Label);
+        }else{
+            arrayList.push(others10Value);
+        }
+
+        console.log("list: ", arrayList);
+
+        const body ={
+            func: "question",
+            pkId: localStorage.getItem("pkId"),
+            state: 1, 
+            question: arrayList
+        }
+        console.log("body", body);
+
+        }
     }
 
 }
@@ -280,24 +375,24 @@ return <div className={css.Scrollcss}>
     : e.index_ === 35 ?
         <div className={css.Secletcss}>
             <Select status={ques4Status}  defaultValue="Choose your question?" options={ques4Data.map((e, i)=>({label:  router.locale === "mn" ? e.namemn : e.nameeng, value: i}))} style={{width: "100%"}} 
-            onChange={(a, b)=> (setQues4Value(b.value), setQues4Status(""), setQues4Label(b.label))}/>
+            onChange={(a, b)=> (setQues4Value(b.value), setQues4Status(""), setQues4Label(b.label), setOthers4Value(""))}/>
         {ques4Value === 9 ? <div><TextArea status={others4Status} placeholder="" onChange={(e)=> (setOthers4Value(e.target.value), setOthers4Status(""))}/> </div> : ""} </div>
     : e.index_ === 36 ? 
         <div className={css.Secletcss}> 
         <Select status={ques5Status}  defaultValue="Choose your question?" options={ques5Data.map((e, i)=>({label:  router.locale === "mn" ? e.namemn : e.nameeng, value: i}))} style={{width: "100%"}} 
-        onChange={(a, b)=> (setQues5Value(b.value), setQues5Status(""), setQues5Label(b.label))}/>
+        onChange={(a, b)=> (setQues5Value(b.value), setQues5Status(""), setQues5Label(b.label), setOthers5Value(""))}/>
         {ques5Value === 11 ? <div><TextArea status={others5Status} placeholder="" onChange={(e)=> (setOthers5Value(e.target.value), setOthers5Status(""))}/> </div> : ""}
         </div>
     : e.index_ === 37 ?
     <div className={css.Secletcss}> 
     <Select status={ques6Status}  defaultValue="Choose your question?" options={ques6Data.map((e, i)=>({label:  router.locale === "mn" ? e.namemn : e.nameeng, value: i}))} style={{width: "100%"}} 
-    onChange={(a, b)=> (setQues6Value(b.value), setQues6Status(""), setQues6Label(b.label))}/>
+    onChange={(a, b)=> (setQues6Value(b.value), setQues6Status(""), setQues6Label(b.label), setOthers6Value(""))}/>
     {ques6Value === 13 ? <div><TextArea status={others6Status} placeholder="" onChange={(e)=> (setOthers6Value(e.target.value), setOthers6Status(""))}/> </div> : ""}
     </div>
     : e.index_ === 38 ? 
         <div className={css.Secletcss}> 
             <Select status={ques7Status}  defaultValue="Choose your question?" options={ques7Data.map((e, i)=>({label:  router.locale === "mn" ? e.namemn : e.nameeng, value: i}))} style={{width: "100%"}} 
-    onChange={(a, b)=> (setQues7Value(b.value), setQues7Status(""), setQues7Label(b.label))}/>
+    onChange={(a, b)=> (setQues7Value(b.value), setQues7Status(""), setQues7Label(b.label), setOthers7Value(""))}/>
     {ques7Value === 1 ? <div><TextArea status={others7Status} placeholder="" onChange={(e)=> (setOthers7Value(e.target.value), setOthers7Status(""))}/> </div> : ""}
         </div>
     : e.index_ === 39 ?
@@ -309,6 +404,12 @@ return <div className={css.Scrollcss}>
     <div className={css.Secletcss}> 
     <Select status={ques9Status}  defaultValue="Choose your question?" options={ques9Data.map((e, i)=>({label:  router.locale === "mn" ? e.namemn : e.nameeng, value: i}))} style={{width: "100%"}} 
     onChange={(a, b)=> (setQues9Value(b.value), setQues9Status(""), setQues9Label(b.label))}/> 
+    </div>
+    :  e.index_ === 41 ?
+    <div className={css.Secletcss}> 
+    <Select status={ques10Status}  defaultValue="Choose your question?" options={ques10Data.map((e, i)=>({label:  router.locale === "mn" ? e.namemn : e.nameeng, value: i}))} style={{width: "100%"}} 
+    onChange={(a, b)=> (setQues10Value(b.value), setQues10Status(""), setQues10Label(b.label), setOthers10Value(""))}/> 
+     {ques10Value === 4 ? <div><TextArea status={others10Status} placeholder="" onChange={(e)=> (setOthers10Value(e.target.value), setOthers10Status(""))}/> </div> : ""}
     </div>
     : null 
     }

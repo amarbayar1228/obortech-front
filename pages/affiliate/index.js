@@ -23,8 +23,14 @@ const [value, setValue] = useState(2);
 const [isModalVisibleIncentive, setIsModalVisibleIncentive] = useState(false);
 const [incPercents, setIncPercentS] = useState("");
 
-const [segmentValue, setSegmentValue] = useState("accept");
+const [segmentValue, setSegmentValue] = useState("newUserRequest");
 const [segmentValueUser, setSegmentValueUser] = useState("acceptUser");
+const [compLength, setCompanyLength] = useState(0);
+const [userLength, setUserLength] = useState(0);
+useEffect(()=>{
+  segmentFuncUser();
+  segmentFunc();
+},[])
 
 const showModalIncentive = () => {
   getIncentivePercent();
@@ -105,10 +111,21 @@ const segmentFunc = (a) => {
 const segmentFuncUser = (a) => { 
   console.log("change: ", a);
   if(a == undefined){
-    setSegmentValueUser("acceptUser");
+    setSegmentValueUser("newUserRequest");
   }else { 
     setSegmentValueUser(a);
   } 
+ 
+    const body = {
+      func: "getCompany",
+      state: 1,
+      start: 0,
+      count: 10,
+  };
+  axios.post("/api/post/Gate", body).then((res) => {
+  console.log("new res.data: ", res.data.data.length); 
+  setCompanyLength(res.data.data.length);
+  }).catch((err) => {console.log(err)}); 
 }; 
 
   const getIncentivePercent = () => {
@@ -138,7 +155,7 @@ const segmentFuncUser = (a) => {
                 {/* ------------------------------user segment ----------------------------------- */}
               <Segmented size="middle" block  onChange={segmentFuncUser}
                 options={[
-                  {label: "New Requests", value: "newUserRequest"},
+                  {label: <div style={{position: "relative", display: "flex", justifyContent: "center", alignItems: "center"}}><div style={{background: "red", borderRadius: "50%", fontSize: "11px", color: "#fff", width: "18px", height: "18px", display: "flex", alignItems: "center", justifyContent: "center", marginRight: "5px"}}>4</div> New Requests  </div>, value: "newUserRequest"},
                   {label: "Accepted Users", value: "acceptUser"},
                        // {label: <Badge count={5} size="small" offset={[8, 1]}> New user request2 </Badge>,value: "newUserRequest"},
                           
@@ -152,7 +169,7 @@ const segmentFuncUser = (a) => {
                       {/* ------------------------------Company segment ----------------------------------- */}
               <Segmented size="middle" block onChange={segmentFunc}
                 options={[
-                          {label: "New Requests",value: "newCompany"},
+                          {label: <div style={{position: "relative", display: "flex", justifyContent: "center", alignItems: "center"}}><div style={{background: "red", borderRadius: "50%", fontSize: "11px", color: "#fff", width: "18px", height: "18px", display: "flex", alignItems: "center", justifyContent: "center", marginRight: "5px"}}>{compLength}</div> New Requests  </div>,value: "newCompany"},
                           {label: "Accepted Organizations", value: "accept"},
                           
                           {label: "All Organizations", value: "adminAccept"}]}/>

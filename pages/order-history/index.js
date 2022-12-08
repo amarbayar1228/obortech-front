@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import BaseLayout from "../../components/Layout/BaseLayout";
-import { SolutionOutlined,ExclamationCircleOutlined  } from "@ant-design/icons";
+import { SolutionOutlined,ExclamationCircleOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import {Button, Collapse, Divider, Empty, Image, Modal, Spin, Space, DatePicker, Table, Tag, Input} from "antd";
 import css from "./style.module.css";
 import { UserOutlined,SearchOutlined  } from "@ant-design/icons";
@@ -38,12 +38,14 @@ const OrderHistory = () => {
   const [todayDateState,setTodayDateState] = useState("2022-09-12");
   const [orderNull, setOrderNull] = useState(0);
   const [orderHdrInfo, setOrderHdrInfo] = useState("");
+  const [showItem, setShowItem] = useState(0);
+  const [itemHdrData, setItemHdrData] = useState();
   useEffect(() => {  
     getOders();  
   }, []); 
   const showModal = (a) => {
     setOrderSpin(true) 
-
+    setIsModalOpen(true);
     console.log("Item: ", a );
     setOrderHdrInfo(a);
     const body = {
@@ -51,13 +53,14 @@ const OrderHistory = () => {
       orderid: a.orderid,
     }
     axios.post("/api/post/Gate", body).then((res)=>{
-      setOrderSpin(false)
+    
       // console.log("item order: ", res.data.data);
       setModalOrderItem(res.data.data);
+      setOrderSpin(false)
     }).catch((err)=>{
       console.log("err: ", err);
     })
-    setIsModalOpen(true);
+  
   };
   const handleOk = () => {
     setIsModalOpen(false);
@@ -264,8 +267,8 @@ const columns = [
     key: 'action',
     width: 80,
     render: (_, record) => (
-      <Space size="middle"><Button type="default" size="small" onClick={()=>orderSend(record)}>Test ordID</Button>
-      {record.all.userPkId === "-" || record.all.userPkId === localStorage.getItem("pkId") ? null : <Button onClick={()=>userInfo(record)} icon={<SolutionOutlined />} >User info</Button>}
+      <Space size="middle"> 
+      {record.all.userPkId === "-" || record.all.userPkId === localStorage.getItem("pkId") ? null : <Button onClick={()=>userInfo(record)} icon={<SolutionOutlined />} ></Button>}
       </Space>
     ),
     responsive: ['md'],
@@ -285,7 +288,10 @@ const data = orderHdr.map((r, i)=>(
     } 
 ));
 const groupDeitalsFunc = (data, index) =>{
+  setShowItem(1);
+  setItemHdrData(data);
   setDetailsSpin(true);
+  console.log("elemnt", data);
   console.log("data: ", data.pkId);
   console.log("index: ", index);
 
@@ -310,18 +316,17 @@ const groupDeitalsFunc = (data, index) =>{
 {/* ================================================= item info modal ===================================================================== */}
 <Modal title="Items info" open={isModalOpen} footer={null} onOk={handleOk} onCancel={handleCancel}>
   <div>
-  {orderSpin ? <Spin className={css.SpinCss}/> : ""} 
+  {orderSpin ? <Spin className={css.SpinCss}/> : 
+    <>  
     <div className={css.OrderHdrLaCss}>
       <div className={css.DateCss}>
         <div className={css.OrderIdCss}> Order ID: #{orderHdrInfo.orderid}</div>
         <div>  {orderHdrInfo.date}</div>
       </div>
-      {/* <div>  
-        <div className={css.ItemDetailCss}><CaretRightOutlined /> Item details</div>
-      </div> */}
-
     </div>
     <div className={css.ItemInfoScroll}>  
+      {showItem === 0 ? 
+      <>
       {modalOrderItem.map((e, i)=>(
         <div key={i} className={css.OrderItem}>
           <div className={css.orderImg}>
@@ -336,11 +341,25 @@ const groupDeitalsFunc = (data, index) =>{
             {e.state === 2 ? "" : 
               <div><Button onClick={()=>groupDeitalsFunc(e, i)} size="small" shape="round" type="dashed" style={{fontWeight: "500", color: "rgb(6 78 59)"}}>Group details: </Button> </div>}
               <div className={css.Pricecss}>{e.price.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,")}$</div>
-            </div>
-            {/* <div className={css.DetailAbsolute}> Details items: </div> */}
-            {iDIndex === i ?
+            </div> 
+            
+          </div>
+        </div>
+      ))}
+      </>
+      : 
+      <div>
+        <div className={css.BackTitle}> 
+          <Button type="link" onClick={()=> setShowItem(0)} size="small"><ArrowLeftOutlined /></Button> 
+          <div>Group items</div>
+        </div>
+          <div className={css.Titledecs}>{itemHdrData.title} </div> 
+          <div className={css.Detailsdecs}>{itemHdrData.description}{console.log("aa", itemHdrData)}</div>
+        
+          
               <div className={css.OrderDetailsHide}> 
-                {detailsSpin ? <Spin size="large" className={css.SpinCss}/> : ""}
+                {detailsSpin ? <Spin size="large" className={css.SpinCss}/> :
+                <> 
                 {gItemDetails.map((item, index)=>(
                   <div key={index} className={css.OrderItem}>
                     <div className={css.orderImg2}> <Image alt="Obertech"preview={false} src={"data:image/png;base64," + item.img }/> </div>
@@ -357,15 +376,16 @@ const groupDeitalsFunc = (data, index) =>{
                     </div>
                     </div>
                   </div>
-                ))} 
+                ))}
+                </> 
+                }
               </div>
-            : ""} 
-          </div>
-        </div>
-      ))}
+      </div>
+      }
     </div>
 
-    <div className={css.TotalPriceInfo}>Total price: {orderHdrInfo.price}$ </div>
+    <div className={css.TotalPriceInfo}>Total price:  {showItem === 0 ? orderHdrInfo.price : itemHdrData.price} $ </div>
+    </> } 
   </div>
 </Modal>
 
@@ -405,7 +425,7 @@ const groupDeitalsFunc = (data, index) =>{
 </div>
 
 {orderHdr === null? <Empty style={{display: "flex", justifyContent: "center" }}  description="null"/> :
-  <div className={css.TableScroll}><Table size="small" columns={columns} dataSource={data} loading={loading} scroll={{x:  400, y: 300 }} /></div> 
+  <div className={css.TableScroll}><Table size="small" columns={columns} dataSource={data} loading={loading} scroll={{x:  400, y: 600 }} /></div> 
 } 
 </div>: loadingPage ? <Spin className={css.SpinCss}/> : <Empty />} 
 </BaseLayout>

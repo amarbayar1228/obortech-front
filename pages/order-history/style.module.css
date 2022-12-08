@@ -315,12 +315,16 @@
 
 .GroupItemcs {
     font-weight: 500;
+    display: flex;
     text-transform: uppercase;
-    text-align: center;
+    /* text-align: center; */
     /* font-size: 20px; */
-    /* background: rgb(230, 242, 255); */
-    color: rgb(17 24 39);
+    background: #4d5057;
+    height: 50px;
+    color: rgb(255 255 255);
     border-radius: 10px;
+    align-items: center;
+    justify-content: center;
 }
 
 .orderDetailcss {
@@ -385,7 +389,29 @@
 .ItemInfoScroll {
     max-height: 500px;
     overflow-y: auto;
+    animation-name: bankRouteAnimation1;
+    animation-duration: 0.3s;
+    animation-timing-function: ease;
 }
+
+@keyframes bankRouteAnimation1 {
+    0% {
+        transform: scale(0.1);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+
 
 .ItemInfoScroll::-webkit-scrollbar {
     width: 5px;
@@ -403,12 +429,34 @@
 
 .OrderDetailsHide {
     position: relative;
-    margin: 10px 5px;
-    /* padding: 10px; */
+    margin: 10px 30px;
+    padding: 10px;
     overflow-y: auto;
     box-shadow: 0px 1px 4px 0px rgb(209 213 219);
-    height: 200px;
+    height: 390px;
+    animation-name: bankRouteAnimation;
+    animation-duration: 0.3s;
+    animation-timing-function: ease;
 }
+
+
+@keyframes bankRouteAnimation {
+    0% {
+        transform: scale(0.1);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
 
 .OrderDetailsHide::-webkit-scrollbar {
     width: 5px;
@@ -423,7 +471,25 @@
     border-radius: 10px;
 }
 
+.Detailsdecs {
+    margin-left: 30px;
+    color: rgb(117, 117, 117);
+}
+
 .TableScroll {
     /* height: 57vh;
     overflow-y: auto; */
+}
+
+.Titledecs {
+    margin-left: 30px;
+}
+
+.BackTitle {
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    text-transform: uppercase;
+    margin-top: 15px;
+    font-weight: 600;
 }

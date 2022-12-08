@@ -403,7 +403,8 @@ export default function BaseLayout(props) {
       </div>
     )}
 
-    <div><Popover content={changeLanguage}><Button type="link" className={css.Icons}><GlobalOutlined /></Button></Popover></div>
+    
+
     {localPkId ? (
       <div className={ router.pathname == "/profile" || router.pathname == "/security" ?  css.ProfileBackCss : ""}>
         <div className={css.ProfileBackground}>
@@ -421,7 +422,7 @@ export default function BaseLayout(props) {
     ) : (
       <div className={router.pathname == "/login" ? css.Active : ""}><Tooltip title={t("loginName")}><Button onClick={loginRouter} type="link" className={css.Icons}><UserOutlined /></Button></Tooltip></div>
     )}
-
+  <div style={{borderLeft: "1px solid #ccc", marginLeft: "16px", paddingTop: "2px"}}><Popover content={changeLanguage}><Button type="link" className={css.Icons}><GlobalOutlined /></Button></Popover></div>
   </div>
 </div>
  
@@ -473,11 +474,11 @@ export default function BaseLayout(props) {
         </Link> : null}
         {admin === "1" || admin === "2"  ? 
         <Link href="/affiliate">
-            <Tooltip title={!matches && "" || matches && "affiliate"} placement="right" color="#f43f5e"> 
+            <Tooltip title={!matches && "" || matches && "Referral management"} placement="right" color="#f43f5e"> 
             <div className={router.pathname === "/affiliate" ? css.MenuActive : css.MenuZ}>
                 <PlusSquareOutlined style={!matches && {fontSize: "15px"} || matches && {fontSize:"20px"}}/>
-                {toogleCss ?  <div className={css.Text}> affiliate</div>  : ""}
-                {!matches &&  <div className={css.Text}>affiliate</div>}
+                {toogleCss ?  <div className={css.Text}> Referral management</div>  : ""}
+                {!matches &&  <div className={css.Text}>Referral management</div>}
             </div>
             </Tooltip>
         </Link> : null}

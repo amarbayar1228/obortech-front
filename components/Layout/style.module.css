@@ -885,6 +885,7 @@
     .BasketPop {
         right: -7px;
         top: -14px;
+        width: 16px;
         border-radius: 29% 29% 29% 0px;
     }
 

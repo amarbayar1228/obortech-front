@@ -483,7 +483,7 @@ return (
           {userInfo.state === 0 ? 
           <Result icon={<Image style={{ marginBottom: "-24px" }} alt="Obertech" preview={false} src="/img/info.png" width={100}/>} subTitle="Then you will be able to invite company. " title="Fill in your details."/> :
           
-          <Result icon={<Image style={{ marginBottom: "-24px" }} alt="Obertech" preview={false} src="/img/info.png" width={100}/>} subTitle="Medeelelee zasnu. " title="Hvselt butsaagdsan."/>
+          <Result icon={<Image style={{ marginBottom: "-24px" }} alt="Obertech" preview={false} src="/img/info.png" width={100}/>} subTitle="Medeelelee zasnu. " title="Your request has been rejected"/>
           }
           
 
@@ -493,7 +493,7 @@ return (
 <Modal title="Form for Affiliate" open={isModalVisible} onOk={handleOk} onCancel={handleCancel} footer={null} width={700}>
           <div> 
             {question === 0 ? 
-            <div>
+            <div style={{padding: "0px 20px"}}>
               <div className={css.FormAffiliate}>
                 <div className={css.FormTitle}>Email: </div>
                 <div className={css.FormDescrip}>{basketContext.userInfoProfile.email}</div>
@@ -536,7 +536,7 @@ return (
                   <div className={css.Title}> Please fill in the questions below correctly?</div>
                 </div>
                   <QuestionDetails />
-                </div>}
+              </div>}
           </div>
   {/* <Form form={formUser} name="normal_login" className={css.LoginForm} labelCol={{span: 6,}} wrapperCol={{span: 16,}}
     initialValues={{ 

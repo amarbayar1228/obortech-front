@@ -134,7 +134,7 @@ return <div>
 </div>: null}
 </>
 </div>
-    <Form.Item><div className={css.Ok}><Button type="primary" htmlType="submit" className="login-form-button">Send</Button></div></Form.Item>
+    <Form.Item><div className={css.Ok}><Button type="primary" htmlType="submit" className="login-form-button">Add</Button></div></Form.Item>
     </Form>   
     </div>
     </Modal>

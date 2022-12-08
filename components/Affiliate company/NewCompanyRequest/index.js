@@ -33,6 +33,7 @@ getNewComp();
 },[])
 const getNewComp = () => {
 setSpinner(true);
+
 const body = {
     func: "getCompany",
     state: 1,
@@ -49,9 +50,9 @@ setCompanyData(res.data.data);
           ...tableParams.pagination,
           total: 60, 
         },
-      });
- 
+      }); 
 }).catch((err) => {console.log(err)});
+
 };
 const handleSearch = (selectedKeys, confirm, dataIndex) => {
   confirm();
@@ -417,12 +418,12 @@ const columns = [
     sortOrder: sortedInfo.columnKey === 'state' ? sortedInfo.order : null,
     ellipsis: true,
     }, 
-    {title: 'Action', key: 'action', fixed: 'right', width: 140,
+    {title: 'Action', key: 'action', fixed: 'right', width: 120,
     render: (b) => <div className={css.ActionCss}>
          <div>  
             <Tooltip title="Accept company"><Button size="small" className={css.BtnAccept}  onClick={()=> confirm(b)} icon={<CheckOutlined />}></Button> </Tooltip>
             <Tooltip title="Reject"><Button size="small" className={css.BtnReject}  onClick={()=> showModalReject(b)} icon={<FormOutlined />}></Button> </Tooltip>
-            <Tooltip title="User info"><Button size="small" className={css.BtnRight}  onClick={()=> showUserInfo(b)} icon={<SolutionOutlined/>}></Button> </Tooltip>
+            {/* <Tooltip title="User info"><Button size="small" className={css.BtnRight}  onClick={()=> showUserInfo(b)} icon={<SolutionOutlined/>}></Button> </Tooltip> */}
             <Tooltip title="Company info"><Button size="small" className={css.BtnRight}  onClick={()=> companyInfof(b)} icon={<FundViewOutlined />}></Button> </Tooltip>
         </div>   
     </div>,
