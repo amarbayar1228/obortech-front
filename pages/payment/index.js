@@ -7,7 +7,7 @@ import { WalletOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import BasketContext from "../../context/basketContext/BasketContext";
 import axios from "axios";
-import {CaretRightOutlined,ShoppingCartOutlined,MailOutlined ,SmileFilled,DeleteOutlined, PhoneOutlined, CheckCircleOutlined} from "@ant-design/icons";
+import {CaretRightOutlined,ShoppingCartOutlined,MailOutlined ,InfoCircleOutlined,DeleteOutlined, PhoneOutlined, CheckCircleOutlined} from "@ant-design/icons";
 // import jsPDF from "jspdf"; 
 import { Tabs } from "antd"; 
 import SuccessOrder from "../../components/PaymentCom/SuccessOrder"; 
@@ -21,6 +21,7 @@ import PhoneInput from "react-phone-input-2";
 import 'react-phone-input-2/lib/style.css'
 import Hansh from "../../components/PaymentCom/Hansh";
 import MongolBanks from "../../components/PaymentCom/MongolBanks";
+import ItemDetails from "../../components/PaymentCom/ItemDetails";
 const { TabPane } = Tabs;
 const { Step } = Steps;
 const { Paragraph } = Typography;
@@ -527,7 +528,10 @@ const steps = [
                     {e.img ? <Image alt="Obertech" preview={false} src={"data:image/png;base64," + e.img}/> : <div className={css.PgrCss}>P</div>} </div>
                   <div className={css.ItemsInfo}>
                     <div className={css.ItemsTitle}> <div className={css.TitleOver}>{e.title}</div>
-                      <div>
+                      <div style={{display: "flex", alignItems: "center", color: "rgb(102, 102, 102)"}}>
+                        <div className={css.HoverDetails}>
+                        <ItemDetails data={e}/>
+                        </div>
                         <Tooltip title={<div style={{color: "rgb(100 100 100)", fontSize: "12px"}}> Delete</div>} color="white" ><Button type="link" shape="circle" size="small" onClick={() =>basketContext.basketItemDelete(i,totalPriceFunction)} icon={<DeleteOutlined  style={{color: "#666", fontSize: "15px"}}/>}></Button></Tooltip>
                       </div>
                     </div>
@@ -556,6 +560,8 @@ const steps = [
                             </div>
                             <div className={css.Descrip2}>
                               <div className={css.Title2}><div className={css.ItemTitle2}>{e.title}</div></div>
+                         
+                              <div>{e.description}</div>
                               <div className={css.Price2}>
                                 <div> Qty: {e.itemCnt}</div>
                                 <div style={{fontWeight: "600"}}> {e.itemPriceD}$</div>

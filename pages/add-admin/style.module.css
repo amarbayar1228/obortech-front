@@ -88,7 +88,7 @@
 
 .AdminScroll {
     overflow-y: auto;
-    height: 700px;
+    /* height: 700px; */
 }
 
 .AdminScroll::-webkit-scrollbar {

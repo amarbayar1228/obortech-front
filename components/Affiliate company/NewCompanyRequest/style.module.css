@@ -8,7 +8,7 @@
 
 .CompNameCss {
     display: flex;
-    border-bottom: 2px solid #faad14;
+    border-bottom: 2px solid #cdcdcd;
     margin-bottom: 15px;
     justify-content: space-between;
     align-items: center;
@@ -124,14 +124,14 @@
 .CompFlex2 {
     display: flex;
     font-size: 16px;
-    background: #ffe2a9;
+    background: #efefef;
     padding: 5px 10px;
-    color: #4c3300;
+    /* color: #4c3300; */
     border-radius: 10px;
 }
 
 .StatusCss {
-    background: antiquewhite;
+    background: #ededed;
     padding: 2px 10px;
     border-radius: 10px;
     /* margin-top: -4px; */
@@ -143,4 +143,24 @@
 .TextAreaCss textarea {
     height: 120px;
     background-color: red;
+}
+
+.Prospect1 {
+    display: flex;
+    padding-bottom: 10px;
+    padding-top: 4px;
+    padding-left: 7px;
+    margin-left: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.ProspectTitle {
+    width: 190px;
+    color: #4d5057;
+    font-weight: 600;
+}
+
+.ProspectTitle2 {
+    color: #777d89;
+    font-weight: 600;
 }

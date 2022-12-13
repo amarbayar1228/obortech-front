@@ -490,7 +490,7 @@ return <div>
     </div>
     </div>
 </Modal>
-  {/* --------------------------------------------------------user info modal ---------------------------------------------------------------------- */}
+  {/* --------------------------------------------------------Company info modal ---------------------------------------------------------------------- */}
 <Modal title="Company info" open={isModalOpenCompany}  onCancel={handleCancelCompany} footer={null}> 
 <div>{userSpin ? <Spin size="large" className={css.SpinCss}/> : 
 <>
@@ -499,7 +499,27 @@ return <div>
 <div className={css.StatusCss}>
 {rejectValue == 1 ? (<Tooltip title="New request"><Badge status="warning" text="New request" style={{fontSize: "12px", color: "#faad14"}}/></Tooltip>) :""} 
 </div>
-</div> 
+</div>
+<div style={{fontWeight: "600"}}>1. Prospect contact information</div>
+<div className={css.Prospect1}>
+    <div className={css.ProspectTitle}>First name:</div>
+    <div className={css.ProspectTitle2}>{companyInfo ? companyInfo.firstname : "null"}</div>
+</div>
+<div className={css.Prospect1}>
+        <div className={css.ProspectTitle}>Last name:</div>
+        <div className={css.ProspectTitle2}>{companyInfo ? companyInfo.lastname : "null"}</div>
+      </div>
+      <div className={css.Prospect1}>
+        <div className={css.ProspectTitle}>Job title:</div>
+        <div className={css.ProspectTitle2}>{companyInfo ? companyInfo.jobtitle : "null"}</div>
+      </div>
+      <div className={css.Prospect1}>
+        <div className={css.ProspectTitle}>Email: </div>
+        <div className={css.ProspectTitle2}>{companyInfo ? companyInfo.email : "null"}</div>
+      </div>
+      
+<div style={{fontWeight: "600", marginTop: "15px"}}>2. Prospect company information</div> 
+
 <div className={css.imgL}>
     {/* <div className={css.ImageCss}><Image preview={false} alt="Obertech" src={"/img/user.png"} className={css.Img}/></div> */}
     <div className={css.Info}> 

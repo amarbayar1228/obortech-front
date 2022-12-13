@@ -99,6 +99,7 @@ const showModalIncentive = () => {
   
   
 const segmentFunc = (a) => {  
+  console.log("company", a);
   setSegmentValue(a);
   if(a == "accept"){
     console.log("accept company"); 
@@ -106,6 +107,8 @@ const segmentFunc = (a) => {
     console.log("newCompany company"); 
   }else if(a == "adminAccept"){ 
     console.log("adminAccept company"); 
+  }else{
+    setSegmentValue("newCompany")
   }
 };
 const segmentFuncUser = (a) => { 
@@ -126,6 +129,7 @@ const segmentFuncUser = (a) => {
   console.log("new res.data: ", res.data.data.length); 
   setCompanyLength(res.data.data.length);
   }).catch((err) => {console.log(err)}); 
+
 }; 
 
   const getIncentivePercent = () => {

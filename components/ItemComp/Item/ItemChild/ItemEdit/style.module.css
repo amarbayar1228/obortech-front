@@ -1,6 +1,6 @@
 .CompNameCss {
     display: flex;
-    border-bottom: 2px solid #faad14;
+    border-bottom: 2px solid #ccc;
     margin-bottom: 15px;
     justify-content: space-between;
     align-items: center;
@@ -30,7 +30,7 @@
 }
 
 .StatusCss {
-    background: #efe7d8;
+    background: #ebebeb6b;
     padding: 0px 10px;
     border-radius: 10px;
     /* margin-top: -4px; */
@@ -42,3 +42,9 @@
 .ImgErr {
     color: red;
 }
+
+.TypeCss {
+    display: flex;
+}
+
+.Spinner {}

@@ -1,10 +1,12 @@
-import { Badge, Button, Input, Modal, Space, Spin, Table, Tooltip, Image, Radio, message } from "antd";
+import { Badge, Button, Input, Modal, Space, Spin, Table, Tooltip, Image, Radio, message,Divider, Typography } from "antd";
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import css from "./style.module.css";
 import Highlighter from "react-highlight-words";
-import {SearchOutlined ,CheckOutlined, ExclamationCircleOutlined, ClearOutlined, SendOutlined, StarOutlined,SolutionOutlined, FundViewOutlined } from "@ant-design/icons";
+import {SearchOutlined ,CheckOutlined, ExclamationCircleOutlined, ClearOutlined, SendOutlined, StarOutlined,SolutionOutlined, FundViewOutlined, } from "@ant-design/icons";
 import TextArea from "antd/lib/input/TextArea";
+import BasketContext from "../../../context/basketContext/BasketContext"; 
+const { Paragraph } = Typography;
 const AdminAcceptCompany = () =>{
 const [spinner, setSpinner] = useState(false)
 const [companyData, setCompanyData] = useState([]);
@@ -21,7 +23,11 @@ const [rejectValue, setRejectValue]= useState(0);
 const [others, setOthers] = useState("");
 const [tableParams, setTableParams] = useState({pagination: {current: 1,pageSize: 10}});
 const [isModalOpenCompany, setIsModalOpenCompany]  = useState(false);
+const [isModalIncentive, setIsModalIncentive] = useState(false);
 const searchInput = useRef(null); 
+const basketContext = useContext(BasketContext);
+const [editableStr, setEditableStr] = useState(0);
+
 useEffect(()=>{
 console.log("AdminAcceptCompany");
 getNewComp();
@@ -48,6 +54,8 @@ setCompanyData(res.data.data);
 // setGetCompany(res.data.data);
 // confirmCompanyList();
 }).catch((err) => {console.log(err)});
+
+
 };
 const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -249,6 +257,17 @@ const companyInfof = (a) =>{
 const handleCancelCompany = () =>{
     setIsModalOpenCompany(false);
 }
+const companyIncentive = (e) =>{
+  console.log("incentive: ", e.action);
+  setCompanyInfo(e.action);
+  setIsModalIncentive(true);
+}
+const handleOkIncentive = () =>{
+  setIsModalIncentive(false);
+}
+const handleCancelInventive = () =>{
+  setIsModalIncentive(false);
+}
 const data = companyData.map((r, i)=>(
     {
       key: i,
@@ -411,79 +430,91 @@ const columns = [
     sortOrder: sortedInfo.columnKey === 'state' ? sortedInfo.order : null,
     ellipsis: true,
     }, 
-    {title: 'Action', key: 'action', fixed: 'right', width: 140,
+    {title: 'Action', key: 'action', fixed: 'right', width: 70,
     render: (b) => <div className={css.ActionCss}>
-         <div>  
+         <div style={{display: "flex"}}>  
             {/* <Tooltip title="Accept company"><Button size="small" className={css.BtnAccept}  onClick={()=> confirm(b)} icon={<CheckOutlined />}></Button> </Tooltip>
             <Tooltip title="Reject"><Button size="small" className={css.BtnReject}  onClick={()=> showModalReject(b)} icon={<FormOutlined />}></Button> </Tooltip> */}
             {/* <Tooltip title="User info"><Button size="small" className={css.BtnRight}  onClick={()=> showUserInfo(b)} icon={<SolutionOutlined/>}>User</Button> </Tooltip> */}
-            <div>{b.action.state == 7 ? <div>I</div> : ""}</div>
+            <div>{b.action.state == 7 ? <div>{basketContext.userInfoProfile.isSuperAdmin === 1 ? 
+               <Tooltip title="Company info"><Button size="small" className={css.BtnRight}  onClick={()=> companyIncentive(b)} icon={<StarOutlined />}></Button> </Tooltip>
+            : null}</div> : ""}</div>
             <Tooltip title="Company info"><Button size="small" className={css.BtnRight}  onClick={()=> companyInfof(b)} icon={<FundViewOutlined />}></Button> </Tooltip>
         </div>   
     </div>,
     },
 ];
-
+const EditIncentive = (a) =>{
+  // console.log("eee", a);
+   const too = Number(a);
+   console.log("aa",too);
+  if(too){
+    console.log("xoosn");
+    setEditableStr(a)
+  }else{
+    console.log("blsn");
+  } 
+}
 return <div>
-    <div className={css.ClearTable}><Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Clear</Button></div>
-    <Table size="small" columns={columns} dataSource={data} onChange={handleChangeTable} loading={spinner}  scroll={{x:  1500, y: 600 }} pagination={tableParams.pagination}/>
+<div className={css.ClearTable}><Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Clear</Button></div>
+<Table size="small" columns={columns} dataSource={data} onChange={handleChangeTable} loading={spinner}  scroll={{x:  1500, y: 600 }} pagination={tableParams.pagination}/>
 
     {/* --------------------------------------------------------userInfo modal---------------------------------------------------------------------- */}
 
-    <Modal title="User info" open={isModalOpenUser} onOk={handleOkUser}  onCancel={handleCancelUser} footer={null}> 
+<Modal title="User info" open={isModalOpenUser} onOk={handleOkUser}  onCancel={handleCancelUser} footer={null}> 
+<div>
+{userSpin ? <Spin size="large" className={css.SpinCss}/> : 
+<>
+<div className={css.CompNameCss}>
+<div className={css.CompFlex}><div className={css.CompName}>Company name:</div>
+<div className={css.CompTitle}>{companyInfo === undefined ? "": companyInfo.companyName}</div></div> 
+</div>
+    <div className={css.imgL}>
+        <div className={css.ImageCss}><Image preview={false} alt="Obertech" src={"/img/user.png"} className={css.Img}/></div>
+        {userInfo ?
+        <div className={css.Info}>  
+        <div className={css.Title}>
+            <div className={css.TitleChild}>Full name: </div><div className={css.TitleChild}>Email: </div>
+            <div className={css.TitleChild}>Phone: </div><div className={css.TitleChild}>address: </div>
+        </div>
+        <div className={css.Description}>
+            <div className={css.TitleChild2}>{userInfo.lastname}  {userInfo.firstname}</div><div className={css.TitleChild2}>{userInfo.email} </div>
+            <div className={css.TitleChild2}>{userInfo.phone}</div><div className={css.TitleChild2}>{userInfo.address} </div>
+        </div>
+        </div>
+        : "" }
+    </div>
+    </>
+    }
+</div>
+</Modal>
+    {/* --------------------------------------------------------Reject modal ---------------------------------------------------------------------- */}
+<Modal title="Reject" open={isModalOpenReject} onOk={handleOkReject}  onCancel={handleCancelReject}> 
     <div>
-    {userSpin ? <Spin size="large" className={css.SpinCss}/> : 
-    <>
+    {companyInfo === undefined ? "": 
     <div className={css.CompNameCss}>
-    <div className={css.CompFlex}><div className={css.CompName}>Company name:</div>
-    <div className={css.CompTitle}>{companyInfo === undefined ? "": companyInfo.companyName}</div></div> 
+        <div className={css.CompFlex}><div className={css.CompTitle}>Company name:</div><div className={css.CompNameF}>{companyInfo.companyName}</div></div>
+        <div className={css.StatusCss}>
+        {companyInfo.state == 1 ? (<Tooltip title="New request"><Badge status="warning" text="New request" style={{fontSize: "12px", color: "#faad14"}}/></Tooltip>
+        ) :  ""} 
+        </div>
     </div>
-        <div className={css.imgL}>
-            <div className={css.ImageCss}><Image preview={false} alt="Obertech" src={"/img/user.png"} className={css.Img}/></div>
-            {userInfo ?
-            <div className={css.Info}>  
-            <div className={css.Title}>
-                <div className={css.TitleChild}>Full name: </div><div className={css.TitleChild}>Email: </div>
-                <div className={css.TitleChild}>Phone: </div><div className={css.TitleChild}>address: </div>
-            </div>
-            <div className={css.Description}>
-                <div className={css.TitleChild2}>{userInfo.lastname}  {userInfo.firstname}</div><div className={css.TitleChild2}>{userInfo.email} </div>
-                <div className={css.TitleChild2}>{userInfo.phone}</div><div className={css.TitleChild2}>{userInfo.address} </div>
-            </div>
-            </div>
-            : "" }
-        </div>
-        </>
-        }
+    }
+    <div style={{marginBottom: "10px"}}>
+        <div className={css.ChooseCss}>Choose a return type? </div>
+        <Radio.Group onChange={onChangeReject} value={rejectValue} style={{marginLeft: "20px"}}>
+        <Space direction="vertical">
+            <Radio value={3}>Correct your information</Radio>
+            <Radio value={4}>Rejected</Radio> 
+            <Radio value={5}> More...</Radio> 
+        </Space>
+        </Radio.Group>
+        {rejectValue === 5 ? (
+            <TextArea placeholder="Write your reason?"   allowClear onChange={textAreaChange} value={others} style={{height: "100px", marginTop: "10px"}} />
+            ) : null}
     </div>
-    </Modal>
-       {/* --------------------------------------------------------Reject modal ---------------------------------------------------------------------- */}
-    <Modal title="Reject" open={isModalOpenReject} onOk={handleOkReject}  onCancel={handleCancelReject}> 
-        <div>
-        {companyInfo === undefined ? "": 
-        <div className={css.CompNameCss}>
-            <div className={css.CompFlex}><div className={css.CompTitle}>Company name:</div><div className={css.CompNameF}>{companyInfo.companyName}</div></div>
-            <div className={css.StatusCss}>
-            {companyInfo.state == 1 ? (<Tooltip title="New request"><Badge status="warning" text="New request" style={{fontSize: "12px", color: "#faad14"}}/></Tooltip>
-            ) :  ""} 
-            </div>
-        </div>
-        }
-        <div style={{marginBottom: "10px"}}>
-            <div className={css.ChooseCss}>Choose a return type? </div>
-            <Radio.Group onChange={onChangeReject} value={rejectValue} style={{marginLeft: "20px"}}>
-            <Space direction="vertical">
-                <Radio value={3}>Correct your information</Radio>
-                <Radio value={4}>Rejected</Radio> 
-                <Radio value={5}> More...</Radio> 
-            </Space>
-            </Radio.Group>
-            {rejectValue === 5 ? (
-                <TextArea placeholder="Write your reason?"   allowClear onChange={textAreaChange} value={others} style={{height: "100px", marginTop: "10px"}} />
-                ) : null}
-        </div>
-        </div>
-    </Modal>
+    </div>
+</Modal>
    {/* ------------------------------------------------Company info Modals------------------------------------ */}
 
 <Modal title="Company info" open={isModalOpenCompany}  onCancel={handleCancelCompany} footer={null}> 
@@ -498,10 +529,29 @@ return <div>
     ) : rejectValue == 4 ? (<Tooltip title="Rejected"><Badge color="red" status="processing"text="Rejected"style={{fontSize: "12px", color: "#f5222d"}}/></Tooltip>
     ) : rejectValue == 5 ? (<Tooltip title={companyInfo === undefined ? "": others}><Badge color="gray" status="processing"text="Others"style={{fontSize: "12px", color: "#808080"}}/></Tooltip>
     ) : rejectValue == 6 ? (<Tooltip title="Invitation Send..."><Badge color="purple" status="processing" text="Invitation Send." style={{fontSize: "12px", color: "#722ed1"}}/></Tooltip>
-    ) : rejectValue == 7 ? (<Tooltip title="Organization Onboarded..."><Badge color="cyan" text="Org id" style={{fontSize: "12px", color: "#13c2c2"}}/></Tooltip>
+    ) : rejectValue == 7 ? (<Tooltip title="Organization Onboarded"><Badge color="cyan" text="Organization Onboarded" style={{fontSize: "12px", color: "#13c2c2"}}/></Tooltip>
     ) : rejectValue == 8 ? (<Tooltip title="Canceled"><Badge status="error" text="C" style={{fontSize: "12px", color: "#722ed1"}}/></Tooltip>) : (<Tooltip title="..."><Badge status="default" text="..." /></Tooltip>)} 
     </div>
 </div> 
+<div style={{fontWeight: "600"}}>1. Prospect contact information</div>
+<div className={css.Prospect1}>
+    <div className={css.ProspectTitle}>First name:</div>
+    <div className={css.ProspectTitle2}>{companyInfo ? companyInfo.firstname : "null"}</div>
+</div>
+<div className={css.Prospect1}>
+        <div className={css.ProspectTitle}>Last name:</div>
+        <div className={css.ProspectTitle2}>{companyInfo ? companyInfo.lastname : "null"}</div>
+      </div>
+      <div className={css.Prospect1}>
+        <div className={css.ProspectTitle}>Job title:</div>
+        <div className={css.ProspectTitle2}>{companyInfo ? companyInfo.jobtitle : "null"}</div>
+      </div>
+      <div className={css.Prospect1}>
+        <div className={css.ProspectTitle}>Email: </div>
+        <div className={css.ProspectTitle2}>{companyInfo ? companyInfo.email : "null"}</div>
+      </div>
+      
+<div style={{fontWeight: "600", marginTop: "15px"}}>2. Prospect company information</div> 
     <div className={css.imgL}>
         {/* <div className={css.ImageCss}><Image preview={false} alt="Obertech" src={"/img/user.png"} className={css.Img}/></div> */}
         <div className={css.Info}> 
@@ -537,6 +587,39 @@ return <div>
     </>
 }
     </div>
+</Modal>
+
+<Modal title="Incentive sent" open={isModalIncentive}  onCancel={handleCancelInventive} footer={null} onOk={handleOkIncentive}> 
+<div> 
+{companyInfo === undefined ? "": 
+<div className={css.CompNameCss}>
+    <div className={css.CompFlex}><div></div><div className={css.CompTitle}>{companyInfo === undefined ? "": companyInfo.date1}</div></div>
+    <div className={css.StatusCss}>
+    {companyInfo.state == 2 ? (<Tooltip title="Request accepted"><Badge status="warning" text="Request accepted" style={{fontSize: "12px", color: "#faad14"}}/></Tooltip>
+    ) : companyInfo.state == 3 ? (<Tooltip title="Correct your information"><Badge color="red" status="processing" text="Correct your information" style={{fontSize: "12px", color: "#f5222d"}}/></Tooltip>
+    //ene Edit hiii gsn state
+    ) : companyInfo.state == 4 ? (<Tooltip title="Rejected"><Badge color="red" status="processing"text="Rejected"style={{fontSize: "12px", color: "#f5222d"}}/></Tooltip>
+    ) : companyInfo.state == 5 ? (<Tooltip title={companyInfo === undefined ? "": others}><Badge color="gray" status="processing"text="Others"style={{fontSize: "12px", color: "#808080"}}/></Tooltip>
+    ) : companyInfo.state == 6 ? (<Tooltip title="Invitation Send..."><Badge color="purple" status="processing" text="Invitation Send." style={{fontSize: "12px", color: "#722ed1"}}/></Tooltip>
+    ) : companyInfo.state == 7 ? (<Tooltip title="Organization Onboarded"><Badge color="cyan" text="Organization Onboarded" style={{fontSize: "12px", color: "#13c2c2"}}/></Tooltip>
+    ) : companyInfo.state == 8 ? (<Tooltip title="Canceled"><Badge status="error" text="C" style={{fontSize: "12px", color: "#722ed1"}}/></Tooltip>) : (<Tooltip title="..."><Badge status="default" text="..." /></Tooltip>)} 
+    </div>
+</div> 
+    }
+    <div>
+    <Paragraph
+        editable={{
+          onChange: EditIncentive,
+          maxLength: 3,
+          tooltip: "Edit",
+          text: "number"
+        }}
+           
+      >
+        {editableStr} 
+      </Paragraph>
+    </div>
+</div>
 </Modal>
 </div>
 }

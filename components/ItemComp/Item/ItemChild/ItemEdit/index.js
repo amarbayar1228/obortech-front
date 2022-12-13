@@ -1,4 +1,4 @@
-import { Badge, Button, Form, Input, InputNumber, message, Modal, notification, Radio, Spin, Tooltip, Upload } from "antd";
+import { Badge, Button, Form, Input, InputNumber, message, Modal, notification, Radio, Space, Spin, Tooltip, Upload } from "antd";
 import React, { useState } from "react";
 import css from "./style.module.css"
 import {SearchOutlined ,CheckOutlined, ExclamationCircleOutlined, FormOutlined, ClearOutlined, StarOutlined,SolutionOutlined, FundViewOutlined,DeleteOutlined, EditOutlined} from "@ant-design/icons";
@@ -154,30 +154,29 @@ initialValues={{
         <Upload fileList={fileListUpdate} onPreview={onPreview} listType="picture-card" onChange={onChangeImageUpdate} >
         {fileListUpdate.length < 1 && "+ Image"}</Upload> <span className={css.ImgErr}>{imgNullText}</span>
 </Form.Item>  
-<Form.Item label={"type: "} name="type" rules={[{  type: 'number', required: true, message: "Please input your type!"}]}>
 
-<Radio.Group size="small" onChange={onChangeType} value={typeLevelValue}> 
+<div className={css.TypeCss}> 
+<span style={{color: "#4d5057",   marginRight: "10px"}}>Type:</span>  
+<Radio.Group size="small" onChange={onChangeType} value={typeLevelValue} style={{display: "flex"}}> 
         {props.typeLevel === null ? "" : <>{props.typeLevel.map((e,i)=>(
-        <>
-
-        <Radio.Button value={e.index_} key={i}>{e.nameeng}
-            
-        </Radio.Button> 
+        <div key={i}> 
+        <Radio.Button value={e.index_} key={i}>{e.nameeng} </Radio.Button> 
         
-        </>
+        </div>
     ))}</>} 
-</Radio.Group>
+</Radio.Group> 
+</div>
 <>
 {typeLevelValue == 14 || typeLevelValue == 15  || typeLevelValue == 16 || typeLevelValue == 17 ? 
-<div style={{margin: "10px"}}> 
-{levelSpin ? <Spin /> :
+<div style={{margin: "10px 47px"}}> 
+{levelSpin ? <Spin className={css.Spinner} /> :
 
 <Radio.Group size="small" onChange={onChangeTypeSub} value={typeLevelSub}> 
 {typeSubValue === 0 ? "" : <>{typeSubValue.map((e,i)=>(
-    <> 
+    <div key={i}> 
     <Radio value={e.index_} key={i}>{e.nameeng}</Radio> 
     
-    </>
+    </div>
 ))}</>} 
 </Radio.Group>
 }
@@ -185,7 +184,7 @@ initialValues={{
 
 </div>: null}
 </>
-    </Form.Item>
+
 {/* <div><Button onClick={()=> formEdit.resetFields()}>Reset</Button></div> */}
 <Form.Item><div style={{marginBottom: "-35px"}}><Button type="primary" htmlType="submit" className="login-form-button" style={{width: "100%"}}>Update</Button></div></Form.Item> 
 </Form> 

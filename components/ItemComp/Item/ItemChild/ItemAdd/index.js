@@ -109,30 +109,32 @@ return <div>
     <Form.Item label="Image" name="img" rules={[{required: true,message: "Please input your Image!"}]}>
     <Upload onPreview={onPreview} listType="picture-card" fileList={fileList} onChange={onChangeImage} >{fileList.length < 1 && "+ Image"}</Upload>
     </Form.Item> 
-<div> 
-   <div style={{marginRight: "1px"}}>Type:</div> 
-<Radio.Group size="small" onChange={onChangeType} value={typeLevelValue}> 
+<div style={{ width: "100%", marginBottom: "30px"}}> 
+<div style={{display: "flex"}}> 
+<span style={{marginRight: "10px"}}>Type:</span> 
+<Radio.Group size="small" onChange={onChangeType} value={typeLevelValue} style={{display: "flex"}}> 
     {props.typeLevel === null ? "" : <>{props.typeLevel.map((e,i)=>(
-    <>
+    <div key={i}>
     <Radio.Button value={e.index_} key={i}>{e.nameeng}</Radio.Button>  
-    </>
+    </div>
 ))}</>} 
 </Radio.Group>
-<>
+</div>
+
+<div > 
 {typeLevelValue == 14 || typeLevelValue == 15  || typeLevelValue == 16 || typeLevelValue == 17 ? 
-<div style={{margin: "10px"}}> 
+<div style={{margin: "10px 47px"}}> 
 {levelSpin ? <Spin /> : 
 <Radio.Group size="small" onChange={onChangeTypeSub} value={typeLevelSub}> 
 {typeSubValue === 0 ? "" : <>{typeSubValue.map((e,i)=>(
-    <> 
+    <div key={i}> 
     <Radio value={e.index_} key={i}>{e.nameeng}</Radio> 
-    
-    </>
+    </div>
 ))}</>} 
 </Radio.Group>
 } 
 </div>: null}
-</>
+</div>
 </div>
     <Form.Item><div className={css.Ok}><Button type="primary" htmlType="submit" className="login-form-button">Add</Button></div></Form.Item>
     </Form>   

@@ -275,7 +275,7 @@ const showPromiseConfirm = (a) => {
 confirm({
     title: 'Do you want to invitation send?',
     icon: <ExclamationCircleOutlined />,
-    content: <div className={css.CompFlex2}><div>Company name:</div><div className={css.CompTitle}>{a.action.companyName}</div></div>,
+    content: <div className={css.CompFlex2}><div>Company name:</div><div className={css.CompTitle2}>{a.action.companyName}</div></div>,
     onOk() {
     return new Promise((resolve, reject) => { 
         setTimeout(Math.random() > 0.5 ? resolve : reject, 1000, console.log("object"));
@@ -484,19 +484,19 @@ const columns = [
     title: 'Action',
     key: 'action',
     fixed: 'right', 
-    width: 139,
+    width: 110,
     render: (b) => <div className={css.ActionCss}>
         {b.orgId === "-" ? <div> 
             {b.action.state === 6 ? <Tooltip title="Organization id"><Button size="small" className={css.BtnRight} type="primary" onClick={()=>showModal(b)} icon={<InsertRowAboveOutlined />}></Button> </Tooltip>
             : <Tooltip title="Invitation sent"><Button size="small" type="primary" className={css.BtnRight} onClick={()=>showPromiseConfirm(b)} icon={<SendOutlined />}></Button></Tooltip>
             }
             <Tooltip title="Reject"><Button size="small" className={css.BtnReject}  onClick={()=> showModalReject(b)} icon={<FormOutlined />}></Button> </Tooltip>
-            <Tooltip title="User info"><Button size="small" className={css.BtnRight}  onClick={()=> showUserInfo(b)} icon={<SolutionOutlined/>}></Button> </Tooltip>
+            {/* <Tooltip title="User info"><Button size="small" className={css.BtnRight}  onClick={()=> showUserInfo(b)} icon={<SolutionOutlined/>}></Button> </Tooltip> */}
             <Tooltip title="Company info"><Button size="small" className={css.BtnRight}  onClick={()=> companyInfof(b)} icon={<FundViewOutlined />}></Button> </Tooltip>
         </div> : <div><Tooltip title="Incentive">
 
-          <Button size="small" onClick={()=> showModal(b)} icon={<StarOutlined />}></Button>
-          
+          <Button size="small" onClick={()=> showModal(b)} icon={<StarOutlined />} style={{marginRight: "5px"}}></Button>
+          <Tooltip title="Company info"><Button size="small" className={css.BtnRight}  onClick={()=> companyInfof(b)} icon={<FundViewOutlined />}></Button> </Tooltip>
           </Tooltip></div>}
     
     </div>,
@@ -522,7 +522,7 @@ const body = {
     }).catch((err) => {console.log(err)});
 }else { 
   console.log("incenitive");
-  
+
     // const body = {
     //   func: "setInsentive",
     //   insentive: values.percentage,
@@ -634,7 +634,7 @@ return <div>
 
 <Modal title="Reject" open={isModalOpenReject} onOk={handleOkReject}  onCancel={handleCancelReject}> 
     <div className={css.CompNameCss}>
-        <div className={css.CompFlex}><div>Company name:</div><div className={css.CompTitle}>{companyInfo === undefined ? "": companyInfo.companyName}</div></div>
+        <div className={css.CompFlex}><div>Company name:</div><div className={css.CompTitle2}>{companyInfo === undefined ? "": companyInfo.companyName}</div></div>
         <div className={css.StatusCss}>
         {rejectValue == 2 ? (<Tooltip title="Request accepted"><Badge status="warning" text="Request accepted" style={{fontSize: "12px", color: "#faad14"}}/></Tooltip>
         ) : rejectValue== 3 ? (<Tooltip title="Correct your information"><Badge color="red" status="processing" text="Correct your information" style={{fontSize: "12px", color: "#f5222d"}}/></Tooltip>
@@ -662,7 +662,7 @@ return <div>
 
             {/* ------------------------------------------------User info Modals------------------------------------ */}
 
-<Modal title="User info" open={isModalOpenUser} onOk={handleOkUser}  onCancel={handleCancelUser} footer={null}> 
+{/* <Modal title="User info" open={isModalOpenUser} onOk={handleOkUser}  onCancel={handleCancelUser} footer={null}> 
 <div>{userSpin ? <Spin size="large" className={css.SpinCss}/> : 
         <>
 <div className={css.CompNameCss}>
@@ -670,7 +670,7 @@ return <div>
     <div className={css.StatusCss}>
     {rejectValue == 2 ? (<Tooltip title="Request accepted"><Badge status="warning" text="Request accepted" style={{fontSize: "12px", color: "#faad14"}}/></Tooltip>
     ) : rejectValue== 3 ? (<Tooltip title="Correct your information"><Badge color="red" status="processing" text="Correct your information" style={{fontSize: "12px", color: "#f5222d"}}/></Tooltip>
-    //ene Edit hiii gsn state
+   
     ) : rejectValue == 4 ? (<Tooltip title="Rejected"><Badge color="red" status="processing"text="Rejected"style={{fontSize: "12px", color: "#f5222d"}}/></Tooltip>
     ) : rejectValue == 5 ? (<Tooltip title={companyInfo === undefined ? "": others}><Badge color="gray" status="processing"text="Others"style={{fontSize: "12px", color: "#808080"}}/></Tooltip>
     ) : rejectValue == 6 ? (<Tooltip title="Invitation Sent"><Badge color="purple" status="processing" text="Invitation Sent" style={{fontSize: "12px", color: "#722ed1"}}/></Tooltip>
@@ -698,7 +698,7 @@ return <div>
     </>
     }
     </div>
-</Modal>
+</Modal> */}
 
  {/* ------------------------------------------------Company info Modals------------------------------------ */}
 
@@ -718,6 +718,24 @@ return <div>
     ) : rejectValue == 8 ? (<Tooltip title="Canceled"><Badge status="error" text="C" style={{fontSize: "12px", color: "#722ed1"}}/></Tooltip>) : (<Tooltip title="..."><Badge status="default" text="..." /></Tooltip>)} 
     </div>
 </div> 
+<div style={{fontWeight: "600"}}>1. Prospect contact information</div>
+<div className={css.Prospect1}>
+    <div className={css.ProspectTitle}>First name:</div>
+    <div className={css.ProspectTitle2}>{companyInfo ? companyInfo.firstname : "null"}</div>
+</div>
+<div className={css.Prospect1}>
+        <div className={css.ProspectTitle}>Last name:</div>
+        <div className={css.ProspectTitle2}>{companyInfo ? companyInfo.lastname : "null"}</div>
+      </div>
+      <div className={css.Prospect1}>
+        <div className={css.ProspectTitle}>Job title:</div>
+        <div className={css.ProspectTitle2}>{companyInfo ? companyInfo.jobtitle : "null"}</div>
+      </div>
+      <div className={css.Prospect1}>
+        <div className={css.ProspectTitle}>Email: </div>
+        <div className={css.ProspectTitle2}>{companyInfo ? companyInfo.email : "null"}</div>
+      </div>
+      <div style={{fontWeight: "600", marginTop: "15px"}}>2. Prospect company information</div> 
     <div className={css.imgL}>
         {/* <div className={css.ImageCss}><Image preview={false} alt="Obertech" src={"/img/user.png"} className={css.Img}/></div> */}
         <div className={css.InfoComp}> 

@@ -1,6 +1,12 @@
 .Cont {
     display: flex;
     width: 100%;
+    /* height: 93vh;
+    position: relative;
+    background-position: 50% 50% !important;
+    background-size: cover !important;
+    background: url(/img/backgroundCircle2.png) no-repeat;
+  */
 }
 
 .Cont2 {

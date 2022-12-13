@@ -574,7 +574,7 @@ onFinish={onFinish} onFinishFailed={onFinishFailed}autoComplete="off">
     </div>
 
 
-    <div style={{color: "rgb(14 14 14)",fontWeight: "600"}}>2. Prospect company information</div>
+    <div style={{color: "rgb(14 14 14)",fontWeight: "600", marginTop: "15px"}}>2. Prospect company information</div>
     <div className={css.Info}> 
    
     <div className={css.Title}>

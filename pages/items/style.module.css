@@ -384,6 +384,19 @@
     max-height: 92.2vh;
     overflow: auto;
     background: #f6f6f6;
+    position: relative;
+    /* background-position: 50% 50% !important;
+    background-size: cover !important;
+    background: url(/img/backgroundCircle2.png), linear-gradient(70deg, blue, pink);
+    opacity: 0.5; */
+
+}
+
+.BackZ {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: red;
 }
 
 .ScrollItemsCont::-webkit-scrollbar {

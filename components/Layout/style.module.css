@@ -723,6 +723,12 @@
 
     .MenuHoverIcon2 button:hover {
         background-color: #f1f1f1;
+      
+    }
+
+    .Hate {
+        position: absolute;
+
     }
 
     .OrgIdText {
