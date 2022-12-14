@@ -2,9 +2,12 @@ import { Button, Input, message, Modal, Tabs } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import BaseLayout from "../../components/Layout/BaseLayout";
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
+
 import css from "./style.module.css"
 import { Form, InputNumber, Popconfirm, Table, Typography } from 'antd';
 import TokenPercentage from "../../components/Setting comp/tokenPercentage";
+import sha256 from "sha256";
 
 const EditableCell = ({
   editing,
@@ -42,9 +45,13 @@ const [form] = Form.useForm();
 const [data, setData] = useState([]);
 const [editingKey, setEditingKey] = useState('');
 const isEditing = (record) => record.key === editingKey;
+const [formLogin] = Form.useForm();
+const [, forceUpdate] = useState({});
+const [showInc, setShowInc] = useState(false);
 
 useEffect(()=>{
     getPercentage();
+    forceUpdate({});
 },[])
 const getPercentage = () =>{
     const body = {
@@ -172,7 +179,65 @@ const mergedColumns = columns.map((col) => {
     }),
   };
 });
+const onFinish2 = (v) => {
+  console.log('Finish:', v);
+   const pass = sha256(v.password);
+   if(localStorage.getItem("pz2r3t5") === pass){
+    console.log("bolsn");
+    setShowInc(true);
+    message.success("Success");
+   }else{
+    message.error("Error")
+   }
+  // sha256
+};
     return<BaseLayout pageName="global-settings">
+      {showInc === false ?
+      <div>
+    <Form form={formLogin} name="horizontal_login" layout="inline" onFinish={onFinish2}>
+      <Form.Item
+        name="username"
+        rules={[
+          {
+            required: true,
+            message: 'Please input your username!',
+          },
+        ]}
+      >
+        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+      </Form.Item>
+      <Form.Item
+        name="password"
+        rules={[
+          {
+            required: true,
+            message: 'Please input your password!',
+          },
+        ]}
+      >
+        <Input
+          prefix={<LockOutlined className="site-form-item-icon" />}
+          type="password"
+          placeholder="Password"
+        />
+      </Form.Item>
+      <Form.Item shouldUpdate>
+        {() => (
+          <Button
+            type="primary"
+            htmlType="submit"
+            disabled={
+              !form.isFieldsTouched(true) ||
+              !!form.getFieldsError().filter(({ errors }) => errors.length).length
+            }
+          >
+            Log in
+          </Button>
+        )}
+      </Form.Item>
+    </Form>
+    </div>
+      : 
         <Tabs defaultActiveKey="4" items={["a","b"].map((Icon, i) => {  
         
         return {label: i === 0 ?  <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>Incentive Percentage</div> :
@@ -205,6 +270,8 @@ const mergedColumns = columns.map((col) => {
           </div> : null,
         };
         })}/> 
+      }
+
     </BaseLayout>
 }
 export default GlobalSettings;
