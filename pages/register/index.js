@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import BaseLayout from "../../components/Layout/BaseLayout";
 import css from "./style.module.css";
-import { Form, Input, Button, message, Image, Spin } from "antd";
-import { UserOutlined, LockOutlined, MailOutlined } from "@ant-design/icons";
+import { Form, Input, Button, message, Image, Spin, Statistic } from "antd";
+import { UserOutlined, LockOutlined, MailOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { useRouter } from "next/router";
 import sha256 from "sha256";
 import ReCAPTCHA from "react-google-recaptcha";
-
+ 
 const layout = {
   labelCol: {
     span: 8,
@@ -31,12 +31,53 @@ const Register = () => {
 const [spinCapt, setSpinCapt] = useState(0);
 const recaptchaRef = useRef();
 const [btnDis, setBtnDis]= useState(true);
+const [showCode, setShowCode] = useState(false);
+const [cd,setCd] = useState(0);
+const [cdBoolean, setCdBoolean] = useState(false);
 useEffect(()=>{
   setTimeout(()=>{ 
+    
     setSpinCapt(1);
   },800)
 },[])
   const router = useRouter();
+
+  const countDown = () => { 
+    // clearInterval(timer); 
+    setCdBoolean(true);
+    let secondsToGo = 112; 
+    let too = 5;
+    // setCd(0);
+    const timer = setInterval(() => {
+      secondsToGo -= 1; 
+   
+      // setCdBoolean(false); 
+      console.log("aa", timer);
+      setCd(secondsToGo); 
+    }, 1000); 
+
+    console.log("too: ", secondsToGo);
+
+    // clearInterval(timer); 
+    if(cdBoolean){
+      setTimeout(() => {
+        clearInterval(timer); 
+        setCdBoolean(false);
+        console.log("blsn timer1");
+      },100); 
+      console.log("true");
+    }else{
+      console.log("false");
+      setTimeout(() => {
+        clearInterval(timer); 
+        setCdBoolean(false);
+        console.log("blsn timer2");
+      }, secondsToGo * 1000); 
+    }
+   
+
+  };
+ 
   const onFinish = (values) => {
     console.log("Received values of form: ", values.email);
     if (values.password1 == values.password2) {
@@ -49,7 +90,9 @@ useEffect(()=>{
       };
       axios.post("/api/post/Gate", register).then((res) => { 
           message.success("Successfully Registered");
-          router.push("/login");
+          countDown();
+          setShowCode(true);
+          // router.push("/login");
         }).catch((err) => {
           recaptchaRef.current.props.grecaptcha.reset(); 
           setBtnDis(true);
@@ -71,11 +114,14 @@ useEffect(()=>{
   const errorCapt = (err) =>{
     console.log("err", err);
   }
+ 
   return (
     <BaseLayout pageName="register">
       <div className={css.Cont1}>
+        {showCode === false ? 
         <div className={css.Cont2}>
-          <div className={css.LoginTitle}><Image alt="Obertech" preview={false} src="/img/OBORTECH_logo_H_clean.svg"width={250}/></div>
+         <div className={css.LoginTitle}><Image alt="Obertech" preview={false} src="/img/OBORTECH_logo_H_clean.svg"width={250}/></div>
+       
           <div>
             <Form
               {...layout} name="normal_login" className="login-form" initialValues={{ remember: true}} onFinish={onFinish} onFinishFailed={onFinishFailed} validateMessages={validateMessages}>
@@ -95,7 +141,24 @@ useEffect(()=>{
               <Form.Item label=" "><div className={css.Login}><Button disabled={btnDis} style={{width: "100%"}} type="primary" htmlType="submit" className="login-form-button">Sign up</Button></div></Form.Item>
             </Form> 
           </div>
+          
         </div>
+        : <div className={css.VerifyForm}> 
+        <div className={css.Back}>
+          <div><Button icon={<ArrowLeftOutlined />} type="link" onClick={()=>setShowCode(false)}></Button></div>
+          <div>OTP Verification</div>
+        </div>
+        <div style={{margin: "0px 32px"}}>
+           
+          <div className={css.VerifyText}>We've sent a verification code to your email - amarbayar@gmail.com</div>
+          <div><Input  suffix={<div style={{fontSize: "11px", fontWeight: "600", color: "#4d5057"}}> Sent [{cd}] sec </div>} placeholder="Enter verification code" /></div>
+
+          <div style={{marginTop: "10px",marginBottom: "10px", display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+            <Button type="primary" size="small">Verify OTP</Button>
+            {cd === 0 ? <Button type="link" size="small"  onClick={countDown}>Resent</Button> : ""}
+            </div>
+        </div>
+    </div> }
       </div>
     </BaseLayout>
   );

@@ -99,6 +99,18 @@ const showModalIncentive = () => {
   
   
 const segmentFunc = (a) => {  
+  const body = {
+    func: "getOperator",
+    state: 1,
+    };
+    axios.post("/api/post/Gate", body).then((res) => {
+ 
+    //   segmentFuncUser(); 
+    console.log("new user: ", res.data.data);
+    setUserLength(res.data.data.length);
+   
+    })
+    .catch((err) => {console.log(err)}); 
   console.log("company", a);
   setSegmentValue(a);
   if(a == "accept"){
@@ -159,7 +171,7 @@ const segmentFuncUser = (a) => {
                 {/* ------------------------------user segment ----------------------------------- */}
               <Segmented size="middle" block  onChange={segmentFuncUser}
                 options={[
-                  {label: <div style={{position: "relative", display: "flex", justifyContent: "center", alignItems: "center"}}><div style={{background: "red", borderRadius: "50%", fontSize: "11px", color: "#fff", width: "18px", height: "18px", display: "flex", alignItems: "center", justifyContent: "center", marginRight: "5px"}}>4</div> New Requests  </div>, value: "newUserRequest"},
+                  {label: <div style={{position: "relative", display: "flex", justifyContent: "center", alignItems: "center"}}><div style={{background: "red", borderRadius: "50%", fontSize: "11px", color: "#fff", width: "18px", height: "18px", display: "flex", alignItems: "center", justifyContent: "center", marginRight: "5px"}}>{userLength}</div> New Requests  </div>, value: "newUserRequest"},
                   {label: "Accepted Users", value: "acceptUser"},
                        // {label: <Badge count={5} size="small" offset={[8, 1]}> New user request2 </Badge>,value: "newUserRequest"},
                           

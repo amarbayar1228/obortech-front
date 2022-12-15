@@ -125,8 +125,7 @@ axios.post("/api/post/Gate", question).then((res)=>{
   console.log("Header", res.data.data); 
   setQuestionData(res.data.data)
 }).catch((err)=>{console.log("err", err)})
-questions();
-
+questions(); 
 };
 const questions = () =>{
 // question 1
@@ -383,11 +382,11 @@ const onFinishFailedQuestion = (err) =>{
   const data = [
     {
       key: 1, 
-      img: basketContext.userInfoProfile ?  basketContext.userInfoProfile.img : "",
-      firstname: basketContext.userInfoProfile ?  basketContext.userInfoProfile.firstname : "",
-      lastname: basketContext.userInfoProfile ?  basketContext.userInfoProfile.lastname : "",
-      state: basketContext.userInfoProfile ?  basketContext.userInfoProfile.state : "",
-      action: basketContext.userInfoProfile ?  basketContext.userInfoProfile.state : "",
+      img: userInfo ?  userInfo.img : "",
+      firstname: userInfo ?  userInfo.firstname : "",
+      lastname: userInfo ?  userInfo.lastname : "",
+      state: userInfo ?  userInfo.state : "",
+      action: userInfo ?  userInfo.state : "",
     }];
 const columns = [
     {
@@ -421,9 +420,9 @@ const columns = [
     dataIndex: 'state',
     key: 'state', 
     fixed: "right",
-    width: 90, 
+    width: 150, 
     render: (a) => <div>
-        {console.log("a", a)}
+       
         {a == 1 ? (<Tooltip title="Request pending"><Badge status="processing" text="Request pending" style={{color: "rgb(24 144 255)", fontWeight: "600"}}/></Tooltip>) : 
         a == 0 ? <Tooltip title="Invisible">  <Badge status="default" text="invisible" style={{color: "#8d8d8d",fontWeight: "600"}}/></Tooltip> : 
         a == 3 ? <Tooltip title="Rejected">  <Badge status="error" text="Rejected" style={{color: "red",fontWeight: "600"}}/></Tooltip>  : ""
@@ -435,7 +434,8 @@ const columns = [
     {title: <div className={css.TableTitle}>Action</div>,   key: 'action', fixed: 'right', width: 140,
     render: (b) => <div className={css.ActionCss}>
          <div style={{display: "flex"}}> 
-          {b.state == 3 ? <Button>Edit</Button> : ""}
+         {/* {console.log("a", b)} */}
+          {b.state == 3 ? <Button onClick={()=> router.push("/profile")}>Edit</Button> : ""}
          {/* <StatusChangeModal addItemStatus={b.state} addItemGetItems={getItems} />
          <ItemEdit addItemStatus={b.state} addItemGetItems={getItems} typeLevel={typeLevel}/>
          <ItemDel addItemStatus={b.state} addItemGetItems={getItems}/>  */}
@@ -477,13 +477,22 @@ return (
         <Table bordered size="small" columns={columns} dataSource={data}/>
         </div>
       ) : (
-        <>
-        <Button type="dashed" shape="round" onClick={showModal}>+ Information</Button>
+        <> 
         <div style={{ marginTop: "-30px" }}>
           {userInfo.state === 0 ? 
-          <Result icon={<Image style={{ marginBottom: "-24px" }} alt="Obertech" preview={false} src="/img/info.png" width={100}/>} subTitle="Then you will be able to invite company. " title="Fill in your details."/> :
-          
-          <Result icon={<Image style={{ marginBottom: "-24px" }} alt="Obertech" preview={false} src="/img/info.png" width={100}/>} subTitle="Medeelelee zasnu. " title="Your request has been rejected"/>
+          <>
+          <Button type="dashed" shape="round" onClick={showModal}>+ Information</Button>
+          <Result icon={<Image style={{ marginBottom: "-24px" }} alt="Obertech" preview={false} src="/img/info.png" width={100}/>} subTitle="Then you will be able to invite company. " title="Fill in your details."/>
+          </>
+         
+           :
+          <>
+            <Result icon={<Image style={{ marginBottom: "-24px" }} alt="Obertech" preview={false} src="/img/info.png" width={100}/>} subTitle="Correct your information!" title="Your request has been rejected"/>
+           <Table bordered size="small" columns={columns} dataSource={data}/>
+          </>
+         
+         
+
           }
           
 
@@ -526,7 +535,7 @@ return (
               <div><Button onClick={()=> router.push("profile")}>Update</Button> </div>
               : <div>
                   <div> If you are a Standard member and wish to apply for the Affiliate Program, you will be requested to fill in the following forms.
-                    <Button onClick={()=> setQuestion(1)} >Here</Button> </div> 
+                    <Button onClick={()=> setQuestion(1)} size="small" >Here</Button> </div> 
                   </div>
               } 
             </div> 
@@ -535,7 +544,7 @@ return (
                   <Button onClick={()=> setQuestion(0)} size="small" type="link"> <ArrowLeftOutlined /></Button> 
                   <div className={css.Title}> Please fill in the questions below correctly?</div>
                 </div>
-                  <QuestionDetails />
+                  <QuestionDetails handleOk={handleOk} getUserInfo={userCompany}/>
               </div>}
           </div>
   {/* <Form form={formUser} name="normal_login" className={css.LoginForm} labelCol={{span: 6,}} wrapperCol={{span: 16,}}
@@ -572,7 +581,7 @@ return (
 <div style={{background: "#fff"}}>
   <div style={{ display: "flex", alignItems: "center" }}>
     <Divider orientation="left">Organization list</Divider> <Divider type="vertical" />
-    <Tooltip title="More information on company invitations"> <InfoCircleOutlined style={{ fontSize: "18px" }} /></Tooltip>
+    <Tooltip title="More information on company invitations" placement="topRight"> <InfoCircleOutlined style={{ fontSize: "18px" }} /></Tooltip>
   </div>
   {/* {lstate == 2 ? ( */}
 <div className={css.Corporation}>
@@ -720,6 +729,12 @@ return (
 ""
 )}
 
+  {/* Edit Modal */}
+  <Modal>
+    <div>
+      Edit
+    </div>
+  </Modal>
 </div>
 {/* <div className={css.Note}>
 <Result

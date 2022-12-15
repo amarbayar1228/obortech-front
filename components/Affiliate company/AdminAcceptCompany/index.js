@@ -27,6 +27,7 @@ const [isModalIncentive, setIsModalIncentive] = useState(false);
 const searchInput = useRef(null); 
 const basketContext = useContext(BasketContext);
 const [editableStr, setEditableStr] = useState(0);
+const [valuePerRadio, setValuePerRadio] = useState(0);
 
 useEffect(()=>{
 console.log("AdminAcceptCompany");
@@ -55,7 +56,13 @@ setCompanyData(res.data.data);
 // confirmCompanyList();
 }).catch((err) => {console.log(err)});
 
-
+const body2 = {
+  func: "getPercentage"
+}
+axios.post("/api/post/Gate", body2).then((res)=>{
+  console.log("res: ", res.data.data);
+  setEditableStr(res.data.data[0].percentage);
+}).catch((err)=>console.log("err"))
 };
 const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -142,6 +149,10 @@ const handleSearch = (selectedKeys, confirm, dataIndex) => {
       columnKey: 'age',
     });
   };
+  const onChangeRadio  = (e) =>{
+    console.log("per: ", e.target.value);
+    setValuePerRadio(e.target.value);
+  }
 const showModalReject = (a)=>{
 console.log("a", a);
 setCompanyInfo(a.action);
@@ -263,7 +274,21 @@ const companyIncentive = (e) =>{
   setIsModalIncentive(true);
 }
 const handleOkIncentive = () =>{
-  setIsModalIncentive(false);
+  console.log("percentage: ", valuePerRadio);
+  console.log("edit %: ", editableStr );
+  setIsModalIncentive(false); 
+  // const body = {
+    //   func: "setInsentive",
+    //   insentive: values.percentage,
+    //   orgId: companyInfo.orgId,
+    //   userId: companyInfo.userPkId,
+    //   type_: values.percentageChoose,
+    //   operatorID:  companyInfo.adminPkId,
+    // };
+    // axios.post("/api/post/Gate", body).then((res) => {
+    //     message.success("Success");
+    // }).catch((err) => {console.log(err)});
+
 }
 const handleCancelInventive = () =>{
   setIsModalIncentive(false);
@@ -420,7 +445,7 @@ const columns = [
         //ene Edit hiii gsn state
         ) : a.state == 4 ? (<Tooltip title="Rejected"><Badge color="red" status="processing"text="Rejected"style={{fontSize: "12px", color: "#f5222d"}}/></Tooltip>
         ) : a.state == 5 ? (<Tooltip title={a.others}><Badge color="gray" status="processing"text="Others"style={{fontSize: "12px", color: "#808080"}}/></Tooltip>
-        ) : a.state == 6 ? (<Tooltip title="Invitation Send..."><Badge color="purple" status="processing" text="Invitation Send." style={{fontSize: "12px", color: "#722ed1"}}/></Tooltip>
+        ) : a.state == 6 ? (<Tooltip title="Invitation Send"><Badge color="purple" status="processing" text="Invitation Send" style={{fontSize: "12px", color: "#722ed1"}}/></Tooltip>
         ) : a.state == 7 ? (<Tooltip title="Organization Onboarded..."><Badge color="cyan" text="Org id" style={{fontSize: "12px", color: "#13c2c2"}}/></Tooltip>
         ) : a.state == 8 ? (<Tooltip title="Canceled"><Badge status="error" text="C" style={{fontSize: "12px", color: "#722ed1"}}/></Tooltip>) : (<Tooltip title="..."><Badge status="default" text="..." /></Tooltip>)}
     </div>, 
@@ -437,7 +462,7 @@ const columns = [
             <Tooltip title="Reject"><Button size="small" className={css.BtnReject}  onClick={()=> showModalReject(b)} icon={<FormOutlined />}></Button> </Tooltip> */}
             {/* <Tooltip title="User info"><Button size="small" className={css.BtnRight}  onClick={()=> showUserInfo(b)} icon={<SolutionOutlined/>}>User</Button> </Tooltip> */}
             <div>{b.action.state == 7 ? <div>{basketContext.userInfoProfile.isSuperAdmin === 1 ? 
-               <Tooltip title="Company info"><Button size="small" className={css.BtnRight}  onClick={()=> companyIncentive(b)} icon={<StarOutlined />}></Button> </Tooltip>
+               <Tooltip title="Incentive"><Button size="small" className={css.BtnRight}  onClick={()=> companyIncentive(b)} icon={<StarOutlined />}></Button> </Tooltip>
             : null}</div> : ""}</div>
             <Tooltip title="Company info"><Button size="small" className={css.BtnRight}  onClick={()=> companyInfof(b)} icon={<FundViewOutlined />}></Button> </Tooltip>
         </div>   
@@ -589,11 +614,11 @@ return <div>
     </div>
 </Modal>
 
-<Modal title="Incentive sent" open={isModalIncentive}  onCancel={handleCancelInventive} footer={null} onOk={handleOkIncentive}> 
+<Modal title="Incentive sent" open={isModalIncentive}  onCancel={handleCancelInventive}   onOk={handleOkIncentive}> 
 <div> 
 {companyInfo === undefined ? "": 
 <div className={css.CompNameCss}>
-    <div className={css.CompFlex}><div></div><div className={css.CompTitle}>{companyInfo === undefined ? "": companyInfo.date1}</div></div>
+    <div className={css.CompFlex}><div></div><div className={css.CompTitle}>Company name: {companyInfo === undefined ? "": companyInfo.companyName}</div></div>
     <div className={css.StatusCss}>
     {companyInfo.state == 2 ? (<Tooltip title="Request accepted"><Badge status="warning" text="Request accepted" style={{fontSize: "12px", color: "#faad14"}}/></Tooltip>
     ) : companyInfo.state == 3 ? (<Tooltip title="Correct your information"><Badge color="red" status="processing" text="Correct your information" style={{fontSize: "12px", color: "#f5222d"}}/></Tooltip>
@@ -607,6 +632,14 @@ return <div>
 </div> 
     }
     <div>
+      <div>
+        <div>Percentage choose:</div>
+        <Radio.Group onChange={onChangeRadio} value={valuePerRadio}>
+      <Radio value={1}>Dollar</Radio>
+      <Radio value={2}>Coin</Radio> 
+    </Radio.Group>
+      </div> 
+      <div>Incenitve percent: </div>
     <Paragraph
         editable={{
           onChange: EditIncentive,
@@ -616,8 +649,8 @@ return <div>
         }}
            
       >
-        {editableStr} 
-      </Paragraph>
+        {editableStr} %
+    </Paragraph> 
     </div>
 </div>
 </Modal>

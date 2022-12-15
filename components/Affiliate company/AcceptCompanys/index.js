@@ -34,7 +34,7 @@ const [tableParams, setTableParams] = useState({
   const [form] = Form.useForm();
   const [others, setOthers] = useState(""); 
   const [isModalOpenUser, setIsModalOpenUser] = useState(false);
-  
+  const [orgIdState, setOrgIdState] = useState("");
   const [showIncentive, setShowIncentive] = useState(0);
    
   const showModal = (a) => {
@@ -471,7 +471,7 @@ const columns = [
         ) : a.state == 4 ? (<Tooltip title="Rejected"><Badge color="red" status="processing"text="Rejected"style={{fontSize: "12px", color: "#f5222d"}}/></Tooltip>
         ) : a.state == 5 ? (<Tooltip title={a.others}><Badge color="gray" status="processing"text="Others"style={{fontSize: "12px", color: "#808080"}}/></Tooltip>
         ) : a.state == 6 ? (<Tooltip title="Invitation Sent"><Badge color="purple" status="processing" text="Invitation Sent" style={{fontSize: "12px", color: "#722ed1"}}/></Tooltip>
-        ) : a.state == 7 ? (<Tooltip title="Organization Onboarded..."><Badge color="cyan" text="Org id" style={{fontSize: "12px", color: "#13c2c2"}}/></Tooltip>
+        ) : a.state == 7 ? (<Tooltip title="Organization Onboarded" placement="topLeft"><Badge color="cyan" text="Organization Onboarded" style={{fontSize: "12px", color: "#13c2c2"}}/></Tooltip>
         ) : a.state == 8 ? (<Tooltip title="Canceled"><Badge status="error" text="C" style={{fontSize: "12px", color: "#722ed1"}}/></Tooltip>) : (<Tooltip title="..."><Badge status="default" text="..." /></Tooltip>)}
     </div>, 
     filteredValue: filteredInfo.state || null,
@@ -493,11 +493,10 @@ const columns = [
             <Tooltip title="Reject"><Button size="small" className={css.BtnReject}  onClick={()=> showModalReject(b)} icon={<FormOutlined />}></Button> </Tooltip>
             {/* <Tooltip title="User info"><Button size="small" className={css.BtnRight}  onClick={()=> showUserInfo(b)} icon={<SolutionOutlined/>}></Button> </Tooltip> */}
             <Tooltip title="Company info"><Button size="small" className={css.BtnRight}  onClick={()=> companyInfof(b)} icon={<FundViewOutlined />}></Button> </Tooltip>
-        </div> : <div><Tooltip title="Incentive">
-
-          <Button size="small" onClick={()=> showModal(b)} icon={<StarOutlined />} style={{marginRight: "5px"}}></Button>
-          <Tooltip title="Company info"><Button size="small" className={css.BtnRight}  onClick={()=> companyInfof(b)} icon={<FundViewOutlined />}></Button> </Tooltip>
-          </Tooltip></div>}
+        </div> : <div>
+          {/* <Tooltip title="Incentive"><Button size="small" onClick={()=> showModal(b)} icon={<StarOutlined />} style={{marginRight: "5px"}}></Button></Tooltip> */}
+          <Tooltip title="Company info"><Button size="small" className={css.BtnRight}  onClick={()=> companyInfof(b)} icon={<FundViewOutlined />}></Button></Tooltip>
+          </div>}
     
     </div>,
     },
@@ -506,6 +505,7 @@ const columns = [
 const  onFinish= (values) =>{ 
 console.log("values: ", values); 
 console.log("state: ", companyInfo);
+console.log('orgName: ', orgIdState);
 if(values.others){
 const body = {
     func: "setCompany",
@@ -574,7 +574,26 @@ const onChangeRadio = (a) =>{
 const othersOnChange = (e) =>{ 
     setOthers(e.target.value); 
 }
-
+const searchOrgId = (e) =>{
+  console.log("org ID: ", e.target.value);
+  const  body = {
+    func: "findOrg",
+    orgid: e.target.value,
+    // userToken: tokenId,
+  } 
+    axios.post("/api/post/Gate", body).then((res)=>{  
+      if(res.data.data){
+        console.log("search: ", res.data.data.map.name); 
+        setOrgIdState(res.data.data.map.name);
+      
+      }else {  
+        console.log("bhq");
+        setOrgIdState("no result!");
+      } 
+    }).catch((err)=>{
+      console.log("err", err);
+    })
+}
 return <div>
 {spinner ? <Spin className={css.SpinCss}/> : 
 <div> 
@@ -594,14 +613,15 @@ return <div>
             </div>
             
         <Form.Item label={"Organzation ID"} name={"others"}   rules={[{required: true,message: "Please input your Organzation id!"}]}> 
-            <Input placeholder={"Organzation id"} allowClear/>
+            <Input placeholder={"Organzation id"} allowClear onChange={searchOrgId}/> 
         </Form.Item>
+          <div>Company name:  {orgIdState}</div>
         </>
         : modalCount === 2 ? 
         <div>
                 {/* ------------------------- Incentive insert --------------------------- */}
         <div className={css.CompNameCss}>
-            <div>Company name:</div>
+            <div>Company name: </div>
             <div className={css.CompTitle}>{companyInfo === undefined ? "": companyInfo.companyName}</div>
         </div>
         <Form.Item label={"Percentage choose"} name={"percentageChoose"}   rules={[{required: true,message: "Please choose"}]}>
@@ -616,10 +636,9 @@ return <div>
         <Form.Item label={"Incenitve percent"} name={"percentage"}   rules={[ {required: true,message: "input your incentive"}]}>
             {showIncentive}
             
-            <Input placeholder="incenitve percent" type="number"/>
-
-
+            <Input placeholder="incenitve percent" type="number"/> 
         </Form.Item>
+      
         </div>
         : "Reject"
         }
@@ -627,7 +646,7 @@ return <div>
         <Form.Item style={{display: "flex", justifyContent: "flex-end"}}>
             <div ><Button type="primary" htmlType="submit" className="login-form-button">Update</Button></div>
         </Form.Item> 
-        </Form> 
+    </Form> 
     </Modal>
 
         {/* ------------------------------------------------Reject Modals------------------------------------ */}

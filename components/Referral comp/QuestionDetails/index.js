@@ -345,12 +345,18 @@ const saveFunc = () =>{
         console.log("list: ", arrayList);
 
         const body ={
-            func: "question",
+            func: "setQuest",
             pkId: localStorage.getItem("pkId"),
             state: 1, 
             question: arrayList
         }
         console.log("body", body);
+        axios.post("/api/post/Gate", body).then((res)=>{
+            props.getUserInfo();
+            props.handleOk();
+
+            console.log("res: ", res);
+        }).catch((err)=>console.log("err"))
 
         }
     }

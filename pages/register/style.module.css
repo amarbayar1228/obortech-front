@@ -1,8 +1,9 @@
-.Cont{
+.Cont {
     display: flex;
     width: 100%;
 }
-.Cont2{
+
+.Cont2 {
     display: flex;
     flex-direction: column;
     margin: 65px auto;
@@ -10,28 +11,61 @@
     border-radius: 10px;
     width: 627px;
     justify-content: center;
-border: 1px solid #dedede;
+    border: 1px solid #dedede;
     color: var(--gray1);
 }
-.Title{
+
+.Title {
     font-size: 16px;
     font-weight: 500;
     color: #334155;
 }
-.Login{
+
+.Login {
     display: flex;
-    
+
 }
-.LoginTitle{
+
+.LoginTitle {
     display: flex;
     justify-content: center;
-    text-transform: uppercase; 
+    text-transform: uppercase;
     font-weight: 500;
     font-size: 18px;
     padding: 20px 0px 20px 0px;
 }
+
+.CaptchaCss {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.Back {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+}
+
+.VerifyForm {
+    /* display: flex; */
+    margin: 100px auto;
+    width: 400px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.VerifyText {
+    background: rgb(220 252 231);
+    color: rgb(21 128 61);
+    padding: 15px 20px;
+    text-align: justify;
+    margin-bottom: 10px;
+}
+
 @media only screen and (max-width: 1024px) {
-    .Cont2{
+    .Cont2 {
         width: 80%;
     }
 }
