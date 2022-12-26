@@ -181,7 +181,26 @@ export default function BaseLayout(props) {
     setSettingToggle(true);
   }
   const changeProfile = (
-    <div>
+    <div style={{width: "250px"}}>
+
+      <div className={css.ProXp}>
+        <div className={css.AvatarC}>
+          <Image className={css.Avatar} alt="Obertech" preview={false} 
+          src={basketContext.userInfoProfile === undefined ? "/img/user.png" : basketContext.userInfoProfile.img === "-" ? "/img/user.png" : "data:image/png;base64," + basketContext.userInfoProfile.img }/>
+       
+        </div> 
+        <div className={css.Bonus}>
+          <div className={css.BonusChild}>
+            <div>Account</div>
+            <div>5301019298</div>
+          </div>
+          <div className={css.BonusChild}>
+            <div>Bonus</div>
+            <div>10$</div>
+          </div>
+        </div>
+      </div>
+
        {settingToggle ? 
        <div className={css.SettingToggleCss}>
        <div className={css.SettingTitle}><Button type="ghost" shape="circle" size="small" onClick={()=>setSettingToggle(false)}><ArrowLeftOutlined /></Button> Setting & privacy </div>
@@ -230,11 +249,11 @@ export default function BaseLayout(props) {
       <div className={css.OrgIdText}>
          <Tooltip  title={
                       <div style={{fontSize: "12px"}}>
-                        <div>Organization name: {basketContext.orgId}</div> 
-                        <div>Organization ID: <span>{basketContext.orgNames[0].orgIdstate}</span> </div>
+                        <div> {router.locale === "mn" ? "Байгууллагын нэр: ": "Organization name: "} {basketContext.orgId}</div> 
+                        <div>{router.locale === "mn" ? "Байгууллагын код: " : "Organization ID: "} <span>{basketContext.orgNames[0].orgIdstate}</span> </div>
                       </div>} placement="bottomLeft"> 
                       <div className={css.OrgTooltip}> 
-                        <div> {basketContext.orgId}  </div>  
+                        <div className={css.OrgTextEllip}> {basketContext.orgId}  </div>  
                         <Typography.Text onClick={removeOrgId} className={css.CancelOrgId}> X </Typography.Text>
                       </div>
                 </Tooltip>
@@ -259,11 +278,11 @@ export default function BaseLayout(props) {
                 <div>{basketContext.orgId == undefined ? "" : <div className={css.OrgIdText2}>
                 <Tooltip  title={
                       <div style={{fontSize: "12px"}}>
-                        <div>Organization name: {basketContext.orgId}</div> 
-                        <div>Organization ID: <span>{basketContext.orgNames[0].orgIdstate}</span> </div>
+                        <div>{router.locale === "mn" ? "Байгууллагын нэр: " : "Organization name: "} {basketContext.orgId}</div> 
+                        <div>{router.locale === "mn" ? "Байгууллагын код: " : "Organization ID:"} <span>{basketContext.orgNames[0].orgIdstate}</span> </div>
                       </div>} placement="bottomLeft"> 
                       <div className={css.OrgTooltip}> 
-                        <div> {basketContext.orgId}  </div>  
+                        <div className={css.OrgTextEllip}> {basketContext.orgId}  </div>  
                         <Typography.Text onClick={removeOrgId} className={css.CancelOrgId}> X </Typography.Text>
                       </div>
                 </Tooltip>
@@ -385,8 +404,8 @@ export default function BaseLayout(props) {
               
             <Tooltip   title={
                       <div style={{fontSize: "12px"}}>
-                        <div>Organization name: {basketContext.orgId}</div> 
-                        <div>Organization ID: <span>{basketContext.orgNames[0].orgIdstate}</span> </div>
+                        <div>{router.locale === "mn" ? "Байгууллагын нэр: " : "Organization name: "} {basketContext.orgId}</div> 
+                        <div>{router.locale === "mn" ? "Байгууллагын код: " : "Organization ID: "} <span>{basketContext.orgNames[0].orgIdstate}</span> </div>
                       </div>} placement="bottomLeft"> 
                       <div className={css.OrgTooltip}> 
                         <div> {basketContext.orgId}  </div>  

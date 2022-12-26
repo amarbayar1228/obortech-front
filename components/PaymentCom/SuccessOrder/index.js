@@ -42,7 +42,7 @@ return <div>
          {items.map((e)=>(
             <div className={css.Items}>
                 <div className={css.Image}>
-                <Image preview={false} alt="Obertech" src={"data:image/png;base64," + e.img} className={css.Img}/>
+                    {e.img === "" ?  <div className={css.Group}> G </div>: <Image preview={false} alt="Obertech" src={"data:image/png;base64," + e.img} className={css.Img}/> }
                 </div>
                 <div className={css.DescWidth}> 
                     <div style={{textTransform: "uppercase"}}>{e.title} </div>

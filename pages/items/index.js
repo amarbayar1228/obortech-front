@@ -168,7 +168,9 @@ const Items = () => {
                  {groupState1.map((e, gst1) => (
                    <div key={gst1}>
                      <div className={css.GroupPackage}>
-                       <div className={css.GroupPackageHdr}> <div className={css.PackageName}>Package</div>
+                       <div className={css.GroupPackageHdr}> 
+                        <div className={css.BackImg}></div>
+                         <div className={css.PackageName}>Package</div>
                          <div className={css.GroupPackageTitle}>
                            <div className={css.Gphtitle}>{e.title}</div> <div className={css.Gphdescrip}> {e.description}</div>
                            <div className={css.Gphprice}><span>Package price: </span><span>{e.price}$</span></div>

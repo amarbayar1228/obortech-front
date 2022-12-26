@@ -173,6 +173,8 @@ axios.post("/api/post/Gate", bodyNoId).then((result) => {
 
   },(error) => {console.log(error)});
 }
+
+
 }
 
 

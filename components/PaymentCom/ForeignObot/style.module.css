@@ -1,0 +1,177 @@
+.Flex {
+    display: flex;
+    width: 100%;
+
+}
+
+.Cont1 {
+    width: 250px;
+
+    margin: 5px;
+}
+
+.Test {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    box-shadow: 1px 1px 2px 1px #ebebeb;
+    animation-name: bankRouteAnimation;
+    animation-duration: 0.3s;
+    animation-timing-function: ease;
+}
+
+
+
+.Cont2 {
+    position: relative;
+    width: calc(100% - 250px);
+    /* background: gainsboro; */
+    margin: 5px;
+    animation-name: bankRouteAnimation;
+    animation-duration: 0.3s;
+    animation-timing-function: ease;
+}
+
+.Content {
+    width: 100%;
+    height: 600px;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 1px 1px 2px 1px #ebebeb;
+    animation-name: bankRouteAnimation;
+    animation-duration: 0.3s;
+    animation-timing-function: ease;
+}
+
+.BankImgSize2 {
+    margin-left: 5px;
+    margin-top: 2px;
+}
+
+.BankRadio {
+    position: relative;
+    text-align: left;
+    line-height: 13px;
+    background: #ffffff;
+    padding: 10px 5px;
+    width: 100%;
+    font-weight: 600;
+    padding-left: 20px;
+    margin: 8px 0px;
+    border-radius: 10px;
+    font-size: 15px;
+    box-shadow: 1px 1px 2px 1px #ebebeb;
+}
+
+
+
+
+.Content2 {
+    width: 100%;
+    height: 600px;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 1px 1px 2px 1px #ebebeb;
+    animation-name: bankRouteAnimation2;
+    animation-duration: 0.3s;
+    animation-timing-function: ease;
+}
+
+@keyframes bankRouteAnimation {
+    0% {
+        transform: scale(0.1);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes bankRouteAnimation2 {
+    0% {
+        transform: scale(0.1);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.BankCss {
+    display: flex;
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 13px;
+    margin: 0px 10px;
+    font-weight: 600;
+    color: #4d5057;
+    /* border: 1px solid #4d5057; */
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    cursor: pointer;
+    animation: scaledown .2s linear;
+    box-shadow: 1px 1px 2px 1px #ebebeb;
+    border: none;
+}
+
+.BankCss:hover {
+    animation: scale 0.2s linear;
+    animation-fill-mode: forwards;
+    box-shadow: 3px 4px 9px 4px #e6e6e6;
+    color: #4d5057;
+    /* border-color: #4d5057; */
+}
+
+.Huwi {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    color: #4d5057;
+}
+
+.Paypal {
+    display: flex;
+    align-items: center;
+}
+
+@keyframes scaledown {
+    0% {
+        -webkit-transform: scale(1.05);
+        transform: scale(1.05);
+    }
+
+    100% {
+        -webkit-transform: scale(1.0);
+        transform: scale(1.0);
+    }
+}
+
+@keyframes scale {
+    0% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+
+    100% {
+        -webkit-transform: scale(1.05);
+        transform: scale(1.05);
+    }
+}

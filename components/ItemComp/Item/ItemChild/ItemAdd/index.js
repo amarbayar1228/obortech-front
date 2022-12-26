@@ -26,25 +26,36 @@ const  onFinishAddItem = (values) =>{
 if(fileList[0]){
 let baseImg2 = fileList[0].thumbUrl.split("base64,")[1];
 
-const data = {
-func: "newItem", title: values.itemName, description: values.descrip2, 
-quantity: 0, price: values.price, cnt: 1, img: baseImg2, others: "-", status: 0, 
+if(typeSubValue === 0 || typeLevelSub === 14){
+    message.error("error");
+ 
+}else{ 
+        const data = {
+            func: "newItem", title: values.itemName, description: values.descrip2, 
+            quantity: 0, price: values.price, cnt: 1, img: baseImg2, others: "-", status: 0, 
+            type_: typeLevelSub,
+            };
+            axios.post("/api/post/Gate", data).then((res) => {
+            setTypeSubValue(0);
+            setTypeLevelSub(14);
+            setFileList([]);
+            formAddItem.resetFields();  
+            setIsModalVisible(false);
+            message.success("Success");  
+            props.getItems();
+            }).catch((err) => {console.log("err", err)}); 
+ 
+    
+}
 
-type_: typeLevelSub,
-};
-axios.post("/api/post/Gate", data).then((res) => {
-setFileList([]);
-formAddItem.resetFields();  
-setIsModalVisible(false);
-message.success("Success");  
-props.getItems();
-}).catch((err) => {console.log("err", err)}); 
+
 
 
 }else{
     message.error("bhq");
 }
 }
+
 const onFinishFailedAddItem = (errInfo)=>{
 console.log("errInfo: ", errInfo);
 // formAddItem.resetFields(); 

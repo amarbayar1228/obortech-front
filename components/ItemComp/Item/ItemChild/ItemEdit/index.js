@@ -15,7 +15,73 @@ const [typeLevelSub, setTypeLevelSub] = useState(14);
 const [typeSubValue, setTypeSubValue] = useState(0);
 const [levelSpin, setLevelSping] = useState(false);
 const showModal = () => {
-console.log("edit modal", props);
+console.log("edit modal", props.addItemStatus.type_);
+// console.log("14", typeLevelValue);
+if(props.addItemStatus.type_ === 18 || props.addItemStatus.type_ === 19 || props.addItemStatus.type_ === 20){
+    console.log("type: 14");
+    setTypeLevelValue(14);
+
+    setLevelSping(true);
+    const body = {
+        func:"getTypes",  
+        parid: 14,
+        type_: 2
+    }
+    axios.post("api/post/Gate", body).then((res)=>{
+        console.log("res", res.data);
+        setLevelSping(false);
+        setTypeSubValue(res.data.data);
+        setTypeLevelSub(props.addItemStatus.type_);
+    }).catch((err)=>console.log("err"));
+}else if(props.addItemStatus.type_ === 21 || props.addItemStatus.type_ === 23 || props.addItemStatus.type_ === 25 ||  props.addItemStatus.type_ === 27 || props.addItemStatus.type_ === 29){
+    console.log("type: 15");
+    setTypeLevelValue(15);
+     
+    setLevelSping(true);
+    const body = {
+        func:"getTypes",  
+        parid: 15,
+        type_: 2
+    }
+    axios.post("api/post/Gate", body).then((res)=>{
+        console.log("res", res.data);
+        setLevelSping(false);
+        setTypeSubValue(res.data.data);
+        setTypeLevelSub(props.addItemStatus.type_);
+    }).catch((err)=>console.log("err"));
+
+}else if(props.addItemStatus.type_ === 22 || props.addItemStatus.type_ === 24 || props.addItemStatus.type_ === 26 ||props.addItemStatus.type_ === 28 || props.addItemStatus.type_ === 30){
+    console.log("type: 16");
+    setTypeLevelValue(16);
+    setLevelSping(true);
+    const body = {
+        func:"getTypes",  
+        parid: 16,
+        type_: 2
+    }
+    axios.post("api/post/Gate", body).then((res)=>{
+        console.log("res", res.data);
+        setLevelSping(false);
+        setTypeSubValue(res.data.data);
+        setTypeLevelSub(props.addItemStatus.type_);
+    }).catch((err)=>console.log("err"));
+
+}else if(props.addItemStatus.type_ === 31){
+    console.log("type: 17");
+    setTypeLevelValue(17);
+    setLevelSping(true);
+    const body = {
+        func:"getTypes",  
+        parid: 17,
+        type_: 2
+    }
+    axios.post("api/post/Gate", body).then((res)=>{
+        console.log("res", res.data);
+        setLevelSping(false);
+        setTypeSubValue(res.data.data);
+        setTypeLevelSub(props.addItemStatus.type_);
+    }).catch((err)=>console.log("err"));
+}
 setItemInfo(props.addItemStatus);
 setImgNullText("");
 setFileListUpdate([
@@ -107,11 +173,12 @@ const onChangeType = (e) =>{
     const body = {
         func:"getTypes",  
         parid:e.target.value,
-        type_:2
+        type_: 2
     }
     axios.post("api/post/Gate", body).then((res)=>{
         console.log("res", res.data);
-        setLevelSping(false);
+        setLevelSping(false); 
+       
         setTypeSubValue(res.data.data);
         
     }).catch((err)=>console.log("err"));
@@ -142,7 +209,7 @@ initialValues={{
 {itemInfo.status == 1 ? (<Tooltip title="Active"><Badge status="success" text="active" style={{color: "#52c41a",fontWeight: "600"}}/></Tooltip>) : 
     itemInfo.status == 0 ? <Tooltip title="Invisible">  <Badge status="default" text="invisible" style={{color: "#8d8d8d",fontWeight: "600"}}/></Tooltip> : 
     itemInfo.status == 2 ? <Tooltip title="Disable">  <Badge status="error" text="Disable" style={{color: "red",fontWeight: "600"}}/></Tooltip>  : ""
-    }
+}
 </div>
 </div>
 <Form.Item label={"Item name"} name="title"   rules={[{required: true,message: "Please input your First name!"}]}><Input placeholder={"itemName"} allowClear/></Form.Item>
@@ -159,11 +226,8 @@ initialValues={{
 <span style={{color: "#4d5057",   marginRight: "10px"}}>Type:</span>  
 <Radio.Group size="small" onChange={onChangeType} value={typeLevelValue} style={{display: "flex"}}> 
         {props.typeLevel === null ? "" : <>{props.typeLevel.map((e,i)=>(
-        <div key={i}> 
-        <Radio.Button value={e.index_} key={i}>{e.nameeng} </Radio.Button> 
-        
-        </div>
-    ))}</>} 
+            <div key={i}><Radio.Button value={e.index_} key={i}>{e.nameeng} </Radio.Button></div>
+        ))}</>} 
 </Radio.Group> 
 </div>
 <>

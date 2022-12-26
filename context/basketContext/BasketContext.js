@@ -35,6 +35,7 @@ const orgIdLocal = (orgName, orgId) =>{
   // setOrgId(localStorage.getItem("orgId"))
   console.log("orgID: ",  orgId);
   setOrgNames([{orgIdstate: orgId}]);
+  
   setOrgId(orgName); 
   console.log("ornames: ", orgNames);
 }

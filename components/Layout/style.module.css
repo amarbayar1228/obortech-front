@@ -42,7 +42,7 @@
 .SettingTitle {
     margin-bottom: 3px;
     font-size: 16px;
-    border-bottom: 1px solid #ccc;
+    /* border-bottom: 1px solid #ccc; */
     padding-bottom: 10px;
 }
 
@@ -371,7 +371,8 @@
     font-size: 16px;
     font-weight: 500;
     align-items: center;
-    width: 140px;
+    /* width: 140px; */
+    width: 100%;
     margin-top: 2px;
     margin-bottom: 2px;
 }
@@ -399,6 +400,44 @@
 
 .ActiveLang {
     color: #fff;
+}
+
+.ProXp {
+    /* height: 150px; */
+    width: 100%;
+    /* border-bottom: 1px solid #ccc; */
+    margin-bottom: 10px;
+}
+
+.AvatarC {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.Avatar {
+    display: flex;
+    margin: 10px auto;
+    width: 80px;
+    height: 80px;
+    /* border: 1px solid #D2D3D5; */
+    border-radius: 50%;
+}
+
+.Bonus {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 10px 0px;
+    background: #f5f5f5;
+}
+
+.BonusChild {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #4d5057;
 }
 
 .Icons {
@@ -623,6 +662,12 @@
 /* .CancelOrgId:hover {
     background-color: red;
 } */
+.OrgTextEllip {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 @media only screen and (max-width: 1024px) {
 
@@ -723,7 +768,7 @@
 
     .MenuHoverIcon2 button:hover {
         background-color: #f1f1f1;
-      
+
     }
 
     .Hate {

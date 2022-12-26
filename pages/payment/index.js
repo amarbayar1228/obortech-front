@@ -22,6 +22,8 @@ import 'react-phone-input-2/lib/style.css'
 import Hansh from "../../components/PaymentCom/Hansh";
 import MongolBanks from "../../components/PaymentCom/MongolBanks";
 import ItemDetails from "../../components/PaymentCom/ItemDetails";
+import ForeignObot from "../../components/PaymentCom/ForeignObot";
+import MongolianObot from "../../components/PaymentCom/MongolianObot";
 const { TabPane } = Tabs;
 const { Step } = Steps;
 const { Paragraph } = Typography;
@@ -66,6 +68,7 @@ const Payment = () => {
   const [propsItem, setPropsItems] =useState([]);
   const [defaultMaxFi, setDefaultMaxFi] = useState();
   const [mntUsdPrice, setMntUsdPrice] = useState([]);
+  const [disableBtn, setDisableBtn] = useState(false);
   const [orderIdLocal2, setOrderIdLocal] = useState(0);
   //const { amaraa } = router.query;
  
@@ -338,7 +341,7 @@ const BankTypo = (value) =>{
   
 
   const usd = 0;
-  usd = totalPriceState  * defaultMaxFi.USD/100;
+  usd = totalPriceState  * defaultMaxFi.USD / 100;
 
   const obot = 0;
   const convert = defaultMaxFi.Coin / 100;
@@ -400,69 +403,67 @@ const placeOrder = () =>{
     const arr = basketContext.basketState;
     // img tei bol Item, imggui bol Group
     
-    arr.forEach((element, i) => {
-    if (element.img) {arr[i].state = 2} else {arr[i].state = 1; arr[i].img = "";}
-    });  
+    // arr.forEach((element, i) => {
+    // if (element.img) {arr[i].state = 2} else {arr[i].state = 1; arr[i].img = "";}
+    // });  
     
     // newtersen hereglegch bwl Axiosru shidne
-    if (localStorage.getItem("token")) {
-    const body = arr;
-    const body2 = {
-    func: "neworder",
-    item: body,
-    orgId: basketContext.orgNames[0].orgIdstate,
-    totalPrice: totalPriceState, 
-    pkId: localStorage.getItem("pkId"), 
-    };
-    console.log("bodyId:2  ===>> ", body2);
-    var basketLocal = [];
-    axios.post("/api/post/Gate", body2).then((result) => {
-      console.log("res orderId: ", result.data.orderid); 
-       localStorage.setItem("oAiD", result.data.orderid); 
-       
-        // props.sucessOrder();  
-        basketContext.removeBasketStorage();   
-        getOrderId();
-        const bodySmart = {
-          func: "orderSend",
-          orderid: result.data.orderid
-         }
-         axios.post("/api/post/Gate", bodySmart).then((res)=>{
-          console.log("res: ", res.data);
+    // if (localStorage.getItem("token")) {
+    // const body = arr;
+    // const body2 = {
+    // func: "neworder",
+    // item: body,
+    // orgId: basketContext.orgNames[0].orgIdstate,
+    // totalPrice: totalPriceState, 
+    // pkId: localStorage.getItem("pkId"), 
+    // };
+    // console.log("bodyId:2  ===>> ", body2);
+    // var basketLocal = [];
+    // axios.post("/api/post/Gate", body2).then((result) => {
+    //   console.log("res orderId: ", result.data.orderid); 
+    //    localStorage.setItem("oAiD", result.data.orderid); 
+        
+    //     basketContext.removeBasketStorage();   
+    //     getOrderId();
+    //     const bodySmart = {
+    //       func: "orderSend",
+    //       orderid: result.data.orderid
+    //      }
+    //      axios.post("/api/post/Gate", bodySmart).then((res)=>{
+    //       console.log("res: ", res.data);
          
-         }).catch((err)=>{
-          console.log("object", err);
-         });
+    //      }).catch((err)=>{
+    //       console.log("object", err);
+    //      });
     
-      },(error) => {console.log(error)}); 
-    } else {
-    // newtreeq hereglegch bwl Axiosru shidne
-    const bodyNoId = {
-    func: "neworder",
-    orgId: basketContext.orgNames[0].orgIdstate,
-    totalPrice: totalPriceState,
-    item: arr, 
-    }; 
+    //   },(error) => {console.log(error)}); 
+    // } else {
+    // // newtreeq hereglegch bwl Axiosru shidne
+    // const bodyNoId = {
+    // func: "neworder",
+    // orgId: basketContext.orgNames[0].orgIdstate,
+    // totalPrice: totalPriceState,
+    // item: arr, 
+    // };  
+    // axios.post("/api/post/Gate", bodyNoId).then((result) => {
+    //   console.log("res orderId: ", result.data.orderid); 
+    //   localStorage.setItem("oAiD", result.data.orderid); 
+        
+    //     basketContext.removeBasketStorage();  
+    //     getOrderId();
+    //     const bodySmart = {
+    //       func: "orderSend",
+    //       orderid: result.data.orderid
+    //      }
+    //      axios.post("/api/post/Gate", bodySmart).then((res)=>{
+    //       console.log("res: ", res.data);
+    //      }).catch((err)=>{
+    //       console.log("object", err);
+    //      });
     
-    axios.post("/api/post/Gate", bodyNoId).then((result) => {
-      console.log("res orderId: ", result.data.orderid); 
-      localStorage.setItem("oAiD", result.data.orderid); 
-        // message.success("Success"); 
-        // props.sucessOrder();
-        basketContext.removeBasketStorage();  
-        getOrderId();
-        const bodySmart = {
-          func: "orderSend",
-          orderid: result.data.orderid
-         }
-         axios.post("/api/post/Gate", bodySmart).then((res)=>{
-          console.log("res: ", res.data);
-         }).catch((err)=>{
-          console.log("object", err);
-         });
-    
-      },(error) => {console.log(error)});
-    } 
+    //   },(error) => {console.log(error)});
+    // } 
+
   }
 }
 const BackFunc = () =>{
@@ -499,18 +500,20 @@ const usdTulsun = () =>{
 const ValueTulbur = () =>{
   setForeignValue(3);
 }
-const getDefMaximFi = () =>{
-
- 
+const getDefMaximFi = () =>{ 
   const body = {
     func: "getDefMaximFi",
 }
-axios.post("api/post/Gate", body).then((res)=>{
+axios.post("/api/post/Gate", body).then((res)=>{
     console.log("rs", res.data);
     setDefaultMaxFi(res.data.data);
 }).catch((err)=>{
     console.log("err");
 })
+}
+const mnBack = (a) =>{
+  console.log("mnBank", a );
+  setDisableBtn(true);
 }
   var sss = 0;
 const steps = [
@@ -658,7 +661,7 @@ const steps = [
             {payInInstallmentsValue === 1 || payInInstallmentsValue === 2 ? 
                <Typography.Text onClick={()=> BankTypo("Coin")}> 
                <div className={bankChoose === "Coin" ? css.BankCssActive  : css.BankCss}>
-                   60% USD-MNT / 40% Coin
+            {defaultMaxFi.USD} % USD-MNT / {defaultMaxFi.Coin}% Coin
                </div>
                </Typography.Text>
               :
@@ -669,16 +672,16 @@ const steps = [
                    <div className={css.BankImg}>  
                     
                      <div className={css.BankImgSize}> 
-                       <Image alt="Obertech" preview={false} src="img/boderkhan.png" width={25}/>
+                       <Image alt="Obertech" preview={false} src="/img/boderkhan.png" width={25}/>
                      </div>
                      <div className={css.BankImgSize}> 
-                       <Image alt="Obertech" preview={false} src="img/borderGolomt.png" width={25} style={{borderRadius: "5px"}}/>
+                       <Image alt="Obertech" preview={false} src="/img/borderGolomt.png" width={25} style={{borderRadius: "5px"}}/>
                      </div>
                      <div className={css.BankImgSize}> 
-                       <Image alt="Obertech" preview={false} src="img/borderHas.png" width={25}/>
+                       <Image alt="Obertech" preview={false} src="/img/borderHas.png" width={25}/>
                      </div>
                      <div className={css.BankImgSize}> 
-                       <Image alt="Obertech" preview={false} src="img/borderTdb.png" width={26}/>
+                       <Image alt="Obertech" preview={false} src="/img/borderTdb.png" width={26}/>
                      </div>
                    </div>
                  </div>
@@ -689,13 +692,13 @@ const steps = [
                    <div>Foreign banks</div>
                    <div className={css.BankImg}>  
                      <div className={css.BankImgSize}> 
-                       <Image alt="Obertech" preview={false} src="img/borderPayPal2.jpg" width={25}/>
+                       <Image alt="Obertech" preview={false} src="/img/borderPayPal2.jpg" width={25}/>
                      </div>
                      <div className={css.BankImgSize}> 
-                       <Image alt="Obertech" preview={false} src="img/borderMastercard.webp" width={25} style={{borderRadius: "5px"}}/>
+                       <Image alt="Obertech" preview={false} src="/img/borderMastercard.webp" width={25} style={{borderRadius: "5px"}}/>
                      </div>
                      <div className={css.BankImgSize}> 
-                       <Image alt="Obertech" preview={false} src="img/borderGooglePay.png" width={25}/>
+                       <Image alt="Obertech" preview={false} src="/img/borderGooglePay.png" width={25}/>
                      </div>
                       
                    </div>
@@ -704,8 +707,8 @@ const steps = [
 
                 <Typography.Text onClick={()=> BankTypo("Coin")}> 
                 <div className={bankChoose === "Coin" ? css.BankCssActive  : css.BankCss}>
-                    60% USD-MNT 
-                    <b> 40% <Image alt="Obertech" preview={false} src="img/HeaderLogo.png" width={20}/> OBOT</b>
+                    {defaultMaxFi.USD}% USD-MNT 
+                    <b style={{fontWeight: "600"}}> {defaultMaxFi.Coin}% <Image alt="Obertech" preview={false} src="/img/HeaderLogo.png" width={20}/> OBOT</b>
                 </div>
                 </Typography.Text>
 
@@ -730,13 +733,13 @@ const steps = [
         <div className={css.BankGroup}>  
           <div className={css.BankTitle}>Select your payment method?</div> 
           <Radio.Group onChange={bankOnChange} style={{width: "100%"}}> 
-              <Radio  className={css.BankRadio} value={"Qpay"}><Image alt="Obertech" preview={false} src="img/qpay.png" width={50}/></Radio> 
-              <Radio  className={css.BankRadio} value={"SocialPay"}><Image alt="Obertech" preview={false} src="img/socialPay.png" width={80}/></Radio> 
-              <Radio  className={css.BankRadio} value={"Monpay"}><Image alt="Obertech" preview={false} src="img/monpay.png" width={100}/></Radio> 
+              <Radio  className={css.BankRadio} value={"Qpay"}><Image alt="Obertech" preview={false} src="/img/qpay.png" width={50}/></Radio> 
+              <Radio  className={css.BankRadio} value={"SocialPay"}><Image alt="Obertech" preview={false} src="/img/socialPay.png" width={80}/></Radio> 
+              <Radio  className={css.BankRadio} value={"Monpay"}><Image alt="Obertech" preview={false} src="/img/monpay.png" width={100}/></Radio> 
               
-              <Radio  className={css.BankRadio} value={"Tdb"}><Image alt="Obertech" preview={false} src="img/tdbline.png" width={60}/></Radio> 
-              <Radio  className={css.BankRadio} value={"Golomt"}><Image alt="Obertech" preview={false} src="img/golomt.png" width={90}/></Radio> 
-              <Radio  className={css.BankRadio} value={"khan"}><Image alt="Obertech" preview={false} src="img/khanbank.png" width={100}/></Radio>  
+              <Radio  className={css.BankRadio} value={"Tdb"}><Image alt="Obertech" preview={false} src="/img/tdbline.png" width={60}/></Radio> 
+              <Radio  className={css.BankRadio} value={"Golomt"}><Image alt="Obertech" preview={false} src="/img/golomt.png" width={90}/></Radio> 
+              <Radio  className={css.BankRadio} value={"khan"}><Image alt="Obertech" preview={false} src="/img/khanbank.png" width={100}/></Radio>  
             
           </Radio.Group>   
         </div>
@@ -745,8 +748,8 @@ const steps = [
         <div className={css.BankGroup}> 
           <div className={css.BankTitle}>Select your payment method?</div> 
           <Radio.Group onChange={bankOnChange} style={{width: "100%"}}> 
-              <Radio  className={css.BankRadio} value={"Paypal"}><Image alt="Obertech" preview={false} src="img/paypalLine.png" width={60}/></Radio> 
-              <Radio  className={css.BankRadio} value={"Master"}><Image alt="Obertech" preview={false} src="img/masterCardLine.png" width={60}/></Radio>  
+              <Radio  className={css.BankRadio} value={"Paypal"}><Image alt="Obertech" preview={false} src="/img/paypalLine.png" width={60}/></Radio> 
+              <Radio  className={css.BankRadio} value={"Master"}><Image alt="Obertech" preview={false} src="/img/masterCardLine.png" width={60}/></Radio>  
           </Radio.Group>  
         </div> : null}
 
@@ -765,7 +768,7 @@ const steps = [
                 <div style={{width: "210px"}}> 
                   <div className={css.CoinFlex1}> 
                     <div>
-                      <div style={{marginLeft: "5px"}}>Foreign banks</div> <Image alt="Obertech" preview={false} src="img/cardnuud.png" width={100} style={{marginLeft: "5px"}}/>
+                      <div style={{marginLeft: "5px"}}>Foreign banks</div> <Image alt="Obertech" preview={false} src="/img/cardnuud.png" width={100} style={{marginLeft: "5px"}}/>
                       
                     </div> 
                     
@@ -786,19 +789,19 @@ const steps = [
                     <div> <div style={{marginLeft: "5px" }}>Mongolian banks</div> 
                         <div style={{display: "flex"}}> 
                             <div className={css.BankImgSize2}> 
-                            <Image alt="Obertech" preview={false} src="img/boderkhan.png" width={15}/>
+                            <Image alt="Obertech" preview={false} src="/img/boderkhan.png" width={15}/>
                             </div>
                             <div className={css.BankImgSize2}> 
-                              <Image alt="Obertech" preview={false} src="img/borderGolomt.png" width={15} style={{borderRadius: "5px"}}/>
+                              <Image alt="Obertech" preview={false} src="/img/borderGolomt.png" width={15} style={{borderRadius: "5px"}}/>
                             </div>
                             <div className={css.BankImgSize2}> 
-                              <Image alt="Obertech" preview={false} src="img/borderHas.png" width={15}/>
+                              <Image alt="Obertech" preview={false} src="/img/borderHas.png" width={15}/>
                             </div>
                             <div className={css.BankImgSize2}> 
-                              <Image alt="Obertech" preview={false} src="img/borderTdb.png" width={16}/>
+                              <Image alt="Obertech" preview={false} src="/img/borderTdb.png" width={16}/>
                             </div>
                         </div></div>
-                    <div className={css.HuwiCss}>{defaultMaxFi.Coin}%</div>
+                    <div className={css.HuwiCss}>{defaultMaxFi.USD}%</div>
                   </div>
                 </div>
               </Radio> 
@@ -808,8 +811,8 @@ const steps = [
               {payInInstallmentsValue === 2 ? <div className={css.CheckOut}><CheckCircleOutlined /></div> : null}
                 <div style={{width: "234px"}}> 
                   <div className={css.CoinFlex1}> 
-                    <div className={css.CoinFlex2}><Image alt="Obertech" preview={false} src="img/HeaderLogo.png" width={20}/> <div style={{marginLeft: "5px"}}>OBOT</div></div> 
-                    <div className={css.HuwiCss}>40%</div>
+                    <div className={css.CoinFlex2}><Image alt="Obertech" preview={false} src="/img/HeaderLogo.png" width={20}/> <div style={{marginLeft: "5px"}}>OBOT</div></div> 
+                    <div className={css.HuwiCss}>{defaultMaxFi.Coin}%</div>
                   </div>
                 </div>
               </div> 
@@ -827,24 +830,24 @@ const steps = [
           </div>
           <div className={payInInstallmentsValue === 1 ? css.SubTotalSuccess : null}>  
               {mntUsdPrice[0].usd}$ 
-            <span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / 60%</span>
+            <span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / {defaultMaxFi.USD}%</span>
             
           </div>
         </div>
 
-        <div className={css.SubTotal}><div><Image alt="Obertech" preview={false} src="img/HeaderLogo.png" width={20}/><span style={{marginLeft: "2px"}}>Obot</span></div><div className={payInInstallmentsValue === 2 ? css.SubTotalSuccess : null}> 
+        <div className={css.SubTotal}><div><Image alt="Obertech" preview={false} src="/img/HeaderLogo.png" width={20}/><span style={{marginLeft: "2px"}}>Obot</span></div><div className={payInInstallmentsValue === 2 ? css.SubTotalSuccess : null}> 
           {mntUsdPrice[0].obot}
-        <span style={{fontSize: "10px", fontWeight: "600"}}> Obot</span><span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / 40%</span></div></div>
+        <span style={{fontSize: "10px", fontWeight: "600"}}> Obot</span><span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / {defaultMaxFi.Coin}%</span></div></div>
         </>
         : 
         
         <> 
         <div className={css.SubTotal}><div>  <span style={{display: "flex"}}><div className={css.Tugrug}> ₮ </div> MNT</span></div>
           <div className={payInInstallmentsValue === 1 ? css.SubTotalSuccess : null}>   {mntUsdPrice[0].mnt}₮
-            <span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / 60%</span>
+            <span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / {defaultMaxFi.USD}%</span>
           </div>
         </div>
-        <div className={css.SubTotal}><div><Image alt="Obertech" preview={false} src="img/HeaderLogo.png" width={20}/><span style={{marginLeft: "4px"}}>Obot</span></div><div className={payInInstallmentsValue === 2 ? css.SubTotalSuccess : null}>  {mntUsdPrice[0].obot}<span style={{fontSize: "10px", fontWeight: "600"}}> Obot</span><span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / 40%</span></div></div>
+        <div className={css.SubTotal}><div><Image alt="Obertech" preview={false} src="/img/HeaderLogo.png" width={20}/><span style={{marginLeft: "4px"}}>Obot</span></div><div className={payInInstallmentsValue === 2 ? css.SubTotalSuccess : null}>  {mntUsdPrice[0].obot}<span style={{fontSize: "10px", fontWeight: "600"}}> Obot</span><span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / {defaultMaxFi.Coin}%</span></div></div>
         </>
         }
 
@@ -892,7 +895,7 @@ const steps = [
            
               <div className={css.Qpay}> 
                 <div className={css.QpaySize}>
-                  <Image alt="Obertech" preview={false} src="img/qr.png" width={150}/>
+                  <Image alt="Obertech" preview={false} src="/img/qr.png" width={150}/>
                 </div>
                 <div className={css.QpayTitle}>Төлөх дүн </div>
                 <div className={css.QpayPrice}>{totalPriceState.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}$</div>
@@ -949,64 +952,12 @@ const steps = [
 
 
         {/* Mongol gadaad banknuuud */}
-        {bankValue === "Foreign" ? <div>
-          <div className={css.ForgeinSideBar}> 
-          <div className={css.ForgeinSideContent1}> 
+        {bankValue === "Foreign" ? 
+        <div> <ForeignObot sucessOrder={sucessOrder} mntUsdPrice={mntUsdPrice} defaultMaxFi={defaultMaxFi} item={basketContext.basketState} price={totalPriceState}/> </div> : null} 
 
-            <Radio.Group onChange={foreignOnChange} style={{width: "100%"}} value={foreignValue}>
-              {tulsunMnUsd === 0 || orderIdLocal === 1 ? 
-              <> 
-              <Radio  className={css.BankRadio} value={1}> 
-                  <div style={{marginLeft: "5px", marginTop: "9px"}}>Mongolian banks</div> 
-                    <div style={{display: "flex"}}> 
-                        <div className={css.BankImgSize2}> 
-                        <Image alt="Obertech" preview={false} src="img/boderkhan.png" width={15}/>
-                        </div>
-                        <div className={css.BankImgSize2}> 
-                          <Image alt="Obertech" preview={false} src="img/borderGolomt.png" width={15} style={{borderRadius: "5px"}}/>
-                        </div>
-                        <div className={css.BankImgSize2}> 
-                          <Image alt="Obertech" preview={false} src="img/borderHas.png" width={15}/>
-                        </div>
-                        <div className={css.BankImgSize2}> 
-                          <Image alt="Obertech" preview={false} src="img/borderTdb.png" width={16}/>
-                        </div>
-                    </div>
-              </Radio> 
-              <Radio  className={css.BankRadio} value={2}><div style={{marginLeft: "5px"}}>Foreign banks</div> <Image alt="Obertech" preview={false} src="img/cardnuud.png" width={100} style={{marginLeft: "5px"}}/></Radio> 
-              </>
-              : tulsunMnUsd === "MN" ? 
-              <Radio  className={css.BankRadio} value={3}><div style={{marginLeft: "5px"}}>Obot</div> <Image alt="Obertech" preview={false} src="img/cardnuud.png" width={100} style={{marginLeft: "5px"}}/></Radio> 
-              : ""
-              }
-               
-              </Radio.Group>   
-              {tulsunMnUsd === "MN" ? <div>Coin</div> : <div className={css.ForgeinSideContent2}>Hooson </div>}
-            </div>
+        {bankValue === "Mongol" ? 
+        <div> <MongolianObot mnBack={mnBack} sucessOrder={sucessOrder} mntUsdPrice={mntUsdPrice} defaultMaxFi={defaultMaxFi} item={basketContext.basketState} price={totalPriceState}/></div> : null}
 
-            {/* deeerh songoson radio */}
-            {foreignValue === 1 ?
-            <div className={css.ForgeinSideContent2}>
-              <MongolBanks totalPriceState={totalPriceState} orgIdRadio={basketContext.orgNames[0].orgIdstate} basketState={basketContext.basketState} Tulsun={TulsunFunc} ValueTulbur={ValueTulbur}/>
-
-            </div> 
-            : null }
-
-            {foreignValue === 2 ? <div className={css.ForgeinSideContent2}> 
-            <div className={css.CreditTitle}>Credit or Debit Card </div>
-            <div className={css.PayForm}> 
-              <CreditOrDebitCard sucessOrder={sucessOrder} totalPriceState={totalPriceState} orgIdRadio={orgIdRadio} basketState={basketContext.basketState} BackFunc={BackFunc} PayInInstallmentsForeign={PayInInstallmentsForeign} payInInstallmentsValue={payInInstallmentsValue}/> 
-            </div> 
-            </div> : null} 
-            {foreignValue === 3 ? <div className={css.ForgeinSideContent2}> 
-            <div className={css.CreditTitle}>Coin </div>
-            <div className={css.PayForm}> 
-              Coin
-            </div> 
-            </div> : null} 
-          </div>
-          
-           </div> : null} 
       </div>}
 
       </div>),
@@ -1067,7 +1018,7 @@ const steps = [
                     </Modal>
                   </>
                 )} 
-                {bankPay === undefined ? current > 0 && (<Button style={{margin: "0 8px",}}onClick={() => prev()}>Back</Button>) :  <Button onClick={BackFunc}>Back</Button>}
+                {bankPay === undefined ? current > 0 && (<Button style={{margin: "0 8px",}}onClick={() => prev()}>Back</Button>) :  <Button onClick={BackFunc} disabled={disableBtn}>Back</Button>}
               </div>
             </div>
           )}

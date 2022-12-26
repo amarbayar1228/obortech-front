@@ -121,20 +121,30 @@
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
     margin: 20px;
+    height: 321px;
+    overflow-y: auto;
 }
 
 .Items {
     display: flex;
-    width: 100%;
+    width: 96%;
     margin: 10px;
 }
 
 .Image {
-    background-color: #ccc;
+    /* background-color: #ccc; */
     width: 100px;
     height: 82px;
 }
 
+.Group {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    justify-content: center;
+    background: linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%);
+    color: #4d5057;
+}
 
 .DescWidth {
     width: 100%;

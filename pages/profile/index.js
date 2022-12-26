@@ -136,7 +136,7 @@ const Profile = () => {
 {basketContext.userInfoProfile === undefined ? (<Empty />) : 
 <div className={css.Layout}>
   <div className={css.Cont1}>
-    <Image alt="Obertech" preview={true} className={css.Zurag} src={"data:image/png;base64,"+ basketContext.userInfoProfile.img} style={{display: "flex", width: "120px", margin:"0px auto"}}/>
+    <Image alt="Obertech" preview={true} className={css.Zurag} src={"data:image/png;base64,"+ basketContext.userInfoProfile.img} style={{display: "flex", width: "120px", borderRadius: "50%", margin:"0px auto"}}/>
     <div className={css.Name}> 
     {basketContext.userInfoProfile.firstname} {basketContext.userInfoProfile.lastname}
     </div>

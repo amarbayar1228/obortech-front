@@ -1,4 +1,4 @@
-import { Button, Input, message, Modal, Tabs } from "antd";
+import { Button, Divider, Input, message, Modal, Tabs } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import BaseLayout from "../../components/Layout/BaseLayout";
@@ -194,48 +194,53 @@ const onFinish2 = (v) => {
     return<BaseLayout pageName="global-settings">
       {showInc === false ?
       <div>
-    <Form form={formLogin} name="horizontal_login" layout="inline" onFinish={onFinish2}>
-      <Form.Item
-        name="username"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your username!',
-          },
-        ]}
-      >
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
-      </Form.Item>
-      <Form.Item
-        name="password"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your password!',
-          },
-        ]}
-      >
-        <Input
-          prefix={<LockOutlined className="site-form-item-icon" />}
-          type="password"
-          placeholder="Password"
-        />
-      </Form.Item>
-      <Form.Item shouldUpdate>
-        {() => (
-          <Button
-            type="primary"
-            htmlType="submit"
-            disabled={
-              !form.isFieldsTouched(true) ||
-              !!form.getFieldsError().filter(({ errors }) => errors.length).length
-            }
-          >
-            Log in
-          </Button>
-        )}
-      </Form.Item>
-    </Form>
+        <div>
+        <Divider orientation="left" >
+        You must log in
+        </Divider>
+        </div>
+      <Form form={formLogin} name="horizontal_login" layout="inline" onFinish={onFinish2}>
+        <Form.Item
+          name="username"
+          rules={[
+            {
+              required: true,
+              message: 'Please input your username!',
+            },
+          ]}
+        >
+          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+        </Form.Item>
+        <Form.Item
+          name="password"
+          rules={[
+            {
+              required: true,
+              message: 'Please input your password!',
+            },
+          ]}
+        >
+          <Input
+            prefix={<LockOutlined className="site-form-item-icon" />}
+            type="password"
+            placeholder="Password"
+          />
+        </Form.Item>
+        <Form.Item shouldUpdate>
+          {() => (
+            <Button
+              type="primary"
+              htmlType="submit"
+              disabled={
+                !form.isFieldsTouched(true) ||
+                !!form.getFieldsError().filter(({ errors }) => errors.length).length
+              }
+            >
+              Log in
+            </Button>
+          )}
+        </Form.Item>
+      </Form>
     </div>
       : 
         <Tabs defaultActiveKey="4" items={["a","b"].map((Icon, i) => {  
