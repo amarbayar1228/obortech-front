@@ -18,7 +18,7 @@ useEffect(() => {
    
     history.go(1)
     console.log("event", event);
-    message.success("Back hiih gj bn ")
+    // message.success("Back hiih gj bn ")
   }
 }, []);
  

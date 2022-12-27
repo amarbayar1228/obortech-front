@@ -34,6 +34,8 @@ const [btnDis, setBtnDis]= useState(true);
 const [showCode, setShowCode] = useState(false);
 const [cd,setCd] = useState(0);
 const [cdBoolean, setCdBoolean] = useState(false);
+const [email, setEmail] = useState("");
+const [code, setCode] = useState("");
 useEffect(()=>{
   setTimeout(()=>{ 
     
@@ -45,7 +47,7 @@ useEffect(()=>{
   const countDown = () => { 
     // clearInterval(timer); 
     setCdBoolean(true);
-    let secondsToGo = 112; 
+    let secondsToGo = 10; 
     let too = 5;
     // setCd(0);
     const timer = setInterval(() => {
@@ -67,7 +69,16 @@ useEffect(()=>{
       },100); 
       console.log("true");
     }else{
-      console.log("false");
+      console.log("ene shvvv ");
+      const body2 = {
+        func: "resendCode",
+        email: email,
+      }
+      axios.post("/api/post/Gate", body2).then((res)=>{
+        console.log("res", res.data);
+      }).catch((err)=>{
+        console.log("err");
+      })
       setTimeout(() => {
         clearInterval(timer); 
         setCdBoolean(false);
@@ -77,10 +88,22 @@ useEffect(()=>{
    
 
   };
- 
+  const countDown2 = () =>{
+    console.log("2222"); 
+    const body2 = {
+        func: "resendCode",
+        email: email,
+      }
+      axios.post("/api/post/Gate", body2).then((res)=>{
+        console.log("res", res.data);
+      }).catch((err)=>{
+        console.log("err", err);
+      }) 
+   }
   const onFinish = (values) => {
     console.log("Received values of form: ", values.email);
     if (values.password1 == values.password2) {
+      setEmail(values.email);
       var passwordHash = sha256(values.password2); 
       const register = {
         func: "signUp",
@@ -114,6 +137,25 @@ useEffect(()=>{
   const errorCapt = (err) =>{
     console.log("err", err);
   }
+  const VerifyOTP = () =>{
+    console.log("VerifyOTP");
+    console.log("code: ", code);
+    const body ={
+      func: "checkCode",
+      email: email,
+      code: code,
+    }
+    axios.post("/api/post/Gate", body).then((res)=>{
+      console.log("Verify: ", res.data);
+      if(res.data.data.status === "Okay"){
+         router.push("/login");
+      }else{
+        message.error("Error");
+      }
+    }).catch((err)=>{
+      console.log("err");
+    })
+  }
  
   return (
     <BaseLayout pageName="register">
@@ -122,10 +164,9 @@ useEffect(()=>{
         <div className={css.Cont2}>
          <div className={css.LoginTitle}><Image alt="Obertech" preview={false} src="/img/OBORTECH_logo_H_clean.svg"width={250}/></div>
        
-          <div>
-            <Form
-              {...layout} name="normal_login" className="login-form" initialValues={{ remember: true}} onFinish={onFinish} onFinishFailed={onFinishFailed} validateMessages={validateMessages}>
-              <Form.Item name="email" label={<div className={css.Title}>Email</div>} rules={[{ type: "email", required: true, message: (<div style={{ fontWeight: "500" }}>Please input your Email!</div>)}]}>
+          <div style={{width: "76%", margin: "0px auto"}}>
+            <Form layout="vertical" labelCol={{span: 20}} wrapperCol={{span: 30,}} name="normal_login" className="login-form" initialValues={{ remember: true}} onFinish={onFinish} onFinishFailed={onFinishFailed} validateMessages={validateMessages}>
+              <Form.Item name="email" tooltip="This is a required field" label={<div className={css.Title}>Email</div>} rules={[{ type: "email", required: true, message: (<div style={{ fontWeight: "500" }}>Please input your Email!</div>)}]}>
                 <Input size="middle" prefix={<MailOutlined className={css.Title} />} placeholder={"Email"}/>
               </Form.Item>
               <Form.Item name="username" label={<div className={css.Title}>Username</div>} rules={[{required: true, message: (<div style={{ fontWeight: "500" }}>Please input your Username!</div>),},]}>
@@ -138,7 +179,7 @@ useEffect(()=>{
                 <Input.Password size="middle" prefix={<LockOutlined className={css.Title} />} type="password" placeholder="Confirm your password"/>
               </Form.Item>
               <div className={css.CaptchaCss}> {spinCapt  == 0 ? <Spin /> : <ReCAPTCHA   onErrored={errorCapt}  ref={recaptchaRef} sitekey="6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t" onChange={onChangeCaptcha}/> }</div>
-              <Form.Item label=" "><div className={css.Login}><Button disabled={btnDis} style={{width: "100%"}} type="primary" htmlType="submit" className="login-form-button">Sign up</Button></div></Form.Item>
+              <Form.Item><div className={css.Login}><Button size="large" disabled={btnDis} style={{width: "100%"}} type="primary" htmlType="submit" className="login-form-button">Sign up</Button></div></Form.Item>
             </Form> 
           </div>
           
@@ -148,13 +189,12 @@ useEffect(()=>{
           <div><Button icon={<ArrowLeftOutlined />} type="link" onClick={()=>setShowCode(false)}></Button></div>
           <div>OTP Verification</div>
         </div>
-        <div style={{margin: "0px 32px"}}>
-           
-          <div className={css.VerifyText}>We've sent a verification code to your email - amarbayar@gmail.com</div>
-          <div><Input  suffix={<div style={{fontSize: "11px", fontWeight: "600", color: "#4d5057"}}> Sent [{cd}] sec </div>} placeholder="Enter verification code" /></div>
+        <div style={{margin: "0px 32px"}}> 
+          <div className={css.VerifyText}>We've sent a verification code to your email - {email === "" ? "null" : email}</div>
+          <div><Input onChange={(e)=>setCode(e.target.value)}  suffix={<div style={{fontSize: "11px", fontWeight: "600", color: "#4d5057"}}> Sent [{cd}] sec </div>} placeholder="Enter verification code" /></div>
 
           <div style={{marginTop: "10px",marginBottom: "10px", display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-            <Button type="primary" size="small">Verify OTP</Button>
+            <Button type="primary" size="small" onClick={VerifyOTP}>Verify OTP</Button>
             {cd === 0 ? <Button type="link" size="small"  onClick={countDown}>Resent</Button> : ""}
             </div>
         </div>

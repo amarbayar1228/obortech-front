@@ -2,9 +2,10 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
-    max-width: 800px;
+    max-width: 1000px;
+    width: 80%;
     margin: 0px auto;
-    height: 80vh;
+    /* height: 80vh; */
 }
 
 .Cont1 {
@@ -29,6 +30,7 @@
     display: flex;
     border-bottom: 1px solid #ccc;
     padding: 10px;
+    color: #4d5052;
     align-items: center;
 }
 
@@ -46,6 +48,7 @@
 .Name {
     font-size: 15px;
     font-weight: 600;
+    color: #4d5052;
 }
 
 .Job {
@@ -59,7 +62,7 @@
 }
 
 .Modalcss {
-    height: 700px;
+    height: 600px;
     overflow: auto;
     padding: 0px 16px;
 }

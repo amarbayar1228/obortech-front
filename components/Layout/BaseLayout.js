@@ -205,17 +205,17 @@ export default function BaseLayout(props) {
        <div className={css.SettingToggleCss}>
        <div className={css.SettingTitle}><Button type="ghost" shape="circle" size="small" onClick={()=>setSettingToggle(false)}><ArrowLeftOutlined /></Button> Setting & privacy </div>
        {admin === "1" ?
-       <Button type="link" className={router.pathname === "/global-settings" ? css.LanguageBtnActive : css.LanguageBtn } onClick={()=> router.push("/global-settings")} style={{width: "100%"}}><SettingOutlined /> Global settings</Button> 
+       <Button size="large" type="link" className={router.pathname === "/global-settings" ? css.LanguageBtnActive : css.LanguageBtn } onClick={()=> router.push("/global-settings")} style={{width: "100%"}}><SettingOutlined /> Global settings</Button> 
        : null}
-       <Button type="link" className={router.pathname === "/security" ? css.LanguageBtnActive : css.LanguageBtn } onClick={()=>router.push("/security")} style={{width: "100%"}}><SettingOutlined /> Security </Button> 
+       <Button type="link" size="large" className={router.pathname === "/security" ? css.LanguageBtnActive : css.LanguageBtn } onClick={()=>router.push("/security")} style={{width: "100%"}}><SettingOutlined /> Security </Button> 
        </div>
        :
        <div> 
      
-      <Button type="link" className={router.pathname === "/security" ? css.LanguageBtnActive : css.LanguageBtn }  onClick={securityBtn}><div><SettingOutlined /> Settings</div> <div style={{position: "absolute", right: "2px"}}><RightOutlined /></div></Button>  
-      <Button type="link" className={router.pathname === "/profile" ? css.LanguageBtnActive : css.LanguageBtn } onClick={Profile}><UserOutlined /> Profile</Button> 
-      <Button type="link" className={router.pathname === "/log" ? css.LanguageBtnActive : css.LanguageBtn }  onClick={()=>router.push("/log")} icon={<UnorderedListOutlined /> }>Log</Button>
-      <Button type="link" onClick={logoutFunction} className={css.LanguageBtn}><LogoutOutlined /> Log out</Button>
+      <Button type="link" size="large" className={router.pathname === "/security" ? css.LanguageBtnActive : css.LanguageBtn }  onClick={securityBtn}><div><SettingOutlined /> Settings</div> <div style={{position: "absolute", right: "2px"}}><RightOutlined /></div></Button>  
+      <Button type="link" size="large" className={router.pathname === "/profile" ? css.LanguageBtnActive : css.LanguageBtn } onClick={Profile}><UserOutlined /> Profile</Button> 
+      <Button type="link" size="large" className={router.pathname === "/log" ? css.LanguageBtnActive : css.LanguageBtn }  onClick={()=>router.push("/log")} icon={<UnorderedListOutlined /> }>Log</Button>
+      <Button type="link" size="large" onClick={logoutFunction} className={css.LanguageBtn}><LogoutOutlined /> Log out</Button>
       </div>
       }
     </div>

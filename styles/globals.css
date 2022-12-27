@@ -408,7 +408,7 @@ body {
   max-width: 100%;
 }
 
-.ant-btn-primary[disabled],
+/* .ant-btn-primary[disabled],
 .ant-btn-primary[disabled]:hover,
 .ant-btn-primary[disabled]:focus,
 .ant-btn-primary[disabled]:active {
@@ -417,7 +417,7 @@ body {
   background: #4d5057;
   text-shadow: none;
   box-shadow: none;
-}
+} */
 
 .ant-carousel .slick-dots li.slick-active {
   width: 29px;

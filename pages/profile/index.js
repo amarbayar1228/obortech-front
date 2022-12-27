@@ -1,5 +1,5 @@
 import { Button, Divider, Empty, Form, Input, message, Modal, Upload, Select, Image } from "antd";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import BaseLayout from "../../components/Layout/BaseLayout";
 import css from "./style.module.css";
@@ -7,11 +7,16 @@ import { EditOutlined } from "@ant-design/icons";
 import axios from "axios";
 import TextArea from "antd/lib/input/TextArea";
 import BasketContext from "../../context/basketContext/BasketContext";
+import { Router, useRouter } from "next/router";
 const Profile = () => {
   const [isModalVisible, setIsModalVisible] = useState(false); 
   const basketContext = useContext(BasketContext);
   const [fileList, setFileList] = useState([]);
   const [industryData, setIndustryData] = useState([]);
+  const [userQuestion, setUserQuestion] = useState("");
+  const [userAnswer, setUserAnswer] = useState("");
+  
+  const router = useRouter();
   useEffect(() => {
     getProfile(); 
   }, []);
@@ -22,8 +27,36 @@ const Profile = () => {
     axios.post("/api/post/Gate", body).then((res)=>{
       console.log("getIndustry:", res.data);
       setIndustryData(res.data.data)
-    }).catch((err)=>console.log("err"))
+    }).catch((err)=>console.log("err"));
 
+    const question = {
+      func:"getTypes",  
+      parid:0,
+      type_:3
+    }
+    axios.post("/api/post/Gate", question).then((res)=>{
+      console.log("Header", res.data.data); 
+      setUserQuestion(res.data.data)
+      // setQuestionData(res.data.data)
+    }).catch((err)=>{console.log("err", err)})
+
+
+    const answered = {
+      func:"getQuest", 
+      pkId: localStorage.getItem("pkId")
+    } 
+    axios.post("/api/post/Gate", answered).then((res)=>{
+      console.log("getIndustry:", res.data.data); 
+      if(res.data.data === ""){
+        console.log("null");
+      }else{
+        const array = JSON.parse(res.data.data);
+        setUserAnswer(array);
+  
+        console.log("arr: ", array);
+      }
+     
+    }).catch((err)=>console.log("err", err))
 
     // if(basketContext.userInfoProfile){
     //   setInputLastname(basketContext.userInfoProfile.lastname);
@@ -149,7 +182,7 @@ const Profile = () => {
       <div className={css.descr1}>Full name: </div>
       <div className={css.descr2}>  {basketContext.userInfoProfile.firstname} {basketContext.userInfoProfile.lastname}</div>
       <div className={css.Editcss}><Button type="dashed" shape="circle" onClick={showModal}><EditOutlined /></Button>
-      <Modal footer={false} title="Edit" open={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+      <Modal footer={false} title="Edit" open={isModalVisible} onOk={handleOk} onCancel={handleCancel} width={600}>
         <div className={css.Modalcss}>
           <Form name="basic" labelCol={{span: 8,}}wrapperCol={{span: 16,}}
             initialValues={{
@@ -211,7 +244,7 @@ const Profile = () => {
       <div className={css.descr1}>Industry: </div>
       <div className={css.descr2}> 
       {industryData.map((e,i)=>(
-        <div key={i}>{e.index_ == basketContext.userInfoProfile.industry ? e.nameeng : null}</div>
+        <div key={i}>{e.index_ == basketContext.userInfoProfile.industry ? router.locale === "mn" ? e.namemn : e.nameeng : null}</div>
       ))}
       </div>
     </div>
@@ -219,9 +252,31 @@ const Profile = () => {
       <div className={css.descr1}>Job title: </div>
       <div className={css.descr2}>{basketContext.userInfoProfile.jobtitle}</div>
     </div>
-  </div>
-</div>
+  </div> 
+</div> 
 }
+  <div>
+    {userAnswer === "" ? null :
+    <>
+    {userQuestion.map((e, index)=>(
+      <div key={index} style={{fontWeight: "600", color: "#4d5052"}}> 
+        <div>{e.nameeng} </div>  
+        <div>
+          {userAnswer.map((e, i)=>(
+            <div key={i} style={{marginLeft: "15px", fontWeight: "500"}}>
+            {index === i ?
+            <div>{e}</div> : ""
+          }
+            </div>
+          ))} 
+        </div>
+      </div>
+
+    ))}
+    </>
+}
+    
+  </div>
         </div>
       </BaseLayout>
     </div>

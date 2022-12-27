@@ -634,7 +634,7 @@ return <div>
     <div>
       <div>
         <div>Percentage choose:</div>
-        <Radio.Group onChange={onChangeRadio} value={valuePerRadio}>
+      <Radio.Group onChange={onChangeRadio} value={valuePerRadio}>
       <Radio value={1}>Dollar</Radio>
       <Radio value={2}>Coin</Radio> 
     </Radio.Group>

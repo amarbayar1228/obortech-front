@@ -1018,7 +1018,7 @@ const steps = [
                     </Modal>
                   </>
                 )} 
-                {bankPay === undefined ? current > 0 && (<Button style={{margin: "0 8px",}}onClick={() => prev()}>Back</Button>) :  <Button onClick={BackFunc} disabled={disableBtn}>Back</Button>}
+                {bankPay === undefined ? current > 0 && (<Button style={{margin: "0 8px",}}onClick={() => prev()}>Back</Button>) :  <Button onClick={BackFunc} disabled={disableBtn}>Back2</Button>}
               </div>
             </div>
           )}

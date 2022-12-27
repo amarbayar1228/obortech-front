@@ -93,7 +93,15 @@ const Referral = () => {
   // };
 const userCompany = () => {
 //userPkId gaar awchirj bgn
-
+const body = {
+  func: "getQuest",
+  pkId: localStorage.getItem("pkId")
+}
+axios.post("/api/post/Gate", body).then((res)=>{
+  console.log("aa", res.data);
+}).catch((err)=>{
+  console.log("err");
+})
 // const body = {
 //   func: "getCompany",
 //   userPkId: localStorage.getItem("pkId"),
@@ -135,7 +143,7 @@ const questions = () =>{
     type_:3
   }
   axios.post("/api/post/Gate", question1).then((res)=>{
-    console.log("Header", res.data.data); 
+    console.log("Header details", res.data.data); 
     setQues1(res.data.data)
   }).catch((err)=>{console.log("err", err)})
 }
@@ -481,12 +489,13 @@ return (
         <div style={{ marginTop: "-30px" }}>
           {userInfo.state === 0 ? 
           <>
-          <Button type="dashed" shape="round" onClick={showModal}>+ Information</Button>
+          <Button type="dashed" shape="round" onClick={showModal} style={{marginTop: "30px"}}>+ Information</Button>
           <Result icon={<Image style={{ marginBottom: "-24px" }} alt="Obertech" preview={false} src="/img/info.png" width={100}/>} subTitle="Then you will be able to invite company. " title="Fill in your details."/>
           </>
          
            :
           <>
+             <Button type="dashed" shape="round" onClick={showModal} style={{marginTop: "30px"}}>+ Information</Button>
             <Result icon={<Image style={{ marginBottom: "-24px" }} alt="Obertech" preview={false} src="/img/info.png" width={100}/>} subTitle="Correct your information!" title="Your request has been rejected"/>
            <Table bordered size="small" columns={columns} dataSource={data}/>
           </>
@@ -534,8 +543,8 @@ return (
               {basketContext.userInfoProfile.firstname === "-" ? 
               <div><Button onClick={()=> router.push("profile")}>Update</Button> </div>
               : <div>
-                  <div> If you are a Standard member and wish to apply for the Affiliate Program, you will be requested to fill in the following forms.
-                    <Button onClick={()=> setQuestion(1)} size="small" >Here</Button> </div> 
+                  <div style={{color: "#4d5052", fontWeight: "600"}}> If you are a Standard member and wish to apply for the Affiliate Program, you will be requested to fill in the following forms. </div> 
+                  <Button type="primary" onClick={()=> setQuestion(1)} size="large" style={{marginTop: "20px", marginBottom: "10px"}} >Fill out the form</Button> 
                   </div>
               } 
             </div> 

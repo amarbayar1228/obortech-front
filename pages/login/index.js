@@ -1,7 +1,7 @@
 import { Button, Checkbox, Form, Image, Input, message, notification, Spin } from "antd";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import BaseLayout from "../../components/Layout/BaseLayout"; import css from "./style.module.css";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { UserOutlined, LockOutlined, ArrowLeftOutlined  } from "@ant-design/icons";
 import { useTranslation } from "next-i18next";
 import axios from "axios";
 import { useRouter } from "next/router";
@@ -19,40 +19,101 @@ export default function Login() {
   const [toggle, setToggle] = useState(1); 
   const [btnDis, setBtnDis]= useState(true);
   const [spinCapt, setSpinCapt] = useState(0);
-  const recaptchaRef = useRef();
+  const [codePage, setCodePage] = useState(0);
+  const [showCode, setShowCode] = useState(false);
+const [cd,setCd] = useState(0);
+const [cdBoolean, setCdBoolean] = useState(false);
+const [email, setEmail] = useState("");
+const [code, setCode] = useState("");
+const [btnLogin, setBtnLogin] = useState(false);
+const [resentDis, setResentDis] = useState(false);
+const [verifyOTPLoad, setVerifyOTPLoad] = useState(false);
+const inputRef = useRef(null);
+const recaptchaRef = useRef();
+
+
   useEffect(()=>{
     setTimeout(()=>{
       console.log("spin");
       setSpinCapt(1);
-    },800)
-  },[])
+    },800);
+  
+  },[]);
+  const countDown = () => { 
+    console.log("countDown");
+      setResentDis(true);
+    // clearInterval(timer); 
+   
+    setCdBoolean(true);
+    let secondsToGo = 10; 
+    let too = 5;
+    // setCd(0);
+    const timer = setInterval(() => {
+      secondsToGo -= 1; 
+   
+      // setCdBoolean(false); 
+       
+      setCd(secondsToGo); 
+    }, 1000); 
+
+    
+
+    // clearInterval(timer); 
+    if(cdBoolean){
+      setTimeout(() => {
+        clearInterval(timer); 
+        setCdBoolean(false);
+        console.log("blsn timer1");
+      },100); 
+      console.log("true");
+    }else{
+      console.log("ene shvvv ");
+      setTimeout(() => { 
+        console.log("focus");
+        focusInput();
+      }, secondsToGo * 100); 
+      setTimeout(() => {
+        clearInterval(timer); 
+        setCdBoolean(false);
+        console.log("blsn timer2");
+     
+      }, secondsToGo * 1000); 
+    }
+   
+
+  };
+const focusInput = () =>{
+  inputRef.current.focus({
+    cursor: 'start',
+    });
+}
   const onFinish = (values) => { 
-
-    var passwordHash = sha256(password); 
-
+    setBtnLogin(true);
+    var passwordHash = sha256(password);  
     const body = {func: "signIn",username: username,password: passwordHash,};  
     axios.post("/api/post/Gate", body).then((res) => {
         console.log("res.data: ", res.data.data);
+
         if (res.data.data.username) {
-          message.success(t("Success"));
-          localStorage.setItem("pkId", res.data.data.pkId);
-          localStorage.setItem("token", res.data.data.token);
-          console.log("hansh: ", passwordHash); 
-          localStorage.setItem("pz2r3t5", passwordHash);
-          // localStorage.setItem("username", res.data.data.username);
-          // localStorage.setItem("lastname", res.data.data.lastname);
-          // localStorage.setItem("phone", res.data.phone);
-          // localStorage.setItem("firstname", res.data.data.firstname);
-          localStorage.setItem("state", res.data.data.state);
-          // localStorage.setItem("isSuperAdmin", res.data.data.isSuperAdmin);
-          basketContext.getUserProfileFunction();
-          router.push("/");
+          setEmail(res.data.data.email);
+          message.success(t("Success")); 
+          console.log("input");
+          setCodePage(1);
+          
+          setBtnLogin(false); 
+          countDown();
+          // router.push("/");
+         
         } else {
           recaptchaRef.current.props.grecaptcha.reset();
           notification["error"]({ message: 'Submit Error',description:'These credentials do not match our records.'}); 
+          setBtnLogin(false);
           setBtnDis(true);
         }
-      }).catch((err) => {console.log("Username and password are incorrect!!")}); 
+
+      }).catch((err) => {
+        console.log("Username and password are incorrect!!", err); 
+    }); 
   };
   const onFinishFailed = (errorInfo) => {
     // console.log("Failed:", errorInfo);
@@ -77,28 +138,83 @@ export default function Login() {
   const loadFun = (a) =>{
     console.log("load: ", a);
   }
+ 
+  const VerifyOTP = () =>{
+    console.log("VerifyOTP");
+    console.log("code: ", code);
+    setVerifyOTPLoad(true);
+    var passwordHash = sha256(password);  
+    const body ={
+      func: "checkCode",
+      email: email,
+      code: code,
+    }
+    axios.post("/api/post/Gate", body).then((res)=>{
+      console.log("Verify: ", res.data);
+      if(res.data.data.status === "Okay"){
+        const body = {func: "signIn",username: username,password: passwordHash,};  
+        axios.post("/api/post/Gate", body).then((res) => {
+          message.success("success");
+          setVerifyOTPLoad(false);
+          router.push("/");
+          localStorage.setItem("pkId", res.data.data.pkId);
+          localStorage.setItem("token", res.data.data.token);
+          console.log("hansh: ", passwordHash); 
+          localStorage.setItem("pz2r3t5", passwordHash); 
+          localStorage.setItem("state", res.data.data.state); 
+          basketContext.getUserProfileFunction();
+        }).catch((err)=>{
+          console.log("err");
+        })
+         
+      }else{
+        message.error("Error");
+      }
+    }).catch((err)=>{
+      console.log("err");
+    })
+  }
+ const countDown2 = () =>{
+  // setResentDis(true);
+  console.log("2222"); 
+  const body2 = {
+      func: "resendCode",
+      email: email,
+    }
+    axios.post("/api/post/Gate", body2).then((res)=>{
+      console.log("resendCode: ", res.data);
+      setResentDis(false);
+    }).catch((err)=>{
+      console.log("err", err);
+    }) 
+ }
   return (
     <div> <Head><title>OBORTECH</title><meta name="description" content="Generated by create next app" /> <link rel="icon" href="img/HeaderLogo.png" /></Head>
       <BaseLayout pageName="login">
         <div className={css.Cont}  >
           <div className={css.Cont2}>
-            <div className={css.LoginTitle}> <Image alt="Obertech" preview={false} src="/img/HeaderLogo.png" width={80}  style={{borderRadius: "5px"}}/></div>
+           
+           
+            {codePage === 0 ?
+            <>
+             <div className={css.LoginTitle}> <Image alt="Obertech" preview={false} src="/img/HeaderLogo.png" width={80}  style={{borderRadius: "5px"}}/></div>
             <div className={css.HdrTitle}>
               <div>Sign in to your account</div>
               <div className={css.OrCss}>Or <Button className={css.RegisterHover} onClick={registerBtn}type="link">{t("Create An Account")}</Button></div>
             </div>
+           
             <div className={css.FromCss}>
               {toggle === 1 ? (
-                <Form name="normal_login" className={css.LoginForm} initialValues={{ remember: true, }} onFinish={onFinish} onFinishFailed={onFinishFailed}>
+                <Form disabled={btnLogin} name="normal_login" className={css.LoginForm} initialValues={{ remember: true, }} onFinish={onFinish} onFinishFailed={onFinishFailed}>
                   <Form.Item name="username" rules={[{ required: true, message: t("Please input your Username!")}]}>
                     <Input size="large" onChange={(e) => setUsername(e.target.value)} prefix={<UserOutlined className={css.IconCss} />} placeholder={t("User name")}/>
                     </Form.Item>
                   <Form.Item name="password" rules={[ { required: true, message: t("Please input your Password!")}]}>
                     <Input.Password size="large" onChange={(e) => setPassword(e.target.value)} prefix={<LockOutlined className={css.IconCss} />} type="password" placeholder={t("password")}/>
                   </Form.Item>
-                  <Form.Item>
+                  <Form.Item style={{height: "25px"}}>
                     <Form.Item name="remember" valuePropName="checked" noStyle><Checkbox>{t("Remember me")}</Checkbox></Form.Item>
-                    <a className={css.Forget} onClick={forgotPassword}>{t("Forgot password")}</a>
+                    <Form.Item><Button type="link" className={css.Forget} onClick={forgotPassword}>{t("Forgot password")}</Button></Form.Item>
                   </Form.Item>
                    {/* obortech: 6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t ============================================================*/} 
                   {/* my ip:  6LfnfrUiAAAAAJ-K132PVlBOqV-fr1F1sBOJcGpR ===============================================================*/}
@@ -106,13 +222,35 @@ export default function Login() {
                  
                   <Form.Item>
                     <div className={css.Login}>
-                      <Button size="large" disabled={btnDis} type="primary" htmlType="submit" className="login-form-button">{t("Log in")}</Button>
+                      <Button  loading={btnLogin} size="large" disabled={btnDis} type="primary" htmlType="submit" className="login-form-button">{t("Log in")}</Button>
                       {/* <div className={css.OrRegister}>{t("New here")}?<Button className={css.RegisterHover} onClick={registerBtn}type="link">{t("Create An Account")}</Button></div> */}
                     </div>
                   </Form.Item>
                 </Form>
               ) : (<div className={css.ForgetPasswordCss}><ForgetPassword forgotPassword={forgotPassword} /></div>)}
             </div>
+            </>
+            : 
+            <div className={css.VerifyForm}> 
+            <div className={css.Back}>
+              <div><Button icon={<ArrowLeftOutlined />} type="link" onClick={()=>setCodePage(0)}></Button></div>
+              <div>OTP Verification</div>
+            </div>
+            <div style={{margin: "0px 32px"}}>
+               
+              <div className={css.VerifyText}>We've sent a verification code to your email - {email === "" ? "null" : email}</div>
+              <div>
+                
+                <Input ref={inputRef} onChange={(e)=>setCode(e.target.value)}  suffix={<div style={{fontSize: "11px", fontWeight: "600", color: "#4d5057"}}> Sent [{cd}] sec </div>} placeholder="Enter verification code" /></div>
+    
+              <div style={{marginTop: "10px",marginBottom: "10px", display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+                <Button type="primary" size="small" onClick={VerifyOTP} disabled={code === "" ? true : false} loading={verifyOTPLoad}>Verify OTP</Button>
+                {cd === 0 ? <Button disabled={resentDis} type="link" size="small"  onClick={countDown} onClickCapture={countDown2}>Resent</Button> : ""}
+                </div>
+            </div>
+        </div>
+            }
+           
           </div>
         </div>
       </BaseLayout>

@@ -36,7 +36,8 @@
 }
 
 .Forget {
-    float: right
+    float: right;
+    margin-top: -46px;
 }
 
 .Login {
@@ -107,6 +108,29 @@
 
 .ForgetPasswordCss {
     display: inline;
+}
+
+.Back {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+}
+
+.VerifyForm {
+    /* display: flex; */
+    margin: 100px auto;
+    width: 400px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.VerifyText {
+    background: rgb(220 252 231);
+    color: rgb(21 128 61);
+    padding: 15px 20px;
+    text-align: justify;
+    margin-bottom: 10px;
 }
 
 @media only screen and (max-width: 500px) {

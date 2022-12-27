@@ -537,10 +537,10 @@ onFinish={onFinish} onFinishFailed={onFinishFailed}autoComplete="off">
     companyInfo.state == 3 ? (<Tooltip title="Correct your information" color="red"> <Badge status="error" text="Correct your information"   /></Tooltip>
     ) : companyInfo.state == 4 ? (<Tooltip title="Rejected your request" color="red"> <Badge status="error" text="Rejected your request"  /></Tooltip>
     ) : companyInfo.state == 5 ? (<Tooltip title="Rejected your request" color="red"> <Badge status="error" text="Rejected your request" /></Tooltip>
-    ) : companyInfo.state == 6 ? (<Tooltip title="Invitation Send..." color="purple"> <Badge status="processing" color="purple" text="Invitation Send..." /></Tooltip>
-    ) : companyInfo.state == 7 ? (<Tooltip title="Organization Onboarded" color="cyan"> <Badge status="success" color="cyan" text="Organization Onboarded..." /></Tooltip>
+    ) : companyInfo.state == 6 ? (<Tooltip title="Invitation Sent" color="purple"> <Badge status="processing" color="purple" text="Invitation Sent" /></Tooltip>
+    ) : companyInfo.state == 7 ? (<Tooltip title="Organization Onboarded" color="cyan"> <Badge status="success" color="cyan" text="Organization Onboarded" /></Tooltip>
     ) : companyInfo.state == 8 ? (<Tooltip title="Canceled" color="red"> <Badge status="error" text="Canceled"  className={css.BadgeCSs}  /></Tooltip>
-    ) : companyInfo.state == 1 ? (<Tooltip title="Request pending.." color="blue"> <Badge status="processing" text="Request pending.." /></Tooltip>) : ("")}
+    ) : companyInfo.state == 1 ? (<Tooltip title="Request pending" color="blue"> <Badge status="processing" text="Request pending" /></Tooltip>) : ("")}
 {/* {compInfo.state == 2 ? (<Tooltip title="Request accepted"><Badge status="warning" text="Request accepted" style={{fontSize: "12px", color: "#faad14"}}/></Tooltip>
 ) : rejectValue == 3 ? (<Tooltip title="Correct your information"><Badge color="red" status="processing" text="Correct your information" style={{fontSize: "12px", color: "#f5222d"}}/></Tooltip>
 //ene Edit hiii gsn state
