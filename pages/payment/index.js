@@ -358,8 +358,14 @@ const BankTypo = (value) =>{
 
 }
 const onFinishUserInfo = (values) =>{
+  console.log("setCountryCode", countryCode.length);
+  if(countryCode.length >= 7){ 
   setShowMethod(true);
   console.log("user", values);
+  }else{
+    message.error("Error");
+  }
+ 
 }
 const onFinishFailedUserInfo = (values) =>{ 
   console.log("user", values);

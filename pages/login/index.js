@@ -41,7 +41,7 @@ const recaptchaRef = useRef();
   },[]);
   const countDown = () => { 
     console.log("countDown");
-      setResentDis(true);
+      // setResentDis(true);
     // clearInterval(timer); 
    
     setCdBoolean(true);
@@ -168,6 +168,7 @@ const focusInput = () =>{
         })
          
       }else{
+        setVerifyOTPLoad(false);
         message.error("Error");
       }
     }).catch((err)=>{
@@ -175,7 +176,7 @@ const focusInput = () =>{
     })
   }
  const countDown2 = () =>{
-  // setResentDis(true);
+  setResentDis(true);
   console.log("2222"); 
   const body2 = {
       func: "resendCode",
@@ -245,7 +246,7 @@ const focusInput = () =>{
     
               <div style={{marginTop: "10px",marginBottom: "10px", display: "flex", justifyContent: "space-between", alignItems: "center"}}>
                 <Button type="primary" size="small" onClick={VerifyOTP} disabled={code === "" ? true : false} loading={verifyOTPLoad}>Verify OTP</Button>
-                {cd === 0 ? <Button disabled={resentDis} type="link" size="small"  onClick={countDown} onClickCapture={countDown2}>Resent</Button> : ""}
+                {cd === 0 ? <Button loading={resentDis} type="link" size="small"  onClick={countDown} onClickCapture={countDown2}>Resent</Button> : ""}
                 </div>
             </div>
         </div>
