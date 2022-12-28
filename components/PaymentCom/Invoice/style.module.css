@@ -1,0 +1,117 @@
+.Header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.Home {
+    width: 650px;
+    margin: 0px auto;
+    border: 1px solid #ccc;
+    padding: 40px;
+}
+
+.HdrTitle {
+    text-align: right;
+}
+
+.HdrSite {
+    margin-top: 15px;
+}
+
+.ImgLogo {
+    width: 180px;
+    margin-left: -8px;
+}
+
+.BillTo {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    border-top: 1px solid #ccc;
+    padding-top: 5px;
+}
+
+.BillRight {
+    margin-top: 10px;
+    text-align: right;
+    font-weight: 600;
+    line-height: 30px;
+    width: 300px;
+}
+
+.BillLeft {
+    text-align: left;
+    width: 300px;
+
+}
+
+.InvoiceNumber {
+    display: flex;
+    justify-content: space-between;
+}
+
+.Product {
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.ProductTitle {
+    width: 400px;
+    line-break: anywhere;
+}
+
+.ProductQuantity {
+    width: 100px;
+    text-align: right;
+}
+
+.ProductPrice {
+    width: 100px;
+    text-align: right;
+}
+
+.ProductAmount {
+    text-align: right;
+    width: 100px;
+}
+
+.Total {
+    display: flex;
+    border-top: 1px solid #000;
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: right;
+    font-weight: 600;
+    justify-content: flex-end;
+
+}
+
+.AmountDue {
+    border-top: 1px solid #000;
+    display: flex;
+    width: 50%;
+    justify-content: space-between;
+    font-weight: 600;
+    margin-left: 50%;
+}
+
+.Banks {
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+    margin: 10px 0px;
+
+}
+
+.Notes {
+    text-align: left;
+}
+
+.BoldText {
+    font-weight: 600;
+}

@@ -7,7 +7,7 @@ import { WalletOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import BasketContext from "../../context/basketContext/BasketContext";
 import axios from "axios";
-import {CaretRightOutlined,ShoppingCartOutlined,MailOutlined ,InfoCircleOutlined,DeleteOutlined, PhoneOutlined, CheckCircleOutlined} from "@ant-design/icons";
+import {CaretRightOutlined,ShoppingCartOutlined,MailOutlined ,ArrowLeftOutlined,DeleteOutlined, PhoneOutlined, CheckCircleOutlined} from "@ant-design/icons";
 // import jsPDF from "jspdf"; 
 import { Tabs } from "antd"; 
 import SuccessOrder from "../../components/PaymentCom/SuccessOrder"; 
@@ -24,6 +24,7 @@ import MongolBanks from "../../components/PaymentCom/MongolBanks";
 import ItemDetails from "../../components/PaymentCom/ItemDetails";
 import ForeignObot from "../../components/PaymentCom/ForeignObot";
 import MongolianObot from "../../components/PaymentCom/MongolianObot";
+import Invoice from "../../components/PaymentCom/Invoice";
 const { TabPane } = Tabs;
 const { Step } = Steps;
 const { Paragraph } = Typography;
@@ -62,7 +63,7 @@ const Payment = () => {
   const [orgOnChange, setOrgOnChange] = useState(0);
   const [successOrderValue, setSuccessOrderValue] = useState(0);
   const [successOrderPrice, setSuccessOrderPrice] = useState(0); 
-  const [countryCode, setCountryCode] = useState();
+  const [countryCode, setCountryCode] = useState("");
   const [tulsunMnUsd, setTulsunMnUsd] = useState(0);
   const [orderIdLocal, setOrderId]= useState(0);
   const [propsItem, setPropsItems] =useState([]);
@@ -70,6 +71,8 @@ const Payment = () => {
   const [mntUsdPrice, setMntUsdPrice] = useState([]);
   const [disableBtn, setDisableBtn] = useState(false);
   const [orderIdLocal2, setOrderIdLocal] = useState(0);
+  const [userInfo, setUserInfo] = useState("");
+  const [invoiceBoolean, setInvoiceBoolean] = useState(false);
   //const { amaraa } = router.query;
  
   
@@ -360,8 +363,9 @@ const BankTypo = (value) =>{
 const onFinishUserInfo = (values) =>{
   console.log("setCountryCode", countryCode.length);
   if(countryCode.length >= 7){ 
-  setShowMethod(true);
-  console.log("user", values);
+    setShowMethod(true);
+    setUserInfo(values);
+    console.log("user", values);
   }else{
     message.error("Error");
   }
@@ -651,7 +655,7 @@ const steps = [
                   <Form.Item name="email" label="Email" rules={[{ type: "email", required: true, message: (<div style={{ fontWeight: "500" }}>Please input your Email!</div>)}]}>
                     <Input size="middle" prefix={<MailOutlined className={css.Title} />} placeholder={"Email"}/>
                   </Form.Item>
-                 
+                    {console.log("userInfo: ", userInfo)}
                   <Form.Item name="countryCode" label="Phone Number" rules={[{required: true, message: 'Please input your phone number!'}]}>
                       <PhoneInput   enableSearch={true} country={'us'} value={countryCode} onChange={(e) => setCountryCode(e)} style={{width: "100%"}}/>
                   </Form.Item>
@@ -909,36 +913,50 @@ const steps = [
 
           </div> : 
             i === 2 ? <div className={css.PaymentCss}>
+              {!invoiceBoolean ?
+                <> 
+                <div className={css.ShiljvvlegCont}> 
+                  <div className={css.Shiljvvleg}>
+                    <div className={css.ShilTitle}>Дансны дугаар </div>
+                    <div className={css.ShilTitle2}> 5220042965</div>
+                    <div className={css.Copy}> <Paragraph copyable={{ text: "5220042965",  icon: ["Хуулах", "Хуулагдсан"],   tooltips: ['Хуулах', 'Хуулагдсан']}} ></Paragraph></div>
+                  </div>
+                  
+                  <div className={css.Shiljvvleg}>
+                    <div className={css.ShilTitle}>Хүлээн авагч </div>
+                    <div className={css.ShilTitle2}> Obortech XXK</div>
+                    <div className={css.Copy}>  <Paragraph copyable={{ text: "Obortech XXK",  icon: ["Хуулах", "Хуулагдсан"],   tooltips: ['Хуулах', 'Хуулагдсан']}} ></Paragraph></div>
+                  </div>
 
-              <div className={css.ShiljvvlegCont}> 
-                <div className={css.Shiljvvleg}>
-                  <div className={css.ShilTitle}>Дансны дугаар </div>
-                  <div className={css.ShilTitle2}> 5220042965</div>
-                  <div className={css.Copy}> <Paragraph copyable={{ text: "5220042965",  icon: ["Хуулах", "Хуулагдсан"],   tooltips: ['Хуулах', 'Хуулагдсан']}} ></Paragraph></div>
-                </div>
-                
-                <div className={css.Shiljvvleg}>
-                  <div className={css.ShilTitle}>Хүлээн авагч </div>
-                  <div className={css.ShilTitle2}> Obortech XXK</div>
-                  <div className={css.Copy}>  <Paragraph copyable={{ text: "Obortech XXK",  icon: ["Хуулах", "Хуулагдсан"],   tooltips: ['Хуулах', 'Хуулагдсан']}} ></Paragraph></div>
-                </div>
+                  <div className={css.Shiljvvleg}>
+                    <div className={css.ShilTitle}>Төлөх дүн </div>
+                    <div className={css.ShilTitle2}> {totalPriceState.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}$</div>
+                    <div className={css.Copy}> 
+                      <Paragraph copyable={{ text: totalPriceState,  icon: ["Хуулах", "Хуулагдсан"],   tooltips: ['Хуулах', 'Хуулагдсан']}} ></Paragraph>
+                    </div>
+                  </div>
 
-                <div className={css.Shiljvvleg}>
-                  <div className={css.ShilTitle}>Төлөх дүн </div>
-                  <div className={css.ShilTitle2}> {totalPriceState.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}$</div>
-                  <div className={css.Copy}> 
-                    <Paragraph copyable={{ text: totalPriceState,  icon: ["Хуулах", "Хуулагдсан"],   tooltips: ['Хуулах', 'Хуулагдсан']}} ></Paragraph>
+                  <div className={css.Shiljvvleg}>
+                    <div className={css.ShilTitle}>Гүйлгээний утга </div>
+                    <div className={css.ShilTitle2}> 5220042965</div>
+                    <div className={css.Copy}> <Paragraph copyable={{ text: "5220042965",  icon: ["Хуулах", "Хуулагдсан"],   tooltips: ['Хуулах', 'Хуулагдсан']}} ></Paragraph></div>
+                  </div>  
+                </div>
+                <div> 
+                  <Button onClick={()=>setInvoiceBoolean(true)}>Invoice</Button>
+                </div>
+              </>
+              : <div>
+                  <div style={{display: "flex", alignItems: "center", fontWeight: "600", fontSize: "20px", marginBottom: "10px"}}> 
+                    <div style={{marginRight: "5px", display: "flex", alignItems: "center"}}><Button size="small" type="link" onClick={()=>setInvoiceBoolean(false)} icon={<ArrowLeftOutlined />}></Button> </div>
+                    <div>Invoice </div>
+                  </div>
+
+                  <div>
+                    <Invoice items={basketContext.basketState} totalPrice={totalPriceState}/>  
                   </div>
                 </div>
-
-                <div className={css.Shiljvvleg}>
-                  <div className={css.ShilTitle}>Гүйлгээний утга </div>
-                  <div className={css.ShilTitle2}> 5220042965</div>
-                  <div className={css.Copy}> <Paragraph copyable={{ text: "5220042965",  icon: ["Хуулах", "Хуулагдсан"],   tooltips: ['Хуулах', 'Хуулагдсан']}} ></Paragraph></div>
-                </div> 
-              
-              </div>
-
+              }
             </div> : null,
         };
         })}/>   
