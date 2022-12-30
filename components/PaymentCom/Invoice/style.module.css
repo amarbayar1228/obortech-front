@@ -115,3 +115,8 @@
 .BoldText {
     font-weight: 600;
 }
+
+.Modal {
+    height: 630px;
+    overflow-y: auto;
+}

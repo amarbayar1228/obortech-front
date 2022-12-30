@@ -169,13 +169,13 @@ useEffect(()=>{
               <Form.Item name="email" tooltip="This is a required field" label={<div className={css.Title}>Email</div>} rules={[{ type: "email", required: true, message: (<div style={{ fontWeight: "500" }}>Please input your Email!</div>)}]}>
                 <Input size="middle" prefix={<MailOutlined className={css.Title} />} placeholder={"Email"}/>
               </Form.Item>
-              <Form.Item name="username" label={<div className={css.Title}>Username</div>} rules={[{required: true, message: (<div style={{ fontWeight: "500" }}>Please input your Username!</div>),},]}>
+              <Form.Item name="username" tooltip="This is a required field" label={<div className={css.Title}>Username</div>} rules={[{required: true, message: (<div style={{ fontWeight: "500" }}>Please input your Username!</div>),},]}>
                 <Input size="middle" prefix={<UserOutlined className={css.Title} />} placeholder={"username"}/>
               </Form.Item>
-              <Form.Item name="password1" label={<div className={css.Title}>Create Password </div>} rules={[{required: true, message: (<div style={{ fontWeight: 500 }}>Please input your Password 1!</div>)}]}>
+              <Form.Item name="password1" tooltip="This is a required field" label={<div className={css.Title}>Create Password </div>} rules={[{required: true, message: (<div style={{ fontWeight: 500 }}>Please input your Password 1!</div>)}]}>
                 <Input.Password size="middle" prefix={<LockOutlined className={css.Title} />} type="password" placeholder={"Enter your password"}/>
               </Form.Item>
-              <Form.Item name="password2" label={<div className={css.Title}>Password confirmation</div>} rules={[{required: true, message: (<div style={{ fontWeight: 500 }}>Please input your Password 2!</div>)}]}>
+              <Form.Item name="password2" tooltip="This is a required field" label={<div className={css.Title}>Password confirmation</div>} rules={[{required: true, message: (<div style={{ fontWeight: 500 }}>Please input your Password 2!</div>)}]}>
                 <Input.Password size="middle" prefix={<LockOutlined className={css.Title} />} type="password" placeholder="Confirm your password"/>
               </Form.Item>
               <div className={css.CaptchaCss}> {spinCapt  == 0 ? <Spin /> : <ReCAPTCHA   onErrored={errorCapt}  ref={recaptchaRef} sitekey="6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t" onChange={onChangeCaptcha}/> }</div>

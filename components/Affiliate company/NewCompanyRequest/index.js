@@ -432,6 +432,22 @@ const columns = [
 
 return <div>
     <div className={css.ClearTable}><Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Clear</Button></div>
+    <div style={{width: "500px", border: "1px solid #000", padding: "5px"}}>
+      <div style={{display: "flex", justifyContent: "center", marginBottom: "20px"}}>
+      <img src="/img/statusLogo.jpg" width={220}/>
+      </div>
+      <div>Hello,</div>
+      <div style={{marginTop: "15px", marginBottom: "15px"}}>Your referral request has been accepted. We will update you further once we have any action on it. </div>
+      <div>In order to check your request, please visit <a href="https://pay.obortech.io/referral" style={{color: "blue", borderBottom: "1px solid", textTransform: "lowercase"}}>https://pay.obortech.io/referral</a></div>
+      <div style={{textAlign: "center", marginBottom: "25px", color: "rgb(155 155 155)"}}>Please contact 
+     
+      <a href="https://support@obortech.io" style={{color: "blue", borderBottom: "1px solid", textTransform: "lowercase"}}> support@obortech.io </a>
+      if you need any support.</div>
+      <div style={{textAlign: "center", marginBottom: "20px",color: "rgb(155 155 155)", margin: "30px auto", width: "238px"}}>© 2021 All right reserved OBORTECH 
+      <a href="https://www.obortech.io" style={{  borderBottom: "1px solid rgb(155 155 155)", textTransform: "lowercase"}}> www.obortech.io </a>
+      </div>
+     
+    </div>
     <Table bordered size="small" columns={columns} dataSource={data} onChange={handleChangeTable} loading={spinner}  scroll={{x:  1500, y: 600 }} pagination={tableParams.pagination}/>
 
     {/* --------------------------------------------------------userInfo modal---------------------------------------------------------------------- */}

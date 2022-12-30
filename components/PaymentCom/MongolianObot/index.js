@@ -42,7 +42,8 @@ const onFinished = (values) =>{
 if(payNum === 1 || payNum === 2 ){
     console.log("object");
     message.success("Success");
-    const arr = item;
+
+const arr = item;
 // img tei bol Item, imggui bol Group
 
 arr.forEach((element, i) => {
@@ -104,6 +105,7 @@ const bodySmart = {
 },(error) => {console.log(error)});
 
 }
+
 }
 }
 const onFinishFailed = () =>{

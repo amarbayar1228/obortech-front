@@ -395,7 +395,8 @@ const groupDeitalsFunc = (data, index) =>{
       {userSpin ? <Spin size="large" className={css.SpinUser}/> : 
       <div>  
     <div className={css.imgL}>
-        <div className={css.ImageCss}><Image preview={false} alt="Obertech" src={"/img/user.png"} className={css.Img}/></div>
+        <div className={css.ImageCss}> 
+          <Image preview={false} alt="Obertech" src={userInfoS.img === "-" ? "/img/user.png" : "data:image/png;base64," + userInfoS.img } className={css.Img}/></div>
         <div className={css.Info}> 
         <div className={css.TitleInfo}>
             <div className={css.TitleChild}>Full name: </div>
