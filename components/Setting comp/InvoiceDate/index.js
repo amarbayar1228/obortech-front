@@ -1,14 +1,10 @@
 import { Button, Divider, Input, message, Modal, Tabs } from "antd";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import BaseLayout from "../../components/Layout/BaseLayout";
+import React, { useEffect, useState } from "react"; 
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-
-import css from "./style.module.css"
+ 
 import { Form, InputNumber, Popconfirm, Table, Typography } from 'antd';
-import TokenPercentage from "../../components/Setting comp/tokenPercentage";
-import sha256 from "sha256";
-import InvoiceDate from "../../components/Setting comp/InvoiceDate";
+ 
 
 const EditableCell = ({
   editing,
@@ -37,23 +33,25 @@ const EditableCell = ({
     </td>
   );
 };
-const GlobalSettings = () =>{
-const [isModalOpen, setIsModalOpen] = useState(false);
-const [incentive, setIncentive] = useState(0);
-const [showIncentive, setShowIncentive] = useState([]);
+ 
+const InvoiceDate = () =>{
+  
 
-const [form] = Form.useForm();
-const [data, setData] = useState([]);
-const [editingKey, setEditingKey] = useState('');
-const isEditing = (record) => record.key === editingKey;
-const [formLogin] = Form.useForm();
-const [, forceUpdate] = useState({});
-const [showInc, setShowInc] = useState(false);
-
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [incentive, setIncentive] = useState(0);
+    const [showIncentive, setShowIncentive] = useState([]);
+    
+    const [form] = Form.useForm();
+    const [data, setData] = useState([]);
+    const [editingKey, setEditingKey] = useState('');
+    const isEditing = (record) => record.key === editingKey;
+    const [formLogin] = Form.useForm();
+    const [, forceUpdate] = useState({});
+    const [showInc, setShowInc] = useState(false);
 useEffect(()=>{
     getPercentage();
     forceUpdate({});
-},[])
+},[]);
 const getPercentage = () =>{
     const body = {
         func: "getPercentage"
@@ -143,11 +141,11 @@ const save = async (key) => {
 };
 const columns = [
   {
-    title: 'Default incentive percentage',
+    title: 'Invoice active date',
     dataIndex: 'incentive',
     width: '25%',
     editable: true,
-    render: (a) =><div>{a} %</div>
+    render: (a) =><div>{a} Days</div>
   }, 
   {
     title: 'operation',
@@ -192,94 +190,13 @@ const onFinish2 = (v) => {
    }
   // sha256
 };
-    return<BaseLayout pageName="global-settings">
-      {showInc === false ?
-      <div>
-        <div>
-        <Divider orientation="left" >
-        You must log in
-        </Divider>
-        </div>
-      <Form form={formLogin} name="horizontal_login" layout="inline" onFinish={onFinish2}>
-        <Form.Item
-          name="username"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your username!',
-            },
-          ]}
-        >
-          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
-        </Form.Item>
-        <Form.Item
-          name="password"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your password!',
-            },
-          ]}
-        >
-          <Input
-            prefix={<LockOutlined className="site-form-item-icon" />}
-            type="password"
-            placeholder="Password"
-          />
-        </Form.Item>
-        <Form.Item shouldUpdate>
-          {() => (
-            <Button
-              type="primary"
-              htmlType="submit"
-              disabled={
-                !form.isFieldsTouched(true) ||
-                !!form.getFieldsError().filter(({ errors }) => errors.length).length
-              }
-            >
-              Log in
-            </Button>
-          )}
-        </Form.Item>
-      </Form>
-    </div>
-      : 
-        <Tabs defaultActiveKey="4" items={["a","b"].map((Icon, i) => {  
-        
-        return {label: i === 0 ?  <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>Percentage</div> :
-                      i === 1 ? <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>Other settings</div> : null,
-          
-          key: i, children: i === 0? 
-          <div className={css.PaymentCss}> 
-               {/* <Button type="primary" onClick={showModal}>
-                   + Update
-                </Button> */}
-                {/* <Modal title="Incentive" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-                     <div>
-                       <div style={{marginBottom: "5px", fontSize: "16px"}}>  Default incentive percentage: </div>
-                        <Input placeholder="Please enter your incentive percentage?" onChange={(e)=>setIncentive(e.target.value)}/>
-                     </div>
-                </Modal> */}
-            
-                <div> 
-                <Divider orientation="left" >Default Percentage</Divider>
-                <Form form={form} component={false}>
-                    <Table components={{body: {cell: EditableCell,},}} bordered dataSource={data} columns={mergedColumns} rowClassName="editable-row" pagination={{onChange: cancel,}}/>
-                </Form>
-                </div>
-                <Divider orientation="left" >Token Percentage</Divider>
-            <TokenPercentage />
-          </div> 
-          : i === 1 ? <div className={css.PaymentCss}> 
-              <div>
-                <InvoiceDate />
-              </div>
-                 
-          </div> : null,
-        };
-        })}/> 
-      }
+return<div> 
+<Divider orientation="left" >Invoice Date</Divider>
 
-    </BaseLayout>
+<Form form={form} component={false}>
+<Table components={{body: {cell: EditableCell,},}} bordered dataSource={data} columns={mergedColumns} rowClassName="editable-row" pagination={{onChange: cancel,}}/>
+                </Form>
+
+</div>
 }
-export default GlobalSettings;
+export default InvoiceDate;

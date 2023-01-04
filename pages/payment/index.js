@@ -1,5 +1,5 @@
 import {Input,Button,message,Empty,Steps,Modal,Image,InputNumber,Row,Col,Radio,Form,Spin, Tooltip, Alert, Typography, notification, DatePicker, Select} from "antd";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import BaseLayout from "../../components/Layout/BaseLayout";
 import css from "./style.module.css";
 import Link from "next/link";
@@ -25,6 +25,7 @@ import ItemDetails from "../../components/PaymentCom/ItemDetails";
 import ForeignObot from "../../components/PaymentCom/ForeignObot";
 import MongolianObot from "../../components/PaymentCom/MongolianObot";
 import Invoice from "../../components/PaymentCom/Invoice";
+import ReCAPTCHA from "react-google-recaptcha";
 const { TabPane } = Tabs;
 const { Step } = Steps;
 const { Paragraph } = Typography;
@@ -73,9 +74,11 @@ const Payment = () => {
   const [orderIdLocal2, setOrderIdLocal] = useState(0);
   const [userInfo, setUserInfo] = useState("");
   const [invoiceBoolean, setInvoiceBoolean] = useState(false);
+  const [userFormCapt, setUserFormCapt] = useState(true);
+  const [invoiceSuccess, setInvoiceSuccess] = useState(0);
   //const { amaraa } = router.query;
  
-  
+  const recaptchaRef = useRef();
   const validateMessages = {
     required: "${label} is required!",
     types: {
@@ -87,6 +90,10 @@ const Payment = () => {
       range: "${label} must be between ${min} and ${max}",
     },
   };
+  const invoiceSuccessFunc = () =>{
+    // invoice amjilttai boloh ved haruulah form
+    setInvoiceSuccess(1)
+  }
   const showModalItem = (item) => {
     setItemSpin(true);
     setItemHdr(item);
@@ -361,15 +368,23 @@ const BankTypo = (value) =>{
 
 }
 const onFinishUserInfo = (values) =>{
-  console.log("setCountryCode", countryCode.length);
+  
   if(countryCode.length >= 7){ 
     setShowMethod(true);
     setUserInfo(values);
+    setUserFormCapt(true);
     console.log("user", values);
   }else{
     message.error("Error");
   }
  
+}
+const onChangeCaptcha = (a) =>{ 
+  console.log("captcha change: ", a);
+  a == null ? setUserFormCapt(true) : setUserFormCapt(false);
+}
+const errorCapt = (err) =>{
+  console.log("err", err);
 }
 const onFinishFailedUserInfo = (values) =>{ 
   console.log("user", values);
@@ -499,16 +514,20 @@ const sucessOrder = () =>{
 const removeBask = () =>{ 
   setSuccessOrderValue(4);
 }
-const TulsunFunc=()=>{
-  setTulsunMnUsd("MN");
+// const TulsunFunc=()=>{
+//   setTulsunMnUsd("MN");
  
-}
-const usdTulsun = () =>{
-  setTulsunMnUsd("USD");
-  localStorage.setItem("or", 2);
-}
-const ValueTulbur = () =>{
-  setForeignValue(3);
+// }
+// const usdTulsun = () =>{
+//   setTulsunMnUsd("USD");
+//   localStorage.setItem("or", 2);
+// }
+// const ValueTulbur = () =>{
+//   setForeignValue(3);
+// }
+const invoBack = () =>{
+  setInvoiceBoolean(false)
+  console.log("object");
 }
 const getDefMaximFi = () =>{ 
   const body = {
@@ -659,8 +678,13 @@ const steps = [
                   <Form.Item name="countryCode" label="Phone Number" rules={[{required: true, message: 'Please input your phone number!'}]}>
                       <PhoneInput   enableSearch={true} country={'us'} value={countryCode} onChange={(e) => setCountryCode(e)} style={{width: "100%"}}/>
                   </Form.Item>
-                  <Form.Item  wrapperCol={{span: 24}}> <div className={css.Login}><Button style={{width: "100%",background: "rgb(244, 63, 94)", border: "none" }} type="primary" htmlType="submit" className="login-form-button">Continue</Button></div></Form.Item>
+                  <div style={{width: "100%", marginBottom: "20px"}}> 
+                <ReCAPTCHA   onErrored={errorCapt}  ref={recaptchaRef}   sitekey="6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t" onChange={onChangeCaptcha}/>
+                </div>  
+                  <Form.Item status="error" wrapperCol={{span: 24}}> <div className={css.Login}><Button disabled={userFormCapt} style={{width: "100%",background: "rgb(244, 63, 94)", border: "none" }} type="primary" htmlType="submit" className="login-form-button">Continue</Button></div></Form.Item>
                 </Form>  
+                
+                
              </div>
             </div>
           }
@@ -766,8 +790,8 @@ const steps = [
         {bankChoose === "Coin" ? 
         <div className={css.BankGroup}> 
           <div className={css.BankTitle}>Select your payment method?</div> 
-          <Radio.Group onChange={bankOnChange} style={{width: "100%"}}> 
-               
+          <Radio.Group onChange={bankOnChange} style={{width: "100%" }}> 
+               <div style={{boxShadow:" 1px 1px 2px 1px #ebebeb", borderRadius: "10px"}}>  
               <Radio disabled={payInInstallmentsValue === 1 ? true : false} className={payInInstallmentsValue === 1 ? css.BankRadioInActive : css.BankRadio} value={"Foreign"}> 
                 {payInInstallmentsValue === 1 ? 
                 <Tooltip title="Tips" placement="topLeft">
@@ -782,11 +806,10 @@ const steps = [
                       
                     </div> 
                     
-                    <div className={css.HuwiCss}>{defaultMaxFi.USD}%</div>
+                    {/* <div className={css.HuwiCss}>{defaultMaxFi.USD}%</div> */}
                   </div>
                 </div>  
-              </Radio> 
-
+              </Radio>  
               <Radio  disabled={payInInstallmentsValue === 3 ? true : false} className={payInInstallmentsValue === 3 ? css.BankRadioInActive : css.BankRadio} value={"Mongol"} style={{width: "100%"}}>
               {payInInstallmentsValue === 3? 
                 <Tooltip title="Tips">
@@ -794,9 +817,9 @@ const steps = [
                 </Tooltip> : null}
               {payInInstallmentsValue === 3 ? <div className={css.CheckOut}><CheckCircleOutlined /></div> : null}
                 <div style={{width: "210px"}}> 
-                  <div className={css.CoinFlex1}> 
-                   
-                    <div> <div style={{marginLeft: "5px" }}>Mongolian banks</div> 
+                  <div className={css.CoinFlex1}>  
+                    <div>
+                      <div style={{marginLeft: "5px" }}>Mongolian banks</div> 
                         <div style={{display: "flex"}}> 
                             <div className={css.BankImgSize2}> 
                             <Image alt="Obertech" preview={false} src="/img/boderkhan.png" width={15}/>
@@ -810,13 +833,17 @@ const steps = [
                             <div className={css.BankImgSize2}> 
                               <Image alt="Obertech" preview={false} src="/img/borderTdb.png" width={16}/>
                             </div>
-                        </div></div>
-                    <div className={css.HuwiCss}>{defaultMaxFi.USD}%</div>
+                        </div>
+                    </div>
+                    <div   style={{position: "absolute", display: "flex",fontSize: "12px",  borderLeft: "1px solid #e7e7e7", alignItems: "center",justifyContent: "center", background: "#fff", height: "121px", right: "0px", marginTop: "-70px", justifyContent: "center", width: "79px", }}>
+                      <span style={{padding: "10px", background: "#4d5052", color: "#fff", borderRadius: "5px"}}>{defaultMaxFi.USD}%</span> 
+                      
+                    </div>
                   </div>
                 </div>
               </Radio> 
-              
-              <div  disabled={payInInstallmentsValue === 2 ? true : false} className={payInInstallmentsValue === 2 ? css.BankRadioInActive : css.BankRadio} value={"Coin"} style={{width: "100%"}}>
+              </div>
+              <div  disabled={payInInstallmentsValue === 2 ? true : false} className={payInInstallmentsValue === 2 ? css.BankRadioInActive : css.BankRadio} value={"Coin"} style={{width: "100%", boxShadow: "1px 1px 2px 1px #ebebeb"}}>
           
               {payInInstallmentsValue === 2 ? <div className={css.CheckOut}><CheckCircleOutlined /></div> : null}
                 <div style={{width: "234px"}}> 
@@ -887,7 +914,7 @@ const steps = [
         
         return {label: i === 0 ?  <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>Cart {console.log("key", i)}</div> :
                       i === 1 ? <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>QPay</div> : 
-                      i === 2 ? <div  style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>Шилжүүлэг</div> : null,
+                      i === 2 ? <div  style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>Invoice</div> : null,
           
           key: i, children: i === 0? 
           <div className={css.PaymentCss}>
@@ -947,13 +974,13 @@ const steps = [
                 </div>
               </>
               : <div>
-                  <div style={{display: "flex", alignItems: "center", fontWeight: "600", fontSize: "20px", marginBottom: "10px"}}> 
+                  {/* <div style={{display: "flex", alignItems: "center", fontWeight: "600", fontSize: "20px", marginBottom: "10px"}}> 
                     <div style={{marginRight: "5px", display: "flex", alignItems: "center"}}><Button size="small" type="link" onClick={()=>setInvoiceBoolean(false)} icon={<ArrowLeftOutlined />}></Button> </div>
                     <div>Invoice </div>
-                  </div>
+                  </div> */}
 
                   <div>
-                    <Invoice items={basketContext.basketState} totalPrice={totalPriceState}/>  
+                    <Invoice invoiceSuccessFunc={invoiceSuccessFunc} items={basketContext.basketState} totalPrice={totalPriceState} mntPrice={mntUsdPrice} invoBack={invoBack} sucessOrder={sucessOrder}/>  
                   </div>
                 </div>
               }
@@ -991,7 +1018,7 @@ const steps = [
   content: (
     <div> 
      
-      <SuccessOrder totalPriceState={successOrderPrice} items={propsItem}/>
+      <SuccessOrder totalPriceState={successOrderPrice} items={propsItem} invoiceSuccess={invoiceSuccess}/>
       <Button onClick={removeBask} shape="circle"> X</Button>
      
   </div>
@@ -1042,7 +1069,7 @@ const steps = [
                     </Modal>
                   </>
                 )} 
-                {bankPay === undefined ? current > 0 && (<Button style={{margin: "0 8px",}}onClick={() => prev()}>Back</Button>) :  <Button onClick={BackFunc} disabled={disableBtn}>Back2</Button>}
+                {bankPay === undefined ? current > 0 && (<Button style={{margin: "0 8px",}}onClick={() => prev()}>Back</Button>) :  <Button onClick={BackFunc} disabled={disableBtn}>Back</Button>}
               </div>
             </div>
           )}

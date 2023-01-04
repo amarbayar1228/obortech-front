@@ -256,25 +256,25 @@ const Profile = () => {
 </div> 
 }
   <div>
-    {userAnswer === "" ? null :
-    <>
-    {userQuestion.map((e, index)=>(
-      <div key={index} style={{fontWeight: "600", color: "#4d5052"}}> 
-        <div>{e.nameeng} </div>  
-        <div>
-          {userAnswer.map((e, i)=>(
-            <div key={i} style={{marginLeft: "15px", fontWeight: "500"}}>
-            {index === i ?
-            <div>{e}</div> : ""
-          }
-            </div>
-          ))} 
+{/* {userAnswer === "" ? null :
+<>
+{userQuestion.map((e, index)=>(
+  <div key={index} style={{fontWeight: "600", color: "#4d5052"}}> 
+    <div>{e.nameeng} </div>  
+    <div>
+      {userAnswer.map((e, i)=>(
+        <div key={i} style={{marginLeft: "15px", fontWeight: "500"}}>
+        {index === i ?
+        <div>{e}</div> : ""
+      }
         </div>
-      </div>
+      ))} 
+    </div>
+  </div>
 
-    ))}
-    </>
-}
+))}
+</>
+} */}
     
   </div>
         </div>

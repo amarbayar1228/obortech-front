@@ -432,7 +432,8 @@ const columns = [
 
 return <div>
     <div className={css.ClearTable}><Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Clear</Button></div>
-    <div style={{width: "500px", border: "1px solid #000", padding: "5px"}}>
+
+    {/* <div style={{width: "500px", border: "1px solid #000", padding: "5px"}}>
       <div style={{display: "flex", justifyContent: "center", marginBottom: "20px"}}>
       <img src="/img/statusLogo.jpg" width={220}/>
       </div>
@@ -447,7 +448,7 @@ return <div>
       <a href="https://www.obortech.io" style={{  borderBottom: "1px solid rgb(155 155 155)", textTransform: "lowercase"}}> www.obortech.io </a>
       </div>
      
-    </div>
+    </div> */}
     <Table bordered size="small" columns={columns} dataSource={data} onChange={handleChangeTable} loading={spinner}  scroll={{x:  1500, y: 600 }} pagination={tableParams.pagination}/>
 
     {/* --------------------------------------------------------userInfo modal---------------------------------------------------------------------- */}
