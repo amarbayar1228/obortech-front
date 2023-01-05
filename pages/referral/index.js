@@ -451,11 +451,7 @@ const columns = [
     </div>,
     },
 ];
-const onBlueFun = (e, b, c) =>{
-  console.log("blur", e);
-  console.log("b", b);
-  console.log("c", c);
-}
+ 
 return (
 <BaseLayout pageName="referral">
   <div className={css.LayoutRef}>

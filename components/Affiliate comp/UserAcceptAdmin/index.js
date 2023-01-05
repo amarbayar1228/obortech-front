@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import css from "./style.module.css";
 import { Tabs } from "antd";
 import Highlighter from "react-highlight-words";
-import {SearchOutlined ,EditOutlined, ClearOutlined ,SolutionOutlined} from "@ant-design/icons";
+import {SearchOutlined ,EditOutlined, ArrowLeftOutlined ,SolutionOutlined} from "@ant-design/icons";
 import BasketContext from "../../../context/basketContext/BasketContext";
 const { Option } = Select;
 const { TabPane } = Tabs;
@@ -24,6 +24,9 @@ const UserAcceptAdmin = () => {
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const [userPkId, setUserPkId]  = useState();
+  const [qBoolean, setQboolean] = useState(false);
+  const [userQuestion, setUserQuestion] = useState("");
+  const [userAnswer, setUserAnswer] = useState("");
   const searchInput = useRef(null);
   useEffect(() => {
     console.log("user accept");
@@ -152,6 +155,37 @@ const onChangeRadio = (e) =>{
 }
 const showUserInfo = (a) =>{
   console.log("a", a);
+  // question
+  const question = {
+    func:"getTypes",  
+    parid:0,
+    type_:3
+  }
+  axios.post("/api/post/Gate", question).then((res)=>{
+    console.log("Header", res.data.data); 
+    setUserQuestion(res.data.data)
+    // setQuestionData(res.data.data)
+  }).catch((err)=>{console.log("err", err)})
+
+// question answered
+  const answered = {
+    func:"getQuest", 
+    pkId: a.all.pkId
+  } 
+  axios.post("/api/post/Gate", answered).then((res)=>{
+    console.log("getIndustry:", res.data.data); 
+    if(res.data.data === ""){
+      console.log("null");
+    }else{
+      const array = JSON.parse(res.data.data);
+      setUserAnswer(array);
+
+      console.log("arr: ", array);
+    }
+   
+  }).catch((err)=>console.log("err", err));
+
+
   setIsModalOpenUserInfo(true);
   setUserInfo(a);
 }
@@ -311,25 +345,65 @@ const handleCancelUserInfo = () =>{
 <Modal title="user Info" open={isModalOpenUserInfo} onCancel={handleCancelUserInfo} footer={null}>
 {userInfo === undefined ? "" :
 <div className={css.Cont}>
-    <div className={css.imgL}>
-    <div className={css.ImageCss}><Image preview={false} alt="Obertech" src={"/img/user.png"} className={css.Img}/></div>
-    <div className={css.Info}> 
-        <div className={css.Title}>
-            <div className={css.TitleChild}>Full name: </div>
-            <div className={css.TitleChild}>Email: </div>
-            <div className={css.TitleChild}>Jobtitle: </div>
-            <div className={css.TitleChild}>Phone: </div>
-            <div className={css.TitleChild}>address: </div>
-        </div>
-        <div className={css.Description}>
-            <div className={css.TitleChild2}>{userInfo.lastname}  {userInfo.firstname}</div>
-            <div className={css.TitleChild2}>{userInfo.email} </div>
-            <div className={css.TitleChild2}>{userInfo.jobtitle} </div>
-            <div className={css.TitleChild2}>{userInfo.phone}</div>
-            <div className={css.TitleChild2}>{userInfo.address} </div>
-        </div>
+{qBoolean ? 
+  <div> 
+    <div style={{display: "flex", alignItems: "center", fontSize: "15px", color: "#4d5052", fontWeight: "600"}}><Button type="link" icon={<ArrowLeftOutlined />} onClick={()=>setQboolean(false)}></Button> <div>Question</div>
     </div>
+
+    <div> 
+      {userAnswer === "" ? null :
+<>
+{userQuestion.map((e, index)=>(
+  <div key={index} style={{fontSize: "13px", fontWeight: "600", color: "#4d5052", marginLeft: "32px"}}> 
+    <div>{e.nameeng} </div>  
+    <div>
+      {userAnswer.map((e, i)=>(
+        <div key={i} style={{marginLeft: "15px", fontWeight: "500"}}>
+        {index === i ?
+        <div>{e}</div> : ""
+      }
+        </div>
+      ))} 
     </div>
+  </div>
+
+))}
+</>
+}
+    </div>
+  </div>
+  :
+  <div className={css.imgL}>
+  <div className={css.ImageCss}>
+    <Image preview={false} alt="Obertech" src={"/img/user.png"} style={{width: "100px"}} className={css.Img}/></div>
+  <div style={{marginLeft: "10px"}}> 
+    <div style={{display: "flex", borderBottom: "1px solid #ccc", padding: "10px 0px"}}>
+      <div style={{width: "120px", color: "#4d5052", fontWeight: "600"}}>Full name:</div>
+      <div style={{width: "250px", color: "#777d89"}}>{userInfo.lastname}  {userInfo.firstname}</div>
+    </div>
+    <div style={{display: "flex", borderBottom: "1px solid #ccc", padding: "10px 0px"}}>
+      <div style={{width: "120px", color: "#4d5052", fontWeight: "600"}}>Email:</div>
+      <div style={{width: "250px", color: "#777d89"}}>{userInfo.email}</div>
+    </div>
+    <div style={{display: "flex", borderBottom: "1px solid #ccc", padding: "10px 0px"}}>
+      <div style={{width: "120px", color: "#4d5052", fontWeight: "600"}}>Jobtitle:</div>
+      <div style={{width: "250px", color: "#777d89"}}>{userInfo.jobtitle}</div>
+    </div>
+    <div style={{display: "flex", borderBottom: "1px solid #ccc", padding: "10px 0px"}}>
+      <div style={{width: "120px", color: "#4d5052", fontWeight: "600"}}>Phone: </div>
+      <div style={{width: "250px", color: "#777d89"}}>{userInfo.phone}</div>
+    </div>
+    <div style={{display: "flex", borderBottom: "1px solid #ccc", padding: "10px 0px"}}>
+      <div style={{width: "120px", color: "#4d5052", fontWeight: "600"}}>Address:</div>
+      <div style={{width: "250px", color: "#777d89"}}>{userInfo.address}</div>
+    </div>
+    
+    <div style={{marginTop: "10px"}}><Button type="primary" onClick={()=>setQboolean(true)}>Question</Button></div>
+  </div>
+ 
+  
+  </div>
+}
 </div>
 }
 </Modal>

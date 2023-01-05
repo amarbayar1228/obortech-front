@@ -1,7 +1,7 @@
 import { Badge, Button, Input, Space, Table, Modal, Radio, message, Spin, Image, Tooltip } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
-import {SearchOutlined ,EditOutlined,ClearOutlined, SolutionOutlined } from "@ant-design/icons";
+import {SearchOutlined ,EditOutlined,ArrowLeftOutlined , SolutionOutlined } from "@ant-design/icons";
 import css from "./style.module.css"
 import axios from "axios";
 const { confirm } = Modal;
@@ -18,7 +18,9 @@ const [userData, setUserData] = useState([]);
 const [isModalOpenUserInfo, setIsModalOpenUserInfo] = useState(false);
 const [spinner, setSpinner] = useState(false);
 const [userPkId, setUserPkId] = useState("");
-
+const [qBoolean, setQboolean] = useState(false);
+const [userQuestion, setUserQuestion] = useState("");
+const [userAnswer, setUserAnswer] = useState("");
 useEffect(()=>{
 // console.log("use effect ", props);
 getUsers(); 
@@ -121,6 +123,29 @@ columnKey: 'age',
 };
 const showUserInfo = (a) =>{
     console.log("a", a);
+    const question = {
+        func:"getTypes",  
+        parid:0,
+        type_:3
+      }
+      axios.post("/api/post/Gate", question).then((res)=>{
+        setUserQuestion(res.data.data)
+        // setQuestionData(res.data.data)
+      }).catch((err)=>{console.log("err", err)})
+    
+    // question answered
+      const answered = {
+        func:"getQuest", 
+        pkId: a.pkId
+      } 
+      axios.post("/api/post/Gate", answered).then((res)=>{
+        if(res.data.data === ""){
+          console.log("null");
+        }else{
+          const array = JSON.parse(res.data.data);
+          setUserAnswer(array);
+        }
+      }).catch((err)=>console.log("err", err));
     setIsModalOpenUserInfo(true);
     setUserInfo(a);
  }
@@ -270,24 +295,64 @@ return <div>
 
     <Modal title="user Info" open={isModalOpenUserInfo} onCancel={handleCancelUserInfo} footer={null}>
             {userInfo === undefined ? "" :
+            <div> 
+            {qBoolean ? 
+                 <div> 
+                 <div style={{display: "flex", alignItems: "center", fontSize: "15px", color: "#4d5052", fontWeight: "600"}}><Button type="link" icon={<ArrowLeftOutlined />} onClick={()=>setQboolean(false)}></Button> <div>Question</div>
+                 </div>
+             
+                 <div> 
+                   {userAnswer === "" ? null :
+             <>
+             {userQuestion.map((e, index)=>(
+               <div key={index} style={{fontSize: "13px", fontWeight: "600", color: "#4d5052", marginLeft: "32px"}}> 
+                 <div>{e.nameeng} </div>  
+                 <div>
+                   {userAnswer.map((e, i)=>(
+                     <div key={i} style={{marginLeft: "15px", fontWeight: "500"}}>
+                     {index === i ?
+                     <div>{e}</div> : ""
+                   }
+                     </div>
+                   ))} 
+                 </div>
+               </div>
+             
+             ))}
+             </>
+             }
+                 </div>
+               </div>
+                :
             <div className={css.imgL}>
-                <div className={css.ImageCss}><Image preview={false} alt="Obertech" src={"/img/user.png"} className={css.Img}/></div>
-                <div className={css.Info}> 
-                    <div className={css.Title}>
-                        <div className={css.TitleChild}>Full name: </div>
-                        <div className={css.TitleChild}>Email: </div>
-                        <div className={css.TitleChild}>Jobtitle: </div>
-                        <div className={css.TitleChild}>Phone: </div>
-                        <div className={css.TitleChild}>address: </div>
+                <div className={css.ImageCss}><Image preview={false} alt="Obertech" src={"/img/user.png"} style={{width: "100px"}} className={css.Img}/></div>
+                <div style={{marginLeft: "10px"}}> 
+                    <div style={{display: "flex", borderBottom: "1px solid #ccc", padding: "10px 0px"}}>
+                        <div style={{width: "120px", color: "#4d5052", fontWeight: "600"}}>Full name:</div>
+                        <div style={{width: "250px", color: "#777d89"}}>{userInfo.lastname}  {userInfo.firstname}</div>
                     </div>
-                    <div className={css.Description}>
-                        <div className={css.TitleChild2}>{userInfo.lastname}  {userInfo.firstname}</div>
-                        <div className={css.TitleChild2}>{userInfo.email} </div>
-                        <div className={css.TitleChild2}>{userInfo.jobtitle} </div>
-                        <div className={css.TitleChild2}>{userInfo.phone}</div>
-                        <div className={css.TitleChild2}>{userInfo.address} </div>
+                    <div style={{display: "flex", borderBottom: "1px solid #ccc", padding: "10px 0px"}}>
+                        <div style={{width: "120px", color: "#4d5052", fontWeight: "600"}}>Email:</div>
+                        <div style={{width: "250px", color: "#777d89"}}>{userInfo.email}</div>
                     </div>
+                    <div style={{display: "flex", borderBottom: "1px solid #ccc", padding: "10px 0px"}}>
+                        <div style={{width: "120px", color: "#4d5052", fontWeight: "600"}}>Jobtitle:</div>
+                        <div style={{width: "250px", color: "#777d89"}}>{userInfo.jobtitle}</div>
+                    </div>
+                    <div style={{display: "flex", borderBottom: "1px solid #ccc", padding: "10px 0px"}}>
+                        <div style={{width: "120px", color: "#4d5052", fontWeight: "600"}}>Phone: </div>
+                        <div style={{width: "250px", color: "#777d89"}}>{userInfo.phone}</div>
+                    </div>
+                    <div style={{display: "flex", borderBottom: "1px solid #ccc", padding: "10px 0px"}}>
+                        <div style={{width: "120px", color: "#4d5052", fontWeight: "600"}}>Address:</div>
+                        <div style={{width: "250px", color: "#777d89"}}>{userInfo.address}</div>
+                    </div>
+        
+                    <div style={{marginTop: "10px"}}><Button type="primary" onClick={()=>setQboolean(true)}>Question</Button></div>
                 </div>
+            </div>
+}
+
             </div>
             }
             </Modal>

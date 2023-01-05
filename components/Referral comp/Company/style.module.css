@@ -132,6 +132,7 @@
     display: flex;
     align-items: center;
     margin-bottom: 10px;
+    margin-left: -15px;
 }
 
 .Step1 {
@@ -161,6 +162,13 @@
 }
 
 .ProspectTitle2 {
+    width: 58%;
     color: #777d89;
     font-weight: 600;
+}
+
+.ModalScroll {
+    /* height: 700px; */
+    max-height: 700px;
+    overflow-y: auto;
 }

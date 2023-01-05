@@ -673,8 +673,7 @@ const steps = [
                   onFinish={onFinishUserInfo} onFinishFailed={onFinishFailedUserInfo}>
                   <Form.Item name="email" label="Email" rules={[{ type: "email", required: true, message: (<div style={{ fontWeight: "500" }}>Please input your Email!</div>)}]}>
                     <Input size="middle" prefix={<MailOutlined className={css.Title} />} placeholder={"Email"}/>
-                  </Form.Item>
-                    {console.log("userInfo: ", userInfo)}
+                  </Form.Item> 
                   <Form.Item name="countryCode" label="Phone Number" rules={[{required: true, message: 'Please input your phone number!'}]}>
                       <PhoneInput   enableSearch={true} country={'us'} value={countryCode} onChange={(e) => setCountryCode(e)} style={{width: "100%"}}/>
                   </Form.Item>

@@ -1,20 +1,22 @@
 import { Button, Input, message, Select } from "antd";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Router, useRouter } from "next/router";
 import css from "./style.module.css"
+import ReCAPTCHA from "react-google-recaptcha";
 const { TextArea } = Input;
 const QuestionDetails = (props)=>{
 const [questionData, setQuestionData] = useState([]);
 const router = useRouter();
 const [isOk, setIsOk] = useState(0);
-
+const recaptchaRef = useRef();
 const [ques1, setQues1] = useState([]); 
 const [quesValue1, setQuesValue1] = useState(822); 
 const [selectState, setSelectState] = useState(""); 
 const [othersValue, setOthersValue] = useState("");
 const [otherStatus, setOtherStatus] = useState("");
 const [ques1Label, setQues1Label] = useState("");
+const [btnDis, setBtnDis] = useState(true);
 
 const [ques2, setQues2] = useState([{namemn: "aaa"},{nameeng: "bbb"}]);
 const [ques2value, setQues2Value] = useState("");
@@ -78,6 +80,15 @@ getDatas();
 console.log("useEff");
 
 },[]);
+
+
+const onChangeCaptcha = (a) =>{ 
+  console.log("captcha change: ", a);
+  a == null ? setBtnDis(true) : setBtnDis(false);
+}
+const errorCapt = (err) =>{
+  console.log("err", err);
+}
 const getDatas = () =>{
 const question = {
 func:"getTypes",  
@@ -289,7 +300,7 @@ const saveFunc = () =>{
         if(error === 1 ){
             message.error("Fill in all fields?");
         }else {
-            message.success("is ok");
+           
         console.log("question 1 label", ques1Label, "value: ", othersValue);
         console.log("question 2 value", ques2value);
         console.log("question 3 value", ques3Value);
@@ -352,6 +363,7 @@ const saveFunc = () =>{
         }
         console.log("body", body);
         axios.post("/api/post/Gate", body).then((res)=>{
+            message.success("Success");
             props.getUserInfo();
             props.handleOk();
 
@@ -422,7 +434,9 @@ return <div className={css.Scrollcss}>
     </div>  
     
     ))}
-    <div className={css.BtnSave}> <Button onClick={saveFunc}>Save</Button></div>
+    <div style={{margin: "10px 10px 10px 40px"}}> <ReCAPTCHA   onErrored={errorCapt}  ref={recaptchaRef}   sitekey="6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t" onChange={onChangeCaptcha}/>
+    </div>
+    <div className={css.BtnSave}> <Button style={{width: "95%"}} onClick={saveFunc} size="large" type="primary" disabled={btnDis}>Sent</Button></div>
 </div>
 }
 export default QuestionDetails;

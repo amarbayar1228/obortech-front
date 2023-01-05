@@ -1,26 +1,25 @@
 import {Avatar,Badge,Button,Collapse,Descriptions,Divider,Empty,Form,Input,message,Modal,Radio,Segmented,Table, Tooltip} from "antd";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import BaseLayout from "../../components/Layout/BaseLayout";
 import css from "./style.module.css";
 import {AndroidOutlined,EditOutlined,LockOutlined,UserOutlined} from "@ant-design/icons";
 const { Panel } = Collapse;
 import { Tabs } from "antd";
 import sha256 from "sha256";
+import ReCAPTCHA from "react-google-recaptcha";
 const AddAdmin = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [username, setUsername] = useState("");
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
-  const [admin, setAdmin] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
+ 
   const [adminList, setAdminList] = useState([]);
-  const [dialogState, setDialogState] = useState("a");
-  const [incentivePercentInput, setIncentivePercentInput] = useState(0);
-  const [incentivePercentState, setIncentivePercentState] = useState([]);
+  const [dialogState, setDialogState] = useState("a"); 
   const [incentPkId, setIncentPkId] = useState("");
+  const [userFormCapt, setUserFormCapt] = useState(true); 
+  const recaptchaRef = useRef();
   const [formAddadmin] = Form.useForm();
+  const [formLogin] = Form.useForm();
+  const [, forceUpdate] = useState({});
+  const [showInc, setShowInc] = useState(false); 
   const showModal = (a) => {
     console.log("neeesen: ", a);
     setDialogState(a);
@@ -67,7 +66,7 @@ const AddAdmin = () => {
     axios
       .post("/api/post/Gate", body)
       .then((res) => {
-        console.log("res", res);
+        setUserFormCapt(true);
         message.success("Successfully Registered");
         formAddadmin.resetFields();
         getAdmins();
@@ -144,11 +143,51 @@ const columns = [
     </div>,
     },
 ];
+const onFinish2 = (v) => {
+  console.log('Finish:', v);
   
+   const pass = sha256(v.password);
+   if(localStorage.getItem("pz2r3t5") === pass){
+    console.log("bolsn");
+    setShowInc(true);
+    setUserFormCapt(true);
+    message.success("Success");
+   }else{
+    message.error("Error")
+   }
+  // sha256
+};
+const onChangeCaptcha = (a) =>{ 
+  console.log("captcha change: ", a);
+  a == null ? setUserFormCapt(true) : setUserFormCapt(false);
+}
+const errorCapt = (err) =>{
+  console.log("err", err);
+}
+
   return (
     <BaseLayout pageName="add-admin"> 
-        <div className={css.Layout}>
-  <Tabs   defaultActiveKey="4" items={["a"].map((Icon, i) => {  
+  <div className={css.Layout}>
+  {showInc === false ?
+      <div>
+        <div> <Divider orientation="left" > You must log in </Divider></div>
+      <Form form={formLogin} name="horizontal_login" layout="inline" onFinish={onFinish2}>
+        <Form.Item name="username" rules={[{required: true, message: 'Please input your username!'}]}>
+          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+        </Form.Item>
+        <Form.Item name="password" rules={[{required: true, message: 'Please input your password!'}]}>
+            <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password"/>
+        </Form.Item>
+       
+        <Form.Item shouldUpdate>{() => (<Button type="primary" htmlType="submit" disabled={userFormCapt}>Log in</Button>)}
+        </Form.Item>
+      </Form>
+      <div style={{marginBottom: "20px", marginTop: "20px"}}>
+            <ReCAPTCHA   onErrored={errorCapt}  ref={recaptchaRef} sitekey="6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t" onChange={onChangeCaptcha}/>
+        </div>
+    </div>
+    : 
+<Tabs   defaultActiveKey="4" items={["a"].map((Icon, i) => {  
 return {label: i=== 0 ?  <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>Add Operator </div> : i === 1 ?
   <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>Incenitve </div> :  <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}> Coupon</div>, 
   key: i, children: i === 0? 
@@ -159,7 +198,7 @@ return {label: i=== 0 ?  <div style={{fontWeight: "600", fontSize: "14px", color
               <div>
               {dialogState === "add" ? (
                 <div>
-                  <Form form={formAddadmin} name="normal_login" className={css.LoginForm} initialValues={{remember: true, }} labelCol={{span: 6,}} wrapperCol={{span: 16,}} onFinish={onFinish} onFinishFailed={onFinishFailed}>
+                  <Form layout="vertical" form={formAddadmin} name="normal_login" className={css.LoginForm} initialValues={{remember: true, }} labelCol={{span: 22,}} wrapperCol={{span: 24,}} onFinish={onFinish} onFinishFailed={onFinishFailed}>
                     <Form.Item label="User name" name="username" rules={[{ required: true, message: "Please input your Username!"}]}>
                       <Input prefix={<UserOutlined className={css.IconCss} />} placeholder={"Username:"}/>
                     </Form.Item>
@@ -175,8 +214,11 @@ return {label: i=== 0 ?  <div style={{fontWeight: "600", fontSize: "14px", color
                     <Form.Item label="Email" name="email" rules={[ { required: true, message: "Please input your Email!",type: "email"}]}>
                       <Input placeholder={"Email:"} />
                     </Form.Item>
-                    <Form.Item label=" ">
-                      <div className={css.Ok}><Button style={{width: "100%"}} type="primary" htmlType="submit" className="login-form-button">Ok</Button></div>
+                    <div style={{marginBottom: "20px"}}>
+                    <ReCAPTCHA   onErrored={errorCapt}  ref={recaptchaRef}   sitekey="6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t" onChange={onChangeCaptcha}/>
+                    </div>
+                    <Form.Item>
+                      <div className={css.Ok}><Button style={{width: "100%"}} type="primary" htmlType="submit" className="login-form-button" disabled={userFormCapt}>Add</Button></div>
                     </Form.Item>
                   </Form> 
                 </div>
@@ -188,11 +230,9 @@ return {label: i=== 0 ?  <div style={{fontWeight: "600", fontSize: "14px", color
       </div> 
       : i === 1 ? <div>Inccc</div> : i === 2 ? <div> null</div> : null,
 };
-})}
-/>  
-   
-      
-        </div> 
+})}/> 
+}
+    </div> 
     </BaseLayout>
   );
 };

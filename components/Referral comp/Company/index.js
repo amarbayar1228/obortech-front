@@ -1,10 +1,11 @@
 import { Badge, Button, Form, Input, InputNumber, message, Modal, Select, Space, Spin, Table, Tooltip } from "antd";
-import {CaretRightOutlined,TeamOutlined,InfoCircleOutlined,RollbackOutlined,FormOutlined,SearchOutlined,ClearOutlined, FundViewOutlined} from "@ant-design/icons";
+import {CaretRightOutlined,TeamOutlined,InfoCircleOutlined,RollbackOutlined,FormOutlined,SearchOutlined,ClearOutlined, FundViewOutlined, ArrowLeftOutlined} from "@ant-design/icons";
 import TextArea from "antd/lib/input/TextArea";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import css from "./style.module.css";
 import Highlighter from "react-highlight-words";
+import ReCAPTCHA from "react-google-recaptcha";
 const { Option } = Select;
 const Company = () =>{
 const [isModalVisibleCorporation, setIsModalVisibleCorporation] =useState(false);
@@ -22,12 +23,13 @@ const [fromSpin, setFormSpin] = useState(false);
 const [isModalOpenComp, setIsModalOpenComp] = useState(false);
 const [companyInfo, setCompanyInfo] = useState();
 const [slide, setSlide] = useState(0);
-const [lastname, setLastname] = useState();
-const [firstname, setFirstname] = useState();
-const [jobtitle, setJobtitle] = useState();
-const [email, setEmail] = useState();
+const [lastname, setLastname] = useState("");
+const [firstname, setFirstname] = useState("");
+const [jobtitle, setJobtitle] = useState("");
+const [email, setEmail] = useState("");
 const [industryD, setIndustryD] = useState();
-
+const [userFormCapt, setUserFormCapt] = useState(true);
+const recaptchaRef = useRef();
 useEffect(()=>{ 
 getCompany();
 },[])
@@ -76,6 +78,14 @@ const cancelCompany = () => {
 form.resetFields();
 setIsModalVisibleCorporation(false);
 };
+const onChangeCaptcha = (a) =>{ 
+  console.log("captcha change: ", a);
+  a == null ? setUserFormCapt(true) : setUserFormCapt(false);
+}
+const errorCapt = (err) =>{
+  console.log("err", err);
+}
+
 const onFinish = (values) => {
 console.log("company: ", values);
 //company ilgeeh
@@ -93,14 +103,21 @@ const body = {
     lastname: lastname,
     jobtitle: jobtitle,
     email: email,
-    phone: 95732047,
+    phone: "",
     state: 1,
 };
 axios.post("/api/post/Gate", body).then((res) => {
-    message.success("Succes");
+    message.success("Success");
+ 
     // userCompany();
     getCompany();
     setIsModalVisibleCorporation(false);
+    form.resetFields();
+    setSlide(0);
+  setLastname("");
+  setFirstname("");
+  setJobtitle("");
+  setEmail("");
     }).catch((err) => {
     message.error("Error");
     }); 
@@ -428,7 +445,17 @@ const columns = [
 ];
 const slideFunc = () =>{
   // onFinishFailed();
-  setSlide(1)
+  
+if(lastname === "" || firstname === "" ||  email === "" || jobtitle === ""){
+  console.log("undef");
+  
+}else{ 
+  setSlide(1);
+  // setSlide(1);
+  
+}
+
+
 }
 const selectHandle = ()=>{
 
@@ -438,28 +465,32 @@ return <div style={{width: "100%"}}>
 <Button type="dashed" shape="round" onClick={CorporationShowModal}>+ Organization</Button>
 {/* ================================================================ Add Corporation Modal =========================================================================== */}
 <Modal title="Invite Organization" closable={false} open={isModalVisibleCorporation}footer={null} >
-<div>
-<Form form={form} name="basic" labelCol={{span: 9}}wrapperCol={{span: 16}} initialValues={{totalAnnualRevenue: 10000, before: "http://",after: ".com"}} 
+<div className={css.ModalScroll}>
+<Form form={form} name="basic" layout="vertical" labelCol={{span: 15}}wrapperCol={{span:24}} initialValues={{totalAnnualRevenue: 10000, before: "http://",after: ".com"}} 
 onFinish={onFinish} onFinishFailed={onFinishFailed}autoComplete="off">
 {/* <div><Button size="small" onClick={() => {form.resetFields();}}>Clear</Button></div> */}
 {
   slide === 0 ? <>
 <div className={css.Step1}>1. Prospect contact information: </div>
+<div style={{width: "94%", margin: "0px auto"}}>
 <Form.Item label="Last name" name="lastname" rules={[{required: true,message: "Please input your Last name!"}]}><Input onChange={(e)=>   setLastname(e.target.value )}/></Form.Item>
 <Form.Item label="First name" name="firstname" rules={[{required: true,message: "Please input your First name!"}]}><Input onChange={(e)=>  setFirstname(e.target.value )}/></Form.Item>
 <Form.Item label="Job title" name="jobtitle" rules={[{required: true,message: "Please input your Job title!"}]}><Input onChange={(e)=>  setJobtitle(e.target.value )}/></Form.Item>
-<Form.Item label="Email" name="email" rules={[{required: true,message: "Please input your Email!"}]}><Input onChange={(e)=>   setEmail(e.target.value )}/></Form.Item>
- 
-<Form.Item wrapperCol={{offset: 15,span: 16,}}>
+<Form.Item label="Email" name="email" rules={[{required: true,message: "Please input your Email!", type: "email"}]}><Input onChange={(e)=>   setEmail(e.target.value )}/></Form.Item>
+ <div style={{borderTop: "1px solid #ccc", paddingTop: "15px"}}> 
+<Form.Item wrapperCol={{offset: 0, span: 35,}}>
     <Button style={{ marginRight: "10px" }}onClick={cancelCompany}>Cancel</Button> <Button type="primary" htmlType="submit" onClick={slideFunc}>Next</Button>
 </Form.Item>
+</div>
+</div>
   </>
   : slide === 1 ? 
   <>
 <div className={css.BackCss}> 
-  <Button onClick={()=>setSlide(0)} type="link"> <RollbackOutlined /></Button>
+  <Button size="small" onClick={()=>setSlide(0)} type="link"> <ArrowLeftOutlined /></Button>
   <div className={css.Step2}>2. Prospect company information</div>
 </div>
+<div style={{width: "94%", margin: "0px auto"}}> 
   <Form.Item label="Company name" name="companyName" rules={[{required: true,message: "Please input your Company name!"}]}><Input /></Form.Item>
 <Form.Item label="Web site" name="website" rules={[{required: true,message: "Please input your Web site!"}]}><Input addonBefore={selectBefore} addonAfter={selectAfter} placeholder="" /></Form.Item>
 <Form.Item label="Country" name="country" rules={[{required: true, message: "Please input your Country!"}]}><Input /></Form.Item>
@@ -471,10 +502,17 @@ onFinish={onFinish} onFinishFailed={onFinishFailed}autoComplete="off">
 <Form.Item label="Total annual revenue" name="totalAnnualRevenue" rules={[{ required: true, message:"Please input your Total annual revenue!",}]}>
 <InputNumber formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')} parser={(value) => value.replace(/\$\s?|(,*)/g, '')} style={{width: "100%"}}/></Form.Item>
 <Form.Item label="Additional information" name="additionalInformation" rules={[{required: true,message:"Please input your Additional information!"}]}><TextArea showCount allowClear/></Form.Item>
-
-<Form.Item wrapperCol={{offset: 15,span: 16,}}>
-    <Button style={{ marginRight: "10px" }}onClick={cancelCompany}>Cancel</Button> <Button type="primary" htmlType="submit">Send</Button>
+<div style={{marginBottom: "20px", marginTop: "-20px"}}>
+<ReCAPTCHA   onErrored={errorCapt}  ref={recaptchaRef}   sitekey="6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t" onChange={onChangeCaptcha}/>
+</div>
+<div style={{position: "relative"}}>  
+<div style={{borderTop: "1px solid #ccc", paddingTop: "15px"}}> 
+<Form.Item wrapperCol={{offset: 0,span: 16,}}>
+    <Button style={{ marginRight: "10px" }}onClick={cancelCompany}>Cancel</Button> <Button type="primary" htmlType="submit" disabled={userFormCapt}>Sent</Button>
 </Form.Item>
+</div>
+</div>
+</div>
   </>
 : null}
 
@@ -575,7 +613,50 @@ onFinish={onFinish} onFinishFailed={onFinishFailed}autoComplete="off">
 
 
     <div style={{color: "rgb(14 14 14)",fontWeight: "600", marginTop: "15px"}}>2. Prospect company information</div>
-    <div className={css.Info}> 
+    {companyInfo === undefined ? "" :
+      <>
+      <div className={css.Prospect1}>
+        <div className={css.ProspectTitle}>Date: </div>
+        <div className={css.ProspectTitle2}>{companyInfo.date1}</div>
+      </div>
+      <div className={css.Prospect1}>
+        <div className={css.ProspectTitle}>Company name: </div>
+        <div className={css.ProspectTitle2}>{companyInfo.companyName}</div>
+      </div>
+      <div className={css.Prospect1}>
+        <div className={css.ProspectTitle}>Country: </div>
+        <div className={css.ProspectTitle2}>{companyInfo.country}</div>
+      </div>
+      <div className={css.Prospect1}>
+        <div className={css.ProspectTitle}>Web site: </div>
+        <div className={css.ProspectTitle2}>{companyInfo.website}</div>
+      </div>
+      <div className={css.Prospect1}>
+        <div className={css.ProspectTitle}>Employees: </div>
+        <div className={css.ProspectTitle2}>{companyInfo.employees}</div>
+      </div>
+      <div className={css.Prospect1}>
+        <div className={css.ProspectTitle}>Total annual revenue: </div>
+        <div className={css.ProspectTitle2}>{companyInfo.totalAnnualRevenue}</div>
+      </div>
+      <div className={css.Prospect1}>
+        <div className={css.ProspectTitle}>Additional Information: </div>
+        <div className={css.ProspectTitle2}>{companyInfo.additionalInformation}</div>
+      </div>
+      <div className={css.Prospect1}>
+        <div className={css.ProspectTitle}>Others: </div>
+        <div className={css.ProspectTitle2}>{companyInfo.others}</div>
+      </div>
+      <div className={css.Prospect1}>
+        <div className={css.ProspectTitle}>Insentive: </div>
+        <div className={css.ProspectTitle2}>{companyInfo.insentive}</div>
+      </div>
+      <div className={css.Prospect1}>
+        <div className={css.ProspectTitle}>Org Id: </div>
+        <div className={css.ProspectTitle2}>{companyInfo.orgId}</div>
+      </div>
+      </>}
+    {/* <div className={css.Info}> 
    
     <div className={css.Title}>
         <div className={css.TitleChild}>Date: </div>
@@ -604,7 +685,7 @@ onFinish={onFinish} onFinishFailed={onFinishFailed}autoComplete="off">
         <div className={css.TitleChild2}>{companyInfo.orgId}</div> 
     </div>
     }
-    </div>
+    </div> */}
 </div>
 </>
 </Modal>

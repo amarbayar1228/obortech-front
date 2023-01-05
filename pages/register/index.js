@@ -36,6 +36,9 @@ const [cd,setCd] = useState(0);
 const [cdBoolean, setCdBoolean] = useState(false);
 const [email, setEmail] = useState("");
 const [code, setCode] = useState("");
+const [signUpLoad, setSignUpLoad] = useState(false);
+const [verifyOTPDis, setVerifyOTPDis] = useState(true);
+const [loadingOTP, setLoadingOTP] = useState(false);
 useEffect(()=>{
   setTimeout(()=>{ 
     
@@ -102,6 +105,7 @@ useEffect(()=>{
    }
   const onFinish = (values) => {
     console.log("Received values of form: ", values.email);
+    setSignUpLoad(true)
     if (values.password1 == values.password2) {
       setEmail(values.email);
       var passwordHash = sha256(values.password2); 
@@ -113,8 +117,10 @@ useEffect(()=>{
       };
       axios.post("/api/post/Gate", register).then((res) => { 
           message.success("Successfully Registered");
+
           countDown();
           setShowCode(true);
+          setSignUpLoad(false)
           // router.push("/login");
         }).catch((err) => {
           recaptchaRef.current.props.grecaptcha.reset(); 
@@ -140,12 +146,14 @@ useEffect(()=>{
   const VerifyOTP = () =>{
     console.log("VerifyOTP");
     console.log("code: ", code);
+    setLoadingOTP(true);
     const body ={
       func: "checkCode",
       email: email,
       code: code,
     }
     axios.post("/api/post/Gate", body).then((res)=>{
+      // setLoadingOTP(false);
       console.log("Verify: ", res.data);
       if(res.data.data.status === "Okay"){
          router.push("/login");
@@ -153,10 +161,22 @@ useEffect(()=>{
         message.error("Error");
       }
     }).catch((err)=>{
-      console.log("err");
+      console.log("err", err);
+      setLoadingOTP(false);
     })
   }
- 
+ const onChangeCode = (e) =>{
+  
+  if(e.target.value.length === 6){
+    console.log("object");
+    setVerifyOTPDis(false);
+    setCode(e.target.value);
+  }else{
+    console.log("urt obso");
+    setVerifyOTPDis(true);
+  }
+  
+ }
   return (
     <BaseLayout pageName="register">
       <div className={css.Cont1}>
@@ -179,7 +199,7 @@ useEffect(()=>{
                 <Input.Password size="middle" prefix={<LockOutlined className={css.Title} />} type="password" placeholder="Confirm your password"/>
               </Form.Item>
               <div className={css.CaptchaCss}> {spinCapt  == 0 ? <Spin /> : <ReCAPTCHA   onErrored={errorCapt}  ref={recaptchaRef} sitekey="6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t" onChange={onChangeCaptcha}/> }</div>
-              <Form.Item><div className={css.Login}><Button size="large" disabled={btnDis} style={{width: "100%"}} type="primary" htmlType="submit" className="login-form-button">Sign up</Button></div></Form.Item>
+              <Form.Item><div className={css.Login}><Button size="large" disabled={btnDis} style={{width: "100%"}} type="primary" htmlType="submit" className="login-form-button" loading={signUpLoad}>Sign up</Button></div></Form.Item>
             </Form> 
           </div>
           
@@ -190,11 +210,11 @@ useEffect(()=>{
           <div>OTP Verification</div>
         </div>
         <div style={{margin: "0px 32px"}}> 
-          <div className={css.VerifyText}>We've sent a verification code to your email - {email === "" ? "null" : email}</div>
-          <div><Input onChange={(e)=>setCode(e.target.value)}  suffix={<div style={{fontSize: "11px", fontWeight: "600", color: "#4d5057"}}> Sent [{cd}] sec </div>} placeholder="Enter verification code" /></div>
+          <div className={css.VerifyText}>We've sent a verification code to your email - <span style={{fontWeight: "600"}}>{email === "" ? "null" : email}</span></div>
+          <div><Input onChange={onChangeCode}  suffix={<div style={{fontSize: "11px", fontWeight: "600", color: "#4d5057"}}> Sent [{cd}] sec </div>} placeholder="Enter verification code" /></div>
 
           <div style={{marginTop: "10px",marginBottom: "10px", display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-            <Button type="primary" size="small" onClick={VerifyOTP}>Verify OTP</Button>
+            <Button type="primary" size="small" onClick={VerifyOTP} disabled={verifyOTPDis} loading={loadingOTP}>Verify OTP</Button>
             {cd === 0 ? <Button type="link" size="small"  onClick={countDown}>Resent</Button> : ""}
             </div>
         </div>

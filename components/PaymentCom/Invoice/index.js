@@ -243,7 +243,7 @@ const bodySmart = {
 
 },(error) => {console.log(error)});  
 
-}, 1400); 
+}, 1000); 
  
 };
 const onFinishFailed = (errorInfo) => {

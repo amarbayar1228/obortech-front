@@ -1,15 +1,18 @@
 import { Button, Input, InputNumber, message } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import BaseLayout from "../../components/Layout/BaseLayout"
 import css from "./style.module.css"
 import {KeyOutlined} from "@ant-design/icons";
 import axios from "axios";
 import sha256 from "sha256";
+import ReCAPTCHA from "react-google-recaptcha";
 const Security = () =>{
 const [toogle, setToogle] = useState(false);
 const [current, setCurrent] = useState(""); 
 const [newP, setNewP] = useState("");
 const [reType, setReType] = useState(""); 
+const recaptchaRef = useRef();
+const [userFormCapt, setUserFormCapt] = useState(true);
 
 const saveBtn = () =>{
  
@@ -43,9 +46,16 @@ const saveBtn = () =>{
 }
 const toogleFunc = () =>{
     toogle ? null : setCurrent(""), setNewP(""), setReType("");
-    setToogle(!toogle);
-    
+    setToogle(!toogle); 
 }
+const onChangeCaptcha = (a) =>{ 
+    console.log("captcha change: ", a);
+    a == null ? setUserFormCapt(true) : setUserFormCapt(false);
+  }
+  const errorCapt = (err) =>{
+    console.log("err", err);
+  }
+  
 return<BaseLayout pageName="security">
 <div style={{padding: "10px"}}>
     <div className={css.Title}>Security and login</div>
@@ -64,7 +74,11 @@ return<BaseLayout pageName="security">
                 <div className={css.DetailsChild}><div className={css.DetailsTitle}>Current: </div> <div><Input.Password placeholder="Current" value={current} onChange={(e)=> setCurrent(e.target.value)}/></div></div>
                 <div className={css.DetailsChild}><div className={css.DetailsTitle}>New: </div> <div><Input.Password placeholder="New" type="password" value={newP} onChange={(e)=> setNewP(e.target.value)}/></div></div>
                 <div className={css.DetailsChild}><div className={css.DetailsTitle}>Re-type new: </div> <div><Input.Password placeholder="Re-type new" value={reType} onChange={(e)=> setReType(e.target.value)}/></div></div>
-                <div className={css.TopLine}><Button type="primary" onClick={saveBtn}>Save changes</Button></div>
+                
+ <div style={{marginBottom: "15px", marginTop: "15px"}}>
+                    <ReCAPTCHA   onErrored={errorCapt}  ref={recaptchaRef}   sitekey="6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t" onChange={onChangeCaptcha}/>
+                    </div>
+                <div className={css.TopLine}><Button disabled={userFormCapt} type="primary" onClick={saveBtn}>Save changes</Button></div>
 
         </div> : ""} 
     </div>

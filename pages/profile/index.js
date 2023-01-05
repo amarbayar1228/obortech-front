@@ -7,7 +7,10 @@ import { EditOutlined } from "@ant-design/icons";
 import axios from "axios";
 import TextArea from "antd/lib/input/TextArea";
 import BasketContext from "../../context/basketContext/BasketContext";
-import { Router, useRouter } from "next/router";
+import { Router, useRouter } from "next/router"; 
+import PhoneInput from "react-phone-input-2";
+import 'react-phone-input-2/lib/style.css'
+import ReCAPTCHA from "react-google-recaptcha";
 const Profile = () => {
   const [isModalVisible, setIsModalVisible] = useState(false); 
   const basketContext = useContext(BasketContext);
@@ -15,7 +18,9 @@ const Profile = () => {
   const [industryData, setIndustryData] = useState([]);
   const [userQuestion, setUserQuestion] = useState("");
   const [userAnswer, setUserAnswer] = useState("");
-  
+  const [countryCode, setCountryCode] = useState("mongol");
+  const [userFormCapt, setUserFormCapt] = useState(true);
+  const recaptchaRef = useRef();
   const router = useRouter();
   useEffect(() => {
     getProfile(); 
@@ -28,7 +33,7 @@ const Profile = () => {
       console.log("getIndustry:", res.data);
       setIndustryData(res.data.data)
     }).catch((err)=>console.log("err"));
-
+// question
     const question = {
       func:"getTypes",  
       parid:0,
@@ -40,7 +45,7 @@ const Profile = () => {
       // setQuestionData(res.data.data)
     }).catch((err)=>{console.log("err", err)})
 
-
+// question answered
     const answered = {
       func:"getQuest", 
       pkId: localStorage.getItem("pkId")
@@ -93,12 +98,20 @@ const Profile = () => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+  const onChangeCaptcha = (a) =>{ 
+    console.log("captcha change: ", a);
+    a == null ? setUserFormCapt(true) : setUserFormCapt(false);
+  }
+  const errorCapt = (err) =>{
+    console.log("err", err);
+  }
+  
   const selectHandle = (value) => {
     console.log(`selected ${value}`);
   };
   const onFinishEditForm = (values) => {
     console.log("values: ", values);
-
+    console.log("object", countryCode);
     if(fileList[0]){
       let baseImg2 = fileList[0].thumbUrl.split("base64,")[1];
       // console.log("zurag: ", baseImg2);
@@ -110,7 +123,7 @@ const Profile = () => {
         lastname: values.lastname,
         email: values.email,
         jobtitle: values.jobtitle,
-        phone: values.phone,
+        phone: countryCode,
         address: values.address, 
         img: baseImg2,
         city: values.city,
@@ -184,7 +197,8 @@ const Profile = () => {
       <div className={css.Editcss}><Button type="dashed" shape="circle" onClick={showModal}><EditOutlined /></Button>
       <Modal footer={false} title="Edit" open={isModalVisible} onOk={handleOk} onCancel={handleCancel} width={600}>
         <div className={css.Modalcss}>
-          <Form name="basic" labelCol={{span: 8,}}wrapperCol={{span: 16,}}
+          <Form name="basic" labelCol={{span: 8,}}wrapperCol={{span: 23,}}
+            layout="vertical"
             initialValues={{
               lastname: basketContext.userInfoProfile.lastname,
               firstname: basketContext.userInfoProfile.firstname,
@@ -213,9 +227,15 @@ const Profile = () => {
             <Form.Item label="Country region" name="countryregion" rules={[{ required: true,message: "Please input your Country region!"}]}><Input allowClear /></Form.Item>
             <Form.Item label="City" name="city" rules={[{ required: true,message: "Please input your City!"}]}><Input allowClear /></Form.Item>
             <Form.Item label="Job title" name="jobtitle" rules={[{ required: true,message: "Please input your Job title!"}]}><Input allowClear /></Form.Item>
-            <Form.Item label="Phone number" name="phone" rules={[{required: true,message: "Please input your Phone number!",},]}><Input type="number" /></Form.Item>
+            {/* <Form.Item label="Phone number" name="phone" rules={[{required: true,message: "Please input your Phone number!",},]}><Input type="number" /></Form.Item> */}
+            <Form.Item name="phone" label="Phone Number" rules={[{required: true, message: 'Please input your phone number!'}]}>
+                <PhoneInput   enableSearch={true} country={"mongol"} value={countryCode} onChange={(e) => setCountryCode(e)} style={{width: "100%"}}/>
+            </Form.Item>
             <Form.Item label="Address" name="address" rules={[{required: true, message: "Please input your Address!",},]}><TextArea showCount allowClear maxLength={100} style={{height: 50,}}/></Form.Item>
-            <Form.Item wrapperCol={{offset: 8,span: 16,}}><Button type="primary" htmlType="submit" style={{width: "100%"}}>Save</Button></Form.Item>
+            <div style={{marginBottom: "20px", marginTop: "-15px"}}> 
+            <ReCAPTCHA   onErrored={errorCapt}  ref={recaptchaRef}   sitekey="6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t" onChange={onChangeCaptcha}/>
+            </div>
+            <Form.Item wrapperCol={{offset: 0,span: 24,}}><Button size="large" disabled={userFormCapt} type="primary" htmlType="submit" style={{width: "100%"}}>Update</Button></Form.Item>
           </Form>
         </div>
       </Modal> </div>

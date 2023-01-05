@@ -1,6 +1,6 @@
 import { Button, Divider, Input, message, Modal, Tabs } from "antd";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import BaseLayout from "../../components/Layout/BaseLayout";
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 
@@ -9,6 +9,7 @@ import { Form, InputNumber, Popconfirm, Table, Typography } from 'antd';
 import TokenPercentage from "../../components/Setting comp/tokenPercentage";
 import sha256 from "sha256";
 import InvoiceDate from "../../components/Setting comp/InvoiceDate";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const EditableCell = ({
   editing,
@@ -49,7 +50,8 @@ const isEditing = (record) => record.key === editingKey;
 const [formLogin] = Form.useForm();
 const [, forceUpdate] = useState({});
 const [showInc, setShowInc] = useState(false);
-
+const recaptchaRef = useRef();
+const [userFormCapt, setUserFormCapt] = useState(true)
 useEffect(()=>{
     getPercentage();
     forceUpdate({});
@@ -182,6 +184,7 @@ const mergedColumns = columns.map((col) => {
 });
 const onFinish2 = (v) => {
   console.log('Finish:', v);
+  
    const pass = sha256(v.password);
    if(localStorage.getItem("pz2r3t5") === pass){
     console.log("bolsn");
@@ -192,56 +195,31 @@ const onFinish2 = (v) => {
    }
   // sha256
 };
+const onChangeCaptcha = (a) =>{ 
+  console.log("captcha change: ", a);
+  a == null ? setUserFormCapt(true) : setUserFormCapt(false);
+}
+const errorCapt = (err) =>{
+  console.log("err", err);
+}
     return<BaseLayout pageName="global-settings">
       {showInc === false ?
       <div>
-        <div>
-        <Divider orientation="left" >
-        You must log in
-        </Divider>
-        </div>
+        <div> <Divider orientation="left" > You must log in </Divider></div>
       <Form form={formLogin} name="horizontal_login" layout="inline" onFinish={onFinish2}>
-        <Form.Item
-          name="username"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your username!',
-            },
-          ]}
-        >
+        <Form.Item name="username" rules={[{required: true, message: 'Please input your username!'}]}>
           <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
         </Form.Item>
-        <Form.Item
-          name="password"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your password!',
-            },
-          ]}
-        >
-          <Input
-            prefix={<LockOutlined className="site-form-item-icon" />}
-            type="password"
-            placeholder="Password"
-          />
+        <Form.Item name="password" rules={[{required: true, message: 'Please input your password!'}]}>
+            <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password"/>
         </Form.Item>
-        <Form.Item shouldUpdate>
-          {() => (
-            <Button
-              type="primary"
-              htmlType="submit"
-              disabled={
-                !form.isFieldsTouched(true) ||
-                !!form.getFieldsError().filter(({ errors }) => errors.length).length
-              }
-            >
-              Log in
-            </Button>
-          )}
+       
+        <Form.Item shouldUpdate>{() => (<Button type="primary" htmlType="submit" disabled={userFormCapt}>Log in</Button>)}
         </Form.Item>
       </Form>
+      <div style={{marginBottom: "20px", marginTop: "20px"}}>
+            <ReCAPTCHA   onErrored={errorCapt}  ref={recaptchaRef} sitekey="6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t" onChange={onChangeCaptcha}/>
+        </div>
     </div>
       : 
         <Tabs defaultActiveKey="4" items={["a","b"].map((Icon, i) => {  

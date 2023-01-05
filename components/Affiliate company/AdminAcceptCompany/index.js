@@ -577,8 +577,53 @@ return <div>
       </div>
       
 <div style={{fontWeight: "600", marginTop: "15px"}}>2. Prospect company information</div> 
-    <div className={css.imgL}>
-        {/* <div className={css.ImageCss}><Image preview={false} alt="Obertech" src={"/img/user.png"} className={css.Img}/></div> */}
+{companyInfo === undefined ? "" : 
+  <>
+  <div className={css.Prospect1}>
+<div className={css.ProspectTitle}>Date: </div>
+<div className={css.ProspectTitle2}>{companyInfo.date1}</div>
+</div>
+<div className={css.Prospect1}>
+<div className={css.ProspectTitle}>Company name: </div>
+<div className={css.ProspectTitle2}>{companyInfo.companyName}</div>
+</div>
+<div className={css.Prospect1}>
+<div className={css.ProspectTitle}>Country: </div>
+<div className={css.ProspectTitle2}>{companyInfo.country}</div>
+</div>
+<div className={css.Prospect1}>
+<div className={css.ProspectTitle}>Web site: </div>
+<div className={css.ProspectTitle2}>{companyInfo.website}</div>
+</div>
+<div className={css.Prospect1}>
+<div className={css.ProspectTitle}>Employees: </div>
+<div className={css.ProspectTitle2}>{companyInfo.employees}</div>
+</div>
+<div className={css.Prospect1}>
+<div className={css.ProspectTitle}>Total annual revenue: </div>
+<div className={css.ProspectTitle2}>{companyInfo.totalAnnualRevenue}</div>
+</div>
+<div className={css.Prospect1}>
+<div className={css.ProspectTitle}>Additional Information: </div>
+<div className={css.ProspectTitle2}>{companyInfo.additionalInformation}</div>
+</div>
+<div className={css.Prospect1}>
+<div className={css.ProspectTitle}>Others: </div>
+<div className={css.ProspectTitle2}>{companyInfo.others}</div>
+</div>
+<div className={css.Prospect1}>
+<div className={css.ProspectTitle}>Insentive: </div>
+<div className={css.ProspectTitle2}>{companyInfo.insentive}</div>
+</div>
+<div className={css.Prospect1}>
+<div className={css.ProspectTitle}>Org Id: </div>
+<div className={css.ProspectTitle2}>{companyInfo.orgId}</div>
+</div>
+  </>
+}
+
+    {/* <div className={css.imgL}>
+        
         <div className={css.Info}> 
         <div className={css.Title}>
             <div className={css.TitleChild}>Date: </div>
@@ -608,7 +653,7 @@ return <div>
         </div>
         }
         </div>
-    </div>
+    </div> */}
     </>
 }
     </div>

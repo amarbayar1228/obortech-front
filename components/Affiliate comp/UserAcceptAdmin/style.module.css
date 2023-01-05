@@ -78,6 +78,7 @@
 
 
 .imgL {
+   position: relative;
    display: flex;
    margin-bottom: 20px;
 }
