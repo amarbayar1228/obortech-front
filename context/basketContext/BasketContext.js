@@ -56,48 +56,48 @@ const orgIdRemove = () =>{
     //   }
     // }
 
-    if (router.pathname == "/login") {
-      if (localStorage.getItem("username")) {
-        router.push("/");
-      } else {
-        router.push("/login");
-      }
-    }
-    if (router.pathname == "/add-item") {
-      if (localStorage.getItem("isSuperAdmin") === "1") {
-        router.push("/add-item");
-      } else {
-        router.push("/");
-      }
-    }
-    if (router.pathname == "/dashboard") {
-      if (localStorage.getItem("username")) {
-        router.push("/dashboard");
-      } else {
-        router.push("/");
-      }
-    }
-    if (router.pathname == "/add-admin") {
-      if (localStorage.getItem("isSuperAdmin") === "1") {
-        router.push("/add-admin");
-      } else {
-        router.push("/");
-      }
-    }
-    if (router.pathname == "/profile") {
-      if (localStorage.getItem("username") === "1") {
-        router.push("/profile");
-      } else {
-        router.push("/");
-      }
-    }
-    if (router.pathname == "/affiliate") {
-      if (localStorage.getItem("isSuperAdmin") === "1") {
-        router.push("/affiliate");
-      } else {
-        router.push("/");
-      }
-    }
+    // if (router.pathname == "/login") {
+    //   if (localStorage.getItem("username")) {
+    //     router.push("/");
+    //   } else {
+    //     router.push("/login");
+    //   }
+    // }
+    // if (router.pathname == "/add-item") {
+    //   if (localStorage.getItem("isSuperAdmin") === "1") {
+    //     router.push("/add-item");
+    //   } else {
+    //     router.push("/");
+    //   }
+    // }
+    // if (router.pathname == "/dashboard") {
+    //   if (localStorage.getItem("username")) {
+    //     router.push("/dashboard");
+    //   } else {
+    //     router.push("/");
+    //   }
+    // }
+    // if (router.pathname == "/add-admin") {
+    //   if (localStorage.getItem("isSuperAdmin") === "1") {
+    //     router.push("/add-admin");
+    //   } else {
+    //     router.push("/");
+    //   }
+    // }
+    // if (router.pathname == "/profile") {
+    //   if (localStorage.getItem("username") === "1") {
+    //     router.push("/profile");
+    //   } else {
+    //     router.push("/");
+    //   }
+    // }
+    // if (router.pathname == "/affiliate") {
+    //   if (localStorage.getItem("isSuperAdmin") === "1") {
+    //     router.push("/affiliate");
+    //   } else {
+    //     router.push("/");
+    //   }
+    // }
   };
 
   var basketLocal = [];

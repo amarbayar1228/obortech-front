@@ -1,13 +1,21 @@
-import {message,Tabs,Select,Form,Typography } from "antd";
-import React, { useEffect, useState } from "react";
+import {message,Tabs,Select,Form,Typography, Spin, Empty } from "antd";
+import React, { useContext, useEffect, useState } from "react";
 import BaseLayout from "../../components/Layout/BaseLayout";  
 import axios from "axios";
 import { useTranslation } from "next-i18next"; 
 import Item from "../../components/ItemComp/Item";
 import GroupItem from "../../components/ItemComp/GroupItem"; 
+import BasketContext from "../../context/basketContext/BasketContext";
 const AddBasket = (props) => {
 const { t } = useTranslation("add-item"); 
+const basketContext = useContext(BasketContext);
+const [loggedLoad, setLoggedLoad]= useState(true);
 useEffect(() => { 
+  console.log("useEff pro: ", basketContext.userInfoProfile);
+  basketContext.getUserProfileFunction();
+  setTimeout(()=>{
+    setLoggedLoad(false); 
+  },800);
 }, []);
  
 const onchangeTab = (a) =>{
@@ -16,6 +24,11 @@ const onchangeTab = (a) =>{
  
 return (
 <BaseLayout pageName="add-item">
+  {console.log("js pro: ", basketContext.userInfoProfile)}
+  {loggedLoad ? <Spin style={{display: "flex", alignItems: "center", justifyContent: "center", marginTop: "100px"}}/>  : <> 
+  {basketContext.userInfoProfile ?  
+  <>
+  {basketContext.userInfoProfile.isSuperAdmin === 1 || basketContext.userInfoProfile.isSuperAdmin === 2 ?
   <div style={{ fontWeight: "500", textTransform: "uppercase", marginLeft: "30px" }}>
 <Tabs  onChange={onchangeTab} defaultActiveKey="4" items={["a","b", "c"].map((Icon, i) => {  
 return {label: i=== 0 ?  <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>Item list </div> : i === 1 ?
@@ -26,6 +39,10 @@ return {label: i=== 0 ?  <div style={{fontWeight: "600", fontSize: "14px", color
 })}
 /> 
   </div>
+  : <Empty /> }
+  </>
+  : <Empty />}
+  </>}
 </BaseLayout>
 );
 };

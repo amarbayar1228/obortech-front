@@ -645,7 +645,7 @@ const steps = [
                     {/* <div>Байгууллагын нэр: Обортек</div> */}
                   </div>
                   <div className={css.OrgDesc}> 
-                    <div><span>Organizatin name:</span> <span style={{marginLeft: "10px"}}>{basketContext.orgId}</span></div>
+                    <div><span>Organization name:</span> <span style={{marginLeft: "10px"}}>{basketContext.orgId}</span></div>
                     <div><span>Organization ID:</span> <span style={{marginLeft: "26px"}}>Obogti760 </span></div>
                     {/* <div><span>Байгууллагын нэр: </span> <span style={{marginLeft: "9px"}}>Обортек</span></div>
                     <div><span>Байгууллагын ID: </span> <span style={{marginLeft: "19px"}}>Obogti760</span></div> */}
@@ -1017,7 +1017,7 @@ const steps = [
   content: (
     <div> 
      
-      <SuccessOrder totalPriceState={successOrderPrice} items={propsItem} invoiceSuccess={invoiceSuccess}/>
+      <SuccessOrder totalPriceState={successOrderPrice} items={propsItem} invoiceSuccess={invoiceSuccess} mnPrice={mntUsdPrice}/>
       <Button onClick={removeBask} shape="circle"> X</Button>
      
   </div>

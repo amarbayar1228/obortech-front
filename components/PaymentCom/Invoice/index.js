@@ -235,7 +235,7 @@ const bodySmart = {
     }
     axios.post("/api/post/Gate", bodySmart).then((res)=>{
     console.log("smartHubSent: ", res.data);
-    message.success("success");
+    // message.success("success");
     setIsModalOpen(false);
     }).catch((err)=>{
     console.log("object", err);

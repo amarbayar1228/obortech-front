@@ -1,7 +1,8 @@
 import { Button, Image, Modal, Select } from "antd";
 import React, { useEffect, useState } from "react";
 import css from "./style.module.css"
-import {CheckOutlined} from "@ant-design/icons";
+import {CheckOutlined, DownloadOutlined} from "@ant-design/icons";
+
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 const Home = {
@@ -92,8 +93,11 @@ const SuccessOrder = (props) =>{
         
     ]);
     const [formValue, setFormValue] = useState("mn");
+    const [mnPrice, setMnPrice] = useState(0);
     useEffect(()=>{
         console.log("items: ", props);
+        
+        setMnPrice(props.mnPrice[0].mnt);
         setUserForm(JSON.parse(localStorage.getItem("invoF")));
         setDate1(JSON.parse(localStorage.getItem("d1")));
    
@@ -117,6 +121,8 @@ const downloadPdf = () =>{
         const pdf = new jsPDF("p", "pt", "a4");
         pdf.addImage(imgData, "JPEG", 0, 0)
         pdf.save("Invoice.pdf");
+        console.log("pdf1+> ", pdf);
+        console.log("pdf2+> ", pdf.save());
     });
 }
 const handleChange = (value) =>{
@@ -131,7 +137,7 @@ return <div>
           {label: 'Mongolian', value: 'mn'},
           {label: 'English & Mongolian', value: 'enMn'},
         ]}]}/>
-    <Button onClick={downloadPdf} type="primary">Download pdf {console.log("ss", formText)}</Button>
+    <Button onClick={downloadPdf} type="primary" icon={<DownloadOutlined />}>Download pdf {console.log("ss", formText)}</Button>
     </div>
 <div id="invoice" style={{marginTop: "-30px"}}>   
 <div style={{width: "50px", height: "50px", background: "#fff"}}></div>
@@ -160,7 +166,7 @@ return <div>
             </div>
             <div style={{marginTop: "10px", textAlign: "right", fontWeight: "600", lineHeight: "30px", width: "329px", marginLeft: "50px"}} >
                 <div style={{display: "flex"}}>  
-                    <div style={{width: "160px", textAlign: "left"}}>{formValue === "mn" ? formText[5].invoNumb.mn : formText[5].invoNumb.en}:  </div>
+                    <div style={{width: "164px", textAlign: "left"}}>{formValue === "mn" ? formText[5].invoNumb.mn : formText[5].invoNumb.en}:  </div>
                     <div style={{width: "50%", textAlign: "right"}}>XXXXXXXXX</div>
                 </div>
                 <div style={{display: "flex" }}> 
@@ -173,7 +179,7 @@ return <div>
                 </div>
                 <div style={{display: "flex" }}> 
                     <div style={{width: "160px", textAlign: "left"}}>{formValue === "mn" ? formText[8].amountDue.mn : formText[8].amountDue.en}:</div>
-                    <div style={{width: "50%", textAlign: "right"}}>{price.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,")}₮</div>
+                    <div style={{width: "50%", textAlign: "right"}}>{mnPrice}₮</div>
                 </div>
                 
             </div>
@@ -194,11 +200,11 @@ return <div>
         ))}
         <div style={Total} > 
         <div>{formValue === "mn" ? formText[13].total.mn : formText[13].total.en}: </div>
-        <div>{props.totalPriceState}$</div>
+        <div style={{marginLeft: "5px"}}> {props.totalPriceState}$</div>
         </div>
         <div style={AmountDue}>
         <div>{formValue === "mn" ? formText[8].amountDue.mn : formText[8].amountDue.en}:</div>
-        <div>{price.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,")}₮</div>
+        <div>{mnPrice}₮</div>
         </div> 
         <div style={Notes}> 
             <div style={BoldText}>{formValue === "mn" ? formText[14].notes.mn : formText[14].notes.en}</div>

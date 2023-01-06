@@ -11,6 +11,7 @@ import { Router, useRouter } from "next/router";
 import PhoneInput from "react-phone-input-2";
 import 'react-phone-input-2/lib/style.css'
 import ReCAPTCHA from "react-google-recaptcha";
+import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
 const Profile = () => {
   const [isModalVisible, setIsModalVisible] = useState(false); 
   const basketContext = useContext(BasketContext);
@@ -18,10 +19,22 @@ const Profile = () => {
   const [industryData, setIndustryData] = useState([]);
   const [userQuestion, setUserQuestion] = useState("");
   const [userAnswer, setUserAnswer] = useState("");
-  const [countryCode, setCountryCode] = useState("mongol");
+  const [countryCode, setCountryCode] = useState("mongolian");
   const [userFormCapt, setUserFormCapt] = useState(true);
   const recaptchaRef = useRef();
   const router = useRouter();
+  const [country, setCountry] = useState("-");
+  const [region, setRegion] = useState("-");
+ 
+
+  const selectCountry = (a) =>{
+    console.log("country", a);
+    setCountry(a)
+  }
+  const selectRegion = (a) =>{
+    console.log("region", a);
+    setRegion(a)
+  }
   useEffect(() => {
     getProfile(); 
   }, []);
@@ -89,6 +102,28 @@ const Profile = () => {
     // }
   }
   const showModal = () => {
+    setCountry(basketContext.userInfoProfile.countryregion);
+    setRegion(basketContext.userInfoProfile.city);  
+    if(basketContext.userInfoProfile.img === "-"){
+      setFileList([
+        {
+            uid: '-1',
+            name: 'image.png',
+            status: 'done',
+            url: "/img/user.png",
+        }, 
+        ]);
+    }else{
+      setFileList([
+        {
+            uid: '-1',
+            name: 'image.png',
+            status: 'done',
+            thumbUrl: "data:image/png;base64," + basketContext.userInfoProfile.img,
+        }, 
+        ]);
+    }
+   
     setIsModalVisible(true);
   };
 
@@ -111,14 +146,24 @@ const Profile = () => {
   };
   const onFinishEditForm = (values) => {
     console.log("values: ", values);
-    console.log("object", countryCode);
-    if(fileList[0]){
-      let baseImg2 = fileList[0].thumbUrl.split("base64,")[1];
-      // console.log("zurag: ", baseImg2);
-      const body = {
+    console.log("object", countryCode.length);
+    console.log("country: ", country);
+    console.log("country: ", region);
+    console.log("file", fileList);
+
+    if(countryCode.length < 5 || country === "-" || region === "-"){
+      message.error("null")
+    }else{
+      if(values.img[0]){
+        // message.error("image null");
+          if(values.img[0].thumbUrl){ 
+                 
+            let baseImg2 = values.img[0].thumbUrl.split("base64,")[1]; 
+            console.log("img: ", baseImg2 );
+          const body = {
         func: "uploadProfile",
         pkId: basketContext.userInfoProfile.pkId,
-
+  
         firstname: values.firstname,
         lastname: values.lastname,
         email: values.email,
@@ -126,8 +171,8 @@ const Profile = () => {
         phone: countryCode,
         address: values.address, 
         img: baseImg2,
-        city: values.city,
-        countryregion: values.countryregion,
+        city: region,
+        countryregion: country,
         industry: values.industry,
         website: values.website
       };
@@ -136,35 +181,85 @@ const Profile = () => {
           setIsModalVisible(false);
           message.success("Success");
         }).catch((err) => {});
+   
+          }
       }else{
+        console.log("bolson"); 
+          if(values.img.file.status === "done"){ 
+            let baseImg2 = values.img.file.thumbUrl.split("base64,")[1]; 
+            console.log("img: ", baseImg2 );
+          const body = {
+        func: "uploadProfile",
+        pkId: basketContext.userInfoProfile.pkId,
+  
+        firstname: values.firstname,
+        lastname: values.lastname,
+        email: values.email,
+        jobtitle: values.jobtitle,
+        phone: countryCode,
+        address: values.address, 
+        img: baseImg2,
+        city: region,
+        countryregion: country,
+        industry: values.industry,
+        website: values.website
+      };
+      axios.post("/api/post/Gate", body).then((res) => {
+          basketContext.getUserProfileFunction();
+          setIsModalVisible(false);
+          message.success("Success");
+        }).catch((err) => {});
+  
+        }else{
           message.error("Image null");
+        }
       }
+    }
+
+   
+
+    
+    // if(fileList[0]){
+    //   let baseImg2 = fileList[0].thumbUrl.split("base64,")[1]; 
+       
+      // const body = {
+      //   func: "uploadProfile",
+      //   pkId: basketContext.userInfoProfile.pkId,
+
+      //   firstname: values.firstname,
+      //   lastname: values.lastname,
+      //   email: values.email,
+      //   jobtitle: values.jobtitle,
+      //   phone: countryCode,
+      //   address: values.address, 
+      //   img: baseImg2,
+      //   city: region,
+      //   countryregion: country,
+      //   industry: values.industry,
+      //   website: values.website
+      // };
+      // axios.post("/api/post/Gate", body).then((res) => {
+      //     basketContext.getUserProfileFunction();
+      //     setIsModalVisible(false);
+      //     message.success("Success");
+      //   }).catch((err) => {});
+      // }else{
+      //     message.error("Image null");
+      // }
  
-  };
-  //   axios
-  //     .post("/api/post/user/uploadProfile", body)
-  //     .then((res) => {
-  //       basketContext.getUserProfileFunction();
-  //       setIsModalVisible(false);
-  //       message.success("Success");
-  //     })
-  //     .catch((err) => {});
-  // };
+  }; 
   const onFinishFailedEdit = (errorInfo) => {
     message.error(errorInfo.errorFields[0].errors);
   };
   const onPreview = async (file) => {
     let src = file.url;
-    
     if (!src) {
-        src = await new Promise((resolve) => {
+      src = await new Promise((resolve) => {
         const reader = new FileReader();
-        reader.readAsDataURL(file.originFileObj);
-    
+        // reader.readAsDataURL(file.originFileObj);
         reader.onload = () => resolve(reader.result);
-        });
+      });
     }
-    
     const image = new Image();
     image.src = src;
     const imgWindow = window.open(src);
@@ -209,7 +304,8 @@ const Profile = () => {
               industry: basketContext.userInfoProfile.industry,
               website:  basketContext.userInfoProfile.website,
               countryregion:  basketContext.userInfoProfile.countryregion,
-              city:  basketContext.userInfoProfile.city
+              city:  basketContext.userInfoProfile.city,
+              img:  fileList,
             }}
             onFinish={onFinishEditForm} onFinishFailed={onFinishFailedEdit} autoComplete="off">
              <Form.Item label="Image" name="img" rules={[{required: true,message: "Please input your Image!"}]}>
@@ -224,12 +320,18 @@ const Profile = () => {
             </Form.Item>  
             
             <Form.Item label="Web site" name="website" rules={[{ required: true,message: "Please input your Web site!"}]}><Input allowClear /></Form.Item>
-            <Form.Item label="Country region" name="countryregion" rules={[{ required: true,message: "Please input your Country region!"}]}><Input allowClear /></Form.Item>
-            <Form.Item label="City" name="city" rules={[{ required: true,message: "Please input your City!"}]}><Input allowClear /></Form.Item>
+            {/* <Form.Item label="Country region" name="countryregion" rules={[{ required: true,message: "Please input your Country region!"}]}><Input allowClear /></Form.Item>
+            <Form.Item label="City" name="city" rules={[{ required: true,message: "Please input your City!"}]}><Input allowClear /></Form.Item> */}
+            <div className={css.CountryCss}> 
+              <div style={{display: "flex", alignItems: "center"}}> <span style={{color: "red", fontSize: "15px", paddingTop: "8px", paddingRight: "5px"}}>*</span> Country</div>
+              <CountryDropdown value={country} onChange={selectCountry}/>
+              <div style={{display: "flex", alignItems: "center"}}> <span style={{color: "red", fontSize: "15px", paddingTop: "8px", paddingRight: "5px"}}>* </span>City</div>
+              <RegionDropdown country={country} value={region} onChange={selectRegion} />
+            </div>
             <Form.Item label="Job title" name="jobtitle" rules={[{ required: true,message: "Please input your Job title!"}]}><Input allowClear /></Form.Item>
             {/* <Form.Item label="Phone number" name="phone" rules={[{required: true,message: "Please input your Phone number!",},]}><Input type="number" /></Form.Item> */}
             <Form.Item name="phone" label="Phone Number" rules={[{required: true, message: 'Please input your phone number!'}]}>
-                <PhoneInput   enableSearch={true} country={"mongol"} value={countryCode} onChange={(e) => setCountryCode(e)} style={{width: "100%"}}/>
+                <PhoneInput   enableSearch={true} country={"mongolia"} value={countryCode} onChange={(e) => setCountryCode(e)} style={{width: "100%"}}/>
             </Form.Item>
             <Form.Item label="Address" name="address" rules={[{required: true, message: "Please input your Address!",},]}><TextArea showCount allowClear maxLength={100} style={{height: 50,}}/></Form.Item>
             <div style={{marginBottom: "20px", marginTop: "-15px"}}> 

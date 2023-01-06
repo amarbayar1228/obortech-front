@@ -66,3 +66,21 @@
     overflow: auto;
     padding: 0px 16px;
 }
+
+.CountryCss {
+    display: flex;
+    flex-direction: column;
+}
+
+.CountryCss select {
+    width: 96%;
+    border: 1px solid #ccc;
+    padding: 6px;
+    margin-top: 3px;
+    margin-bottom: 15px;
+}
+
+.CountryCss select::-moz-selection {
+    background-color: rgb(255, 255, 255);
+    border: none;
+}

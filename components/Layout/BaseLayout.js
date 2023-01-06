@@ -165,7 +165,9 @@ export default function BaseLayout(props) {
     localStorage.removeItem("state");
     localStorage.removeItem("introductionText");
     localStorage.removeItem("basket");
+    localStorage.removeItem("invoF");
     basketContext.removeBasketStorage();
+    basketContext.getUserProfileFunction();
     message.loading("Log out", 2);
 
     if (router.pathname == "/") {
