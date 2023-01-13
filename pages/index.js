@@ -18,6 +18,23 @@ import jsPDF from "jspdf";
 const { Search } = Input;
 const { Option } = Select;
 const { confirm } = Modal;
+
+function dataURLtoFile(dataurl, filename) {
+ 
+  var arr = dataurl.split(','),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]),
+      n = bstr.length,
+      u8arr = new Uint8Array(n);
+      
+  while(n--){
+      u8arr[n] = bstr.charCodeAt(n);
+  }
+  
+  return new File([u8arr], filename, {type:mime});
+}
+
+
 export default function Home(props) {
   const { t } = useTranslation("organization");
   const [addItemStyle, setAddItemStyle] = useState([css.addItemStyle]);
@@ -33,7 +50,6 @@ export default function Home(props) {
   const [searchStatus, setSearchStatus] = useState("");
   const inputRef = useRef(null);
   const [orgNameMnEn, setOrgNameMnEn] = useState([]);
-
   // const [massive, setMassive] = useState([]);
   const sharedProps = {
     // style: {
@@ -155,15 +171,61 @@ export default function Home(props) {
   const downloadPdf = () =>{
     console.log("object");
     const input = document.getElementById("invoice");
-    html2canvas(input).then((canvas) =>{
+    const input2 = document.getElementById("invoiceMnPdf");
+    
+    html2canvas(input2).then((canvas) =>{
         const imgData = canvas.toDataURL("image/png");
-        const pdf = new jsPDF("p", "pt", "a4");
-        pdf.addImage(imgData, "JPEG", 0, 0)
-        pdf.save("Invoice.pdf"); 
-        // pdf.save(opts.output);
+        const pdf = new jsPDF();
+  
+        pdf.addImage(imgData, "JPEG", 10, 10);
+        pdf.save("Invoice.pdf");   
         pdf.output("datauristring");
-        console.log("pdf2+> ", pdf.save("Invoice.pdf"));
+        console.log("data",  pdf.output("datauristring"));
+        // const nPdf = pdf.output("datauristring"); 
+        // const splitPDF = nPdf.split("base64,")[1]; 
+     
+// const invoHtml = document.getElementById("hello");
+
+// console.log("html: ",invoHtml.innerHTML);  
+// const config = {
+//   api: {
+//       bodyParser: {
+//           sizeLimit: '4mb' // Set desired value here
+//       }
+//   }
+// }
+      // const body = {
+      //   func: "base64topdf",
+      //   base64: splitPDF,
+      // } 
+      //   axios.post("/api/post/Gate", body).then((res)=>{
+      //     console.log("res", res.data.fileName);
+      //     const data1 = res.data.fileName;
+      //     const invoice = {
+      //       func: "sendInvoice",
+      //       email: "amarbayarbatbayar2@gmail.com",
+      //       body: invoHtml.innerHTML,
+      //       title_: "Invoice",
+      //       attachments: data1,
+      //     }
+      //     axios.post("/api/post/Gate", invoice).then((res)=>{
+      //       console.log("invoice: ", res.data);
+      //     }).catch((err)=>{
+      //       console.log("err", err);
+      //     });
+        
+
+
+      //   }).catch((err)=>{
+      //     console.log("err", err);
+      //   }) 
+
     });
+}
+const inputFile = (a) =>{
+  console.log("file", a);
+  var x = document.getElementById("mf").files[0];
+  console.log(x)
 }
 return (
 <div>
@@ -173,19 +235,7 @@ return (
     <div className={css.SearchInput}>
       <Divider style={{fontSize: "18px", color: "#000"}}>{t("Search of organizations")}</Divider>
  
-      {/* <input name="userfile" type="file" accept="application/pdf, application/vnd.ms-excel" />
-
-      <div id="invoice"> 
-        <div style={{width: "700px", background: "#ccc", border: "1px solid #000"}}> 
-          <div><img src="/img/atm.png"/></div>
-          <div style={{width: "100%", display: "flex", justifyContent: "space-between"}}>
-            <div>Hello1</div>
-            <div>Hello2</div>
-          </div>
-          <div style={{color: "red"}}>hellored</div>
-        </div>
-      </div>
-      <div><Button onClick={downloadPdf}>print</Button></div> */}
+      {/* <input id="mf" name="userfile" type="file" accept="application/pdf, application/vnd.ms-excel"  onChange={inputFile}/>  */}
       <Search placeholder={t("Enter your organization ID")} allowClear  size="large" onSearch={onSearch} enterButton status={searchStatus} ref={inputRef} onChange={searchChangeFunc} />
        
         {orgIdState === "" ? spin ?  <div className={css.SpinCss}> <Spinner /> </div> : orgError === "" ? "" :  

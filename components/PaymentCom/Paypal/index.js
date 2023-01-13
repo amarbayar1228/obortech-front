@@ -22,6 +22,7 @@ const basketContext = useContext(BasketContext);
 const [matches, setMatches] = useState(window.matchMedia("(min-width: 768px)").matches);
 useEffect(()=>{
     window.matchMedia("(min-width: 768px)").addEventListener('change', e => setMatches( e.matches ));
+    
 },[])
 const onFinished = (values) =>{
     console.log("value: ", values); 
@@ -40,7 +41,7 @@ const onFinished = (values) =>{
       const body2 = {
         func: "neworder",
         item: body,
-        orgId: props.orgIdRadio,
+        orgId: basketContext.orgNames[0].orgIdstate,
         totalPrice: props.totalPriceState, 
         pkId: localStorage.getItem("pkId"), 
       };
@@ -56,7 +57,7 @@ const onFinished = (values) =>{
     // newtreeq hereglegch bwl Axiosru shidne
       const bodyNoId = {
         func: "neworder",
-        orgId: props.orgIdRadio,
+        orgId: basketContext.orgNames[0].orgIdstate,
         totalPrice: props.totalPriceState,
         item: arr, 
       };

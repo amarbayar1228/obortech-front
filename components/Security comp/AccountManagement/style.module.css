@@ -1,0 +1,211 @@
+.Title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.Flex {
+    display: flex;
+}
+
+.Banks {
+    width: 200px;
+}
+
+.Backg {
+    box-shadow: 1px 1px 2px 1px #ebebeb;
+    color: #4d5057;
+    border-radius: 5px;
+    margin: 10px 3px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.Backg:hover {
+    box-shadow: 1px 1px 2px 1px rgb(139, 139, 139);
+    color: #4d5057;
+}
+
+.Backg:focus {
+    color: #292a2b;
+}
+
+.Layout2 {
+    margin-left: 10px;
+    box-shadow: 1px 1px 2px 1px #ebebeb;
+    width: 73%;
+    border-radius: 5px;
+    padding: 16px;
+}
+
+.Hdr {
+    font-size: 18px;
+    color: #4d5057;
+    font-weight: 600;
+}
+
+.HdrFlex {
+    display: flex;
+    font-size: 12px;
+    color: #4d5057;
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0px;
+}
+
+.DtlFlex {
+    display: flex;
+    color: #4d5057;
+    font-size: 12px;
+    padding: 10px 0px;
+    font-weight: 600;
+}
+
+.text1 {
+    width: 50px;
+}
+
+.text2 {
+    width: 204px;
+}
+
+.text3 {
+    width: 113px;
+}
+
+.text4 {
+    width: 200px;
+}
+
+.text5 {
+    display: flex;
+}
+
+.Scroll {
+    overflow: auto;
+}
+
+.HdrForm {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    overflow: auto;
+    width: 712px;
+    /* max-width: 712px; */
+}
+
+.AddForm {
+    margin-top: 10px;
+    font-weight: 600;
+}
+
+.ChooseBank {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.SelectCss {
+    width: 48%;
+}
+
+.SelectTitle {
+    margin-left: 10px;
+    font-size: 12px;
+    color: #4d5057;
+}
+
+.SelectTitle2 {
+    font-size: 12px;
+    color: #4d5057;
+}
+
+.DansNumb {
+    padding: 10px;
+}
+
+.DansBat {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0px;
+}
+
+.Tips {
+    font-size: 12px;
+    color: #4d5057;
+    padding: 30px;
+    background: #f9f9f9;
+    margin: 10px;
+    font-weight: 600;
+    box-shadow: 1px 1px 3px 1px #ebebeb;
+}
+
+.TitleFlex {
+    display: flex;
+    align-items: center;
+    margin: 10px 0px;
+}
+
+.TitleFlex2 {
+    display: flex;
+    margin-left: 10px;
+}
+
+.RedIcon {
+    background-color: red;
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+    margin-right: 10px;
+
+}
+
+.CircleYel {
+    border: 2px solid #4d5057;
+    border-radius: 50%;
+    margin-right: 10px;
+    width: 10px;
+    height: 10px;
+
+}
+
+.CardForm {
+    display: flex;
+    font-size: 12px;
+    padding: 10px;
+}
+
+.CardFormInput1 {
+    color: #4d5057;
+    width: 280px;
+    margin-right: 50px;
+}
+
+.ExpDate {
+    display: flex;
+}
+
+.CardFormInput2 {
+    margin-left: 10px;
+    color: #4d5057;
+    width: 120px;
+}
+
+.CardFormInput3 {
+    color: #4d5057;
+    width: 100px;
+    margin-left: 10px;
+}
+
+.SelectCss2 {
+    width: 100%;
+}
+
+.obotext1 {
+    width: 100px;
+}
+
+.obotext2 {
+    width: 330px;
+}

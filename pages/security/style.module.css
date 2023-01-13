@@ -10,13 +10,13 @@
 }
 
 .Password {
-    width: 98%;
+    width: 100%;
     margin: 0px auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
     /* margin: 10px 0px; */
-    padding: 10px;
+    padding: 10px 15px;
     margin-bottom: -1px;
     border-bottom: 1px solid #ccc;
 }
@@ -36,6 +36,7 @@
 .Text2 {
     color: rgb(133, 133, 133);
     font-weight: 600;
+    line-height: 16px;
 }
 
 .KeyOutlined {
@@ -49,7 +50,7 @@
     background: rgb(254 242 242);
     height: 28px;
     align-items: center;
-    margin-right: 7px;
+    margin-right: 15px;
     border-radius: 3px;
     justify-content: center;
 }

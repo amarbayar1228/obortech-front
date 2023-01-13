@@ -34,9 +34,12 @@ const [logged, setLogged]= useState(false);
 const [loggedLoad, setLoggedLoad]= useState(true);
 
   useEffect(()=>{
+    console.log('1 login');
     basketContext.getUserProfileFunction();
     setTimeout(()=>{
       setLoggedLoad(false);
+      console.log('2 login');
+      basketContext.getUserProfileFunction();
       setSpinCapt(1);
     },800);
   
@@ -201,9 +204,7 @@ const focusInput = () =>{
       {loggedLoad ? <Spin style={{display: "flex", alignItems: "center", justifyContent: "center", marginTop: "100px"}}/>  : <> 
         {basketContext.userInfoProfile ? <Empty /> : 
         <div className={css.Cont}  >
-          <div className={css.Cont2}>
-           
-           
+          <div className={css.Cont2}> 
             {codePage === 0 ?
             <>
              <div className={css.LoginTitle}> <Image alt="Obertech" preview={false} src="/img/HeaderLogo.png" width={80}  style={{borderRadius: "5px"}}/></div>

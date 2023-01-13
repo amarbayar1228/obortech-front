@@ -125,7 +125,7 @@ const Payment = () => {
     setCurrent(current - 1);
   };
   useEffect(() => {
-
+    console.log("hansh: ", basketContext.hanshnuud);
     totalPriceFunction();
     dateFunction(); 
     // console.log("url",window.location.href); 
@@ -281,38 +281,38 @@ axios.post("/api/post/Gate", bodyNoId).then((result) => {
     setCheckFalse(false); 
     setIsModalVisibleOrgId2(false);
   }; 
-  const CoinFunc = (e) => {
-    console.log("coin input: ", e);
-    setCoinTargetState(e);
-    const result = 0;
-    result = e / basketContext.hanshnuud[2].rate;
-    console.log("coin: ", result);
-    setCoinState(result);
+  // const CoinFunc = (e) => {
+  //   console.log("coin input: ", e);
+  //   setCoinTargetState(e);
+  //   const result = 0;
+  //   result = e / basketContext.hanshnuud[2].rate;
+  //   console.log("coin: ", result);
+  //   setCoinState(result);
 
-    console.log("coinstate");
-  };
-  const UsdFunc = (e) => {
-    console.log("Usd input: ", e);
-    setUsdTargetState(e);
-    const result = 0;
-    if (e === null) {
-      setUsdState(0);
-    } else {
-      result = e;
-      setUsdState(result);
-    }
-  };
-  const TugrugFunc = (e) => {
-    setTugrugTargetState(e);
-    const result = 0;
-    result = e * basketContext.hanshnuud[1].rate;
-    setTugrugState(result);
-  };
-  const TotalPriceFunc = () => {
-    console.log("coinState: ", coinStateTarget);
-    console.log("usdState: ", usdStateTarget);
-    console.log("tugrugState: ", tugrugStateTarget);
-  };
+  //   console.log("coinstate");
+  // };
+  // const UsdFunc = (e) => {
+  //   console.log("Usd input: ", e);
+  //   setUsdTargetState(e);
+  //   const result = 0;
+  //   if (e === null) {
+  //     setUsdState(0);
+  //   } else {
+  //     result = e;
+  //     setUsdState(result);
+  //   }
+  // };
+  // const TugrugFunc = (e) => {
+  //   setTugrugTargetState(e);
+  //   const result = 0;
+  //   result = e * basketContext.hanshnuud[1].rate;
+  //   setTugrugState(result);
+  // };
+  // const TotalPriceFunc = () => {
+  //   console.log("coinState: ", coinStateTarget);
+  //   console.log("usdState: ", usdStateTarget);
+  //   console.log("tugrugState: ", tugrugStateTarget);
+  // };
 const orgIdChoose = (e) =>{ 
   console.log("e.target: ", e.target.value); 
   // setOrgOnChange()
@@ -355,13 +355,15 @@ const BankTypo = (value) =>{
 
   const obot = 0;
   const convert = defaultMaxFi.Coin / 100;
-  obot = totalPriceState * convert / basketContext.hanshnuud[2].rate;
+  console.log("default",defaultMaxFi.Coin );
+  console.log('convert: ', convert);
+  obot = totalPriceState * convert * basketContext.hanshnuud[1].obot.hansh;
 
   const mnt = 0;
   const convert2 = defaultMaxFi.USD / 100;
-  mnt = totalPriceState * convert2 * basketContext.hanshnuud[1].rate
-   
-  
+  mnt = totalPriceState * convert2 * basketContext.hanshnuud[0].mnt.hansh2;
+   console.log("mnt: ", mnt);
+  console.log("xansh", basketContext.hanshnuud);
   setMntUsdPrice([{ usd: usd.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,"), obot: obot.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,"), mnt: mnt.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,") }]);
   
   
@@ -375,7 +377,7 @@ const onFinishUserInfo = (values) =>{
     setUserFormCapt(true);
     console.log("user", values);
   }else{
-    message.error("Error");
+    message.error("Please input your phone number!");
   }
  
 }
@@ -646,7 +648,7 @@ const steps = [
                   </div>
                   <div className={css.OrgDesc}> 
                     <div><span>Organization name:</span> <span style={{marginLeft: "10px"}}>{basketContext.orgId}</span></div>
-                    <div><span>Organization ID:</span> <span style={{marginLeft: "26px"}}>Obogti760 </span></div>
+                    <div><span>Organization ID:</span> <span style={{marginLeft: "26px"}}>{basketContext.orgNames[0] ? basketContext.orgNames[0].orgIdstate : "xxxx"} </span></div>
                     {/* <div><span>Байгууллагын нэр: </span> <span style={{marginLeft: "9px"}}>Обортек</span></div>
                     <div><span>Байгууллагын ID: </span> <span style={{marginLeft: "19px"}}>Obogti760</span></div> */}
                   </div>
@@ -1018,7 +1020,7 @@ const steps = [
     <div> 
      
       <SuccessOrder totalPriceState={successOrderPrice} items={propsItem} invoiceSuccess={invoiceSuccess} mnPrice={mntUsdPrice}/>
-      <Button onClick={removeBask} shape="circle"> X</Button>
+      <Button onClick={removeBask} shape="circle" style={{marginTop: "10px"}}> X</Button>
      
   </div>
   ),

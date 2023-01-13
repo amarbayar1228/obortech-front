@@ -32,6 +32,7 @@ export default function BaseLayout(props) {
   const [matches, setMatches] = useState("(min-width: 590px)"); 
   useEffect(() => {  
     getProfile();
+    console.log("layout");
  
     window.matchMedia("(min-width: 590px)").addEventListener('change', e => setMatches( e.matches ));
     // basketContext.basketStateFunc();
@@ -460,6 +461,7 @@ export default function BaseLayout(props) {
       </div>
         {toogleCss ? 
         <div className={css.UserDe}> 
+
             <div className={css.UserTitle}> {admin === "0" ? basketContext.userInfoProfile === undefined ? "" : basketContext.userInfoProfile.email
                     : admin === "1" ? basketContext.userInfoProfile.email  : admin === "2" ? basketContext.userInfoProfile.email : ""} </div>
             <div className={css.UserDescr}>{admin === "0" ? basketContext.userInfoProfile === undefined ? "" : basketContext.userInfoProfile.firstname

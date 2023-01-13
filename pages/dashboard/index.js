@@ -29,76 +29,58 @@ useEffect(() => {
 
         <div className={css.Title}> {t("title")}</div>
       </Divider>
-
- {/* <div style={{margin: "100px"}}> <Spinner /></div> */}
-
+ 
       
       <div style={{width: "98%"}}>
-        <div>
-          
-        </div>
-        <div className="site-statistic-demo-card">
-          <Row gutter={16}>
-            <Col span={12}>
-              <Card>
-                <Statistic
-                  title="Active"
-                  value={11.28}
-                  precision={2}
-                  valueStyle={{
-                    color: "#3f8600",
-                  }}
-                  prefix={<ArrowUpOutlined />}
-                  suffix="%"
-                />
-              </Card>
-            </Col>
-            <Col span={12}>
-              <Card>
-                <Statistic
-                  title="Idle"
-                  value={9.3}
-                  precision={2}
-                  valueStyle={{
-                    color: "#cf1322",
-                  }}
-                  prefix={<ArrowDownOutlined />}
-                  suffix="%"
-                />
-              </Card>
-            </Col>
-          </Row>
+      
+        <div className={css.DashFlex}>
+          <div className={css.Box}>
+            <div className={css.Col1}>
+              <div> 
+                <div className={css.DPrice}>132,000.0₮</div>
+                <div className={css.DMethod}>MNT</div>
+              </div>
+              <div className={css.DIcon}>
+               ₮
+              </div>
+            </div>
+            <div className={css.Col2}> 
+              <div>Show</div>
+              <div><Button type="primary" size="middle">Withdraw</Button></div>
+            </div>
+          </div> 
+          <div className={css.Box}>
+            <div className={css.Col1}>
+              <div> 
+                <div className={css.DPrice}>$26,000</div>
+                <div className={css.DMethod}>USD</div>
+              </div>
+              <div className={css.DIcon}>
+               $
+              </div>
+            </div>
+            <div className={css.Col2}> 
+              <div>Show</div>
+              <div><Button type="primary" size="middle">Withdraw</Button></div>
+            </div>
+          </div> 
+          <div className={css.Box}>
+            <div className={css.Col1}>
+              <div> 
+                <div className={css.DPrice}>2600 Obot</div>
+                <div className={css.DMethod}>COIN</div>
+              </div>
+              <div className={css.DIcon}>
+               C
+              </div>
+            </div>
+            <div className={css.Col2}> 
+              <div>Show</div>
+              <div><Button type="primary" size="middle">Withdraw</Button></div>
+            </div>
+          </div> 
         </div>
 
-        <div>
-          <br />
-          <PageHeader
-            onBack={() => window.history.back()}
-            title="Title"
-            tags={<Tag color="blue">Running</Tag>}
-            subTitle="This is a subtitle"
-            extra={[
-              <Button key="3">Operation</Button>,
-              <Button key="2">Operation</Button>,
-              <Button key="1" type="primary">
-                Primary
-              </Button>,
-            ]}
-          >
-            <Row>
-              <Statistic title="Status" value="Pending" />
-              <Statistic
-                title="Price"
-                prefix="$"
-                value={568.08}
-                style={{
-                  margin: "0 32px",
-                }}
-              />
-              <Statistic title="Balance" prefix="$" value={3345.08} />
-            </Row>
-          </PageHeader>
-        </div>
       </div>
     </BaseLayout>
   );

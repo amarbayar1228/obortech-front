@@ -13,7 +13,7 @@ const Hansh = (props) =>{
     const [dollar, setDollar] = useState([]);
     useEffect(()=>{
         console.log("Hansh");
-        TugrugDollar();
+        // TugrugDollar();
     },[]);
 
     const TugrugDollar = () =>{
@@ -54,7 +54,7 @@ const Hansh = (props) =>{
            {/* <div className={css.HanshRate}> */}
       <div className={css.HanshLayout}> 
       <div className={css.HanshIcon}><CaretRightOutlined /> Rates</div>
-        {basketContext.hanshnuud.map((e, i) => (
+        {/* {basketContext.hanshnuud.map((e, i) => (
             
           <div key={i} className={css.HanshCss}> 
             <div className={css.Tugrug}> 
@@ -66,14 +66,22 @@ const Hansh = (props) =>{
             <div>{e.paymentName === "Coin" ? "Obot" : e.paymentName === "Төгрөг" ? "АНУ доллар" : e.paymentName } </div> 
             <div style={{paddingLeft: "4px"}}> - {e.rate} {e.code_ === "USD" ? "$" : e.code_ === "TUG" ? "₮" : e.code_ === "COIN" ? "Dollar" : ""}</div>
           </div>
-        ))} 
-  
+        ))}  */}
+       <div style={{fontSize: "12px", fontWeight: "600", color: "#7e7e7e", marginLeft: "6px", marginTop: "5px"}}>Price Data for 1USD</div>
+            <div className={css.HanshCss}> 
+         
+              <div style={{paddingRight: "10px"}}> 
+               <Image alt="Obertech" preview={false} style={{position: "relative",width: "20px",height: "20px",objectFit: "inherit"}} src="/img/usdRate.png"/>
+            </div>
+              <div>USD </div> 
+              <div style={{paddingLeft: "4px"}}> - {basketContext.hanshnuud[0].mnt.hansh1} ₮ </div>
+            </div> 
             <div className={css.HanshCss}> 
               <div style={{paddingRight: "10px"}}> 
                <Image alt="Obertech" preview={false} style={{position: "relative",width: "20px",height: "20px",objectFit: "inherit"}} src="/img/HeaderLogo.png"/>
             </div>
-              <div>Obot </div> 
-              <div style={{paddingLeft: "4px"}}> - {coinMnt} Төгрөг </div>
+              <div>OBORTECH </div> 
+              <div style={{paddingLeft: "4px"}}> - {basketContext.hanshnuud[1].obot.hansh} Obot </div>
             </div> 
 
       </div> 

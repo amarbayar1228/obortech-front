@@ -82,7 +82,7 @@ const SuccessOrder = (props) =>{
         {quantity: {en: "Quantity", mn: "Тоо ширхэг"}},
         {price: {en: "Price", mn: "Үнэ"}},
         {Amount: {en: "Amount", mn: "Дүн"}},
-        {total: {en: "Total", mn: "нийт үнэ"}},
+        {total: {en: "Total", mn: "Нийт үнэ"}},
         {notes: {en: "Notes / Terms", mn: "Тэмдэглэл / Нөхцөл"}},
         {info: {en: "Be sure to write the invoice number on your transaction!", mn: "Нэхэмжлэлийн дугаарыг гүйлгээн дээрээ заавал бичнэ үү!"}},
         {khan: {en: "Khan Bank", mn: "Хаан банк"}},
@@ -116,14 +116,33 @@ const cancelF = () =>{
 const downloadPdf = () =>{
     console.log("object");
     const input = document.getElementById("invoice");
+    const input2 = document.getElementById("invoice");
+ // create one page
     html2canvas(input).then((canvas) =>{
-        const imgData = canvas.toDataURL("image/png");
+        const imgData = canvas.toDataURL("image/png");   
         const pdf = new jsPDF("p", "pt", "a4");
-        pdf.addImage(imgData, "JPEG", 0, 0)
-        pdf.save("Invoice.pdf");
-        console.log("pdf1+> ", pdf);
-        console.log("pdf2+> ", pdf.save());
-    });
+        pdf.addImage(imgData, "JPEG", 0, 0);  
+        pdf.save("Invoice.pdf");  
+     });
+    //create page 1 2
+    // html2canvas(input).then((canvas) =>{
+    //     const imgData = canvas.toDataURL("image/png");  
+    //     html2canvas(input2).then((canvas) =>{
+    //      const imgData2 = canvas.toDataURL("image/png"); 
+          
+    //      const pdf = new jsPDF("p", "pt", "a4");
+    //      pdf.addImage(imgData, "JPEG", 0, 0);
+ 
+    //      pdf.addPage();    
+    //      pdf.addImage(imgData2, "JPEG", 0, 0);
+    //      pdf.save("Invoice.pdf"); 
+    //   });
+    //  });
+    
+  ;
+
+    console.log('red', img1);
+   
 }
 const handleChange = (value) =>{
     console.log("value", value);
@@ -137,7 +156,7 @@ return <div>
           {label: 'Mongolian', value: 'mn'},
           {label: 'English & Mongolian', value: 'enMn'},
         ]}]}/>
-    <Button onClick={downloadPdf} type="primary" icon={<DownloadOutlined />}>Download pdf {console.log("ss", formText)}</Button>
+    <Button onClick={downloadPdf} type="primary" icon={<DownloadOutlined />}>Download pdf</Button>
     </div>
 <div id="invoice" style={{marginTop: "-30px"}}>   
 <div style={{width: "50px", height: "50px", background: "#fff"}}></div>
@@ -166,7 +185,7 @@ return <div>
             </div>
             <div style={{marginTop: "10px", textAlign: "right", fontWeight: "600", lineHeight: "30px", width: "329px", marginLeft: "50px"}} >
                 <div style={{display: "flex"}}>  
-                    <div style={{width: "164px", textAlign: "left"}}>{formValue === "mn" ? formText[5].invoNumb.mn : formText[5].invoNumb.en}:  </div>
+                    <div style={{width: "186px", textAlign: "left"}}>{formValue === "mn" ? formText[5].invoNumb.mn : formText[5].invoNumb.en}:  </div>
                     <div style={{width: "50%", textAlign: "right"}}>XXXXXXXXX</div>
                 </div>
                 <div style={{display: "flex" }}> 

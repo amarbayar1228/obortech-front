@@ -1,4 +1,62 @@
-.Title{
+.Title {
     font-size: 18px;
     text-transform: uppercase;
+}
+
+.DashFlex {
+    display: flex;
+
+}
+
+.Box {
+    display: flex;
+    width: 300px;
+    height: 150px;
+    box-shadow: 1px 1px 3px 1px #ebebeb;
+    margin: 10px 40px;
+    border-radius: 10px;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.Col1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* background: red; */
+    /* height: 90px; */
+    padding: 15px;
+}
+
+.Col2 {
+    display: flex;
+    background-color: #f9f9f9;
+    justify-content: space-between;
+    align-items: center;
+    height: 46px;
+    padding: 15px;
+}
+
+.DPrice {
+    font-size: 22px;
+    font-weight: 600;
+    color: #4d5052;
+}
+
+.DIcon {
+    font-size: 20px;
+    color: #4d5052;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* padding-right: 20px; */
+    /* padding: 5px 15px; */
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid #4d5052;
+}
+
+.DMethod {
+    color: #4d5052;
 }
