@@ -10,8 +10,8 @@
 
 .Box {
     display: flex;
-    width: 300px;
-    height: 150px;
+    width: 350px;
+    /* height: 150px; */
     box-shadow: 1px 1px 3px 1px #ebebeb;
     margin: 10px 40px;
     border-radius: 10px;
@@ -35,12 +35,16 @@
     align-items: center;
     height: 46px;
     padding: 15px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background: #6b696a;
 }
 
 .DPrice {
     font-size: 22px;
     font-weight: 600;
-    color: #4d5052;
+    color: #6b696a;
+
 }
 
 .DIcon {
@@ -58,5 +62,80 @@
 }
 
 .DMethod {
-    color: #4d5052;
+    color: #b1b1b1;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.HdrDetails {
+    display: flex;
+    background: #4d5052;
+    padding: 10px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.HdrDetails2 {
+    display: flex;
+    /* background: #f9f9f9; */
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    /* margin-bottom: 10px; */
+}
+
+.Date {
+    width: 90px;
+}
+
+.Currency {
+    width: 73px;
+}
+
+.OrgName {
+    width: 150px;
+}
+
+.Amount {
+    width: 70px;
+}
+
+.Status {}
+
+.Tips {
+    font-size: 12px;
+    color: rgb(239 68 68);
+    padding: 30px;
+    background: rgb(254 242 242);
+    margin: 10px;
+    font-weight: 600;
+    box-shadow: 1px 1px 3px 1px #ebebeb;
+}
+
+.TitleFlex {
+    display: flex;
+    align-items: center;
+    margin: 10px 0px;
+}
+
+.TitleFlex2 {
+    display: flex;
+    margin-left: 10px;
+}
+
+.RedIcon {
+    background-color: red;
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+    margin-right: 10px;
+
+}
+
+.CircleYel {
+    border: 2px solid #4d5052;
+    border-radius: 50%;
+    margin-right: 10px;
+    width: 10px;
+    height: 10px;
+
 }
