@@ -115,6 +115,7 @@ setSortedInfo(sorter);
 };
 const getItems = () =>{
     console.log("props add: ", props);
+    setSpinner(true);
     const body = {
     func: "getItems",
     status: "0,1",
@@ -122,6 +123,7 @@ const getItems = () =>{
     axios.post("/api/post/Gate", body).then((res) => { 
         // console.log("item state: ", res.data.getItems.list);
         // setItemData(res.data.getItems.list);
+        setSpinner(false);
         if(res.data.getItems.error){
             console.log("aldaa");
             setItemData([]);

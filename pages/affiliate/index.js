@@ -13,6 +13,7 @@ import AdminAcceptUser from "../../components/Affiliate comp/AdminAcceptUser";
 import AcceptCompanys from "../../components/Affiliate company/AcceptCompanys";
 import NewCompanyRequest from "../../components/Affiliate company/NewCompanyRequest";
 import AdminAcceptCompany from "../../components/Affiliate company/AdminAcceptCompany"; 
+import BasketContext from "../../context/basketContext/BasketContext";
 const { TabPane } = Tabs;
 const { Panel } = Collapse;
 const { confirm } = Modal;
@@ -27,7 +28,12 @@ const [segmentValue, setSegmentValue] = useState("newUserRequest");
 const [segmentValueUser, setSegmentValueUser] = useState("acceptUser");
 const [compLength, setCompanyLength] = useState(0);
 const [userLength, setUserLength] = useState(0);
+const [loggedLoad, setLoggedLoad]= useState(true);
+const basketContext = useContext(BasketContext);
 useEffect(()=>{
+  setTimeout(()=>{
+    setLoggedLoad(false); 
+  },800);
   segmentFuncUser();
   segmentFunc();
 },[])
@@ -160,7 +166,9 @@ const segmentFuncUser = (a) => {
   
   return (
     <BaseLayout pageName="affiliate">
+       {loggedLoad ? <Spin style={{display: "flex", alignItems: "center", justifyContent: "center", marginTop: "100px"}}/> :
       <div className={css.Split}>
+         {basketContext.userInfoProfile ?
         <div style={{background: "#fff",width: "97%",marginLeft: "20px"}}>
         <Tabs defaultActiveKey="4" 
           items={["a","a"].map((Icon, i) => {  
@@ -206,7 +214,9 @@ const segmentFuncUser = (a) => {
         />
  
         </div>
-      </div>
+        : <Empty style={{margin: "30px auto"}}/> }
+      </div> 
+      }
     </BaseLayout>
   );
 };

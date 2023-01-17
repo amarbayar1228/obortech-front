@@ -1,6 +1,6 @@
-import { Button, Divider, Input, message, Modal, Tabs } from "antd";
+import { Button, Divider, Empty, Input, message, Modal, Spin, Tabs } from "antd";
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import BaseLayout from "../../components/Layout/BaseLayout";
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 
@@ -10,6 +10,7 @@ import TokenPercentage from "../../components/Setting comp/tokenPercentage";
 import sha256 from "sha256";
 import InvoiceDate from "../../components/Setting comp/InvoiceDate";
 import ReCAPTCHA from "react-google-recaptcha";
+import BasketContext from "../../context/basketContext/BasketContext";
 
 const EditableCell = ({
   editing,
@@ -51,8 +52,13 @@ const [formLogin] = Form.useForm();
 const [, forceUpdate] = useState({});
 const [showInc, setShowInc] = useState(false);
 const recaptchaRef = useRef();
-const [userFormCapt, setUserFormCapt] = useState(true)
+const [userFormCapt, setUserFormCapt] = useState(true);
+const [loggedLoad, setLoggedLoad]= useState(true);
+const basketContext = useContext(BasketContext);
 useEffect(()=>{
+  setTimeout(()=>{
+    setLoggedLoad(false); 
+  },800);
     getPercentage();
     forceUpdate({});
 },[])
@@ -203,61 +209,68 @@ const errorCapt = (err) =>{
   console.log("err", err);
 }
     return<BaseLayout pageName="global-settings">
-      {showInc === false ?
-      <div>
-        <div> <Divider orientation="left" > You must log in </Divider></div>
-      <Form form={formLogin} name="horizontal_login" layout="inline" onFinish={onFinish2}>
-        <Form.Item name="username" rules={[{required: true, message: 'Please input your username!'}]}>
-          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
-        </Form.Item>
-        <Form.Item name="password" rules={[{required: true, message: 'Please input your password!'}]}>
-            <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password"/>
-        </Form.Item>
-       
-        <Form.Item shouldUpdate>{() => (<Button type="primary" htmlType="submit" disabled={userFormCapt}>Log in</Button>)}
-        </Form.Item>
-      </Form>
-      <div style={{marginBottom: "20px", marginTop: "20px"}}>
-            <ReCAPTCHA   onErrored={errorCapt}  ref={recaptchaRef} sitekey="6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t" onChange={onChangeCaptcha}/>
-        </div>
-    </div>
-      : 
-        <Tabs defaultActiveKey="4" items={["a","b"].map((Icon, i) => {  
-        
-        return {label: i === 0 ?  <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>Percentage</div> :
-                      i === 1 ? <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>Other settings</div> : null,
-          
-          key: i, children: i === 0? 
-          <div className={css.PaymentCss}> 
-               {/* <Button type="primary" onClick={showModal}>
-                   + Update
-                </Button> */}
-                {/* <Modal title="Incentive" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-                     <div>
-                       <div style={{marginBottom: "5px", fontSize: "16px"}}>  Default incentive percentage: </div>
-                        <Input placeholder="Please enter your incentive percentage?" onChange={(e)=>setIncentive(e.target.value)}/>
-                     </div>
-                </Modal> */}
-            
-                <div> 
-                <Divider orientation="left" >Default Percentage</Divider>
-                <Form form={form} component={false}>
-                    <Table components={{body: {cell: EditableCell,},}} bordered dataSource={data} columns={mergedColumns} rowClassName="editable-row" pagination={{onChange: cancel,}}/>
-                </Form>
-                </div>
-                <Divider orientation="left" >Token Percentage</Divider>
-            <TokenPercentage />
-          </div> 
-          : i === 1 ? <div className={css.PaymentCss}> 
-              <div>
-                <InvoiceDate />
-              </div>
-                 
-          </div> : null,
-        };
-        })}/> 
-      }
+{loggedLoad ? <Spin style={{display: "flex", alignItems: "center", justifyContent: "center", marginTop: "100px"}}/> : 
+<> 
+{basketContext.userInfoProfile ? 
 
+<> 
+{showInc === false ?
+<div>
+<div> <Divider orientation="left" > You must log in </Divider></div>
+<Form form={formLogin} name="horizontal_login" layout="inline" onFinish={onFinish2}>
+<Form.Item name="username" rules={[{required: true, message: 'Please input your username!'}]}>
+<Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+</Form.Item>
+<Form.Item name="password" rules={[{required: true, message: 'Please input your password!'}]}>
+  <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password"/>
+</Form.Item>
+
+<Form.Item shouldUpdate>{() => (<Button type="primary" htmlType="submit" disabled={userFormCapt}>Log in</Button>)}
+</Form.Item>
+</Form>
+<div style={{marginBottom: "20px", marginTop: "20px"}}>
+  <ReCAPTCHA   onErrored={errorCapt}  ref={recaptchaRef} sitekey="6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t" onChange={onChangeCaptcha}/>
+</div>
+</div>
+: 
+<Tabs defaultActiveKey="4" items={["a","b"].map((Icon, i) => {  
+
+return {label: i === 0 ?  <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>Percentage</div> :
+            i === 1 ? <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>Other settings</div> : null,
+
+key: i, children: i === 0? 
+<div className={css.PaymentCss}> 
+      {/* <Button type="primary" onClick={showModal}>
+          + Update
+      </Button> */}
+      {/* <Modal title="Incentive" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+            <div>
+              <div style={{marginBottom: "5px", fontSize: "16px"}}>  Default incentive percentage: </div>
+              <Input placeholder="Please enter your incentive percentage?" onChange={(e)=>setIncentive(e.target.value)}/>
+            </div>
+      </Modal> */}
+  
+      <div> 
+      <Divider orientation="left" >Default Percentage</Divider>
+      <Form form={form} component={false}>
+          <Table components={{body: {cell: EditableCell,},}} bordered dataSource={data} columns={mergedColumns} rowClassName="editable-row" pagination={{onChange: cancel,}}/>
+      </Form>
+      </div>
+      <Divider orientation="left" >Token Percentage</Divider>
+  <TokenPercentage />
+</div> 
+: i === 1 ? <div className={css.PaymentCss}> 
+    <div>
+      <InvoiceDate />
+    </div>
+        
+</div> : null,
+};
+})}/> 
+}
+</>
+: <Empty /> }
+</>}
     </BaseLayout>
 }
 export default GlobalSettings;

@@ -40,9 +40,15 @@ const OrderHistory = () => {
   const [orderHdrInfo, setOrderHdrInfo] = useState("");
   const [showItem, setShowItem] = useState(0);
   const [itemHdrData, setItemHdrData] = useState();
+  const [loggedLoad,setLoggedLoad ] = useState(true); 
   useEffect(() => {  
+    console.log("basketContext: ", basketContext);
+    setTimeout(()=>{
+        setLoggedLoad(false); 
+      },800);
     getOders();  
   }, []); 
+ 
   const showModal = (a) => {
     setOrderSpin(true) 
     setIsModalOpen(true);
@@ -181,7 +187,7 @@ const handleCancelUser = () =>{
 }
 const columns = [
   {
-    title: <span>Order id</span>,
+    title: <span>{basketContext.t('orderId', { ns: 'order-history' })}</span>,
     dataIndex: 'orderid',
     key: 'orderid', 
     fixed: "left",
@@ -192,14 +198,14 @@ const columns = [
     ...getColumnSearchProps('orderid'),
   },
   {
-    title: 'Date',
+    title: basketContext.t('date', { ns: 'order-history' }),
     dataIndex: 'date',
     key: 'date', 
     ellipsis: true,
     width: 80,
   },
   {
-    title: 'Organization id',
+    title: basketContext.t('orgName', { ns: 'order-history' }),
     dataIndex: 'organization',
     key: 'organization',
     width: 120,
@@ -210,7 +216,7 @@ const columns = [
   },
   
   {
-    title: 'Total price',
+    title: basketContext.t('totalPrice', { ns: 'order-history' }),
     dataIndex: 'price',
     key: 'price',
     ellipsis: true,
@@ -218,7 +224,7 @@ const columns = [
   },
 
   {
-    title: 'Invoice', 
+    title: basketContext.t('invoice', { ns: 'order-history' }), 
     key: 'invoice',
     ellipsis: true,
     width: 90,
@@ -231,14 +237,14 @@ const columns = [
     responsive: ['md'],
   },
   {
-    title: 'Paymethod',
+    title: basketContext.t('payMethod', { ns: 'order-history' }),
     dataIndex: 'paymethod',
     key: 'paymethod',
     width: 50,
     ellipsis: true,
   },
   {
-    title: 'Status', 
+    title: basketContext.t('status', { ns: 'order-history' }), 
     dataIndex: 'status',
     key: 'status',
     ellipsis: true, 
@@ -250,20 +256,20 @@ const columns = [
     width: 90,
   },
   {
-    title: 'Items',
+    title: basketContext.t('items', { ns: 'order-history' }),
     width: 80,
     key: 'action',
     fixed: "right",
     ellipsis: true,
     render: (_, record) => (
       <Space size="middle">
-        <Button onClick={()=>showModal (record)} size="small" type="dashed" shape="round">Show</Button> 
+        <Button onClick={()=>showModal (record)} size="small" type="dashed" shape="round">{basketContext.t('show', { ns: 'order-history' })}</Button> 
     
       </Space>
     ),
   },
   {
-    title: 'Action', 
+    title: basketContext.t('action', { ns: 'order-history' }), 
     key: 'action',
     width: 80,
     render: (_, record) => (
@@ -308,19 +314,24 @@ const groupDeitalsFunc = (data, index) =>{
 }
   return (
 <BaseLayout pageName="order-history"> 
+
+{loggedLoad ? <Spin style={{display: "flex", alignItems: "center", justifyContent: "center", marginTop: "100px"}}/> : 
+<> 
+{basketContext.userInfoProfile ?
+<> 
 {orderNull === 1 ?
 <div> 
 <div className={css.OrderTitle}>
-  <Divider orientation="left"> Order history</Divider>
+  <Divider orientation="left">{basketContext.t('title', { ns: 'order-history' })}</Divider>
 </div>
 {/* ================================================= item info modal ===================================================================== */}
-<Modal title="Items info" open={isModalOpen} footer={null} onOk={handleOk} onCancel={handleCancel}>
+<Modal title={basketContext.t('itemsInfo', { ns: 'order-history' })} open={isModalOpen} footer={null} onOk={handleOk} onCancel={handleCancel}>
   <div>
   {orderSpin ? <Spin className={css.SpinCss}/> : 
     <>  
     <div className={css.OrderHdrLaCss}>
       <div className={css.DateCss}>
-        <div className={css.OrderIdCss}> Order ID: #{orderHdrInfo.orderid}</div>
+        <div className={css.OrderIdCss}>{basketContext.t('orderId', { ns: 'order-history' })} : #{orderHdrInfo.orderid}</div>
         <div>  {orderHdrInfo.date}</div>
       </div>
     </div>
@@ -339,7 +350,7 @@ const groupDeitalsFunc = (data, index) =>{
             </div>
             <div className={css.TotalPricecc}> 
             {e.state === 2 ? "" : 
-              <div><Button onClick={()=>groupDeitalsFunc(e, i)} size="small" shape="round" type="dashed" style={{fontWeight: "500", color: "rgb(6 78 59)"}}>Group details: </Button> </div>}
+              <div><Button onClick={()=>groupDeitalsFunc(e, i)} size="small" shape="round" type="dashed" style={{fontWeight: "500", color: "rgb(6 78 59)"}}>{basketContext.t('groupDetails', { ns: 'order-history' })}: </Button> </div>}
               <div className={css.Pricecss}>{e.price.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,")}$</div>
             </div> 
             
@@ -351,10 +362,10 @@ const groupDeitalsFunc = (data, index) =>{
       <div>
         <div className={css.BackTitle}> 
           <Button type="link" onClick={()=> setShowItem(0)} size="small"><ArrowLeftOutlined /></Button> 
-          <div>Group items</div>
+          <div>{basketContext.t('groupItems', { ns: 'order-history' })}</div>
         </div>
           <div className={css.Titledecs}>{itemHdrData.title} </div> 
-          <div className={css.Detailsdecs}>{itemHdrData.description}{console.log("aa", itemHdrData)}</div>
+          <div className={css.Detailsdecs}>{itemHdrData.description}</div>
         
           
               <div className={css.OrderDetailsHide}> 
@@ -384,13 +395,13 @@ const groupDeitalsFunc = (data, index) =>{
       }
     </div>
 
-    <div className={css.TotalPriceInfo}>Total price:  {showItem === 0 ? orderHdrInfo.price : itemHdrData.price} $ </div>
+    <div className={css.TotalPriceInfo}>{basketContext.t('totalPrice', { ns: 'order-history' })}:   {showItem === 0 ? orderHdrInfo.price : itemHdrData.price} $ </div>
     </> } 
   </div>
 </Modal>
 
 {/* ================================================= User info modal ===================================================================== */}
-<Modal title="User info" open={isModalUserInfo} footer={null} onCancel={handleCancelUser}>
+<Modal title={basketContext.t('userInfo', { ns: 'order-history' })} open={isModalUserInfo} footer={null} onCancel={handleCancelUser}>
   <div>
       {userSpin ? <Spin size="large" className={css.SpinUser}/> : 
       <div>  
@@ -399,11 +410,11 @@ const groupDeitalsFunc = (data, index) =>{
           <Image preview={false} alt="Obertech" src={userInfoS.img === "-" ? "/img/user.png" : "data:image/png;base64," + userInfoS.img } className={css.Img}/></div>
         <div className={css.Info}> 
         <div className={css.TitleInfo}>
-            <div className={css.TitleChild}>Full name: </div>
-            <div className={css.TitleChild}>Email: </div>
-            <div className={css.TitleChild}>Job title: </div>
-            <div className={css.TitleChild}>Phone: </div>
-            <div className={css.TitleChild}>address: </div>
+            <div className={css.TitleChild}>{basketContext.t('fullName', { ns: 'order-history' })} : </div>
+            <div className={css.TitleChild}>{basketContext.t('email', { ns: 'order-history' })} : </div>
+            <div className={css.TitleChild}>{basketContext.t('jobTitle', { ns: 'order-history' })} : </div>
+            <div className={css.TitleChild}>{basketContext.t('phone', { ns: 'order-history' })} : </div>
+            <div className={css.TitleChild}>{basketContext.t('address', { ns: 'order-history' })} : </div>
         </div>
         <div className={css.Description}>
             <div className={css.TitleChild2}>{userInfoS.lastname}  {userInfo.userInfoS}</div>
@@ -429,6 +440,10 @@ const groupDeitalsFunc = (data, index) =>{
   <div className={css.TableScroll}><Table size="small" columns={columns} dataSource={data} loading={loading} scroll={{x:  400, y: 600 }} /></div> 
 } 
 </div>: loadingPage ? <Spin className={css.SpinCss}/> : <Empty />} 
+</>
+: <Empty />}
+</>
+}
 </BaseLayout>
 );
 };

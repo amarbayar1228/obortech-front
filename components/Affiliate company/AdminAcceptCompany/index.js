@@ -558,7 +558,7 @@ return <div>
     ) : rejectValue == 8 ? (<Tooltip title="Canceled"><Badge status="error" text="C" style={{fontSize: "12px", color: "#722ed1"}}/></Tooltip>) : (<Tooltip title="..."><Badge status="default" text="..." /></Tooltip>)} 
     </div>
 </div> 
-<div style={{fontWeight: "600"}}>1. Prospect contact information</div>
+<div style={{fontWeight: "600",  background: "#4d5052", color: "#fff", padding: "3px 8px"}}>1. Prospect contact information</div>
 <div className={css.Prospect1}>
     <div className={css.ProspectTitle}>First name:</div>
     <div className={css.ProspectTitle2}>{companyInfo ? companyInfo.firstname : "null"}</div>
@@ -576,7 +576,7 @@ return <div>
         <div className={css.ProspectTitle2}>{companyInfo ? companyInfo.email : "null"}</div>
       </div>
       
-<div style={{fontWeight: "600", marginTop: "15px"}}>2. Prospect company information</div> 
+<div style={{fontWeight: "600", marginTop: "15px",  background: "#4d5052", color: "#fff", padding: "3px 8px"}}>2. Prospect company information</div> 
 {companyInfo === undefined ? "" : 
   <>
   <div className={css.Prospect1}>

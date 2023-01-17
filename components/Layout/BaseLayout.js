@@ -30,7 +30,11 @@ export default function BaseLayout(props) {
   const [toogleCss, setToogleCss] = useState(false);
   const [settingToggle, setSettingToggle] = useState(false);
   const [matches, setMatches] = useState("(min-width: 590px)"); 
+  const [loggedLoad, setLoggedLoad]= useState(true);
   useEffect(() => {  
+    setTimeout(()=>{
+      setLoggedLoad(false); 
+    },800);
     getProfile();
     console.log("layout");
  
@@ -265,6 +269,7 @@ export default function BaseLayout(props) {
   </div>
 
   {/* {basketContext.orgId == undefined ? null : <div className={css.OrgIdTextMobile}> <Tooltip placement="left" color="green" title={basketContext.orgId}>{basketContext.orgId}</Tooltip></div> } */}
+
 {/* Moblie ============================================================= */}
   <div className={css.MenuMobile}>
       {/* =====> Sags */}
@@ -446,9 +451,11 @@ export default function BaseLayout(props) {
     )}
   <div style={{borderLeft: "1px solid #ccc", marginLeft: "16px", paddingTop: "2px"}}><Popover content={changeLanguage}><Button type="link" className={css.Icons}><GlobalOutlined /></Button></Popover></div>
   </div>
+
 </div>
  
 {/* Layout ============================================================================== */}
+{loggedLoad ? <Spin style={{display: "flex", alignItems: "center", justifyContent: "center", marginTop: "100px"}}/> : 
 <div className={props.pageName === "payment" ? css.Layout2 : css.Layout}>
 {localStorageUserId === "Null" ? null  : <>
 {props.pageName === "home" || props.pageName === "login" || props.pageName === "items" ||props.pageName === "register" || 
@@ -552,7 +559,7 @@ props.pageName === "payment" ? css.ContentPayment : css.Content}>
 
 </div>
  </div> 
- 
+}
 
 
 

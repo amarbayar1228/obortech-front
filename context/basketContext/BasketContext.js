@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { message } from "antd";
 import axios from "axios";
+import { useTranslation } from "next-i18next";
 const BasketContext = React.createContext();
 export const BasketItem = (props) => {
   const [basketState, setBasketState] = useState([]);
@@ -14,8 +15,11 @@ export const BasketItem = (props) => {
   const [todayDateState,setTodayDateState] = useState();
   const [orgId, setOrgId] = useState(undefined);
   const [orgNames, setOrgNames] = useState([]);
+  const { t } = useTranslation(["login", "organization", "dashboard", "order-history"]); 
+
   const router = useRouter();
   useEffect(() => {   
+    console.log("login locize: ", t("Create An Account"));
     Locazi();
     basketStateFunc();
     routerFunction();
@@ -26,7 +30,9 @@ export const BasketItem = (props) => {
     orgIdLocal(); 
   }, []);
 const Locazi = () =>{
-  console.log("locazi");
+  console.log("locazi =============> 2: ", t("Create An Account"));
+  console.log("object");
+  console.log("locazi ========> home: ", t("Enter your organization ID"));
 }
   const onCollapse = (e) => {
     setCollapsed(e);
@@ -207,7 +213,7 @@ const orgIdRemove = () =>{
   }
   return (
     <BasketContext.Provider
-      value={{ orgNames,
+      value={{ orgNames, t,
         orgId, orgIdLocal, groupDetailFuncContext, clearBasket,orgIdRemove,
         basketState, getUserProfileFunction, userInfoProfile, onCollapse, toggle, hanshnuud, collapsed, basketItemDelete,
         totalPriceFunction2, totalPriceState, removeBasketStorage, decline,

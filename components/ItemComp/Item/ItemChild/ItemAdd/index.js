@@ -16,7 +16,7 @@ useEffect(()=>{
     console.log("props: ", props);
 },[])
 const showModal = () =>{
-    console.log("object", props);
+    console.log("props: ", props);
     setIsModalVisible(true);
 }
 const  onFinishAddItem = (values) =>{ 
@@ -112,7 +112,7 @@ return <div>
     <Button type="primary"  onClick={showModal}>+ add item</Button>
     <Modal title="Add item" footer={null} open={isModalVisible} cancelText="cancel" okText="OK"  onCancel={handleCancel}>
     <div>
-    <Form form={formAddItem} name="normal_login" className={css.LoginForm} labelCol={{span: 7}} wrapperCol={{span: 16}} initialValues={{remember: true}} onFinish={onFinishAddItem} onFinishFailed={onFinishFailedAddItem}>
+    <Form form={formAddItem} layout="vertical" name="normal_login" className={css.LoginForm} labelCol={{span: 7}} wrapperCol={{span: 25}} initialValues={{remember: true}} onFinish={onFinishAddItem} onFinishFailed={onFinishFailedAddItem}>
    
     <Form.Item label={"Item name"} name="itemName" rules={[{required: true,message: "Please input your First name!"}]}><Input placeholder={"Item name"}/></Form.Item>
     <Form.Item label={"Description"} name="descrip2" rules={[{required: true, message: "Please input your description!"}]}><TextArea placeholder={"Item description"}/></Form.Item>  
@@ -147,7 +147,7 @@ return <div>
 </div>: null}
 </div>
 </div>
-    <Form.Item><div className={css.Ok}><Button type="primary" htmlType="submit" className="login-form-button">Add</Button></div></Form.Item>
+    <Form.Item><div className={css.Ok}><Button style={{width: "100%"}} size="large" type="primary" htmlType="submit" className="login-form-button">+ Add</Button></div></Form.Item>
     </Form>   
     </div>
     </Modal>

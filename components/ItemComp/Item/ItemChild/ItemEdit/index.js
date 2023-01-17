@@ -250,7 +250,7 @@ initialValues={{
 </>
 
 {/* <div><Button onClick={()=> formEdit.resetFields()}>Reset</Button></div> */}
-<Form.Item><div style={{marginBottom: "-35px"}}><Button type="primary" htmlType="submit" className="login-form-button" style={{width: "100%"}}>Update</Button></div></Form.Item> 
+<Form.Item><div style={{marginBottom: "-35px"}}><Button type="primary" htmlType="submit" className="login-form-button" size="large" style={{width: "100%"}}>Update</Button></div></Form.Item> 
 </Form> 
 </Modal>
 </div>
