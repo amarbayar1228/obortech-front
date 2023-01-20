@@ -49,8 +49,11 @@ const Items = () => {
       }).catch((err) => {console.log(err)}); 
   }; 
   const SagsandNemeh = (data, index) => {
+
     let basketA = [];
     let notArrived = true;
+    let notArrived2 = true;
+    let Overlap = true;
     basketA = JSON.parse(localStorage.getItem("basket")) ?? [];
     if (basketA.length < 1) {
       basketA.push({product: [],});
@@ -58,14 +61,48 @@ const Items = () => {
     }
     basketA.forEach((e, i) => {
       e.product.forEach((e, indexs) => {
+        // console.log("garaas:", data.type_);
+        // console.log("local: ", e.type_);
+
         if (data.pkId === e.pkId) {
+          basketA[i].product[indexs].cnt++;
+          localStorage.setItem("basket", JSON.stringify(basketA));
+        //   console.log("basket: ", basketA[i].product[0].cnt++ );
+        //   console.log("basket2: ", basketA[i].product[0]);
+        //   // basketA[i].product.push(data);
+        // localStorage.setItem("basket", JSON.stringify(basketA));
           notArrived = false;
-          message.warn("It's in the cart!");
+          message.warn("Added to cart!");
           basketContext.basketStateFunc();
           popFunc();
-          getItems();
+          // getItems();
+        }else if(e.type_ === 21){ 
+            if(data.type_ === 22){
+              Overlap = false;
+              notArrived = false; 
+            } 
+        }else if(e.type_ === 22){ 
+            if(data.type_ === 21){
+               
+              Overlap = false;
+              notArrived = false; 
+            } 
         }
+
+     
       });
+      if(Overlap === false){
+          message.error("Error");
+      }
+      // if(notArrived2){
+      //   basketA[i].product.push(data);
+      //   localStorage.setItem("basket", JSON.stringify(basketA));
+      //   popFunc();
+      //   basketContext.basketStateFunc();
+      //   message.success("Added to cart!");
+      //   basketContext.totalPriceFunction2();
+      // }
+      
       if (notArrived) {
         basketA[i].product.push(data);
         localStorage.setItem("basket", JSON.stringify(basketA));
@@ -74,6 +111,7 @@ const Items = () => {
         message.success("Added to cart!");
         basketContext.totalPriceFunction2();
       }
+
     });
   };
   const groupBasketAdd = (data, index) => {
@@ -120,13 +158,15 @@ const Items = () => {
      })
   }
   return (
-    <BaseLayout pageName="items" addItemStyle={addItemStyle} style={{ maxWidth: "100%" }}>
+    <BaseLayout pageName="items" addItemStyle={addItemStyle} style={{ maxWidth: "100%", fontFamily: "Roboto Condensed, sans-serif" }}> 
       {basketContext.orgId === undefined ? <Empty style={{marginTop: "100px"}}/> :  
-       <div className={css.ScrollItemsCont}>
+       <div className={css.ScrollItemsCont} style={{fontFamily: "Roboto Condensed, sans-serif"}}>
            
         <div>
         <Swiper pagination={true} modules={[Pagination]} className={css.mySwiper}>
-          <SwiperSlide className={css.SlideCss}><h3 className={css.BackgrounImg} style={{background: "url(/img/obBack1.png) no-repeat",display: "flex", justifyContent: "space-between", margin: 0, padding: "0", overflow: 'hidden'}}>{snow()}</h3> </SwiperSlide>
+          <SwiperSlide className={css.SlideCss}><h3 className={css.BackgrounImg} style={{background: "url(/img/obBack1.png) no-repeat",display: "flex", justifyContent: "space-between", margin: 0, padding: "0", overflow: 'hidden'}}>
+            {/* {snow()} */}
+            </h3> </SwiperSlide>
           <SwiperSlide className={css.SlideCss}><h3 className={css.BackgrounImg} style={{background: "url(/img/obBack3.png) no-repeat"}}></h3></SwiperSlide>
           <SwiperSlide className={css.SlideCss}><h3 className={css.BackgrounImg} style={{background: "url(/img/obBack2.png) no-repeat"}}></h3></SwiperSlide> 
         </Swiper>

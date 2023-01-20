@@ -15,7 +15,7 @@ export const BasketItem = (props) => {
   const [todayDateState,setTodayDateState] = useState();
   const [orgId, setOrgId] = useState(undefined);
   const [orgNames, setOrgNames] = useState([]);
-  const { t } = useTranslation(["login", "organization", "dashboard", "order-history"]); 
+  const { t } = useTranslation(["login", "organization", "dashboard", "order-history", "security"]); 
 
   const router = useRouter();
   useEffect(() => {   

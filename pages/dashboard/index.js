@@ -62,14 +62,14 @@ const columns = [
   },
   {
     title: 'Payment method',
-    width: 300,
+    width: 200,
     dataIndex: 'paymentCondition',
     key: 'paymentCondition',
    
   },
   {
     title: 'Address',
-    width: 400,
+    width: 300,
     dataIndex: 'address',
     key: 'address',
     // fixed: 'left',
@@ -85,6 +85,7 @@ const columns = [
     dataIndex: 'status',
     key: 'status', 
     ellipsis: true,
+    width: 150,
     render: (a)=>
       <div>  
         {a === 2 ? <Badge status="processing" text="Processing" /> : ""}
@@ -109,7 +110,7 @@ for (let i = 0; i < 5; i++) {
     date: `2023-01-02 ${i}`,
     currency: "Төгрөг",
     paymentCondition: "trade and development bank",
-    address: `London Park no. ${i}`,
+    address: `530101929${i}`,
     amount: "230,000₮",
     status: 2,
   });
@@ -139,6 +140,7 @@ const handleCancelWithdraw = () =>{
           <div className={css.Box}>
             <div className={css.Col1}>
               <div> 
+                <div style={{color: "#727272"}}>Wallet</div>
                 <div className={css.DPrice}>132,000.0₮</div>
                 <div className={css.DMethod}>MNT</div>
               </div>
@@ -156,6 +158,7 @@ const handleCancelWithdraw = () =>{
           <div className={css.Box}>
             <div className={css.Col1}>
               <div> 
+                <div style={{color: "#727272"}}>Wallet</div>
                 <div className={css.DPrice}>$26,000</div>
                 <div className={css.DMethod}>USD</div>
               </div>
@@ -172,6 +175,7 @@ const handleCancelWithdraw = () =>{
           <div className={css.Box}>
             <div className={css.Col1}>
               <div> 
+                <div style={{color: "#727272"}}>Wallet</div>
                 <div className={css.DPrice}>2600 Obot</div>
                 <div className={css.DMethod}>COIN</div>
               </div>
@@ -182,12 +186,14 @@ const handleCancelWithdraw = () =>{
             </div>
             <div className={css.Col2}> 
               <div><Button icon={<EyeOutlined/>} size="small" type="primary" shape="round"></Button></div>
-              <div><Button type="primary" size="small" onClick={showModalWithdraw}>Withdraw</Button></div>
+              <div><Button type="primary" size="small" onClick={showModalWithdraw}> 
+              <Image alt="Obertech" preview={false} src="/img/wallet-money.svg" width={20} style={{paddingRight: "2px"}}/>
+              Withdraw</Button></div>
             </div>
           </div> 
         </div>
         <div style={{width: "95%", margin: "30px auto"}}>
-        <Table columns={columns} dataSource={data} scroll={{x: 1500, y: 300}}/>
+        <Table bordered columns={columns} dataSource={data} scroll={{x: 1200, y: 300}}/>
             <div>
             <Modal title="Details" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
               <div>
@@ -225,7 +231,7 @@ const handleCancelWithdraw = () =>{
             </div>
            <div> 
            <Modal title="Withdraw Balance" open={isModalOpenWithdraw} onOk={handleOkWithdraw} onCancel={handleCancelWithdraw} okText="Withdraw" >
-              <div style={{fontSize: "12px"}}>
+              <div style={{fontSize: "14px"}}>
                 <div>
                 Convert your coins into cryptocurrencies to withdraw to your own wallet. No withdrawals can be refunded.
                 </div>

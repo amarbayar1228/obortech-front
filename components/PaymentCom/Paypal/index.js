@@ -73,7 +73,7 @@ const onFinishFailed = () =>{
     console.log("error");
 }
     return <div className={css.Content}>
-        <Image alt="Obertech" preview={false} src="img/paypalLine.png" width={120}/>
+        <Image alt="Obertech" preview={false} src="/img/paypalLine.png" width={120}/>
         <Form name="normal_login" className="login-form" initialValues={{ remember: true}} validateMessages={validateMessages} labelAlign="left" labelCol={{span: 8,}} wrapperCol={{span: 12}}
             onFinish={onFinished} onFinishFailed={onFinishFailed}>
             <Form.Item name="email" label="Card Number" rules={[{ type: "number", required: true, message: (<div style={{ fontWeight: "500" }}>Please input your Card number!</div>)}]}>

@@ -22,26 +22,26 @@ return <div>
         <div className={css.Scroll} id="left"> 
 
         <div className={css.Banks}>
-            <Image alt="Obertech" preview={false} src="img/boderkhan.png" width={30}/>
+            <Image alt="Obertech" preview={false} src="/img/boderkhan.png" width={30}/>
             <span style={{marginTop: "5px"}}>Khan bank</span>
         </div>
         <div className={css.Banks}>
-        <Image alt="Obertech" preview={false} src="img/borderGolomt.png" width={30} />
+        <Image alt="Obertech" preview={false} src="/img/borderGolomt.png" width={30} />
             <span style={{marginTop: "5px"}}>Golomt bank</span>
         </div>
-        <div className={css.Banks}><Image alt="Obertech" preview={false} src="img/borderHas.png" width={30} />
+        <div className={css.Banks}><Image alt="Obertech" preview={false} src="/img/borderHas.png" width={30} />
         <span style={{marginTop: "5px"}}>Xas bank </span>
             </div> 
-        <div className={css.Banks}><Image alt="Obertech" preview={false} src="img/borderTdb.png" width={30} />
+        <div className={css.Banks}><Image alt="Obertech" preview={false} src="/img/borderTdb.png" width={30} />
         
             <span style={{marginTop: "2px"}}>Trade and Development bank</span>
         </div>
 
-        <div className={css.Banks}><Image alt="Obertech" preview={false} src="img/borderTdb.png" width={30} />
+        <div className={css.Banks}><Image alt="Obertech" preview={false} src="/img/borderTdb.png" width={30} />
         
         <span style={{marginTop: "2px"}}>Trade and Development bank</span>
         </div>
-        <div className={css.Banks}><Image alt="Obertech" preview={false} src="img/borderTdb.png" width={30} />
+        <div className={css.Banks}><Image alt="Obertech" preview={false} src="/img/borderTdb.png" width={30} />
             
             <span style={{marginTop: "2px"}}>Trade and Development bank</span>
         </div>

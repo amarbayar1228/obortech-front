@@ -19,9 +19,27 @@
     margin: 10px 3px;
     width: 100%;
     border: none;
+    line-height: 15px;
+    height: 50px;
     text-align: left;
     font-size: 14px;
     font-weight: 600;
+    text-transform: uppercase;
+}
+
+.Backg2 {
+    box-shadow: 1px 1px 2px 1px #5c5c5c;
+    color: #4d5057;
+    border-radius: 5px;
+    margin: 10px 3px;
+    width: 100%;
+    border: none;
+    line-height: 15px;
+    height: 50px;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
 }
 
 .Backg:hover {
@@ -29,8 +47,17 @@
     color: #4d5057;
 }
 
+.Backg2:hover {
+    box-shadow: 1px 1px 2px 1px rgb(139, 139, 139);
+    color: #4d5057;
+}
+
 .Backg:focus {
-    color: #292a2b;
+    color: #4d5057;
+}
+
+.Backg2:focus {
+    color: #4d5057;
 }
 
 .Layout2 {
@@ -114,6 +141,7 @@
     margin-left: 10px;
     font-size: 12px;
     color: #4d5057;
+    text-transform: uppercase;
 }
 
 .SelectTitle2 {
@@ -178,8 +206,9 @@
 
 .CardFormInput1 {
     color: #4d5057;
-    width: 280px;
-    margin-right: 50px;
+    /* width: 280px; */
+    /* margin-right: 50px; */
+    width: 100%;
 }
 
 .ExpDate {

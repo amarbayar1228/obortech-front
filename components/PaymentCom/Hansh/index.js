@@ -73,15 +73,15 @@ const Hansh = (props) =>{
               <div style={{paddingRight: "10px"}}> 
                <Image alt="Obertech" preview={false} style={{position: "relative",width: "20px",height: "20px",objectFit: "inherit"}} src="/img/usdRate.png"/>
             </div>
-              <div>USD </div> 
-              <div style={{paddingLeft: "4px"}}> - {basketContext.hanshnuud[0].mnt.hansh1} ₮ </div>
+              <div>1 USD - <span style={{color: "#727272"}}>{basketContext.hanshnuud[0].mnt.hansh1}  MNT</span> </div> 
+              {/* <div style={{paddingLeft: "4px"}}> - {basketContext.hanshnuud[0].mnt.hansh1} ₮ </div> */}
             </div> 
             <div className={css.HanshCss}> 
               <div style={{paddingRight: "10px"}}> 
-               <Image alt="Obertech" preview={false} style={{position: "relative",width: "20px",height: "20px",objectFit: "inherit"}} src="/img/HeaderLogo.png"/>
+               <Image alt="Obertech" preview={false} style={{position: "relative",width: "20px",height: "20px",objectFit: "inherit", borderRadius: "50%"}} src="/img/logomin.png"/>
             </div>
-              <div>OBORTECH </div> 
-              <div style={{paddingLeft: "4px"}}> - {basketContext.hanshnuud[1].obot.hansh} Obot </div>
+              <div>1 USD - <span style={{color: "#727272"}}>{basketContext.hanshnuud[1].obot.hansh}  OBOT</span> </div> 
+              {/* <div style={{paddingLeft: "4px"}}> - {basketContext.hanshnuud[1].obot.hansh} OBOT </div> */}
             </div> 
 
       </div> 

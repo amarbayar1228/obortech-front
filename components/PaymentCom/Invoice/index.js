@@ -374,7 +374,7 @@ const handleGeneratePdf = () => {
 
 </div>
 </Modal>  */}
-<div style={{display: "block"}}> 
+<div style={{display: "none"}}> 
                 {/* HTML Body english */}
 <div id="invoiceHtml">  
     <div style={{position: "relative", width: "650px", margin: "0px auto", border: "1px solid #ccc", padding: "40px", color: "#000" }} > 

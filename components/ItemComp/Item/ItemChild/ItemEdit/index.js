@@ -27,7 +27,7 @@ if(props.addItemStatus.type_ === 18 || props.addItemStatus.type_ === 19 || props
         parid: 14,
         type_: 2
     }
-    axios.post("api/post/Gate", body).then((res)=>{
+    axios.post("/api/post/Gate", body).then((res)=>{
         console.log("res", res.data);
         setLevelSping(false);
         setTypeSubValue(res.data.data);
@@ -43,7 +43,7 @@ if(props.addItemStatus.type_ === 18 || props.addItemStatus.type_ === 19 || props
         parid: 15,
         type_: 2
     }
-    axios.post("api/post/Gate", body).then((res)=>{
+    axios.post("/api/post/Gate", body).then((res)=>{
         console.log("res", res.data);
         setLevelSping(false);
         setTypeSubValue(res.data.data);
@@ -59,7 +59,7 @@ if(props.addItemStatus.type_ === 18 || props.addItemStatus.type_ === 19 || props
         parid: 16,
         type_: 2
     }
-    axios.post("api/post/Gate", body).then((res)=>{
+    axios.post("/api/post/Gate", body).then((res)=>{
         console.log("res", res.data);
         setLevelSping(false);
         setTypeSubValue(res.data.data);
@@ -75,7 +75,7 @@ if(props.addItemStatus.type_ === 18 || props.addItemStatus.type_ === 19 || props
         parid: 17,
         type_: 2
     }
-    axios.post("api/post/Gate", body).then((res)=>{
+    axios.post("/api/post/Gate", body).then((res)=>{
         console.log("res", res.data);
         setLevelSping(false);
         setTypeSubValue(res.data.data);
@@ -175,7 +175,7 @@ const onChangeType = (e) =>{
         parid:e.target.value,
         type_: 2
     }
-    axios.post("api/post/Gate", body).then((res)=>{
+    axios.post("/api/post/Gate", body).then((res)=>{
         console.log("res", res.data);
         setLevelSping(false); 
        

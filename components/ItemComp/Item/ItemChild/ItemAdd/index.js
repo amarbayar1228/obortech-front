@@ -97,7 +97,7 @@ const onChangeType = (e) =>{
         parid:e.target.value,
         type_:2
     }
-    axios.post("api/post/Gate", body).then((res)=>{
+    axios.post("/api/post/Gate", body).then((res)=>{
         console.log("res", res.data);
         setLevelSping(false);
         setTypeSubValue(res.data.data);

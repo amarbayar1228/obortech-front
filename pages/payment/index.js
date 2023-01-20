@@ -26,6 +26,7 @@ import ForeignObot from "../../components/PaymentCom/ForeignObot";
 import MongolianObot from "../../components/PaymentCom/MongolianObot";
 import Invoice from "../../components/PaymentCom/Invoice";
 import ReCAPTCHA from "react-google-recaptcha";
+import TextArea from "antd/lib/input/TextArea";
 const { TabPane } = Tabs;
 const { Step } = Steps;
 const { Paragraph } = Typography;
@@ -75,7 +76,9 @@ const Payment = () => {
   const [userInfo, setUserInfo] = useState("");
   const [invoiceBoolean, setInvoiceBoolean] = useState(false);
   const [userFormCapt, setUserFormCapt] = useState(true);
+  const [showBank, setShowBank] = useState(false);
   const [invoiceSuccess, setInvoiceSuccess] = useState(0);
+  const [mntPrice, setMntPrice] = useState(0);
   //const { amaraa } = router.query;
  
   const recaptchaRef = useRef();
@@ -318,9 +321,9 @@ const orgIdChoose = (e) =>{
   // setOrgOnChange()
   setOrgIdRadio(e.target.value);
    
-  if(localStorage.getItem("pkId")){
+  // if(localStorage.getItem("pkId")){
     setShowMethod(true);
-  }
+  // }
 } 
 const  onFinishOrgId= (values) =>{ 
   console.log("values: ", values);
@@ -346,7 +349,7 @@ const BankTypo = (value) =>{
   setBankChoose(value);
 
   // Hansh bodoh
-  console.log("def", defaultMaxFi);
+  // console.log("def", defaultMaxFi);
 
   
 
@@ -355,35 +358,45 @@ const BankTypo = (value) =>{
 
   const obot = 0;
   const convert = defaultMaxFi.Coin / 100;
-  console.log("default",defaultMaxFi.Coin );
-  console.log('convert: ', convert);
+  // console.log("default",defaultMaxFi.Coin );
+  // console.log('convert: ', convert);
   obot = totalPriceState * convert * basketContext.hanshnuud[1].obot.hansh;
 
   const mnt = 0;
   const convert2 = defaultMaxFi.USD / 100;
   mnt = totalPriceState * convert2 * basketContext.hanshnuud[0].mnt.hansh2;
-   console.log("mnt: ", mnt);
-  console.log("xansh", basketContext.hanshnuud);
+  //  console.log("mnt: ", mnt);
+  // console.log("xansh", basketContext.hanshnuud);
   setMntUsdPrice([{ usd: usd.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,"), obot: obot.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,"), mnt: mnt.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,") }]);
   
-  
-
+  const mntr = 0;
+  mntr = totalPriceState* basketContext.hanshnuud[0].mnt.hansh2;
+  setMntPrice(mntr.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,")) 
 }
 const onFinishUserInfo = (values) =>{
-  
-  if(countryCode.length >= 7){ 
-    setShowMethod(true);
-    setUserInfo(values);
-    setUserFormCapt(true);
-    console.log("user", values);
+  console.log("values: ", values);
+  if(values.email){
+    if(countryCode.length >= 7){ 
+      // setShowMethod(true);
+      setShowBank(true);
+      setUserInfo(values);
+      setUserFormCapt(true);
+      console.log("user", values);
+    }else{
+      message.error("Please input your phone number!");
+    }
   }else{
-    message.error("Please input your phone number!");
+      setShowBank(true);
+      setUserInfo(values);
+      setUserFormCapt(true);
   }
+  
  
 }
 const onChangeCaptcha = (a) =>{ 
   console.log("captcha change: ", a);
   a == null ? setUserFormCapt(true) : setUserFormCapt(false);
+
 }
 const errorCapt = (err) =>{
   console.log("err", err);
@@ -620,7 +633,9 @@ const steps = [
         <div className={css.Reminder}>
           <div className={css.OrderSummary}>Order summary</div>
           <div className={css.SubTotal}><div>Subtotal</div> <div> {totalPriceState.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}$</div></div>
-          <div className={css.TotalLenght}><div>Total({basketContext.basketState.length})</div> <div className={css.TotalLPrice}> {totalPriceState.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}$</div></div>
+          <div className={css.TotalLenght}><div>Total 
+          {/* ({basketContext.basketState.length}) */}
+          </div> <div className={css.TotalLPrice}>  {totalPriceState.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}$</div></div>
           <div className={css.ProceedTo}><Button className={css.CheckoutBtn} size="large" onClick={() => next()}>Proceed to Checkout</Button></div>
         </div>
       </div>
@@ -659,7 +674,7 @@ const steps = [
           </div>
         </div>   
         <div className={css.InfoDetails}>
-          {orgIdRadio === 0  || showMethod || localStorage.getItem("pkId") ?  null : 
+          {/* {orgIdRadio === 0  || showMethod || localStorage.getItem("pkId") ?  null : 
             <div className={css.AlertDesk}>
               <div className={css.AlertText}>
                 <Alert message="Informational Notes"
@@ -688,7 +703,7 @@ const steps = [
                 
              </div>
             </div>
-          }
+          } */}
 
         {showMethod ? <div className={css.PayMethod}> 
             <div className={css.PayMethTitle}>Payment Methods</div>
@@ -718,6 +733,7 @@ const steps = [
                      <div className={css.BankImgSize}> 
                        <Image alt="Obertech" preview={false} src="/img/borderTdb.png" width={26}/>
                      </div>
+                     
                    </div>
                  </div>
                  </Typography.Text>
@@ -742,8 +758,8 @@ const steps = [
 
                 <Typography.Text onClick={()=> BankTypo("Coin")}> 
                 <div className={bankChoose === "Coin" ? css.BankCssActive  : css.BankCss}>
-                    {defaultMaxFi.USD}% USD-MNT 
-                    <b style={{fontWeight: "600"}}> {defaultMaxFi.Coin}% <Image alt="Obertech" preview={false} src="/img/HeaderLogo.png" width={20}/> OBOT</b>
+                    {defaultMaxFi.USD}% USD/MNT 
+                    <b style={{fontWeight: "600"}}> <span>  {defaultMaxFi.Coin}% </span>  <Image alt="Obertech" preview={false} src="/img/logoCirc.svg" width={20} /> OBOT</b>
                 </div>
                 </Typography.Text>
 
@@ -849,7 +865,7 @@ const steps = [
               {payInInstallmentsValue === 2 ? <div className={css.CheckOut}><CheckCircleOutlined /></div> : null}
                 <div style={{width: "234px"}}> 
                   <div className={css.CoinFlex1}> 
-                    <div className={css.CoinFlex2}><Image alt="Obertech" preview={false} src="/img/HeaderLogo.png" width={20}/> <div style={{marginLeft: "5px"}}>OBOT</div></div> 
+                    <div className={css.CoinFlex2}><Image alt="Obertech" preview={false} src="/img/logoCirc.svg" width={20}/> <div style={{marginLeft: "5px"}}>OBOT</div></div> 
                     <div className={css.HuwiCss}>{defaultMaxFi.Coin}%</div>
                   </div>
                 </div>
@@ -873,7 +889,7 @@ const steps = [
           </div>
         </div>
 
-        <div className={css.SubTotal}><div><Image alt="Obertech" preview={false} src="/img/HeaderLogo.png" width={20}/><span style={{marginLeft: "2px"}}>Obot</span></div><div className={payInInstallmentsValue === 2 ? css.SubTotalSuccess : null}> 
+        <div className={css.SubTotal}><div><Image alt="Obertech" preview={false} src="/img/logoCirc.svg" width={20}/><span style={{marginLeft: "2px"}}>OBOT</span></div><div className={payInInstallmentsValue === 2 ? css.SubTotalSuccess : null}> 
           {mntUsdPrice[0].obot}
         <span style={{fontSize: "10px", fontWeight: "600"}}> Obot</span><span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / {defaultMaxFi.Coin}%</span></div></div>
         </>
@@ -885,7 +901,7 @@ const steps = [
             <span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / {defaultMaxFi.USD}%</span>
           </div>
         </div>
-        <div className={css.SubTotal}><div><Image alt="Obertech" preview={false} src="/img/HeaderLogo.png" width={20}/><span style={{marginLeft: "4px"}}>Obot</span></div><div className={payInInstallmentsValue === 2 ? css.SubTotalSuccess : null}>  {mntUsdPrice[0].obot}<span style={{fontSize: "10px", fontWeight: "600"}}> Obot</span><span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / {defaultMaxFi.Coin}%</span></div></div>
+        <div className={css.SubTotal}><div><Image alt="Obertech" preview={false} src="/img/logoCirc.svg" width={20} style={{borderRadius: "16px"}}/><span style={{marginLeft: "4px"}}>OBOT</span></div><div className={payInInstallmentsValue === 2 ? css.SubTotalSuccess : null}>  {mntUsdPrice[0].obot}<span style={{fontSize: "10px", fontWeight: "600"}}> Obot</span><span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / {defaultMaxFi.Coin}%</span></div></div>
         </>
         }
 
@@ -898,96 +914,146 @@ const steps = [
         : null }
 
         <div className={css.SubTotal}><div>Subtotal</div> <div> {totalPriceState}$</div></div>
-        <div className={css.TotalLenght}><div>Total({basketContext.basketState.length})</div> <div className={css.TotalLPrice}> 
-                
-        {payInInstallmentsValue === 1 ? totalPriceState * 0.4 : payInInstallmentsValue === 2 ? totalPriceState * 0.6 : totalPriceState.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}$</div></div>
-        <div className={css.ProceedTo}><Button disabled={bankValue === undefined ? true : false} className={css.CheckoutBtn} size="large" onClick={placeOrder}>Place order</Button></div>
+        <div className={css.TotalLenght}><div>Total </div> 
+        <div className={css.TotalLPrice}>  
+        {/* {mntPrice} */}
+        {bankChoose === "Mongol" ? mntPrice  : totalPriceState.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")} 
+          {bankChoose === "Mongol" ? <span style={{fontWeight: "500" }}>₮</span> : "$"}
+         </div>
+        </div>
+        <div className={css.ProceedTo}><Button disabled={bankValue === undefined ? true : false} className={css.CheckoutBtn} size="large" onClick={placeOrder}>Place order</Button>
+          {console.log("paymethod banks: ", bankChoose)}
+        </div>
       </div>
 
   
     </div>
 
-    : <div className={css.PayBanks}> 
+    : <div className={css.PayBanks}>  
         {/* <Button onClick={BackFunc} className={css.BackCss}>Back</Button> */}
-        {bankValue === "khan" || bankValue === "golomt" || bankValue === "Tdb" || bankValue === "Monpay"? 
+        {bankValue === "khan" || bankValue === "Golomt" || bankValue === "Tdb" || bankValue === "Monpay"? 
         <div> 
-        <Tabs defaultActiveKey="4" items={["a","b", "c"].map((Icon, i) => {  
+
+             
+
+
+
+
+{!showBank ? 
+<div className={css.AlertDesk}>
+  <div className={css.AlertText}>
+    <Alert message="Informational Notes"
+      description="Additional description and information about copywriting."
+      type="warning"
+      showIcon
+    />
+  </div>
+  
+  <div className={css.AlertInput}> 
+  <div className={css.AlertName}>Please fill in your information!</div>
+    <Form name="normal_login" className="login-form" initialValues={{ remember: true}} validateMessages={validateMessages} labelAlign="left" labelCol={{span: 8,}} wrapperCol={{span: 22}} onFinish={onFinishUserInfo} onFinishFailed={onFinishFailedUserInfo}>
+      {!localStorage.getItem("pkId") ? <> 
+      <Form.Item name="email" label="Email" rules={[{ type: "email", required: true, message: (<div style={{ fontWeight: "500" }}>Please input your Email!</div>)}]}>
+        <Input size="middle" prefix={<MailOutlined className={css.Title} />} placeholder={"Email"}/>
+      </Form.Item> 
+      <Form.Item name="countryCode" label="Phone Number" rules={[{required: true, message: 'Please input your phone number!'}]}>
+          <PhoneInput   enableSearch={true} country={'us'} value={countryCode} onChange={(e) => setCountryCode(e)} style={{width: "100%"}}/>
+      </Form.Item></>
+      : null }
+      <Form.Item name="description"  tooltip="This is a required field" label="Description" rules={[{   required: true, message: (<div style={{ fontWeight: "500" }}>Please input your Description!</div>)}]}>
+        <TextArea size="middle"  placeholder={"Description"}/>
+      </Form.Item> 
+      <div style={{width: "100%", marginBottom: "20px", display: "flex", justifyContent: "right"}}> 
+    <ReCAPTCHA   onErrored={errorCapt}  ref={recaptchaRef}   sitekey="6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t" onChange={onChangeCaptcha}/>
+    </div>  
+      <Form.Item status="error" wrapperCol={{span: 24}}> <div className={css.Login}><Button disabled={userFormCapt} style={{width: "100%",background: "rgb(244, 63, 94)", border: "none" }} type="primary" htmlType="submit" className="login-form-button" size="large">Continue</Button></div></Form.Item>
+    </Form>   
+  </div>
+</div>
+: null }
+
+{showBank ? 
+<Tabs defaultActiveKey="4" items={["a","b", "c"].map((Icon, i) => {  
+
+return {label: i === 0 ?  <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>Cart</div> :
+            i === 1 ? <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>QPay</div> : 
+            i === 2 ? <div  style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>Invoice</div> : null,
+
+key: i, children: i === 0? 
+<div className={css.PaymentCss}>
+  {bankValue === "khan" ? 
+  <KhanBank mntPrice={mntPrice} totalPriceState={totalPriceState} orgIdRadio={basketContext.orgNames[0].orgIdstate} basketState={basketContext.basketState} sucessOrder={sucessOrder}/> 
+  : null}
+  
+  {bankValue === "Golomt" ? <div>Golomt </div> : null}
+  {bankValue === "Tdb" ? <div>
+    dssdsdsd
+      <TdbBank />
+      </div> : null}
+  {bankValue === "Monpay" ? <div>Monpay2 </div> : null}
+
+</div> 
+: i === 1 ? <div className={css.PaymentCss}>
+  
+    <div className={css.Qpay}> 
+      <div className={css.QpaySize}>
+        <Image alt="Obertech" preview={false} src="/img/qr.png" width={150}/>
+      </div>
+      <div className={css.QpayTitle}>Төлөх дүн </div>
+      <div className={css.QpayPrice}>{mntPrice}₮</div>
+    </div>
+
+</div> : 
+  i === 2 ? <div className={css.PaymentCss}>
+    {!invoiceBoolean ?
+      <> 
+      <div className={css.ShiljvvlegCont}> 
+        <div className={css.Shiljvvleg}>
+          <div className={css.ShilTitle}>Дансны дугаар </div>
+          <div className={css.ShilTitle2}> 5220042965</div>
+          <div className={css.Copy}> <Paragraph copyable={{ text: "5220042965",  icon: ["Хуулах", "Хуулагдсан"],   tooltips: ['Хуулах', 'Хуулагдсан']}} ></Paragraph></div>
+        </div>
         
-        return {label: i === 0 ?  <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>Cart {console.log("key", i)}</div> :
-                      i === 1 ? <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>QPay</div> : 
-                      i === 2 ? <div  style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>Invoice</div> : null,
-          
-          key: i, children: i === 0? 
-          <div className={css.PaymentCss}>
-            {bankValue === "khan" ? 
-            <KhanBank totalPriceState={totalPriceState} orgIdRadio={basketContext.orgNames[0].orgIdstate} basketState={basketContext.basketState} sucessOrder={sucessOrder}/> 
-            : null}
-            {bankValue === "Golomt" ? <div>Golomt </div> : null}
-            {bankValue === "Tdb" ? <div>
-                <TdbBank />
-               </div> : null}
-            {bankValue === "Monpay" ? <div>Monpay </div> : null}
+        <div className={css.Shiljvvleg}>
+          <div className={css.ShilTitle}>Хүлээн авагч </div>
+          <div className={css.ShilTitle2}> Obortech XXK</div>
+          <div className={css.Copy}>  <Paragraph copyable={{ text: "Obortech XXK",  icon: ["Хуулах", "Хуулагдсан"],   tooltips: ['Хуулах', 'Хуулагдсан']}} ></Paragraph></div>
+        </div>
 
-          </div> 
-          : i === 1 ? <div className={css.PaymentCss}>
-           
-              <div className={css.Qpay}> 
-                <div className={css.QpaySize}>
-                  <Image alt="Obertech" preview={false} src="/img/qr.png" width={150}/>
-                </div>
-                <div className={css.QpayTitle}>Төлөх дүн </div>
-                <div className={css.QpayPrice}>{totalPriceState.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}$</div>
-              </div>
+        <div className={css.Shiljvvleg}>
+          <div className={css.ShilTitle}>Төлөх дүн </div>
+          <div className={css.ShilTitle2}> {mntPrice}₮</div>
+          <div className={css.Copy}> 
+            <Paragraph copyable={{ text: totalPriceState,  icon: ["Хуулах", "Хуулагдсан"],   tooltips: ['Хуулах', 'Хуулагдсан']}} ></Paragraph>
+          </div>
+        </div>
 
-          </div> : 
-            i === 2 ? <div className={css.PaymentCss}>
-              {!invoiceBoolean ?
-                <> 
-                <div className={css.ShiljvvlegCont}> 
-                  <div className={css.Shiljvvleg}>
-                    <div className={css.ShilTitle}>Дансны дугаар </div>
-                    <div className={css.ShilTitle2}> 5220042965</div>
-                    <div className={css.Copy}> <Paragraph copyable={{ text: "5220042965",  icon: ["Хуулах", "Хуулагдсан"],   tooltips: ['Хуулах', 'Хуулагдсан']}} ></Paragraph></div>
-                  </div>
-                  
-                  <div className={css.Shiljvvleg}>
-                    <div className={css.ShilTitle}>Хүлээн авагч </div>
-                    <div className={css.ShilTitle2}> Obortech XXK</div>
-                    <div className={css.Copy}>  <Paragraph copyable={{ text: "Obortech XXK",  icon: ["Хуулах", "Хуулагдсан"],   tooltips: ['Хуулах', 'Хуулагдсан']}} ></Paragraph></div>
-                  </div>
+        <div className={css.Shiljvvleg}>
+          <div className={css.ShilTitle}>Гүйлгээний утга </div>
+          <div className={css.ShilTitle2}> 5220042965</div>
+          <div className={css.Copy}> <Paragraph copyable={{ text: "5220042965",  icon: ["Хуулах", "Хуулагдсан"],   tooltips: ['Хуулах', 'Хуулагдсан']}} ></Paragraph></div>
+        </div>  
+      </div>
+      <div> 
+        <Button onClick={()=>setInvoiceBoolean(true)}>Invoice</Button>
+      </div>
+    </>
+    : <div>
+        {/* <div style={{display: "flex", alignItems: "center", fontWeight: "600", fontSize: "20px", marginBottom: "10px"}}> 
+          <div style={{marginRight: "5px", display: "flex", alignItems: "center"}}><Button size="small" type="link" onClick={()=>setInvoiceBoolean(false)} icon={<ArrowLeftOutlined />}></Button> </div>
+          <div>Invoice </div>
+        </div> */}
 
-                  <div className={css.Shiljvvleg}>
-                    <div className={css.ShilTitle}>Төлөх дүн </div>
-                    <div className={css.ShilTitle2}> {totalPriceState.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}$</div>
-                    <div className={css.Copy}> 
-                      <Paragraph copyable={{ text: totalPriceState,  icon: ["Хуулах", "Хуулагдсан"],   tooltips: ['Хуулах', 'Хуулагдсан']}} ></Paragraph>
-                    </div>
-                  </div>
+        <div>
+          <Invoice invoiceSuccessFunc={invoiceSuccessFunc} items={basketContext.basketState} totalPrice={totalPriceState} mntPrice={mntUsdPrice} invoBack={invoBack} sucessOrder={sucessOrder}/>  
+        </div>
+      </div>
+    }
+  </div> : null,
+};
+})}/>   
+: null }
 
-                  <div className={css.Shiljvvleg}>
-                    <div className={css.ShilTitle}>Гүйлгээний утга </div>
-                    <div className={css.ShilTitle2}> 5220042965</div>
-                    <div className={css.Copy}> <Paragraph copyable={{ text: "5220042965",  icon: ["Хуулах", "Хуулагдсан"],   tooltips: ['Хуулах', 'Хуулагдсан']}} ></Paragraph></div>
-                  </div>  
-                </div>
-                <div> 
-                  <Button onClick={()=>setInvoiceBoolean(true)}>Invoice</Button>
-                </div>
-              </>
-              : <div>
-                  {/* <div style={{display: "flex", alignItems: "center", fontWeight: "600", fontSize: "20px", marginBottom: "10px"}}> 
-                    <div style={{marginRight: "5px", display: "flex", alignItems: "center"}}><Button size="small" type="link" onClick={()=>setInvoiceBoolean(false)} icon={<ArrowLeftOutlined />}></Button> </div>
-                    <div>Invoice </div>
-                  </div> */}
-
-                  <div>
-                    <Invoice invoiceSuccessFunc={invoiceSuccessFunc} items={basketContext.basketState} totalPrice={totalPriceState} mntPrice={mntUsdPrice} invoBack={invoBack} sucessOrder={sucessOrder}/>  
-                  </div>
-                </div>
-              }
-            </div> : null,
-        };
-        })}/>   
         </div> 
         : 
           bankValue === "Paypal" ? <div> 
@@ -1028,7 +1094,7 @@ const steps = [
 ];
 
   return (
-    <div>
+    <div style={{fontFamily: "Roboto Condensed, sans-serif"}}>
       <BaseLayout pageName="payment">
         <div style={{ fontSize: "14px", fontWeight: "500" }}>
        

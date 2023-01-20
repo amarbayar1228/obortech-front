@@ -37,7 +37,7 @@ const saveBtn = () =>{
                 password: sha256(newP)
             }
             axios.post("/api/post/Gate", body).then((res)=>{
-                message.success("Password changed successfully");
+                message.success(basketContext.t('passChangedSuccess', { ns: 'security' }));
                 setToogle(false);
                 setCurrent("");
                 setReType("");
@@ -48,7 +48,7 @@ const saveBtn = () =>{
                 console.log("err", err);
             }) 
         }else{
-            message.error("Password is incorrect");
+            message.error(basketContext.t('passwordIsIncorrect', { ns: 'security' }));
         }
     } else{
         message.error("passwords do not match.");
@@ -69,27 +69,28 @@ const onChangeCaptcha = (a) =>{
 return<BaseLayout pageName="security">
       {loggedLoad ? <Spin style={{display: "flex", alignItems: "center", justifyContent: "center", marginTop: "100px"}}/>  : <> 
       {basketContext.userInfoProfile ? <div style={{padding: "10px", width: "60%", margin: "0px auto"}}>
-            <div className={css.Title}>Security and login</div>
+            <div className={css.Title}>{basketContext.t('securityAndLogin', { ns: 'security' })}</div>
             <div className={css.Layout}> 
                 <div className={css.Password}>
                     <div className={css.Hdr}>
                         <div className={css.Icons}><KeyOutlined rotate={180} className={css.KeyOutlined}/></div>
                         <div className={css.Descrip}>
-                            <div className={css.Text1}>Change password</div>
-                            <div className={css.Text2}>It's a good idea to use a strong password that you're not using elsewhere</div>
+                            <div className={css.Text1}>{basketContext.t('changePass', { ns: 'security' })}</div>
+                            <div className={css.Text2}>{basketContext.t('passDescription', { ns: 'security' })} </div>
                         </div>
                     </div>
-                    <div><Button onClick={toogleFunc}>{toogle ? "Close" : "Edit"}</Button></div>  
+                    <div><Button onClick={toogleFunc}>{toogle ? basketContext.t('close', { ns: 'security' }) : basketContext.t('edit', { ns: 'security' })}</Button></div>  
                 </div>
                 {toogle ? <div className={css.Details}>
-                        <div className={css.DetailsChild}><div className={css.DetailsTitle}>Current: </div> <div><Input.Password placeholder="Current" value={current} onChange={(e)=> setCurrent(e.target.value)}/></div></div>
-                        <div className={css.DetailsChild}><div className={css.DetailsTitle}>New: </div> <div><Input.Password placeholder="New" type="password" value={newP} onChange={(e)=> setNewP(e.target.value)}/></div></div>
-                        <div className={css.DetailsChild}><div className={css.DetailsTitle}>Re-type new: </div> <div><Input.Password placeholder="Re-type new" value={reType} onChange={(e)=> setReType(e.target.value)}/></div></div>
+                        <div className={css.DetailsChild}><div className={css.DetailsTitle}>{basketContext.t('current', { ns: 'security' })}</div> 
+                        <div><Input.Password placeholder={basketContext.t('current', { ns: 'security' })} value={current} onChange={(e)=> setCurrent(e.target.value)}/></div></div>
+                        <div className={css.DetailsChild}><div className={css.DetailsTitle}>{basketContext.t('newPass1', { ns: 'security' })}: </div> <div><Input.Password placeholder={basketContext.t('newPass1', { ns: 'security' })} type="password" value={newP} onChange={(e)=> setNewP(e.target.value)}/></div></div>
+                        <div className={css.DetailsChild}><div className={css.DetailsTitle}>{basketContext.t('newPass2', { ns: 'security' })}: </div> <div><Input.Password placeholder={basketContext.t('newPass2', { ns: 'security' })} value={reType} onChange={(e)=> setReType(e.target.value)}/></div></div>
                         
-        <div style={{marginBottom: "15px", marginTop: "15px"}}>
+                        <div style={{marginBottom: "15px", marginTop: "15px"}}>
                             <ReCAPTCHA   onErrored={errorCapt}  ref={recaptchaRef}   sitekey="6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t" onChange={onChangeCaptcha}/>
-                            </div>
-                        <div className={css.TopLine}><Button disabled={userFormCapt} type="primary" onClick={saveBtn}>Save changes</Button></div>
+                        </div>
+                        <div className={css.TopLine}><Button disabled={userFormCapt} type="primary" onClick={saveBtn}>{basketContext.t('save', { ns: 'security' })}</Button></div>
         
                 </div> : ""}  
                

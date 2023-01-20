@@ -1042,6 +1042,8 @@
   animation-name: bankRouteAnimation;
   animation-duration: 0.3s;
   animation-timing-function: ease;
+  width: 662px;
+  margin: 0px auto;
 }
 
 .Qpay {
@@ -1133,6 +1135,7 @@
 
 .AlertName {
   margin-bottom: 10px;
+  text-align: left;
 }
 
 .PayMethTitle {
@@ -1209,16 +1212,18 @@
 }
 
 .Tugrug {
+
   display: flex;
   justify-content: center;
   align-items: center;
   width: 21px;
   height: 21px;
   font-size: 15px;
-  font-weight: 400;
+  font-weight: 600;
   margin-right: 4px;
-  color: #ffeded;
-  background: #ff0000;
+  color: #4d5057;
+  background: #ebebeb;
+
 
 }
 
@@ -1322,6 +1327,7 @@
 .OrgDesc {
   background: #fff1f2;
   font-size: 12px;
+  border-radius: 30px;
   /* font-family: 'Poppins'; */
   font-weight: 600;
   padding: 10px 25px;

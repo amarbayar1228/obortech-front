@@ -126,6 +126,7 @@
     font-size: 16px;
     background: #efefef;
     padding: 5px 10px;
+    align-items: center;
     /* color: #4c3300; */
     border-radius: 10px;
 }
