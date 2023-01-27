@@ -41,8 +41,7 @@ const getItems = () => {
     func: "getItems",
     status: "0,1"
     };
-    axios.post("/api/post/Gate", body).then((res) => {
-    console.log("item axios get", res.data.getItems.list);
+    axios.post("/api/post/Gate", body).then((res) => { 
     setSpinner(false); 
     setItemData(res.data.getItems.list);
     }).catch((err) => {message.error(err)}); 
@@ -52,8 +51,7 @@ func: "getTypes",
 parid:0,
 type_:2,
 }
-axios.post("/api/post/Gate", itemLevel).then((res)=>{
-console.log("item level type: ", res.data);
+axios.post("/api/post/Gate", itemLevel).then((res)=>{ 
 setType(res.data.data);
 }).catch((err)=>{
     console.log("err",err);
@@ -103,8 +101,7 @@ const clearAll = () => {
   };
 
 const handleChangeTable = (pagination, filters, sorter) => {
-// setSpinner(true);
-console.log('Various pagination: ', pagination);
+// setSpinner(true); 
 setTableParams({
     pagination,
     filters,
@@ -113,31 +110,14 @@ setTableParams({
 // setPagiValue2(page);
 // setPagiValue3(1);
 // setSpinState(true);
-console.log("page: ", pagination.current +" pageSize: "+pagination.pageSize);
+// console.log("page: ", pagination.current +" pageSize: "+pagination.pageSize);
 const resultPage = 0;   
 if(pagination.current == 1){
-    resultPage = 0;
-    console.log("tentsv");
+    resultPage = 0; 
 }else {
     resultPage = pagination.current - 1; 
 } 
-resultPage = resultPage * pagination.pageSize;   
-const body = {
-    func: "getCompany",
-    state: 1,
-    start: resultPage,
-    count: pagination.pageSize,
-};
-// axios.post("/api/post/Gate", body).then((res) => {
-// console.log("res.data: ", res.data.data);
-// setCompanyData(res.data.data);
-    
-//     setCompanyData(res.data.data)
-//     setSpinner(false); 
-
-// }).catch((err) => {console.log(err)});
-
-console.log("result page: ", resultPage);
+resultPage = resultPage * pagination.pageSize;    
 setFilteredInfo(filters);
 setSortedInfo(sorter);
 };
@@ -283,18 +263,14 @@ setDate(date1);
 // setDate2(b[1]);
 } 
 const selectStatus = (value) =>{
-console.log("value: ", value);
 setStatus(value);
 }
 const selectLevelF = (value) =>{
-    console.log("valiue: ", value);
     setSelectLevel(value);
 }
 const searchDate = () =>{
 setSpinner(true); 
-console.log("date: ", date[0]);
-console.log("status: ", status);
-console.log("level: ", selectLevel);
+ 
 const body = {
     func: "getItems",
     d1: date[0],
@@ -302,11 +278,11 @@ const body = {
     status: status,
     type_: selectLevel,
 }
-axios.post("/api/post/Gate", body).then((res)=>{ 
-    console.log("res date change: ", res.data);
+axios.post("/api/post/Gate", body).then((res)=>{  
     setSpinner(false); 
     if(res.data.getItems.error){
         console.log("aldaa");
+
         setItemData([]);
     }else{
      setItemData(res.data.getItems.list);
@@ -315,8 +291,7 @@ axios.post("/api/post/Gate", body).then((res)=>{
    
 }).catch((err)=>{console.log("err: ", err)}) 
 }
-const onOk = (value) => {
-    console.log('onOk: ', value);
+const onOk = (value) => { 
   };
 return<div className={css.ItemLayout}>
        <div className={css.StateCss}>

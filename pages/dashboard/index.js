@@ -91,16 +91,16 @@ const columns = [
         {a === 2 ? <Badge status="processing" text="Processing" /> : ""}
       </div>
   },
-  {
-    title: 'Action',
-    key: 'operation',
-    fixed: 'right',
-    width: 170,
-    render: () => <div style={{display: "flex"}}> 
-      <Button>Details</Button>
-      <Button>Cancel</Button>
-    </div>,
-  },
+  // {
+  //   title: 'Action',
+  //   key: 'operation',
+  //   fixed: 'right',
+  //   width: 170,
+  //   render: () => <div style={{display: "flex"}}> 
+  //     <Button>Details</Button>
+  //     <Button>Cancel</Button>
+  //   </div>,
+  // },
 
 ];
 const data = [];
@@ -140,8 +140,8 @@ const handleCancelWithdraw = () =>{
           <div className={css.Box}>
             <div className={css.Col1}>
               <div> 
-                <div style={{color: "#727272"}}>Wallet</div>
-                <div className={css.DPrice}>132,000.0₮</div>
+                <div style={{color: "#727272"}}>MNT Wallet</div>
+                <div className={css.DPrice}>132,000.0 ₮</div>
                 <div className={css.DMethod}>MNT</div>
               </div>
 
@@ -158,8 +158,8 @@ const handleCancelWithdraw = () =>{
           <div className={css.Box}>
             <div className={css.Col1}>
               <div> 
-                <div style={{color: "#727272"}}>Wallet</div>
-                <div className={css.DPrice}>$26,000</div>
+                <div style={{color: "#727272"}}>USD Wallet</div>
+                <div className={css.DPrice}>$ 26,000</div>
                 <div className={css.DMethod}>USD</div>
               </div>
               {/* <div className={css.DIcon}>
@@ -175,9 +175,9 @@ const handleCancelWithdraw = () =>{
           <div className={css.Box}>
             <div className={css.Col1}>
               <div> 
-                <div style={{color: "#727272"}}>Wallet</div>
-                <div className={css.DPrice}>2600 Obot</div>
-                <div className={css.DMethod}>COIN</div>
+                <div style={{color: "#727272"}}>OBOT Wallet</div>
+                <div className={css.DPrice}>2,600,1 Obot</div>
+                <div className={css.DMethod}>OBOT</div>
               </div>
               {/* <div className={css.DIcon}>
                C
@@ -238,7 +238,7 @@ const handleCancelWithdraw = () =>{
                 <div style={{marginTop: "10px", marginBottom: "10px"}}>You selected <span style={{color: "#4d5052", fontWeight: "800"}}>Obot</span> as cryptocurrency.</div>
                 <div style={{fontWeight: "600"}}>Method</div>
                 <div><Select defaultValue="direct"  style={{width: "100%"}} options={[{value: 'direct',label: 'Direct Withdraw'}]}/></div>
-                <div style={{marginTop: "5px"}}>The minimum amount is <span style={{background: "#fef08a", color: "#ca8a04", padding: "2px 10px", borderRadius: "10px"}}>1200.00 Obot</span></div>
+                <div style={{marginTop: "5px"}}>The minimum amount is <span style={{background: "#fef08a", color: "#ca8a04", padding: "2px 10px", borderRadius: "10px", textTransform: "uppercase"}}>1200.00 Obot</span></div>
                 <div style={{marginBottom: "5px"}}>There is a fee of <span style={{background: "#fecaca", color: "#f26363", padding: "2px 10px", borderRadius: "10px"}}>50.00 Obot</span> on this transaction.</div>
                 <div style={{fontWeight: "600", color: "#4d5052", marginTop: "5px"}}>Amount</div>
                 <div><Input placeholder="0.000 obot"/></div>

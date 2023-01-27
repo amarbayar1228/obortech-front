@@ -1,5 +1,5 @@
  
-import { Badge, Button, Image, message, Modal, Space, Table, Tooltip } from 'antd';
+import { Badge, Button, Image, message, Modal, notification, Space, Table, Tooltip } from 'antd';
 import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import css from "./style.module.css"
@@ -27,6 +27,8 @@ const GroupAdd  = (props) =>{
     const searchInput = useRef(null); 
     const [packageItem, setPackageItem] = useState([]);
     const [showTable, setShowTable] = useState(false);
+    const [disableTypeErr, setDisableTypeErr] = useState(false);
+    const [itemTypeNum, setItemTypeNum] = useState(0);
 useEffect(()=>{
     
     // getItems();
@@ -128,6 +130,7 @@ const getItems = () =>{
             console.log("aldaa");
             setItemData([]);
         }else{
+        console.log("ITEM: ", res.data.getItems);
          setItemData(res.data.getItems.list);
         }
     }).catch((err) => {
@@ -157,6 +160,7 @@ const data = itemData.map((r, i)=>(
         others: r.others.toLowerCase(),
         state: r.status,
         cnt: r.cnt,
+        type_: r.type_
     } 
 )); 
 const columns = [
@@ -258,17 +262,49 @@ const start = () => {
     setLoading(false);
     }, 1000);
 };
+const hasSelected = selectedRowKeys.length > 0;
 const onSelectChange = (newSelectedRowKeys, data) => {
     // console.log('selectedRowKeys changed: ', newSelectedRowKeys);
-    console.log("data: ", data);
+    setItemTypeNum(0);
+    const notArrived = true;
+    const notArrived2 = 0;
+    const arr = [];
+    // console.log("data: ", data);
+    data.forEach(element => { 
+    if(element.type_ === 21){ 
+        setItemTypeNum(22);  
+    }else if(element.type_ === 22){  
+        setItemTypeNum(21); 
+    }else if(element.type_ === 106){  
+        setItemTypeNum(107); 
+    }else if(element.type_ === 107){  
+        setItemTypeNum(106); 
+    }
+    
+
+    });
+    if(!notArrived){ 
+        setDisableTypeErr(true);
+        notification.error({
+            message: "Error",
+            description:
+              'This item 6 and item 12.',
+          });
+     
+    }
     setPackageItem(data);
     setSelectedRowKeys(newSelectedRowKeys);
 };
 const rowSelection = {
     selectedRowKeys,
     onChange: onSelectChange,
+    getCheckboxProps: (record) => ({ 
+        disabled: record.type_ === itemTypeNum,
+        // Column configuration not to be checked
+        name: record.title,
+      }),
 };
-const hasSelected = selectedRowKeys.length > 0;
+
 
 const backF = () =>{
     setShowTable(false);
@@ -292,7 +328,9 @@ return<div>
             </div>
             {showTable === false ? 
             <div className={showTable === false ? css.PackageItem : ""}> 
-                <Table  bordered size="small" rowSelection={rowSelection} onChange={handleChangeTable} loading={spinner} columns={columns} dataSource={data} scroll={{y: 400,}} pagination={tableParams.pagination} />
+                <Table  bordered size="small" rowSelection={rowSelection}
+                 onChange={handleChangeTable}
+                  loading={spinner} columns={columns} dataSource={data} scroll={{y: 400,}} pagination={tableParams.pagination} />
                 <div style={{borderTop: "1px solid #ccc", paddingTop:"5px"}}> 
                 <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading}>Item Package</Button>     <span >{hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}</span>
                 </div>

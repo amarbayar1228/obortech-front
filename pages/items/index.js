@@ -76,13 +76,13 @@ const Items = () => {
           basketContext.basketStateFunc();
           popFunc();
           // getItems();
-        }else if(e.type_ === 21){ 
-            if(data.type_ === 22){
+        }else if(e.type_ === 106){ 
+            if(data.type_ === 107){
               Overlap = false;
               notArrived = false; 
             } 
-        }else if(e.type_ === 22){ 
-            if(data.type_ === 21){
+        }else if(e.type_ === 107){ 
+            if(data.type_ === 106){
                
               Overlap = false;
               notArrived = false; 

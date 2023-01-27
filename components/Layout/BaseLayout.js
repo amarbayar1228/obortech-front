@@ -440,7 +440,7 @@ export default function BaseLayout(props) {
               <div className={ router.pathname == "/profile" ? css.ProfileCss : css.FlexPro}>
                 <UserOutlined />
                 <span className={css.ProfileText}>
-                  {admin === "0" ? basketContext.userInfoProfile === undefined ? "" : basketContext.userInfoProfile.email : admin === "1" ? "Admin" : admin === "2" ? "Operator " : ""}
+                  {admin === "0" ? basketContext.userInfoProfile === undefined ? "" : basketContext.userInfoProfile.firstname : admin === "1" ? "Admin" : admin === "2" ? "Operator " : ""}
                 </span>
               </div>
             </Button>
@@ -547,7 +547,7 @@ export default function BaseLayout(props) {
         
     </div>
         <div className={css.BorderTop}>
-        <Button style={{width: "100%"}} onClick={sidebarF} icon={toogleCss ? <DoubleLeftOutlined /> : <DoubleRightOutlined />} size="small"  type="primary"></Button>
+        <Button style={{width: "100%"}}  onClick={sidebarF} icon={toogleCss ? <DoubleLeftOutlined /> : <DoubleRightOutlined />} size="middle"  type="primary"></Button>
         </div> 
 </div>
 }

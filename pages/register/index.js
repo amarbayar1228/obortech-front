@@ -48,63 +48,43 @@ useEffect(()=>{
   const router = useRouter();
 
   const countDown = () => { 
+    setLoadingOTP(false);
     // clearInterval(timer); 
     setCdBoolean(true);
     let secondsToGo = 10; 
     let too = 5;
     // setCd(0);
     const timer = setInterval(() => {
-      secondsToGo -= 1; 
-   
-      // setCdBoolean(false); 
-      console.log("aa", timer);
+      secondsToGo -= 1;  
       setCd(secondsToGo); 
-    }, 1000); 
-
-    console.log("too: ", secondsToGo);
+    }, 1000);  
 
     // clearInterval(timer); 
     if(cdBoolean){
       setTimeout(() => {
         clearInterval(timer); 
-        setCdBoolean(false);
-        console.log("blsn timer1");
-      },100); 
-      console.log("true");
-    }else{
-      console.log("ene shvvv ");
+        setCdBoolean(false); 
+      },100);  
+    }else{ 
       const body2 = {
         func: "resendCode",
         email: email,
       }
       axios.post("/api/post/Gate", body2).then((res)=>{
-        console.log("res", res.data);
+        // console.log("res", res.data);
       }).catch((err)=>{
         console.log("err");
       })
       setTimeout(() => {
         clearInterval(timer); 
-        setCdBoolean(false);
-        console.log("blsn timer2");
+        setCdBoolean(false); 
       }, secondsToGo * 1000); 
     }
    
 
   };
-  const countDown2 = () =>{
-    console.log("2222"); 
-    const body2 = {
-        func: "resendCode",
-        email: email,
-      }
-      axios.post("/api/post/Gate", body2).then((res)=>{
-        console.log("res", res.data);
-      }).catch((err)=>{
-        console.log("err", err);
-      }) 
-   }
-  const onFinish = (values) => {
-    console.log("Received values of form: ", values.email);
+ 
+  const onFinish = (values) => { 
     setSignUpLoad(true)
     if (values.password1 == values.password2) {
       setEmail(values.email);
@@ -117,7 +97,7 @@ useEffect(()=>{
       };
       axios.post("/api/post/Gate", register).then((res) => { 
           message.success("Successfully Registered");
-
+       
           countDown();
           setShowCode(true);
           setSignUpLoad(false)
@@ -125,8 +105,7 @@ useEffect(()=>{
         }).catch((err) => {
           recaptchaRef.current.props.grecaptcha.reset(); 
           setBtnDis(true);
-        });
-      console.log("tentsvv");
+        }); 
     } else {
       message.error(
         <div className={css.Title}>The password does not match!!</div>
@@ -134,18 +113,17 @@ useEffect(()=>{
     }
   };
   const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+    // console.log("Failed:", errorInfo);
   };
   const onChangeCaptcha = (a) =>{ 
-    console.log("captcha change: ", a);
+   
     a == null ? setBtnDis(true) : setBtnDis(false)
   }
   const errorCapt = (err) =>{
-    console.log("err", err);
+    // console.log("err", err);
   }
   const VerifyOTP = () =>{
-    console.log("VerifyOTP");
-    console.log("code: ", code);
+    
     setLoadingOTP(true);
     const body ={
       func: "checkCode",
@@ -153,26 +131,23 @@ useEffect(()=>{
       code: code,
     }
     axios.post("/api/post/Gate", body).then((res)=>{
-      // setLoadingOTP(false);
-      console.log("Verify: ", res.data);
+      setLoadingOTP(false); 
       if(res.data.data.status === "Okay"){
-         router.push("/login");
+        message.success("Account is created successfully, please login with your created information")
+        router.push("/login");
       }else{
-        message.error("Error");
+        message.error("OTP is not correct!. Please check your OTP.");
       }
-    }).catch((err)=>{
-      console.log("err", err);
+    }).catch((err)=>{ 
       setLoadingOTP(false);
     })
   }
  const onChangeCode = (e) =>{
   
-  if(e.target.value.length === 6){
-    console.log("object");
+  if(e.target.value.length === 6){ 
     setVerifyOTPDis(false);
     setCode(e.target.value);
-  }else{
-    console.log("urt obso");
+  }else{ 
     setVerifyOTPDis(true);
   }
   

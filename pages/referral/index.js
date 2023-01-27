@@ -1,7 +1,7 @@
 import {Badge,Button,Collapse,Descriptions,Divider,Empty,Form,Image,Input,InputNumber,message,Modal,Pagination,Result,Select,Spin,Table,Tooltip} from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import BaseLayout from "../../components/Layout/BaseLayout";
-import {CaretRightOutlined,ArrowLeftOutlined,InfoCircleOutlined,CheckCircleOutlined,ExclamationCircleOutlined,} from "@ant-design/icons";
+import {EditOutlined,ArrowLeftOutlined,InfoCircleOutlined,CheckCircleOutlined,ExclamationCircleOutlined,} from "@ant-design/icons";
 import axios from "axios";
 import css from "./style.module.css";
 import BasketContext from "../../context/basketContext/BasketContext";
@@ -537,7 +537,7 @@ return (
                 <div className={css.FormDescrip}>{basketContext.userInfoProfile.jobtitle}</div>
               </div>
               {basketContext.userInfoProfile.firstname === "-" ? 
-              <div><Button onClick={()=> router.push("profile")}>Update</Button> </div>
+              <div><Button onClick={()=> router.push("profile")} icon={<EditOutlined />} >Edit profile</Button> </div>
               : <div>
                   <div style={{color: "#4d5052", fontWeight: "600"}}> If you are a Standard member and wish to apply for the Affiliate Program, you will be requested to fill in the following forms. </div> 
                   <Button type="primary" onClick={()=> setQuestion(1)} size="large" style={{marginTop: "20px", marginBottom: "10px"}} >Fill out the form</Button> 

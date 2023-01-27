@@ -19,8 +19,7 @@ export const BasketItem = (props) => {
 
   const router = useRouter();
   useEffect(() => {   
-    console.log("login locize: ", t("Create An Account"));
-    Locazi();
+    
     basketStateFunc();
     routerFunction();
     MenuKey();
@@ -29,11 +28,7 @@ export const BasketItem = (props) => {
     todayDate();
     orgIdLocal(); 
   }, []);
-const Locazi = () =>{
-  console.log("locazi =============> 2: ", t("Create An Account"));
-  console.log("object");
-  console.log("locazi ========> home: ", t("Enter your organization ID"));
-}
+ 
   const onCollapse = (e) => {
     setCollapsed(e);
   };
@@ -41,12 +36,10 @@ const Locazi = () =>{
     setCollapsed(!collapsed);
   };
 const orgIdLocal = (orgName, orgId) =>{ 
-  // setOrgId(localStorage.getItem("orgId"))
-  console.log("orgID: ",  orgId);
+  // setOrgId(localStorage.getItem("orgId")) 
   setOrgNames([{orgIdstate: orgId}]);
   
-  setOrgId(orgName); 
-  console.log("ornames: ", orgNames);
+  setOrgId(orgName);  
 }
 const orgIdRemove = () =>{
   setOrgId(undefined); 
@@ -168,12 +161,10 @@ const orgIdRemove = () =>{
         func: "getUserInfo",
         pkId: localStorage.getItem("pkId"),
       };
-      axios.post("/api/post/Gate", body).then((res) => { 
-        console.log("profile: ", res.data.data);
+      axios.post("/api/post/Gate", body).then((res) => {  
           setUserInfoProfile(res.data.data);
         }).catch((err) => {console.log(err)});
-    } else {
-      console.log("pro obso");
+    } else { 
       setUserInfoProfile(undefined);
     } 
    
@@ -182,10 +173,10 @@ const orgIdRemove = () =>{
   const HanshFunc = () => {
     const body = {func: "getRate"};
     axios.post("/api/post/Gate", body).then((res) => { 
-      console.log("rate: ", res.data.data);
+      // console.log("rate: ", res.data.data);
       const obotRate = res.data.data.map.data.map.obotValueCG
       axios.get("http://monxansh.appspot.com/xansh.json?currency=USD|EUR'").then((res)=>{
-        console.log("mongol rate", res.data);
+        // console.log("mongol rate", res.data);
         // setHanshnuud(res.data.data);
         setHanshnuud([{mnt:{hansh1:  res.data[0].rate, hansh2: res.data[0].rate_float}},{obot:{hansh: obotRate}}]);
 

@@ -27,12 +27,10 @@ const Profile = () => {
   const [region, setRegion] = useState("-");
  
 
-  const selectCountry = (a) =>{
-    console.log("country", a);
+  const selectCountry = (a) =>{ 
     setCountry(a)
   }
-  const selectRegion = (a) =>{
-    console.log("region", a);
+  const selectRegion = (a) =>{ 
     setRegion(a)
   }
   useEffect(() => {
@@ -42,8 +40,7 @@ const Profile = () => {
     const body = {
       func:"getIndustry"
     }
-    axios.post("/api/post/Gate", body).then((res)=>{
-      console.log("getIndustry:", res.data);
+    axios.post("/api/post/Gate", body).then((res)=>{ 
       setIndustryData(res.data.data)
     }).catch((err)=>console.log("err"));
 // question
@@ -52,8 +49,7 @@ const Profile = () => {
       parid:0,
       type_:3
     }
-    axios.post("/api/post/Gate", question).then((res)=>{
-      console.log("Header", res.data.data); 
+    axios.post("/api/post/Gate", question).then((res)=>{ 
       setUserQuestion(res.data.data)
       // setQuestionData(res.data.data)
     }).catch((err)=>{console.log("err", err)})
@@ -63,43 +59,15 @@ const Profile = () => {
       func:"getQuest", 
       pkId: localStorage.getItem("pkId")
     } 
-    axios.post("/api/post/Gate", answered).then((res)=>{
-      console.log("getIndustry:", res.data.data); 
+    axios.post("/api/post/Gate", answered).then((res)=>{ 
       if(res.data.data === ""){
         console.log("null");
       }else{
         const array = JSON.parse(res.data.data);
-        setUserAnswer(array);
-  
-        console.log("arr: ", array);
+        setUserAnswer(array);  
       }
      
     }).catch((err)=>console.log("err", err))
-
-    // if(basketContext.userInfoProfile){
-    //   setInputLastname(basketContext.userInfoProfile.lastname);
-    //   setInputFirstname(basketContext.userInfoProfile.firstname);
-    //   setInputEmail(basketContext.userInfoProfile.email);
-    //   setInputAddress(basketContext.userInfoProfile.address);
-    //   setInputPhone(basketContext.userInfoProfile.phone);
-    //   // setInputJobtitle(basketContext.userInfoProfile.jobtitle);
-    //   }else {
-  
-    //   }
-    // if (localStorage.getItem("pkId")) {
-    //   const body = {
-    //     func: "getUserInfo",
-    //     pkId: localStorage.getItem("pkId"),
-    //   };
-    //   axios.post("/api/post/Gate", body).then((res) => { 
-    //       setUserInfoProfile(res.data.data);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // } else {
-    //   console.log("null");
-    // }
   }
   const showModal = () => {
     setCountry(basketContext.userInfoProfile.countryregion);
@@ -133,24 +101,17 @@ const Profile = () => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
-  const onChangeCaptcha = (a) =>{ 
-    console.log("captcha change: ", a);
+  const onChangeCaptcha = (a) =>{  
     a == null ? setUserFormCapt(true) : setUserFormCapt(false);
   }
   const errorCapt = (err) =>{
-    console.log("err", err);
+    // console.log("err", err);
   }
   
   const selectHandle = (value) => {
-    console.log(`selected ${value}`);
+    // console.log(`selected ${value}`);
   };
-  const onFinishEditForm = (values) => {
-    console.log("values: ", values);
-    console.log("object", countryCode.length);
-    console.log("country: ", country);
-    console.log("country: ", region);
-    console.log("file", fileList);
-
+  const onFinishEditForm = (values) => {  
     if(countryCode.length < 5 || country === "-" || region === "-"){
       message.error("null")
     }else{
@@ -158,12 +119,10 @@ const Profile = () => {
         // message.error("image null");
           if(values.img[0].thumbUrl){ 
                  
-            let baseImg2 = values.img[0].thumbUrl.split("base64,")[1]; 
-            console.log("img: ", baseImg2 );
-          const body = {
+      let baseImg2 = values.img[0].thumbUrl.split("base64,")[1];  
+      const body = {
         func: "uploadProfile",
-        pkId: basketContext.userInfoProfile.pkId,
-  
+        pkId: basketContext.userInfoProfile.pkId, 
         firstname: values.firstname,
         lastname: values.lastname,
         email: values.email,
@@ -183,11 +142,9 @@ const Profile = () => {
         }).catch((err) => {});
    
           }
-      }else{
-        console.log("bolson"); 
+      }else{ 
           if(values.img.file.status === "done"){ 
-            let baseImg2 = values.img.file.thumbUrl.split("base64,")[1]; 
-            console.log("img: ", baseImg2 );
+            let baseImg2 = values.img.file.thumbUrl.split("base64,")[1];  
           const body = {
         func: "uploadProfile",
         pkId: basketContext.userInfoProfile.pkId,
@@ -277,7 +234,7 @@ const Profile = () => {
 {basketContext.userInfoProfile === undefined ? (<Empty />) : 
 <div className={css.Layout}>
   <div className={css.Cont1}>
-    <Image alt="Obertech" preview={true} className={css.Zurag} src={"data:image/png;base64,"+ basketContext.userInfoProfile.img} style={{display: "flex", width: "120px", borderRadius: "50%", margin:"0px auto"}}/>
+    <Image alt="Obertech" preview={true} className={css.Zurag} src={basketContext.userInfoProfile.img === "-" ?  "/img/user.png" : "data:image/png;base64," + basketContext.userInfoProfile.img } style={{display: "flex", width: "120px", borderRadius: "50%", margin:"0px auto"}}/>
     <div className={css.Name}> 
     {basketContext.userInfoProfile.firstname} {basketContext.userInfoProfile.lastname}
     </div>
@@ -290,7 +247,7 @@ const Profile = () => {
       <div className={css.descr1}>Full name: </div>
       <div className={css.descr2}>  {basketContext.userInfoProfile.firstname} {basketContext.userInfoProfile.lastname}</div>
       <div className={css.Editcss}><Button type="dashed" shape="circle" onClick={showModal}><EditOutlined /></Button>
-      <Modal footer={false} title="Edit" open={isModalVisible} onOk={handleOk} onCancel={handleCancel} width={600}>
+      <Modal footer={false} title="Edit Profile" open={isModalVisible} onOk={handleOk} onCancel={handleCancel} width={600}>
         <div className={css.Modalcss}>
           <Form name="basic" labelCol={{span: 8,}}wrapperCol={{span: 23,}}
             layout="vertical"
@@ -334,7 +291,7 @@ const Profile = () => {
                 <PhoneInput   enableSearch={true} country={"mongolia"} value={countryCode} onChange={(e) => setCountryCode(e)} style={{width: "100%"}}/>
             </Form.Item>
             <Form.Item label="Address" name="address" rules={[{required: true, message: "Please input your Address!",},]}><TextArea showCount allowClear maxLength={100} style={{height: 50,}}/></Form.Item>
-            <div style={{marginBottom: "20px", marginTop: "-15px"}}> 
+            <div style={{marginBottom: "20px", marginTop: "-15px", display: "flex", justifyContent: "center"}}> 
             <ReCAPTCHA   onErrored={errorCapt}  ref={recaptchaRef}   sitekey="6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t" onChange={onChangeCaptcha}/>
             </div>
             <Form.Item wrapperCol={{offset: 0,span: 24,}}><Button size="large" disabled={userFormCapt} type="primary" htmlType="submit" style={{width: "100%"}}>Update</Button></Form.Item>
@@ -370,7 +327,7 @@ const Profile = () => {
       ))}
       </div>
     </div>
-    <div className={css.Text}>
+    <div className={css.Text} style={{borderBottomLeftRadius: "20px", borderBottomRightRadius: "20px"}}>
       <div className={css.descr1}>Job title: </div>
       <div className={css.descr2}>{basketContext.userInfoProfile.jobtitle}</div>
     </div>

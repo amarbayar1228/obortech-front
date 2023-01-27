@@ -70,8 +70,9 @@ const Hansh = (props) =>{
        <div style={{fontSize: "12px", fontWeight: "600", color: "#7e7e7e", marginLeft: "6px", marginTop: "5px"}}>Price Data for 1USD</div>
             <div className={css.HanshCss}> 
          
-              <div style={{paddingRight: "10px"}}> 
-               <Image alt="Obertech" preview={false} style={{position: "relative",width: "20px",height: "20px",objectFit: "inherit"}} src="/img/usdRate.png"/>
+              <div className={css.Dollarcss}> 
+               {/* <Image alt="Obertech" preview={false} style={{position: "relative",width: "20px",height: "20px",objectFit: "inherit"}} src="/img/usdRate.png"/> */}
+               $ 
             </div>
               <div>1 USD - <span style={{color: "#727272"}}>{basketContext.hanshnuud[0].mnt.hansh1}  MNT</span> </div> 
               {/* <div style={{paddingLeft: "4px"}}> - {basketContext.hanshnuud[0].mnt.hansh1} ₮ </div> */}

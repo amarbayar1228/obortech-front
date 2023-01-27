@@ -97,12 +97,12 @@ const focusInput = () =>{
     var passwordHash = sha256(password);  
     const body = {func: "signIn",username: username,password: passwordHash,};  
     axios.post("/api/post/Gate", body).then((res) => {
-        console.log("res.data: ", res.data.data);
+        // console.log("res.data: ", res.data.data);
 
         if (res.data.data.username) {
           setEmail(res.data.data.email);
-          message.success(t("Success")); 
-          console.log("input");
+          message.success(t("WE have sent OTP to your email. Please check your email!")); 
+        
           setCodePage(1);
           
           setBtnLogin(false); 

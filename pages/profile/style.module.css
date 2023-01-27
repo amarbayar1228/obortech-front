@@ -16,6 +16,7 @@
     background-color: #f9f9f9;
     height: 232px;
     line-height: 20px;
+    border-radius: 20px;
 }
 
 .Cont2 {
@@ -23,15 +24,17 @@
     margin: 5px;
     background-color: #f9f9f9;
     height: 46%;
+    border-radius: 20px;
 }
 
 .Text {
     position: relative;
     display: flex;
     border-bottom: 1px solid #ccc;
-    padding: 10px;
+    padding: 10px 20px;
     color: #4d5052;
     align-items: center;
+    text-transform: capitalize;
 }
 
 .descr1 {

@@ -733,7 +733,7 @@ const steps = [
                      <div className={css.BankImgSize}> 
                        <Image alt="Obertech" preview={false} src="/img/borderTdb.png" width={26}/>
                      </div>
-                     
+
                    </div>
                  </div>
                  </Typography.Text>
@@ -901,7 +901,7 @@ const steps = [
             <span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / {defaultMaxFi.USD}%</span>
           </div>
         </div>
-        <div className={css.SubTotal}><div><Image alt="Obertech" preview={false} src="/img/logoCirc.svg" width={20} style={{borderRadius: "16px"}}/><span style={{marginLeft: "4px"}}>OBOT</span></div><div className={payInInstallmentsValue === 2 ? css.SubTotalSuccess : null}>  {mntUsdPrice[0].obot}<span style={{fontSize: "10px", fontWeight: "600"}}> Obot</span><span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / {defaultMaxFi.Coin}%</span></div></div>
+        <div className={css.SubTotal}><div><Image alt="Obertech" preview={false} src="/img/logoCirc.svg" width={20} style={{borderRadius: "16px"}}/><span style={{marginLeft: "7px"}}>OBOT</span></div><div className={payInInstallmentsValue === 2 ? css.SubTotalSuccess : null}>  {mntUsdPrice[0].obot}<span style={{fontSize: "10px", fontWeight: "600"}}> Obot</span><span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / {defaultMaxFi.Coin}%</span></div></div>
         </>
         }
 
