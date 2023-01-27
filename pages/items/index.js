@@ -21,7 +21,10 @@ const Items = () => {
   const [spinState, setSpinState] = useState(true); 
   const [groupState1, setGroupState1] = useState([]);
   useEffect(() => {
-    // console.log("items");
+   console.log("Org Id", basketContext.orgId);
+  //  setTimeout(()=>{
+  //   basketContext.orgIdLocal();
+  //  }, 500);
     // basketContext.MenuKey();
     // basketContext.basketStateFunc();
     // popFunc();
@@ -159,6 +162,7 @@ const Items = () => {
   }
   return (
     <BaseLayout pageName="items" addItemStyle={addItemStyle} style={{ maxWidth: "100%", fontFamily: "Roboto Condensed, sans-serif" }}> 
+      { console.log("Org Id html: ", basketContext.orgId)}
       {basketContext.orgId === undefined ? <Empty style={{marginTop: "100px"}}/> :  
        <div className={css.ScrollItemsCont} style={{fontFamily: "Roboto Condensed, sans-serif"}}>
            

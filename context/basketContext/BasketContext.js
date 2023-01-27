@@ -176,7 +176,7 @@ const orgIdRemove = () =>{
       // console.log("rate: ", res.data.data);
       const obotRate = res.data.data.map.data.map.obotValueCG
       axios.get("http://monxansh.appspot.com/xansh.json?currency=USD|EUR'").then((res)=>{
-        // console.log("mongol rate", res.data);
+        console.log("mongol rate", res.data);
         // setHanshnuud(res.data.data);
         setHanshnuud([{mnt:{hansh1:  res.data[0].rate, hansh2: res.data[0].rate_float}},{obot:{hansh: obotRate}}]);
 

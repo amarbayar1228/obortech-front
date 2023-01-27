@@ -141,8 +141,8 @@ export default function BaseLayout(props) {
   }; 
 
   const changeLanguage = (
-    <div className={css.LanguageStyle}>
-      {/* <Link href="/" locale={router.locales[0] === "en" ? "en" : "en"}>
+    <div className={css.LanguageStyle}> 
+      <Link href="/" locale={router.locales[0] === "en" ? "en" : "en"}>
         <Button type="link" className={router.locale == "en" ? css.LanguageBtnActive : css.LanguageBtn} style={{width: "100%"}}>
         <Image style={{marginRight: "7px"}} className={css.Flag} alt="Obertech" preview={false} src="/img/united-kingdom.png"/>
           <span className={router.locale == "en"  ? css.ActiveLang : "" }>{t("English")}</span>
@@ -153,7 +153,7 @@ export default function BaseLayout(props) {
         <Image className={css.Flag} alt="Obertech" preview={false} src="/img/mongolia.png"/>
           <span className={router.locale == "mn" ? css.ActiveLang : ""}>Монгол</span>
         </Button>
-      </Link> */}
+      </Link>
     </div>
   );
   const logoutFunction = () => {

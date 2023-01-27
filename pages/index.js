@@ -66,7 +66,7 @@ export default function Home(props) {
     // setMassive(massive =>({...massive, amraa: "boldoo"}));
     // setMassive([...massive, {bataa: "3"}]);
     // setMassive([...massive, {bataa: "4"}]);
-    console.log("url",window.location.href);
+    // console.log("url",window.location.href);
   }, []);
  
 
@@ -130,7 +130,7 @@ export default function Home(props) {
       basketContext.orgId === undefined ? null : basketContext.clearBasket()
 
       basketContext.orgIdLocal(value, orgId);
-
+      
 
       router.push("/items")
     }, 
