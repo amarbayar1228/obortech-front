@@ -162,7 +162,7 @@ const Items = () => {
   }
   return (
     <BaseLayout pageName="items" addItemStyle={addItemStyle} style={{ maxWidth: "100%", fontFamily: "Roboto Condensed, sans-serif" }}> 
-      { console.log("Org Id html: ", basketContext.orgId)}
+      {/* { console.log("Org Id html: ", basketContext.orgId)} */}
       {basketContext.orgId === undefined ? <Empty style={{marginTop: "100px"}}/> :  
        <div className={css.ScrollItemsCont} style={{fontFamily: "Roboto Condensed, sans-serif"}}>
            

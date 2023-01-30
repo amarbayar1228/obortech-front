@@ -171,14 +171,20 @@ const orgIdRemove = () =>{
   };
   
   const HanshFunc = () => {
+   
+  
+
     const body = {func: "getRate"};
+    const rate  = {
+      func: "getUSDrate"
+     }
     axios.post("/api/post/Gate", body).then((res) => { 
       // console.log("rate: ", res.data.data);
       const obotRate = res.data.data.map.data.map.obotValueCG
-      axios.get("http://monxansh.appspot.com/xansh.json?currency=USD|EUR'").then((res)=>{
-        console.log("mongol rate", res.data);
+      axios.post("/api/post/Gate",rate ).then((res)=>{
+        console.log("Rate: ", res.data.data.myArrayList[0].map);
         // setHanshnuud(res.data.data);
-        setHanshnuud([{mnt:{hansh1:  res.data[0].rate, hansh2: res.data[0].rate_float}},{obot:{hansh: obotRate}}]);
+        setHanshnuud([{mnt:{hansh1:  res.data.data.myArrayList[0].map.rate, hansh2: res.data.data.myArrayList[0].map.rate_float}},{obot:{hansh: obotRate}}]);
 
       }).catch((err)=>{
         console.log("err",err);
