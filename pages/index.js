@@ -61,6 +61,7 @@ export default function Home(props) {
 
   const router = useRouter(); 
   useEffect(() => { 
+    console.log("index");
     tokenFunc(); 
     // setMassive(massive =>({...massive, amraa: "bataa"}));
     // setMassive(massive =>({...massive, amraa: "boldoo"}));

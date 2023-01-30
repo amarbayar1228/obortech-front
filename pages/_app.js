@@ -16,8 +16,7 @@ function MyApp({ Component, pageProps }) {
     const router = useRouter(); 
     const [loading, setLoading] = useState(false); 
  
-useEffect(() => { 
-  console.log("app: ");
+useEffect(() => {  
 // page loading..
 const handleStart = (url) => (url !== router.asPath) && setLoading(true);
 const handleComplete = (url) => (url === router.asPath) && setTimeout(() =>{setLoading(false)},5000);
