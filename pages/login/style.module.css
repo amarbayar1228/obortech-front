@@ -1,12 +1,6 @@
 .Cont {
     display: flex;
     width: 100%;
-    /* height: 93vh;
-    position: relative;
-    background-position: 50% 50% !important;
-    background-size: cover !important;
-    background: url(/img/backgroundCircle2.png) no-repeat;
-  */
 }
 
 .Cont2 {
@@ -15,7 +9,6 @@
     margin: 0px auto;
     padding: 20px;
     border-radius: 10px;
-    /* width: calc(15% + 250px); */
     width: calc(21% + 250px);
     justify-content: center;
 }
@@ -48,7 +41,6 @@
 
 .OrRegister {
     position: absolute;
-    /* right: 0px; */
     display: flex;
     top: 40px;
     align-items: center;
@@ -89,7 +81,6 @@
 
 .FromCss {
     font-size: 15px;
-    /* background: #f1f1f1; */
     box-shadow: 0px 0px 4px 1px #efefef;
     border-radius: 10px;
     padding: 40px 50px;
@@ -117,7 +108,6 @@
 }
 
 .VerifyForm {
-    /* display: flex; */
     margin: 100px auto;
     width: 400px;
     border: 1px solid #ccc;
@@ -140,7 +130,6 @@
 
     .FromCss {
         font-size: 15px;
-        /* background: #f1f1f1; */
         box-shadow: 0px 0px 4px 1px #efefef;
         border-radius: 10px;
         padding: 10px 10px;

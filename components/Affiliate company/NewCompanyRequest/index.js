@@ -29,7 +29,17 @@ const [tableParams, setTableParams] = useState({
 const searchInput = useRef(null); 
 useEffect(()=>{
 console.log("NEWCompanyRequest");
-getNewComp();
+setTimeout(()=>{
+  // setTableParams({
+  //   ...tableParams,
+  //   pagination: {
+  //     ...tableParams.pagination,
+  //     total: 60, 
+  //   },
+  // }); 
+  getNewComp();
+  
+})
 },[])
 const getNewComp = () => {
 setSpinner(true);
@@ -44,13 +54,13 @@ axios.post("/api/post/Gate", body).then((res) => {
 console.log("new res.data: ", res.data.data);
 setCompanyData(res.data.data);
     setSpinner(false);
-    setTableParams({
-        ...tableParams,
-        pagination: {
-          ...tableParams.pagination,
-          total: 60, 
-        },
-      }); 
+    // setTableParams({
+    //     ...tableParams,
+    //     pagination: {
+    //       ...tableParams.pagination,
+    //       total: 60, 
+    //     },
+    //   }); 
 }).catch((err) => {console.log(err)});
 
 };

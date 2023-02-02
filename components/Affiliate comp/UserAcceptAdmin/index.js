@@ -30,9 +30,9 @@ const UserAcceptAdmin = () => {
   const searchInput = useRef(null);
   useEffect(() => {
     console.log("user accept");
-    if (changeValue == "all") {
+    // if (changeValue === "all") {
       confirmUserList();
-    }
+    // }
   }, []);
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();

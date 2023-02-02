@@ -10,56 +10,6 @@ import InvoiceHtml from "../InvoiceHtml";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 const { TextArea } = Input;
-
-const Home = {
-    position: "relative",
-    width: "650px",
-    margin: "0px auto",
-    border: "1px solid #ccc",
-    padding: "40px",
-    color: "#000"
-}
-const Header =  {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "570px"
-} 
-const HdrTitle = {
-    textAlign: "right",
-    width: "285px"
-} 
-const HdrSite = {
-    marginTop: "15px"
-} 
-const ImgLogo = {
-    width: "180px",
-    marginLeft: "-8px"
-} 
-const BillTo = {
-    position: "relative",
-    width: "100%",
-    display: "flex",
-    justifyContent: "space-between",
-    marginTop: "15px",
-    borderTop: "1px solid #ccc",
-    paddingTop: "5px",
-} 
-const BillRight = {
-    marginTop: "10px",
-    textAlign: "right",
-    fontWeight: "600",
-    lineHeight: "30px",
-    width: "300px",
-} 
-const BillLeft = {
-    textAlign: "left",
-    width: "300px"
-} 
-const InvoiceNumber  = {
-    display: "flex",
-    justifyContent: "space-between"
-} 
 const Product = {
     display: "flex",
     justifyContent: "space-between",
@@ -100,13 +50,7 @@ const AmountDue = {
     justifyContent: "space-between",
     fontWeight: "600",
     marginLeft: "50%",
-} 
-const Banks = {
-    display: "flex",
-    justifyContent:"space-between",
-    textAlign: "left",
-    margin: "10px 0px",
-} 
+}  
 const Notes = {
     textAlign: "left"
 } 
@@ -126,15 +70,16 @@ const Invoice = (props) =>{
     const [disable, setDisable] = useState(true);
     const recaptchaRef = useRef();
     const reportTemplateRef = useRef(null);
-  useEffect(()=>{
-    console.log("object", props);
-    console.log("hansh: ", basketContext.hanshnuud[1].rate);
-    const price = props.totalPrice * basketContext.hanshnuud[1].rate;
-    console.log("price: ", price);
-    setPrice(price);
-    setItems(props.items);
+// useEffect(()=>{
+// // console.log("object", props);
+// // console.log("hansh: ", basketContext.hanshnuud[1].rate);
+// const price = props.totalPrice * basketContext.hanshnuud[1].rate;
+// // console.log("price: ", price);
+// // setPrice(price);
+// // setItems(props.items);
 
-},[]);
+// },[]);
+
 const inNumber = "XXXXXXXXXXX";
   const handleOk = () => { 
     //lkhagvatsend.99@gmail.com
@@ -380,7 +325,7 @@ const handleGeneratePdf = () => {
     <div style={{position: "relative", width: "650px", margin: "0px auto", border: "1px solid #ccc", padding: "40px", color: "#000" }} > 
         <div  style={{display: "flex", alignItems: "center", justifyContent: "space-between"}}>  
             <div style={{width: "285px"}}> 
-                <img src="https://scontent.fuln1-2.fna.fbcdn.net/v/t39.30808-6/267946776_4702286443188593_9002145977596374642_n.png?_nc_cat=104&ccb=1-7&_nc_sid=730e14&_nc_ohc=KC5BsR7b7VwAX_c5gG8&_nc_ht=scontent.fuln1-2.fna&oh=00_AfD8VzSabDO3RRttP31rTOYxRW3PGPh-PZg-ltD4J9HlKw&oe=63B8199A"  style={{width: "180px", marginLeft: "-8px" }}/>
+                <Image preview={false} alt="obortech" src="https://scontent.fuln1-2.fna.fbcdn.net/v/t39.30808-6/267946776_4702286443188593_9002145977596374642_n.png?_nc_cat=104&ccb=1-7&_nc_sid=730e14&_nc_ohc=KC5BsR7b7VwAX_c5gG8&_nc_ht=scontent.fuln1-2.fna&oh=00_AfD8VzSabDO3RRttP31rTOYxRW3PGPh-PZg-ltD4J9HlKw&oe=63B8199A"  style={{width: "180px", marginLeft: "-8px" }}/>
                 </div>
             <div style={{textAlign: "right", width: "100%"}}>
                 <div style={{fontSize: "20px", fontWeight: "600"}}>INVOICE</div>
@@ -415,7 +360,7 @@ const handleGeneratePdf = () => {
                     </div>
                     <div style={{display: "flex" }}> 
                         <div style={{width: "160px", textAlign: "left"}}>Amount Due(MNT):</div>
-                        <div style={{width: "50%", textAlign: "right"}}>{price.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,")}₮</div>
+                        <div style={{width: "50%", textAlign: "right"}}>{props.totalPrice * basketContext.hanshnuud[1].rate}₮</div>
                     </div>
                     
                 </div>
@@ -426,7 +371,7 @@ const handleGeneratePdf = () => {
                 <div style={{width: "100px", textAlign: "right"}}>Price</div>
                 <div style={{width: "100px", textAlign: "right"}}>Amount</div>
             </div>
-            {items.map((e, i)=>(
+            {props.items.map((e, i)=>(
             <div style={{display: "flex", justifyContent: "space-between", textAlign: "left", fontWeight: "600", marginTop: "10px"}} key={i}>
                 <div style={{width: "400px", lineBreak: "anywhere"}}>{e.title}</div>
                 <div style={{width: "100px", textAlign: "right"}}>{e.cnt}</div>
@@ -440,7 +385,7 @@ const handleGeneratePdf = () => {
             </div> 
             <div style={{borderTop: "1px solid #000", display: "flex", width: "50%", justifyContent: "space-between", fontWeight: "600", marginLeft: "50%"}}>
             <div>Amount Due(MNT):</div>
-            <div>{price.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,")}₮</div>
+            <div>{props.totalPrice * basketContext.hanshnuud[1].rate}₮</div>
             </div> 
             <div style={{textAlign: "left"}}> 
                 <div style={{fontWeight: "600"}}>Notes / Terms</div>
@@ -479,7 +424,7 @@ const handleGeneratePdf = () => {
        
         <div  style={{display: "flex", alignItems: "center", justifyContent: "space-between"}}>  
             <div style={{width: "285px"}}> 
-                <img src="/img/invoLogo.png"  style={{width: "180px", marginLeft: "-8px" }}/>
+                <Image preview={false} alt="obortech" src="/img/invoLogo.png"  style={{width: "180px", marginLeft: "-8px" }}/>
                 </div>
             <div style={{textAlign: "right", width: "100%"}}>
                 <div style={{fontSize: "20px", fontWeight: "600"}}>INVOICE</div>
@@ -577,7 +522,7 @@ const handleGeneratePdf = () => {
 <div style={{position: "relative", width: "650px", marginTop: "10px", marginLeft: "50px", border: "1px solid #ccc", padding: "40px", color: "#000"}}>
     <div  style={{display: "flex", alignItems: "center", justifyContent: "space-between"}}>  
         <div style={{width: "285px"}}> 
-            <img src="/img/invoLogo.png"  style={{width: "180px", marginLeft: "-8px" }}/>
+            <Image preview={false} alt="obortech" src="/img/invoLogo.png"  style={{width: "180px", marginLeft: "-8px" }}/>
             </div>
         <div style={{textAlign: "right", width: "100%"}}>
             <div style={{fontSize: "20px", fontWeight: "600"}}>Нэхэмжлэл</div>
@@ -624,7 +569,7 @@ const handleGeneratePdf = () => {
             <div style={ProductPrice}>Үнэ</div>
             <div style={ProductAmount}>Дүн</div>
         </div>
-        {items.map((e, i)=>(
+        {props.items.map((e, i)=>(
         <div style={Product} key={i}>
             <div style={ProductTitle}>{e.title}</div>
             <div style={ProductQuantity}>{e.cnt}</div>
@@ -677,7 +622,7 @@ const handleGeneratePdf = () => {
         <div style={{padding: "22px"}}> 
          <div style={{width: "400px", border: "1px solid #ccc", fontSize: "8px", padding: "15px"}}>
           <div style={{display: "flex", alignItems: "center", justifyContent: "space-between",   borderBottom: "1px solid #ccc"}}> 
-            <img style={{width: "90px"}} src="/img/invoLogo.png" /> 
+            <Image preview={false} alt="obortech" style={{width: "90px"}} src="/img/invoLogo.png" /> 
             <div style={{display: "flex", flexDirection: "column", fontSize: "8px", textAlign: "right"}}>
               <div style={{fontWeight: "bold"}}>INVOICE</div>
               <div style={{fontWeight: "bold"}}>Reg.No: 6371159</div>
@@ -710,7 +655,7 @@ const handleGeneratePdf = () => {
                     </div>
                     <div style={{display: "flex" }}> 
                         <div style={{width: "160px", textAlign: "left"}}>Amount Due(MNT):</div>
-                        <div style={{width: "50%", textAlign: "right"}}>{price.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,")}₮</div>
+                        <div style={{width: "50%", textAlign: "right"}}>{props.totalPrice * basketContext.hanshnuud[1].rate}₮</div>
                     </div>
                     
                 </div>
@@ -721,7 +666,7 @@ const handleGeneratePdf = () => {
                 <div>Price</div>
                 <div>Amount</div>
             </div>
-            {items.map((e, i)=>( 
+            {props.items.map((e, i)=>( 
             <div style={{display: "flex", justifyContent: "space-between", textAlign: "left", marginTop: "10px", fontWeight: "600"}} key={i}>
                 <div>{e.title}</div>
                 <div>{e.cnt}</div>
@@ -735,7 +680,7 @@ const handleGeneratePdf = () => {
             </div>
             <div style={AmountDue}>
             <div>Amount Due(MNT):</div>
-            <div>{price.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,")}₮</div>
+            <div>{props.totalPrice * basketContext.hanshnuud[1].rate}₮</div>
             </div> 
             <div style={Notes}> 
                 <div style={BoldText}>Notes / Terms</div>
@@ -767,7 +712,7 @@ const handleGeneratePdf = () => {
             </div> 
          </div>
          </div>
-      </div>
+</div>
 </div>
         </div>
           

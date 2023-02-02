@@ -66,10 +66,19 @@ const [tableParams, setTableParams] = useState({
   };
 useEffect(()=>{ 
 console.log("acceptCompany useEffect");
-companyDataFunc();
+// setTimeout nemsen
+// setTableParams({
+//   ...tableParams,
+//   pagination: {
+//     ...tableParams.pagination,
+//     total: 30, 
+//   },
+// }); 
+  companyDataFunc();
+
 },[])
 
-const companyDataFunc = () => {  
+const companyDataFunc = () => {   
 setSpinner(true);
 setLoading(true);
 const body = {
@@ -79,27 +88,34 @@ const body = {
     count: "10",
 };
 axios.post("/api/post/Gate", body).then((res) => {  
+  console.log("ene");
     setCompanyData(res.data.data);  
-    setTableParams({
-        ...tableParams,
-        pagination: {
-          ...tableParams.pagination,
-          total: 60, 
-        },
-      });
-      setSpinner(false); setLoading(false);
+    
+    // pageiin Toog uguhdu zaawal nuhtsul shalgaj uguh ba zaawal build hiine.
+    // setTableParams({
+    //     ...tableParams,
+    //     pagination: {
+    //       ...tableParams.pagination,
+    //       total: 10, 
+    //     }, 
+    //   });
+
+      setSpinner(false); 
+      setLoading(false);
+
 }) .catch((err) => {console.log(err)});  
 
-const body5 = {
-  func: "getPercentage"
-}
-axios.post("/api/post/Gate", body5).then((res)=>{
-  console.log("ress", res.data);
-  setShowIncentive(res.data.data[0].percentage);
  
-}).catch((err)=>{
-  console.log("err");
-})
+// const body5 = {
+//   func: "getPercentage"
+// }
+// axios.post("/api/post/Gate", body5).then((res)=>{
+//   console.log("ress", res.data);
+//   setShowIncentive(res.data.data[0].percentage);
+ 
+// }).catch((err)=>{
+//   console.log("err");
+// })
 
 };
 

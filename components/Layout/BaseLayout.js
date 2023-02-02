@@ -35,8 +35,7 @@ export default function BaseLayout(props) {
     setTimeout(()=>{
       setLoggedLoad(false); 
     },800);
-    getProfile();
-    console.log("layout");
+    getProfile(); 
  
     window.matchMedia("(min-width: 590px)").addEventListener('change', e => setMatches( e.matches ));
     // basketContext.basketStateFunc();
@@ -572,11 +571,11 @@ export default function BaseLayout(props) {
 </>
 }
 {/* Content ============================================================================== */}
+ 
 <div className={props.pageName === "items" ? css.ContentItem : props.pageName === "home" ? css.ContentHome  : props.pageName === "login" ? css.ContentHome :    toogleCss ? css.ContentCss : 
 props.pageName === "payment" ? css.ContentPayment : css.Content}> 
-      {props.children}
-
-</div>
+      {props.children} 
+</div> 
  </div> 
 }
 

@@ -19,14 +19,17 @@ export const BasketItem = (props) => {
 
   const router = useRouter();
   useEffect(() => {   
+    setTimeout(()=>{
+      basketStateFunc();
+      routerFunction();
+      MenuKey();
+      getUserProfileFunction();
+      HanshFunc();
+      todayDate();
+      orgIdLocal(); 
+    },600)
     
-    basketStateFunc();
-    routerFunction();
-    MenuKey();
-    getUserProfileFunction();
-    HanshFunc();
-    todayDate();
-    orgIdLocal(); 
+
   }, []);
  
   const onCollapse = (e) => {

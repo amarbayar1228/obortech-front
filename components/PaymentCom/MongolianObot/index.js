@@ -27,9 +27,9 @@ const [matches, setMatches] = useState(window.matchMedia("(min-width: 768px)").m
 const [item, setItem] = useState(null);
 useEffect(()=>{
     window.matchMedia("(min-width: 768px)").addEventListener('change', e => setMatches( e.matches ));
-    console.log("Mongol Obot props ===> ", props);
+    // console.log("Mongol Obot props ===> ", props);
     setItem(props.item);
-},[])
+},[props])
 const onChange = (e) => {
     console.log('radio checked', e.target.value);
     setBankValue(e.target.value);
@@ -147,8 +147,8 @@ const payOrders = {
     paymentMethod: 8,  
     coin: props.mntUsdPrice[0].obot, 
     description: props.userInfo.description, 
-    sourceDesc: props.sourceData[0].nameeng,
-    source: props.sourceData[0].index_,
+    sourceDesc: props.sourceData[7].nameeng,
+    source: props.sourceData[7].index_,
     userPkId: localStorage.getItem("pkId"),
 }
     axios.post("/api/post/Gate", payOrders).then((res)=>{

@@ -95,8 +95,9 @@ const SuccessOrder = (props) =>{
     const [formValue, setFormValue] = useState("mn");
     const [mnPrice, setMnPrice] = useState(0);
     useEffect(()=>{
-        console.log("items: ", props);
+        // console.log("items: ", props);
         
+       const funcu = () =>{
         setMnPrice(props.mnPrice[0].mnt);
         setUserForm(JSON.parse(localStorage.getItem("invoF")));
         setDate1(JSON.parse(localStorage.getItem("d1")));
@@ -106,9 +107,11 @@ const SuccessOrder = (props) =>{
         setItems(props.items);
         setToggle(true);
     }
+       }
+       funcu();
         // setTitle(props.totalPriceState);
 
-    },[])
+    },[props])
 const cancelF = () =>{
     setPrice(0);
     setToggle(false);
@@ -141,7 +144,7 @@ const downloadPdf = () =>{
     
   ;
 
-    console.log('red', img1);
+    // console.log('red', img1);
    
 }
 const handleChange = (value) =>{
@@ -163,7 +166,8 @@ return <div>
     <div style={Home} >
     <div  style={{display: "flex", alignItems: "center", justifyContent: "space-between"}}>  
         <div style={{width: "285px"}}> 
-            <img src="/img/invoLogo.png"  style={{width: "180px", marginLeft: "-8px" }}/>
+            <Image alt="Obertech"  preview={false}src="/img/invoLogo.png"  style={{width: "180px", marginLeft: "-8px" }}/>
+              {/* src="/img/OBORTECH_logo_H_clean.svg" width={200} */}
             </div>
         <div style={{textAlign: "right", width: "100%"}}>
             <div style={{fontSize: "20px", fontWeight: "600"}}>{formValue === "mn" ? formText[0].invoice.mn : formText[0].invoice.en}</div>

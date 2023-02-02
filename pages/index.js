@@ -16,26 +16,26 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 // import "antd/dist/antd.css";
 const { Search } = Input;
-const { Option } = Select;
+// const { Option } = Select;
 const { confirm } = Modal;
 
-function dataURLtoFile(dataurl, filename) {
+// function dataURLtoFile(dataurl, filename) {
  
-  var arr = dataurl.split(','),
-      mime = arr[0].match(/:(.*?);/)[1],
-      bstr = atob(arr[1]),
-      n = bstr.length,
-      u8arr = new Uint8Array(n);
+//   var arr = dataurl.split(','),
+//       mime = arr[0].match(/:(.*?);/)[1],
+//       bstr = atob(arr[1]),
+//       n = bstr.length,
+//       u8arr = new Uint8Array(n);
       
-  while(n--){
-      u8arr[n] = bstr.charCodeAt(n);
-  }
+//   while(n--){
+//       u8arr[n] = bstr.charCodeAt(n);
+//   }
   
-  return new File([u8arr], filename, {type:mime});
-}
+//   return new File([u8arr], filename, {type:mime});
+// }
 
 
-export default function Home(props) {
+export default function Home() {
   const { t } = useTranslation("organization");
   const [addItemStyle, setAddItemStyle] = useState([css.addItemStyle]);
   const basketContext = useContext(BasketContext);
@@ -45,23 +45,16 @@ export default function Home(props) {
   const [radioS,setRadioS] = useState("");
   const [value, setValue] = useState("");
   const [btnDis, setBtnDis]= useState(true);
-  const [valueError, setValueError] = useState(0);
+  // const [valueError, setValueError] = useState(0);
   const [orgId, setOrgId] = useState(undefined);
   const [searchStatus, setSearchStatus] = useState("");
-  const inputRef = useRef(null);
-  const [orgNameMnEn, setOrgNameMnEn] = useState([]);
+  const inputRef = useRef(null); 
   // const [massive, setMassive] = useState([]);
-  const sharedProps = {
-    // style: {
-    //   width: '100%',
-    // },
-    // defaultValue: 'Ant Design love you!',
-    ref: inputRef,
-  };
+ 
 
   const router = useRouter(); 
   useEffect(() => { 
-    console.log("index");
+  
     tokenFunc(); 
     // setMassive(massive =>({...massive, amraa: "bataa"}));
     // setMassive(massive =>({...massive, amraa: "boldoo"}));
@@ -79,7 +72,7 @@ export default function Home(props) {
   } 
   }
   const onSearch = (value, b, c) => {  
-    console.log("value: ", c);
+ 
     setBtnDis(true);
     setRadioS("");
     setSpin(true);
@@ -93,20 +86,19 @@ export default function Home(props) {
     if(value == ""){
       inputRef.current.focus({
         cursor: 'start',
-      });
-      console.log("hooson bn ");
+      }); 
       setSearchStatus("error");
-      setValueError(1);
+      // setValueError(1);
       setSpin(false);
       setOrgIdState("");
     }else {
       setSearchStatus("");
       setOrgId(value);
-      setValueError(0);
+      // setValueError(0);
       setSpin(true);
       axios.post("/api/post/Gate", body).then((res)=>{  
         if(res.data.data){
-          console.log("search: ", res.data);
+          // console.log("search: ", res.data);
           setOrgIdState(router.locale === "mn" ? res.data.data.map.local_name : res.data.data.map.name);
           setOrgError(""); 
           setSpin(false);
@@ -127,12 +119,9 @@ export default function Home(props) {
     title: t('your chosen organization name?', { ns: 'organization' }), icon: <ExclamationCircleOutlined />,
     content: <div style={{display: "flex", alignItems: "center"}}>{t('Organization name', { ns: 'organization' })}: <div style={{fontWeight: "700", paddingLeft: "5px"}}>{value} </div></div>,
     onOk() { 
-      {console.log("orgID: ", basketContext.orgId)}
+      // {console.log("orgID: ", basketContext.orgId)}
       basketContext.orgId === undefined ? null : basketContext.clearBasket()
-
-      basketContext.orgIdLocal(value, orgId);
-      
-
+      basketContext.orgIdLocal(value, orgId); 
       router.push("/items")
     }, 
     okText: t('ok', { ns: 'organization' }),
@@ -143,13 +132,13 @@ export default function Home(props) {
     },
   });
   };
-  const handleChange = (value) => {
-    console.log(value);
-    if(value == 0){
-      showConfirm();
-    }
+  // const handleChange = (value) => {
+  //   console.log(value);
+  //   if(value == 0){
+  //     showConfirm();
+  //   }
 
-  };
+  // };
 
   const onChangeRadio = (e) =>{ 
     setRadioS("a");
@@ -159,77 +148,12 @@ export default function Home(props) {
   const onChangeCaptcha = (a) =>{ 
     a == null ? (setBtnDis(true),  setValue(""), setRadioS("")) : setBtnDis(false)
   }
-  const searchChangeFunc = () =>{
-    // console.log("end");
+  const searchChangeFunc = () =>{ 
     setSearchStatus("")
   }
-  const printPDF = () => { 
-    const domElement = document.getElementById("printable").innerHTML;
-    html2canvas(domElement).then((canvas) => {
-      const doc = new jsPDF();
-      doc.text("Hello world!", 10, 10);
-      doc.save(`attachment.pdf`);
-    });
-  };
-  const downloadPdf = () =>{
-    console.log("object");
-    const input = document.getElementById("invoice");
-    const input2 = document.getElementById("invoiceMnPdf");
-    
-    html2canvas(input2).then((canvas) =>{
-        const imgData = canvas.toDataURL("image/png");
-        const pdf = new jsPDF();
-  
-        pdf.addImage(imgData, "JPEG", 10, 10);
-        pdf.save("Invoice.pdf");   
-        pdf.output("datauristring");
-        console.log("data",  pdf.output("datauristring"));
-        // const nPdf = pdf.output("datauristring"); 
-        // const splitPDF = nPdf.split("base64,")[1]; 
-     
-// const invoHtml = document.getElementById("hello");
-
-// console.log("html: ",invoHtml.innerHTML);  
-// const config = {
-//   api: {
-//       bodyParser: {
-//           sizeLimit: '4mb' // Set desired value here
-//       }
-//   }
-// }
-      // const body = {
-      //   func: "base64topdf",
-      //   base64: splitPDF,
-      // } 
-      //   axios.post("/api/post/Gate", body).then((res)=>{
-      //     console.log("res", res.data.fileName);
-      //     const data1 = res.data.fileName;
-      //     const invoice = {
-      //       func: "sendInvoice",
-      //       email: "amarbayarbatbayar2@gmail.com",
-      //       body: invoHtml.innerHTML,
-      //       title_: "Invoice",
-      //       attachments: data1,
-      //     }
-      //     axios.post("/api/post/Gate", invoice).then((res)=>{
-      //       console.log("invoice: ", res.data);
-      //     }).catch((err)=>{
-      //       console.log("err", err);
-      //     });
-        
-
-
-      //   }).catch((err)=>{
-      //     console.log("err", err);
-      //   }) 
-
-    });
-}
-const inputFile = (a) =>{
-  console.log("file", a);
-  var x = document.getElementById("mf").files[0];
-  console.log(x)
-}
+ 
+ 
+ 
 return (
 <div style={{ fontFamily: "Roboto Condensed, sans-serif"}}>
 <Head> <title>ss{t('obortech', { ns: 'organization' })}</title> <meta name="description" content="Generated by create next app" /><link rel="icon" href="img/HeaderLogo.png" /></Head>
@@ -237,13 +161,6 @@ return (
   <div className={css.SearchCss}> 
     <div className={css.SearchInput}>
       <Divider style={{fontSize: "18px", color: "#000"}}> {t('Search of organizations', { ns: 'organization' })}</Divider>
-      {/* <div>
-        Hello:  {basketContext.t("Create An Account")} {" "}
-       
-      </div>
-      <div>XXX:  two: {t('Search of organizations', { ns: 'organization' })}</div>
-      <div>Hello2: {basketContext.t("Enter your organization ID")}  </div> */}
-      {/* <input id="mf" name="userfile" type="file" accept="application/pdf, application/vnd.ms-excel"  onChange={inputFile}/>  */}
       <Search placeholder={t('Enter your organization ID', { ns: 'organization' })} allowClear  size="large" onSearch={onSearch} enterButton status={searchStatus} ref={inputRef} onChange={searchChangeFunc} />
        
         {orgIdState === "" ? spin ?  <div className={css.SpinCss}> <Spinner /> </div> : orgError === "" ? "" :  

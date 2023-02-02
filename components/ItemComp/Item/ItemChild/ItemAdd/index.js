@@ -13,7 +13,7 @@ const [typeLevelSub, setTypeLevelSub] = useState(14);
 const [typeSubValue, setTypeSubValue] = useState(0);
 const [levelSpin, setLevelSping] = useState(false);
 useEffect(()=>{
-    console.log("props: ", props);
+    // console.log("props: ", props);
 },[])
 const showModal = () =>{
     console.log("props: ", props);

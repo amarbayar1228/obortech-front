@@ -76,7 +76,23 @@ const [others10Status, setOthers10Status] = useState("");
 const [ques10Label, setQues10Label] = useState("");
 
 useEffect(()=>{
-getDatas();
+    // setTimeout zassan
+    // setTimeout(()=>{
+    //     getDatas();
+    // },800)
+const getDatas = () =>{
+const question = {
+func:"getTypes",  
+parid:0,
+type_:3
+}
+axios.post("/api/post/Gate", question).then((res)=>{
+    
+setQuestionData(res.data.data)
+}).catch((err)=>{console.log("err", err)})
+questions();
+}
+getDatas();  
 console.log("useEff");
 
 },[]);
@@ -88,18 +104,6 @@ const onChangeCaptcha = (a) =>{
 }
 const errorCapt = (err) =>{
   console.log("err", err);
-}
-const getDatas = () =>{
-const question = {
-func:"getTypes",  
-parid:0,
-type_:3
-}
-axios.post("/api/post/Gate", question).then((res)=>{
- 
-setQuestionData(res.data.data)
-}).catch((err)=>{console.log("err", err)})
-questions();
 }
 
 const questions = () =>{

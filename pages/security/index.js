@@ -18,7 +18,7 @@ const [userFormCapt, setUserFormCapt] = useState(true);
 const [loggedLoad,setLoggedLoad ] = useState(true);
 const basketContext = useContext(BasketContext);
 useEffect(()=>{
-    console.log("basketContext: ", basketContext);
+  
     setTimeout(()=>{
         setLoggedLoad(false); 
       },800);

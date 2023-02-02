@@ -24,7 +24,7 @@ const basketContext = useContext(BasketContext);
 const [matches, setMatches] = useState(window.matchMedia("(min-width: 768px)").matches);
 useEffect(()=>{
     window.matchMedia("(min-width: 768px)").addEventListener('change', e => setMatches( e.matches ));
-    console.log("props", props);
+    // console.log("props", props);
 },[])
 const onChange = (e) => {
     console.log('radio checked', e.target.value);

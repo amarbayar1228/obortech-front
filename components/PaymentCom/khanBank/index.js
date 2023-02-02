@@ -20,7 +20,7 @@ const KhanBank = (props) => {
   const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
   const [sourceData, setSourceDate] = useState();
   useEffect(()=>{
-    console.log("kanbank: ======> ", props);
+    // console.log("kanbank: ======> ", props);
     getSource();
   },[])
 const getSource = () =>{ 

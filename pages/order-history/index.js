@@ -42,7 +42,7 @@ const OrderHistory = () => {
   const [itemHdrData, setItemHdrData] = useState();
   const [loggedLoad,setLoggedLoad ] = useState(true); 
   useEffect(() => {  
-    console.log("basketContext: ", basketContext);
+    // console.log("basketContext: ", basketContext);
     setTimeout(()=>{
         setLoggedLoad(false); 
       },800);

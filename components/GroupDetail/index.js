@@ -6,15 +6,25 @@ import css from "./style.module.css"
 
 const GroupDetails = (props)=>{
 const [gItemDetails, setGitemDetails] = useState([]);
+const [proPkid,setProPkid] = useState();
 const basketContext = useContext(BasketContext);
 useEffect(()=>{
-getGroupDetailsFunc();    
+    // setTimeout nemsen
+    // console.log("item Details ====>>>>>>>>>>>>>>>>>>>>>", props.items);
+    // setProPkid(props.items);
+    // setTimeout(()=>{
+    //     getGroupDetailsFunc(); 
+    // },[800])
+      
+     
+
 },[])
  
 const getGroupDetailsFunc = () =>{  
+
 const body = {
 func: "getGroups", 
-pkId: props.items};
+pkId: proPkid};
 axios.post("/api/post/Gate", body).then((res) => {  
 if (res.data.data.itemList == undefined) 
     {console.log("")} 
@@ -22,8 +32,10 @@ else {
 setGitemDetails(res.data.data.itemList);}
 }).catch((err) => {console.log("err", err)});
 }
+
     return <div>
-       {gItemDetails === undefined ? <Empty /> : (
+        Group Details
+       {/* {gItemDetails === undefined ? <Empty /> : (
             <>
             {gItemDetails.map((aa, i) => ( 
                     <div key={i} className={css.BasketItem}>
@@ -38,7 +50,7 @@ setGitemDetails(res.data.data.itemList);}
                     </div>
                 ))}
                 </>
-            )}
+            )} */}
     </div>
 }
 export default GroupDetails;

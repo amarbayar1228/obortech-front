@@ -5,27 +5,32 @@ import "swiper/css/free-mode";
 import "swiper/css/pagination";
 import { FreeMode, Pagination, Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Button, Carousel, Image, message, Spin } from "antd";
+import { Image} from "antd";
 import css from "./style.module.css"
+
 const ItemDetails = (props) =>{
-const [item, setItem]= useState([]);
-const [toogle, setToogle] = useState(false);
-const [matches, setMatches] = useState(window.matchMedia("(min-width: 768px)").matches)
+const [item, setItem]= useState([]); 
+const [matches, setMatches] = useState(window.matchMedia("(min-width: 768px)").matches);
+ 
+
 useEffect(()=>{
     window.matchMedia("(min-width: 768px)").addEventListener('change', e => setMatches( e.matches ));
-const body = { 
-func: "getGroups",
-status: 1,
-pkId: props.item,
-};
-    axios.post("/api/post/Gate", body)
-    .then((res) => { 
-        setItem(res.data.data.itemList);
-    })
-    .catch((err) => {
-        console.log("err", err);
-    });
-},[])
+    // console.log("item DetailsL ", props);
+    // setTimeOut
+    // const getGroup = () =>{
+        const body = { 
+            func: "getGroups",
+            status: 1,
+            pkId: props.item,
+            };
+        axios.post("/api/post/Gate", body).then((res) => { 
+            setItem(res.data.data.itemList);
+        }).catch((err) => {console.log("err", err)});
+    // }
+    // getGroup();
+
+},[props])
+
     return <div> 
                 <div className={css.GroupPackageDtl}>
                     <div className={css.GpdImage}>

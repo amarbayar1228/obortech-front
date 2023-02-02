@@ -31,7 +31,15 @@ const [valuePerRadio, setValuePerRadio] = useState(0);
 
 useEffect(()=>{
 console.log("AdminAcceptCompany");
-getNewComp();
+    //  setTableParams({
+    //     ...tableParams,
+    //     pagination: {
+    //       ...tableParams.pagination,
+    //       total: 30, 
+    //     },
+    //   }); 
+  getNewComp();
+
 },[])
 const getNewComp = () => {
 setSpinner(true);
@@ -42,16 +50,13 @@ const body = {
     count: 10,
 }; 
 axios.post("/api/post/Gate", body).then((res) => {
-console.log("res.data: ", res.data.data);
+console.log("res. admin accept: ", res.data.data.length);
 setCompanyData(res.data.data);
     setSpinner(false);
-    setTableParams({
-        ...tableParams,
-        pagination: {
-          ...tableParams.pagination,
-          total: 60, 
-        },
-      });
+ 
+   
+   
+
 // setGetCompany(res.data.data);
 // confirmCompanyList();
 }).catch((err) => {console.log(err)});

@@ -13,7 +13,7 @@ const basketContext = useContext(BasketContext);
 const [loggedLoad, setLoggedLoad]= useState(true);
 useEffect(() => { 
  
-  basketContext.getUserProfileFunction();
+  // basketContext.getUserProfileFunction();
   setTimeout(()=>{
     setLoggedLoad(false); 
   },800);

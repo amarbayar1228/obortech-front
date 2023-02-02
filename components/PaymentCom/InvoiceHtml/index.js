@@ -1,3 +1,4 @@
+import { Image } from "antd"
 
 const Home = {
     position: "relative",
@@ -7,47 +8,7 @@ const Home = {
     padding: "40px",
     color: "#000"
 }
-const Header =  {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "570px"
-} 
-const HdrTitle = {
-    textAlign: "right",
-    width: "285px"
-} 
-const HdrSite = {
-    marginTop: "15px"
-} 
-const ImgLogo = {
-    width: "180px",
-    marginLeft: "-8px"
-} 
-const BillTo = {
-    position: "relative",
-    width: "100%",
-    display: "flex",
-    justifyContent: "space-between",
-    marginTop: "15px",
-    borderTop: "1px solid #ccc",
-    paddingTop: "5px",
-} 
-const BillRight = {
-    marginTop: "10px",
-    textAlign: "right",
-    fontWeight: "600",
-    lineHeight: "30px",
-    width: "300px",
-} 
-const BillLeft = {
-    textAlign: "left",
-    width: "300px"
-} 
-const InvoiceNumber  = {
-    display: "flex",
-    justifyContent: "space-between"
-} 
+  
 const Product = {
     display: "flex",
     justifyContent: "space-between",
@@ -89,12 +50,7 @@ const AmountDue = {
     fontWeight: "600",
     marginLeft: "50%",
 } 
-const Banks = {
-    display: "flex",
-    justifyContent:"space-between",
-    textAlign: "left",
-    margin: "10px 0px",
-} 
+ 
 const Notes = {
     textAlign: "left"
 } 
@@ -108,7 +64,7 @@ const InvoiceHtml = (props)=>{
     <div style={Home} >
         <div  style={{display: "flex", alignItems: "center", justifyContent: "space-between"}}>  
             <div style={{width: "285px"}}> 
-                <img src="https://scontent.fuln1-2.fna.fbcdn.net/v/t39.30808-6/267946776_4702286443188593_9002145977596374642_n.png?_nc_cat=104&ccb=1-7&_nc_sid=730e14&_nc_ohc=KC5BsR7b7VwAX_c5gG8&_nc_ht=scontent.fuln1-2.fna&oh=00_AfD8VzSabDO3RRttP31rTOYxRW3PGPh-PZg-ltD4J9HlKw&oe=63B8199A"  style={{width: "180px", marginLeft: "-8px" }}/>
+                <Image preview={false} alt="obortech" src="https://scontent.fuln1-2.fna.fbcdn.net/v/t39.30808-6/267946776_4702286443188593_9002145977596374642_n.png?_nc_cat=104&ccb=1-7&_nc_sid=730e14&_nc_ohc=KC5BsR7b7VwAX_c5gG8&_nc_ht=scontent.fuln1-2.fna&oh=00_AfD8VzSabDO3RRttP31rTOYxRW3PGPh-PZg-ltD4J9HlKw&oe=63B8199A"  style={{width: "180px", marginLeft: "-8px" }}/>
                 </div>
             <div style={{textAlign: "right", width: "100%"}}>
                 <div style={{fontSize: "20px", fontWeight: "600"}}>INVOICE</div>

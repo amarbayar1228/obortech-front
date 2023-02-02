@@ -81,7 +81,44 @@ const Payment = () => {
   const [mntPrice, setMntPrice] = useState(0);
   const [sourceData, setSourceDate] = useState()
   //const { amaraa } = router.query;
- 
+  useEffect(() => {
+    console.log("payment");
+    const totalPriceFunction = () => { 
+      let itemPrice = 0;
+      let result = 0; 
+       basketContext.basketState.forEach((element) => {
+        if (element.itemPriceTotal == undefined) { 
+          result = element.price;
+        } else {
+          result = element.itemPriceTotal;
+        }
+        itemPrice += element.cnt * result; 
+      })
+      setSuccessOrderPrice(itemPrice);
+      setTotalPriceState(itemPrice);
+    };
+    totalPriceFunction();
+
+    dateFunction(); 
+    // console.log("url",window.location.href); 
+    getDefMaximFi(); 
+    setOrderId(localStorage.getItem("or"));
+    getSource();
+    const queryString = window.location.search;
+    if(localStorage.getItem("oAiD") === undefined){
+     
+      setOrderIdLocal(0);
+    }else {
+      setOrderIdLocal(localStorage.getItem("oAiD"))
+      console.log("object", localStorage.getItem("oAiD"));
+    } 
+    // var url_string = "http://192.168.1.14:3000/payment?parameter1=amaraa&parameter2=000&body=asdjflajsdlkfjaklsjfklhadbd2626251dsf3as5df1as53df1as5df1as3fd51as3df153sadfas&fbclid=IwAR24B-dJ611MB46g-9X2v0rK3P8_7NgWmDtCnZxPTY1ZVraFwFfzM4pd760";  
+    // // console.log('amaraa', router.query); 
+    // window.onpopstate = (event) =>{ 
+    //   history.go(1)
+    //   console.log("event", event); 
+    // }
+  }, [basketContext]);
   const recaptchaRef = useRef();
   const validateMessages = {
     required: "${label} is required!",
@@ -128,55 +165,25 @@ const Payment = () => {
   const prev = () => {
     setCurrent(current - 1);
   };
-  useEffect(() => {
-   
-    totalPriceFunction();
-    dateFunction(); 
-    // console.log("url",window.location.href); 
-    getDefMaximFi(); 
-    setOrderId(localStorage.getItem("or"));
-    getSource();
-    const queryString = window.location.search;
-  
-    if(localStorage.getItem("oAiD") === undefined){
-     
-      setOrderIdLocal(0);
-    }else {
-      setOrderIdLocal(localStorage.getItem("oAiD"))
-      console.log("object", localStorage.getItem("oAiD"));
-    }
-    
 
-    var url_string = "http://192.168.1.14:3000/payment?parameter1=amaraa&parameter2=000&body=asdjflajsdlkfjaklsjfklhadbd2626251dsf3as5df1as53df1as5df1as3fd51as3df153sadfas&fbclid=IwAR24B-dJ611MB46g-9X2v0rK3P8_7NgWmDtCnZxPTY1ZVraFwFfzM4pd760"; 
-    
-    
-    console.log('amaraa', router.query);
-  
-
-    window.onpopstate = (event) =>{
-      
-      history.go(1)
-      console.log("event", event); 
-    }
-    // totalPriceFunction();
-  }, []);
   const getSource = () =>{ 
     const body = {
       func: "getSource"
     }
     axios.post("/api/post/Gate", body).then((res)=>{
-      console.log("res", res.data.data);
+      console.log("get Sourse ==> ", res.data.data);
       setSourceDate(res.data.data);
     }).catch((err)=>{console.log("err", err)})
   }
-  const sentTdb = ()  =>{
-    var url_string = "http://192.168.1.14:3000/payment?parameter1=amaraa&parameter2=000&body=asdjflajsdlkfjaklsjfklhadbd2626251dsf3as5df1as53df1as5df1as3fd51as3df153sadfas&fbclid=IwAR24B-dJ611MB46g-9X2v0rK3P8_7NgWmDtCnZxPTY1ZVraFwFfzM4pd760";
-    const urlParams = new URLSearchParams(url_string);
-    console.log("query: "); 
-    console.log("url param: ", urlParams);
-  }
+  // const sentTdb = ()  =>{
+  //   var url_string = "http://192.168.1.14:3000/payment?parameter1=amaraa&parameter2=000&body=asdjflajsdlkfjaklsjfklhadbd2626251dsf3as5df1as53df1as5df1as3fd51as3df153sadfas&fbclid=IwAR24B-dJ611MB46g-9X2v0rK3P8_7NgWmDtCnZxPTY1ZVraFwFfzM4pd760";
+  //   const urlParams = new URLSearchParams(url_string);
+  //   console.log("query: "); 
+  //   console.log("url param: ", urlParams);
+  // }
 
   const dateFunction = () => {
+   
     console.log("date time: ");
     
     const mounths = ["01","02","03","04","05","06","07","08","09","10","11","12"];
@@ -186,21 +193,7 @@ const Payment = () => {
     datePlus.setDate(datePlus.getDate() + 30);
     setDatePlusState(datePlus.getFullYear() +"/" +mounths[datePlus.getMonth()] +"/" +datePlus.getDate()); 
   };  
-  const totalPriceFunction = () => {
-  
-    let itemPrice = 0;
-    let result = 0; 
-     basketContext.basketState.forEach((element) => {
-      if (element.itemPriceTotal == undefined) { 
-        result = element.price;
-      } else {
-        result = element.itemPriceTotal;
-      }
-      itemPrice += element.cnt * result; 
-    })
-    setSuccessOrderPrice(itemPrice);
-    setTotalPriceState(itemPrice);
-  };
+
   const orderOrgId2 = () => {
     const rs = usdStateTarget + coinStateTarget + tugrugStateTarget;
      
@@ -932,7 +925,7 @@ const steps = [
          </div>
         </div>
         <div className={css.ProceedTo}><Button disabled={bankValue === undefined ? true : false} className={css.CheckoutBtn} size="large" onClick={placeOrder}>Place order</Button>
-          {console.log("paymethod banks: ", bankChoose)}
+          {/* {console.log("paymethod banks: ", bankChoose)} */}
         </div>
       </div>
 

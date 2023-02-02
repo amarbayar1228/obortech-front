@@ -35,11 +35,11 @@ const [loggedLoad, setLoggedLoad]= useState(true);
 
   useEffect(()=>{
     
-    basketContext.getUserProfileFunction();
+    // basketContext.getUserProfileFunction();
     setTimeout(()=>{
       setLoggedLoad(false);
       console.log('2 login');
-      basketContext.getUserProfileFunction();
+      // basketContext.getUserProfileFunction();
       setSpinCapt(1);
     },800);
   
@@ -241,7 +241,7 @@ const focusInput = () =>{
             </div>
             <div style={{margin: "0px 32px"}}>
                
-              <div className={css.VerifyText}>We've sent a verification code to your email - {email === "" ? "null" : email}</div>
+               <div className={css.VerifyText}>{"We've sent a verification code to your email - "} {email === "" ? "null" : email}</div> 
               <div>
                 
                 <Input ref={inputRef} onPressEnter={onPressEnterF} onChange={(e)=>setCode(e.target.value)}  suffix={<div style={{fontSize: "11px", fontWeight: "600", color: "#4d5057"}}> Sent [{cd}] sec </div>} placeholder="Enter verification code" /></div>

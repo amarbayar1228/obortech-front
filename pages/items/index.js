@@ -21,7 +21,7 @@ const Items = () => {
   const [spinState, setSpinState] = useState(true); 
   const [groupState1, setGroupState1] = useState([]);
   useEffect(() => {
-   console.log("Org Id", basketContext.orgId);
+   
   //  setTimeout(()=>{
   //   basketContext.orgIdLocal();
   //  }, 500);

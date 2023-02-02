@@ -184,8 +184,9 @@ useEffect(()=>{
           <div><Button icon={<ArrowLeftOutlined />} type="link" onClick={()=>setShowCode(false)}></Button></div>
           <div>OTP Verification</div>
         </div>
-        <div style={{margin: "0px 32px"}}> 
-          <div className={css.VerifyText}>We've sent a verification code to your email - <span style={{fontWeight: "600"}}>{email === "" ? "null" : email}</span></div>
+        {/* `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;` */}
+        <div style={{margin: "0px 32px"}}>  
+          <div className={css.VerifyText}>{"We've sent a verification code to your email - "}<span style={{fontWeight: "600"}}>{email === "" ? "null" : email}</span></div>
           <div><Input onChange={onChangeCode}  suffix={<div style={{fontSize: "11px", fontWeight: "600", color: "#4d5057"}}> Sent [{cd}] sec </div>} placeholder="Enter verification code" /></div>
 
           <div style={{marginTop: "10px",marginBottom: "10px", display: "flex", justifyContent: "space-between", alignItems: "center"}}>

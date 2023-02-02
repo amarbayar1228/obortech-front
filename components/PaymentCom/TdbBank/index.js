@@ -6,11 +6,11 @@ import axios from "axios";
 const TdbBank = () =>{
 const router = useRouter();
 useEffect(()=>{
-    console.log("object", router.query); 
+    // console.log("object", router.query); 
    
 },[])
 const TdbBankfunc = () =>{
-    console.log("object", router.query); 
+    // console.log("object", router.query); 
 const body = {
     func: "tdbm",
     body: router.query.body,
