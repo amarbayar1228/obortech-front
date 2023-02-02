@@ -210,19 +210,24 @@ export default function BaseLayout(props) {
 
        {settingToggle ? 
        <div className={css.SettingToggleCss}>
-       <div className={css.SettingTitle}><Button type="ghost" shape="circle" size="small" onClick={()=>setSettingToggle(false)}><ArrowLeftOutlined /></Button> Setting & privacy </div>
+       <div className={css.SettingTitle}><Button type="ghost" shape="circle" size="small" onClick={()=>setSettingToggle(false)}><ArrowLeftOutlined /></Button>
+       {basketContext.t('settingPrivacy', { ns: 'header' })}  </div>
        {admin === "1" ?
-       <Button size="large" type="link" className={router.pathname === "/global-settings" ? css.LanguageBtnActive : css.LanguageBtn } onClick={()=> router.push("/global-settings")} style={{width: "100%"}}><SettingOutlined /> Global settings</Button> 
+       <Button size="large" type="link" className={router.pathname === "/global-settings" ? css.LanguageBtnActive : css.LanguageBtn } onClick={()=> router.push("/global-settings")} style={{width: "100%"}}><SettingOutlined /> {basketContext.t('globalSettings', { ns: 'header' })}</Button> 
        : null}
-       <Button type="link" size="large" className={router.pathname === "/security" ? css.LanguageBtnActive : css.LanguageBtn } onClick={()=>router.push("/security")} style={{width: "100%"}}><SecurityScanOutlined /> Security </Button> 
+       <Button type="link" size="large" className={router.pathname === "/security" ? css.LanguageBtnActive : css.LanguageBtn } onClick={()=>router.push("/security")} style={{width: "100%"}}><SecurityScanOutlined /> {basketContext.t('security', { ns: 'header' })}</Button> 
        </div>
        :
        <div> 
      
-      <Button type="link" size="large" className={router.pathname === "/security" ? css.LanguageBtnActive : css.LanguageBtn }  onClick={securityBtn}><div><SettingOutlined /> Settings</div> <div style={{position: "absolute", right: "2px"}}><RightOutlined /></div></Button>  
-      <Button type="link" size="large" className={router.pathname === "/profile" ? css.LanguageBtnActive : css.LanguageBtn } onClick={Profile}><UserOutlined /> Profile</Button> 
-      <Button type="link" size="large" className={router.pathname === "/log" ? css.LanguageBtnActive : css.LanguageBtn }  onClick={()=>router.push("/log")} icon={<UnorderedListOutlined /> }>Log</Button>
-      <Button type="link" size="large" onClick={logoutFunction} className={css.LanguageBtn}><LogoutOutlined /> Log out</Button>
+      <Button type="link" size="large" className={router.pathname === "/security" ? css.LanguageBtnActive : css.LanguageBtn }  onClick={securityBtn}><div>
+        <SettingOutlined /> {basketContext.t('settings', { ns: 'header' })}</div> <div style={{position: "absolute", right: "2px"}}><RightOutlined /></div></Button>  
+      <Button type="link" size="large" className={router.pathname === "/profile" ? css.LanguageBtnActive : css.LanguageBtn } onClick={Profile}><UserOutlined />
+      {basketContext.t('profile', { ns: 'header' })}</Button> 
+      <Button type="link" size="large" className={router.pathname === "/log" ? css.LanguageBtnActive : css.LanguageBtn }  onClick={()=>router.push("/log")} icon={<UnorderedListOutlined /> }>{basketContext.t('log', { ns: 'header' })}</Button>  
+      <Button type="link" size="large" onClick={logoutFunction} className={css.LanguageBtn}><LogoutOutlined />
+      {basketContext.t('logout', { ns: 'header' })}
+      </Button>
       </div>
       }
     </div>
@@ -338,32 +343,36 @@ export default function BaseLayout(props) {
 <div className={css.MenuCont}>  
  
 {/* Login */}
-{localPkId ? "" : <div className={css.RoutCss}><Button onClick={loginRouter} type="link" className={router.pathname === "/login" ? css.LanguageBtnActive : css.LanguageBtn}><UserOutlined/>Login</Button></div>}
+{localPkId ? "" : <div className={css.RoutCss}><Button onClick={loginRouter} type="link" className={router.pathname === "/login" ? css.LanguageBtnActive : css.LanguageBtn}><UserOutlined/>{basketContext.t('login', { ns: 'header' })} </Button></div>}
 
 {/* Home */} 
 <div className={css.RoutCss}><Button onClick={homeRouter} type="link" className={router.pathname === "/" ? css.LanguageBtnActive : css.LanguageBtn}><HomeOutlined /> {t("homeName")}</Button></div>
 {/* Item */}
 {basketContext.orgId == undefined ? "" : 
-<div className={css.RoutCss}> <Button onClick={() => router.push("/items")} type="link" className={router.pathname === "/items" ? css.LanguageBtnActive  : css.LanguageBtn}><AppstoreAddOutlined /> Items </Button></div>}
+<div className={css.RoutCss}> <Button onClick={() => router.push("/items")} type="link" className={router.pathname === "/items" ? css.LanguageBtnActive  : css.LanguageBtn}><AppstoreAddOutlined /> {basketContext.t('items', { ns: 'header' })}  </Button></div>}
 
 {/* Dashboard */}
-{localPkId ? (<div><Button onClick={userDashboard} type="link" className={router.pathname === "/dashboard" ?  css.LanguageBtnActive : css.LanguageBtn}><AppstoreOutlined /> {t("dashboardTitle")}</Button></div>) : ("")}
+{localPkId ? (<div><Button onClick={userDashboard} type="link" className={router.pathname === "/dashboard" ?  css.LanguageBtnActive : css.LanguageBtn}>
+  <AppstoreOutlined /> {t("dashboardTitle")}</Button></div>) : ("")}
 {/* Profile */}
-{localPkId ? (<div><Button onClick={Profile} type="link" className={router.pathname === "/profile" ? css.LanguageBtnActive : css.LanguageBtn}><UserOutlined />Profile</Button></div>) : ("")}
+{localPkId ? (<div><Button onClick={Profile} type="link" className={router.pathname === "/profile" ? css.LanguageBtnActive : css.LanguageBtn}>
+  <UserOutlined />{basketContext.t('profile', { ns: 'header' })} </Button></div>) : ("")}
 {/* Log */}
-{localPkId ? (<div><Button onClick={()=>router.push("/log")} type="link" className={router.pathname === "/log" ? css.LanguageBtnActive: css.LanguageBtn}><UnorderedListOutlined />Log</Button></div>) : ("")}
+{localPkId ? (<div><Button onClick={()=>router.push("/log")} type="link" className={router.pathname === "/log" ? css.LanguageBtnActive: css.LanguageBtn}>
+  <UnorderedListOutlined />{basketContext.t('log', { ns: 'header' })} </Button></div>) : ("")}
 {/* Security  */}
-{localPkId ? (<div><Button onClick={()=>router.push("/security")} type="link" className={router.pathname === "/security" ? css.LanguageBtnActive: css.LanguageBtn}>< SecurityScanOutlined />Security </Button></div>) : ("")}
+{localPkId ? (<div><Button onClick={()=>router.push("/security")} type="link" className={router.pathname === "/security" ? css.LanguageBtnActive: css.LanguageBtn}>< SecurityScanOutlined />{basketContext.t('security', { ns: 'header' })} </Button></div>) : ("")}
 {/* Global settings */}
 {localPkId ? admin === "1" ?
-<div><Button onClick={()=> router.push("/global-settings")} type="link" className={router.pathname === "/global-settings" ? css.LanguageBtnActive : css.LanguageBtn}><SettingOutlined />Global settings</Button></div>
+<div><Button onClick={()=> router.push("/global-settings")} type="link" className={router.pathname === "/global-settings" ? css.LanguageBtnActive : css.LanguageBtn}><SettingOutlined />{basketContext.t('globalSettings', { ns: 'header' })} </Button></div>
 : null : null}
 
 
 {/* Log out */}
-{localPkId ? <div><Button type="link" onClick={logoutFunction} className={css.LanguageBtn}><LogoutOutlined /> Log out</Button></div> : null }
+{localPkId ? <div><Button type="link" onClick={logoutFunction} className={css.LanguageBtn}><LogoutOutlined /> {basketContext.t('logout', { ns: 'header' })} </Button></div> : null }
 
- 
+          {/* ============================ Header end ============================================ */}
+
 
 {/* {settingToggle ? 
 <div className={css.SettingToggleCss}> 
@@ -380,14 +389,14 @@ export default function BaseLayout(props) {
 </div>  
 </Drawer>
   </div> 
-{/* Desktop ============================================================================== */}
+{/* Header Desktop ==============================================================================  deerh mobile */}
   <div className={css.HeaderItem}>
     <div className={router.pathname === "/" ? css.Active : ""}>
-      <Tooltip title={t("homeName")}><Button onClick={homeRouter} type="link" className={css.Icons}><HomeOutlined /></Button></Tooltip>
+      <Tooltip title={basketContext.t('homeName', { ns: 'header' })}><Button onClick={homeRouter} type="link" className={css.Icons}><HomeOutlined /></Button></Tooltip>
     </div>
     {basketContext.orgId === undefined ? "" : 
       <div className={router.pathname == "/items" ? css.Active : ""}>
-      <Tooltip title={"items"}><Button onClick={() => router.push("/items")} type="link" className={css.Icons}><AppstoreAddOutlined /></Button></Tooltip>
+      <Tooltip title={basketContext.t('items', { ns: 'header' })}><Button onClick={() => router.push("/items")} type="link" className={css.Icons}><AppstoreAddOutlined /></Button></Tooltip>
     </div>} 
     {localPkId ? (
       <div className={
@@ -398,16 +407,18 @@ export default function BaseLayout(props) {
           router.pathname == "/referral" ||
           router.pathname == "/add-admin" ||
           router.pathname == "/add-item" ? css.Active : ""}>
-        <Tooltip title={t("dashboardTitle")}><Button onClick={userDashboard} type="link" className={css.Icons}><AppstoreOutlined /></Button></Tooltip>
+        <Tooltip title={basketContext.t('dashboardTitle', { ns: 'header' })}><Button onClick={userDashboard} type="link" className={css.Icons}>
+          <AppstoreOutlined /></Button>
+        </Tooltip>
       </div>) : ("")}
 
     {basketContext.orgId == undefined ? ("") : (
       <div className={router.pathname == "/payment" ? css.PopoverStyle2 : css.PopoverStyle1}>
         {basketContext.basketState.length === 0 ? (<div className={css.BasketPopNone}> </div>
         ) : (<div className={ addItemStyleProps === undefined ? [css.BasketPop] : addItemStyleProps}>{basketContext.basketState.length}</div>)}
-        <Tooltip title={"Cart"}>
+        <Tooltip title={basketContext.t('cart', { ns: 'header' })}>
           <Popover content={<BacketComponent />} title={<div className={css.BasketHeader} >
-          <div className={css.BasketHdrCss}><ShoppingCartOutlined style={{ paddingRight: "5px", fontSize: "15px" }}/>{"Cart"}</div>
+          <div className={css.BasketHdrCss}><ShoppingCartOutlined style={{ paddingRight: "5px", fontSize: "15px" }}/>{basketContext.t('cart', { ns: 'header' })}</div>
             <div>{basketContext.orgId == undefined ? "" : <div className={css.OrgIdText2}>
               
             <Tooltip   title={
@@ -440,7 +451,7 @@ export default function BaseLayout(props) {
               <div className={ router.pathname == "/profile" ? css.ProfileCss : css.FlexPro}>
                 <UserOutlined />
                 <span className={css.ProfileText}>
-                  {admin === "0" ? basketContext.userInfoProfile === undefined ? "" : basketContext.userInfoProfile.firstname : admin === "1" ? "Admin" : admin === "2" ? "Operator " : ""}
+                  {admin === "0" ? basketContext.userInfoProfile === undefined ? "" : basketContext.userInfoProfile.firstname : admin === "1" ? basketContext.t('admin', { ns: 'header' }) : admin === "2" ? basketContext.t('operator', { ns: 'header' }) : ""}
                 </span>
               </div>
             </Button>
@@ -448,14 +459,18 @@ export default function BaseLayout(props) {
         </div>
       </div>
     ) : (
-      <div className={router.pathname == "/login" ? css.Active : ""}><Tooltip title={t("loginName")}><Button onClick={loginRouter} type="link" className={css.Icons}><UserOutlined /></Button></Tooltip></div>
+      <div className={router.pathname == "/login" ? css.Active : ""}>
+        <Tooltip title={basketContext.t('loginName', { ns: 'header' })}>
+        <Button onClick={loginRouter} type="link" className={css.Icons}><UserOutlined /></Button></Tooltip></div>
     )}
-  <div style={{borderLeft: "1px solid #ccc", marginLeft: "16px", paddingTop: "2px"}}><Popover content={changeLanguage}><Button type="link" className={css.Icons}><GlobalOutlined /></Button></Popover></div>
+  <div style={{borderLeft: "1px solid #ccc", marginLeft: "16px", paddingTop: "2px"}}><Popover content={changeLanguage}>
+    <Button type="link" className={css.Icons}><GlobalOutlined /></Button></Popover>
+  </div>
   </div>
 
 </div>
  
-{/* Layout ============================================================================== */}
+{/* ====================================== Sider bar ============================================================================== */}
 {loggedLoad ? <Spin style={{display: "flex", alignItems: "center", justifyContent: "center", marginTop: "100px"}}/> : 
 <div className={props.pageName === "payment" ? css.Layout2 : css.Layout} style={{fontFamily: "Roboto Condensed, sans-serif"}}>
 {localStorageUserId === "Null" ? null  : <>
@@ -465,6 +480,9 @@ export default function BaseLayout(props) {
     <div className={css.Links}> 
     <div className={css.ProfileZX}> 
     <div className={css.ImgZ}>
+    <Image alt="Obertech" preview={false} className={css.Zurag} 
+    src={basketContext.userInfoProfile.img === "-" ? "/img/user.png" :  "data:image/png;base64," + basketContext.userInfoProfile.img } 
+    width={50}/> 
       {/* <div><Image alt="Obertech" preview={true} className={css.Zurag} src={"data:image/png;base64,"} style={{display: "flex", width: "30px", margin:"0px auto"}}/> </div> */}
       </div>
         {toogleCss ? 
@@ -473,7 +491,7 @@ export default function BaseLayout(props) {
             <div className={css.UserTitle}> {admin === "0" ? basketContext.userInfoProfile === undefined ? "" : basketContext.userInfoProfile.email
                     : admin === "1" ? basketContext.userInfoProfile.email  : admin === "2" ? basketContext.userInfoProfile.email : ""} </div>
             <div className={css.UserDescr}>{admin === "0" ? basketContext.userInfoProfile === undefined ? "" : basketContext.userInfoProfile.firstname
-                    : admin === "1" ?  "Admin" : admin === "2" ? "Operator": ""}  </div>   
+                    : admin === "1" ?  basketContext.t('admin', { ns: 'header' }): admin === "2" ? basketContext.t('operator', { ns: 'header' }) : ""}  </div>   
         </div> 
         : ""}
 
@@ -481,22 +499,22 @@ export default function BaseLayout(props) {
       </div>
       <div className={css.Line}> </div>
         <Link href="/dashboard">
-        <Tooltip title={!matches && "" || matches && "Dashboard"} placement="right" color="#f43f5e"> 
+        <Tooltip title={!matches && "" || matches && basketContext.t('sidebarDashboard', { ns: 'header' })} placement="right" color="#f43f5e"> 
             <div className={router.pathname === "/dashboard" ? css.MenuActive : css.MenuZ}>
                 <PieChartOutlined style={!matches && {fontSize: "15px"} || matches && {fontSize: "20px"}}/>
-                {toogleCss ?  <div className={css.Text}>Dashboard</div> : ""}
-                {!matches &&  <div className={css.Text}>Dashboard</div>}
+                {toogleCss ?  <div className={css.Text}>{basketContext.t('sidebarDashboard', { ns: 'header' })}</div> : ""}
+                {!matches &&  <div className={css.Text}>{basketContext.t('sidebarDashboard', { ns: 'header' })}</div>}
             </div>
             </Tooltip>
         </Link> 
         
         { admin === "1" ? 
         <Link href="/add-item">
-          <Tooltip title={!matches && "" || matches && "Item / Group"} placement="right" color="#f43f5e"> 
+          <Tooltip title={!matches && "" || matches && basketContext.t('itemGroup', { ns: 'header' })} placement="right" color="#f43f5e"> 
             <div className={router.pathname === "/add-item" ? css.MenuActive : css.MenuZ}>
                 <AppstoreAddOutlined style={!matches && {fontSize: "15px"} || matches && {fontSize: "20px"}}/>
-                {toogleCss ?  <div className={css.Text}>Item / Group</div> : ""} 
-                {!matches &&  <div className={css.Text}>Item</div>}
+                {toogleCss ?  <div className={css.Text}>{basketContext.t('itemGroup', { ns: 'header' })}</div> : ""} 
+                {!matches &&  <div className={css.Text}>{basketContext.t('itemGroup', { ns: 'header' })}</div>}
               {/* {matches && (<h1>Big Screen</h1>)}
                 {!matches && (<h3>Small Screen</h3>)} */} 
             </div>
@@ -505,42 +523,42 @@ export default function BaseLayout(props) {
         </Link> : null}
         {admin === "1" || admin === "2"  ? 
         <Link href="/affiliate">
-            <Tooltip title={!matches && "" || matches && "Referral management"} placement="right" color="#f43f5e"> 
+            <Tooltip title={!matches && "" || matches && basketContext.t('referralManagement', { ns: 'header' })} placement="right" color="#f43f5e"> 
             <div className={router.pathname === "/affiliate" ? css.MenuActive : css.MenuZ}>
                 <PlusSquareOutlined style={!matches && {fontSize: "15px"} || matches && {fontSize:"20px"}}/>
-                {toogleCss ?  <div className={css.Text}> Referral management</div>  : ""}
-                {!matches &&  <div className={css.Text}>Referral management</div>}
+                {toogleCss ?  <div className={css.Text}> {basketContext.t('referralManagement', { ns: 'header' })} </div>  : ""}
+                {!matches &&  <div className={css.Text}>{basketContext.t('referralManagement', { ns: 'header' })}</div>}
             </div>
             </Tooltip>
         </Link> : null}
             
         <Link href="/order-history">
-          <Tooltip title={!matches && "" || matches && "Order"}  placement="right" color="#f43f5e"> 
+          <Tooltip title={!matches && "" || matches && basketContext.t('order', { ns: 'header' })}  placement="right" color="#f43f5e"> 
             <div className={router.pathname === "/order-history" ? css.MenuActive : css.MenuZ}>
                 <ContainerOutlined style={!matches && {fontSize: "15px"} || matches && {fontSize: "20px"}}/>
-                {toogleCss ?  <div className={css.Text}>Order</div> : ""}
-                {!matches &&  <div className={css.Text}>Order</div>}
+                {toogleCss ?  <div className={css.Text}>{basketContext.t('order', { ns: 'header' })}</div> : ""}
+                {!matches &&  <div className={css.Text}>{basketContext.t('order', { ns: 'header' })}</div>}
             </div>
             </Tooltip>
         </Link>
         { admin === "1" ? 
         <Link href="/add-admin">
-            <Tooltip title={!matches && "" || matches && "User management"}  placement="right" color="#f43f5e"> 
+            <Tooltip title={!matches && "" || matches && basketContext.t('userManagement', { ns: 'header' })}  placement="right" color="#f43f5e"> 
             <div className={router.pathname === "/add-admin" ? css.MenuActive : css.MenuZ}>
                 <UserAddOutlined style={!matches && {fontSize: "15px"} || matches && {fontSize: "20px"}}/>
-                {toogleCss ?  <div className={css.Text}>User management </div> : ""}
-                {!matches &&  <div className={css.Text}>User</div>}
+                {toogleCss ?  <div className={css.Text}>{basketContext.t('userManagement', { ns: 'header' })} </div> : ""}
+                {!matches &&  <div className={css.Text}>{basketContext.t('userManagement', { ns: 'header' })}</div>}
             </div>
             </Tooltip>
         </Link> : null}
 
           {admin === "1" || admin === "2" ? "" :
         <Link href="/referral">
-            <Tooltip title={!matches && "" || matches && "Referral management"} placement="right" color="#f43f5e"> 
+            <Tooltip title={!matches && "" || matches && basketContext.t('referralManagement', { ns: 'header' })} placement="right" color="#f43f5e"> 
             <div className={router.pathname === "/referral" ? css.MenuActive : css.MenuZ}>
                 <PlusSquareOutlined style={!matches && {fontSize: "15px"} || matches && {fontSize: "20px"}}/>
-                {toogleCss ?  <div className={css.Text}>Referral management</div> : ""}
-                {!matches &&  <div className={css.Text}>Referral</div>}
+                {toogleCss ?  <div className={css.Text}>{basketContext.t('referralManagement', { ns: 'header' })}</div> : ""}
+                {!matches &&  <div className={css.Text}>{basketContext.t('referralManagement', { ns: 'header' })}</div>}
             </div>
             </Tooltip>
         </Link>}

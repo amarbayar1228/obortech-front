@@ -1,0 +1,27 @@
+.DFlex {
+    display: flex;
+    flex-direction: column;
+}
+
+.Layout1 {
+    width: 100%;
+    padding: 0px 10px;
+}
+
+.Layout2 {
+    border-left: 1px solid #f9f9f9;
+    padding: 0px 10px;
+    width: 100%;
+}
+
+.InfoFlex {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+    padding: 5px 0px;
+}
+
+.Title {
+    width: 150px;
+}
+
+.TitleChild {}

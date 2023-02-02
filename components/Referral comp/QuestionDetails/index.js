@@ -7,7 +7,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 const { TextArea } = Input;
 const QuestionDetails = (props)=>{
 const [questionData, setQuestionData] = useState([]);
-const router = useRouter();
+const router = useRouter(); 
 const [isOk, setIsOk] = useState(0);
 const recaptchaRef = useRef();
 const [ques1, setQues1] = useState([]); 

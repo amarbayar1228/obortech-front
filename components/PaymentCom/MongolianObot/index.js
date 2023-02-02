@@ -4,6 +4,7 @@ import BasketContext from "../../../context/basketContext/BasketContext";
 import css from "./style.module.css"
 import moment from 'moment';
 import axios from "axios";
+import WithdrawalRequest from "./WithdrawalRequest";
 const monthFormat = 'YYYY/MM';
 const validateMessages = {
     required: "${label} is required!",
@@ -26,7 +27,7 @@ const [matches, setMatches] = useState(window.matchMedia("(min-width: 768px)").m
 const [item, setItem] = useState(null);
 useEffect(()=>{
     window.matchMedia("(min-width: 768px)").addEventListener('change', e => setMatches( e.matches ));
-    console.log("props", props);
+    console.log("Mongol Obot props ===> ", props);
     setItem(props.item);
 },[])
 const onChange = (e) => {
@@ -38,9 +39,9 @@ const onFinished = (values) =>{
     setPayNum(1);
     setBankValue(2);
     props.mnBack("isOk"); 
-    console.log("object"); 
+    console.log("ehnii"); 
 if(payNum === 1 || payNum === 2 ){
-    console.log("object");
+    console.log("2r ");
     message.success("Success");
 
 const arr = item;
@@ -49,62 +50,62 @@ const arr = item;
 arr.forEach((element, i) => {
 if (element.img) {arr[i].state = 2} else {arr[i].state = 1; arr[i].img = "";}
 });       
-console.log("item: ", arr);
-console.log("orgId", basketContext.orgNames[0].orgIdstate);   
-console.log("price: ", props.price);
+// console.log("item: ", arr);
+// console.log("orgId", basketContext.orgNames[0].orgIdstate);   
+// console.log("price: ", props.price);
 
 // newtersen hereglegch bwl Axiosru shidne
-if (localStorage.getItem("token")) {
-const body = arr;
-const body2 = {
-func: "neworder",
-item: body,
-orgId: basketContext.orgNames[0].orgIdstate,
-totalPrice: props.price, 
-pkId: localStorage.getItem("pkId"), 
-};
+// if (localStorage.getItem("token")) {
+// const body = arr;
+// const body2 = {
+// func: "neworder",
+// item: body,
+// orgId: basketContext.orgNames[0].orgIdstate,
+// totalPrice: props.price, 
+// pkId: localStorage.getItem("pkId"), 
+// };
 
-axios.post("/api/post/Gate", body2).then((result) => {
-console.log("res orderId: ", result.data.orderid); 
-props.sucessOrder();  
-basketContext.removeBasketStorage();   
+// axios.post("/api/post/Gate", body2).then((result) => {
+// console.log("res orderId: ", result.data.orderid); 
+// props.sucessOrder();  
+// basketContext.removeBasketStorage();   
 
-const bodySmart = {
-    func: "orderSend",
-    orderid: result.data.orderid
-    }
-    axios.post("/api/post/Gate", bodySmart).then((res)=>{
-    console.log("res: ", res.data);
-    }).catch((err)=>{
-    console.log("object", err);
-    });
+// const bodySmart = {
+//     func: "orderSend",
+//     orderid: result.data.orderid
+//     }
+//     axios.post("/api/post/Gate", bodySmart).then((res)=>{
+//     console.log("res: ", res.data);
+//     }).catch((err)=>{
+//     console.log("object", err);
+//     });
 
-},(error) => {console.log(error)}); 
-} else { 
-const bodyNoId = {
-func: "neworder",
-orgId: basketContext.orgNames[0].orgIdstate,
-totalPrice: props.price,
-item: arr, 
-}; 
+// },(error) => {console.log(error)}); 
+// } else { 
+// const bodyNoId = {
+// func: "neworder",
+// orgId: basketContext.orgNames[0].orgIdstate,
+// totalPrice: props.price,
+// item: arr, 
+// }; 
 
-axios.post("/api/post/Gate", bodyNoId).then((result) => {
-console.log("res orderId: ", result.data.orderid);  
-props.sucessOrder();  
-basketContext.removeBasketStorage();  
-const bodySmart = {
-    func: "orderSend",
-    orderid: result.data.orderid
-    }
-    axios.post("/api/post/Gate", bodySmart).then((res)=>{
-    console.log("res: ", res.data);
-    }).catch((err)=>{
-    console.log("object", err);
-    });
+// axios.post("/api/post/Gate", bodyNoId).then((result) => {
+// console.log("res orderId: ", result.data.orderid);  
+// props.sucessOrder();  
+// basketContext.removeBasketStorage();  
+// const bodySmart = {
+//     func: "orderSend",
+//     orderid: result.data.orderid
+//     }
+//     axios.post("/api/post/Gate", bodySmart).then((res)=>{
+//     console.log("res: ", res.data);
+//     }).catch((err)=>{
+//     console.log("object", err);
+//     });
 
-},(error) => {console.log(error)});
+// },(error) => {console.log(error)});
 
-}
+// }
 
 }
 }
@@ -115,18 +116,110 @@ const obotFunc = () =>{
 
     setPayNum(2);
     setBankValue(1); 
+    const arr = item;  
+    arr.forEach((element, i) => {
+    if (element.img) {arr[i].state = 2} else {arr[i].state = 1; arr[i].img = "";}
+    });       
+    // console.log("item: ", arr);
+    // console.log("orgId", basketContext.orgNames[0].orgIdstate);   
+    // console.log("price: ", props.price);
+    
+    // newtersen hereglegch bwl Axiosru shidne
+if (localStorage.getItem("token")) {
+const body = arr;
+const body2 = {
+func: "neworder",
+item: body,
+orgId: basketContext.orgNames[0].orgIdstate,
+totalPrice: props.price, 
+pkId: localStorage.getItem("pkId"), 
+};
+
+axios.post("/api/post/Gate", body2).then((result) => {
+console.log("res orderId: ", result.data.orderid); 
+const payOrders = {
+    func: "payOrders",
+    orgID: props.orgIdRadio,
+    orderID: result.data.orderid, 
+    amount: props.mntUsdPrice[0].obot,
+    totalPrice: props.price,
+    method: 1,
+    paymentMethod: 8,  
+    coin: props.mntUsdPrice[0].obot, 
+    description: props.userInfo.description, 
+    sourceDesc: props.sourceData[0].nameeng,
+    source: props.sourceData[0].index_,
+    userPkId: localStorage.getItem("pkId"),
+}
+    axios.post("/api/post/Gate", payOrders).then((res)=>{
+    console.log("payOrders", res.data);
+    
+    }).catch((err)=>{
+    console.log("err". err);
+    })
+// props.sucessOrder();  
+// basketContext.removeBasketStorage();   
+
+// const bodySmart = {
+//     func: "orderSend",
+//     orderid: result.data.orderid
+// }
+// axios.post("/api/post/Gate", bodySmart).then((res)=>{
+// console.log("res: ", res.data);
+// }).catch((err)=>{
+// console.log("object", err);
+// });
+
+},(error) => {console.log(error)}); 
+} else { 
+const bodyNoId = {
+func: "neworder",
+orgId: basketContext.orgNames[0].orgIdstate,
+totalPrice: props.price,
+item: arr, 
+};  
+axios.post("/api/post/Gate", bodyNoId).then((result) => {
+console.log("res orderId: ", result.data.orderid);
+const payOrders = {
+    func: "payOrders",
+    orgID: props.orgIdRadio,
+    orderID: result.data.orderid, 
+    amount: props.mntUsdPrice[0].obot,
+    totalPrice: props.price,
+    method: 1,
+    paymentMethod: 8,  
+    coin: props.mntUsdPrice[0].obot, 
+    description: props.userInfo.description, 
+    sourceDesc: props.sourceData[0].nameeng,
+    source: props.sourceData[0].index_,
+    userPkId: localStorage.getItem("pkId"),
+}
+    axios.post("/api/post/Gate", payOrders).then((res)=>{
+    console.log("payOrders", res.data);
+
+    // props.sucessOrder();  
+    // basketContext.removeBasketStorage();  
+    }).catch((err)=>{
+    console.log("err". err);
+    })
+
+    
+
+},(error) => {console.log(error)}); 
+}
+
+
+
 if(payNum === 1 || payNum === 2 ){
-
-message.success("Success");
-const arr = item;
-// img tei bol Item, imggui bol Group
-
+ 
+// message.success("Success");
+const arr = item;  
 arr.forEach((element, i) => {
 if (element.img) {arr[i].state = 2} else {arr[i].state = 1; arr[i].img = "";}
 });       
-console.log("item: ", arr);
-console.log("orgId", basketContext.orgNames[0].orgIdstate);   
-console.log("price: ", props.price);
+// console.log("item: ", arr);
+// console.log("orgId", basketContext.orgNames[0].orgIdstate);   
+// console.log("price: ", props.price);
 
 // newtersen hereglegch bwl Axiosru shidne
 if (localStorage.getItem("token")) {
@@ -141,18 +234,38 @@ pkId: localStorage.getItem("pkId"),
 
 axios.post("/api/post/Gate", body2).then((result) => {
 console.log("res orderId: ", result.data.orderid); 
-props.sucessOrder();  
-basketContext.removeBasketStorage();   
+const payOrders = {
+    func: "payOrders",
+    orgID: props.orgIdRadio,
+    orderID: result.data.orderid, 
+    amount: props.mntUsdPrice[0].obot,
+    totalPrice: props.price,
+    method: 1,
+    paymentMethod: 8,  
+    coin: props.mntUsdPrice[0].obot, 
+    description: props.userInfo.description, 
+    sourceDesc: props.sourceData[0].nameeng,
+    source: props.sourceData[0].index_,
+    userPkId: localStorage.getItem("pkId"),
+}
+  axios.post("/api/post/Gate", payOrders).then((res)=>{
+    console.log("payOrders", res.data);
+    props.sucessOrder();  
+    basketContext.removeBasketStorage(); 
+  }).catch((err)=>{
+    console.log("err". err);
+  })
+  
 
-const bodySmart = {
-    func: "orderSend",
-    orderid: result.data.orderid
-    }
-    axios.post("/api/post/Gate", bodySmart).then((res)=>{
-    console.log("res: ", res.data);
-    }).catch((err)=>{
-    console.log("object", err);
-    });
+// const bodySmart = {
+//     func: "orderSend",
+//     orderid: result.data.orderid
+// }
+// axios.post("/api/post/Gate", bodySmart).then((res)=>{
+// console.log("res: ", res.data);
+// }).catch((err)=>{
+// console.log("object", err);
+// });
 
 },(error) => {console.log(error)}); 
 } else { 
@@ -161,24 +274,35 @@ func: "neworder",
 orgId: basketContext.orgNames[0].orgIdstate,
 totalPrice: props.price,
 item: arr, 
-}; 
-
+};  
 axios.post("/api/post/Gate", bodyNoId).then((result) => {
-console.log("res orderId: ", result.data.orderid);  
-props.sucessOrder();  
-basketContext.removeBasketStorage();  
-const bodySmart = {
-    func: "orderSend",
-    orderid: result.data.orderid
-    }
-    axios.post("/api/post/Gate", bodySmart).then((res)=>{
-    console.log("res: ", res.data);
-    }).catch((err)=>{
-    console.log("object", err);
-    });
+console.log("res orderId: ", result.data.orderid);
+const payOrders = {
+    func: "payOrders",
+    orgID: props.orgIdRadio,
+    orderID: result.data.orderid, 
+    amount: props.mntUsdPrice[0].obot,
+    totalPrice: props.price,
+    method: 1,
+    paymentMethod: 8,  
+    coin: props.mntUsdPrice[0].obot, 
+    description: props.userInfo.description, 
+    sourceDesc: props.sourceData[0].nameeng,
+    source: props.sourceData[0].index_,
+    userPkId: localStorage.getItem("pkId"),
+}
+  axios.post("/api/post/Gate", payOrders).then((res)=>{
+    console.log("payOrders", res.data);
 
-},(error) => {console.log(error)});
+    props.sucessOrder();  
+    basketContext.removeBasketStorage();  
+  }).catch((err)=>{
+    console.log("err". err);
+  })
 
+ 
+
+},(error) => {console.log(error)}); 
 }
 
 }
@@ -328,6 +452,7 @@ return <div className={css.Flex}>
             <div className={css.Price}> <div>Total Payment</div> <div> {props.mntUsdPrice[0].mnt}₮</div></div>
             <Form.Item  wrapperCol={{span: 24}}> <div className={css.Login}><Button style={{width: "100%"}} type="primary" htmlType="submit" className="login-form-button">Pay now</Button></div></Form.Item>
         </Form>
+        {payNum === 2 ? <div style={{marginTop: "30px"}}><Button>Submit a withdrawal request</Button> </div> : null}
         </div>
         </div>
     </div>
@@ -460,6 +585,7 @@ return <div className={css.Flex}>
 }
     </div> 
 </div>
+// OBOT pay now
 : <div className={css.Cont2}> 
     <div className={css.Content2}>
     <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
@@ -472,9 +598,13 @@ return <div className={css.Flex}>
                 <div style={{color: "#4d5057", fontSize: "16px", fontWeight: "600", marginBottom: "5px"}}>Total price: {props.mntUsdPrice[0].obot} Obot</div>
                 <Button style={{width: "100%"}} type="primary" onClick={obotFunc}>Pay now</Button>
             </div>
+            {payNum === 1 ? <div style={{marginTop: "30px"}}>
+                 <WithdrawalRequest />
+            </div> : null}
         </div>
     </div> 
 </div>}
+
 </div>
 }
 export default MongolianObot;

@@ -79,6 +79,7 @@ const Payment = () => {
   const [showBank, setShowBank] = useState(false);
   const [invoiceSuccess, setInvoiceSuccess] = useState(0);
   const [mntPrice, setMntPrice] = useState(0);
+  const [sourceData, setSourceDate] = useState()
   //const { amaraa } = router.query;
  
   const recaptchaRef = useRef();
@@ -128,12 +129,13 @@ const Payment = () => {
     setCurrent(current - 1);
   };
   useEffect(() => {
-    console.log("hansh: ", basketContext.hanshnuud);
+   
     totalPriceFunction();
     dateFunction(); 
     // console.log("url",window.location.href); 
     getDefMaximFi(); 
     setOrderId(localStorage.getItem("or"));
+    getSource();
     const queryString = window.location.search;
   
     if(localStorage.getItem("oAiD") === undefined){
@@ -158,7 +160,15 @@ const Payment = () => {
     }
     // totalPriceFunction();
   }, []);
-
+  const getSource = () =>{ 
+    const body = {
+      func: "getSource"
+    }
+    axios.post("/api/post/Gate", body).then((res)=>{
+      console.log("res", res.data.data);
+      setSourceDate(res.data.data);
+    }).catch((err)=>{console.log("err", err)})
+  }
   const sentTdb = ()  =>{
     var url_string = "http://192.168.1.14:3000/payment?parameter1=amaraa&parameter2=000&body=asdjflajsdlkfjaklsjfklhadbd2626251dsf3as5df1as53df1as5df1as3fd51as3df153sadfas&fbclid=IwAR24B-dJ611MB46g-9X2v0rK3P8_7NgWmDtCnZxPTY1ZVraFwFfzM4pd760";
     const urlParams = new URLSearchParams(url_string);
@@ -932,7 +942,7 @@ const steps = [
     : <div className={css.PayBanks}>  
         {/* <Button onClick={BackFunc} className={css.BackCss}>Back</Button> */}
         {bankValue === "khan" || bankValue === "Golomt" || bankValue === "Tdb" || bankValue === "Monpay"? 
-        <div> 
+    <div> 
 
              
 
@@ -982,7 +992,7 @@ return {label: i === 0 ?  <div style={{fontWeight: "600", fontSize: "14px", colo
 key: i, children: i === 0? 
 <div className={css.PaymentCss}>
   {bankValue === "khan" ? 
-  <KhanBank mntPrice={mntPrice} totalPriceState={totalPriceState} orgIdRadio={basketContext.orgNames[0].orgIdstate} basketState={basketContext.basketState} sucessOrder={sucessOrder}/> 
+  <KhanBank userInfo={userInfo} mntPrice={mntPrice} sourceData={sourceData} totalPriceState={totalPriceState} orgIdRadio={basketContext.orgNames[0].orgIdstate} basketState={basketContext.basketState} sucessOrder={sucessOrder}/> 
   : null}
   
   {bankValue === "Golomt" ? <div>Golomt </div> : null}
@@ -1074,7 +1084,45 @@ key: i, children: i === 0?
         <div> <ForeignObot sucessOrder={sucessOrder} mntUsdPrice={mntUsdPrice} defaultMaxFi={defaultMaxFi} item={basketContext.basketState} price={totalPriceState}/> </div> : null} 
 
         {bankValue === "Mongol" ? 
-        <div> <MongolianObot mnBack={mnBack} sucessOrder={sucessOrder} mntUsdPrice={mntUsdPrice} defaultMaxFi={defaultMaxFi} item={basketContext.basketState} price={totalPriceState}/></div> : null}
+        <div> 
+  {!showBank ? 
+<div className={css.AlertDesk}>
+  <div className={css.AlertText}>
+    <Alert message="Informational Notes"
+      description="Additional description and information about copywriting."
+      type="warning"
+      showIcon
+    />
+  </div>
+  
+  <div className={css.AlertInput}> 
+  <div className={css.AlertName}>Please fill in your information!</div>
+    <Form name="normal_login" className="login-form" initialValues={{ remember: true}} validateMessages={validateMessages} labelAlign="left" labelCol={{span: 8,}} wrapperCol={{span: 22}} onFinish={onFinishUserInfo} onFinishFailed={onFinishFailedUserInfo}>
+      {!localStorage.getItem("pkId") ? <> 
+      <Form.Item name="email" label="Email" rules={[{ type: "email", required: true, message: (<div style={{ fontWeight: "500" }}>Please input your Email!</div>)}]}>
+        <Input size="middle" prefix={<MailOutlined className={css.Title} />} placeholder={"Email"}/>
+      </Form.Item> 
+      <Form.Item name="countryCode" label="Phone Number" rules={[{required: true, message: 'Please input your phone number!'}]}>
+          <PhoneInput   enableSearch={true} country={'us'} value={countryCode} onChange={(e) => setCountryCode(e)} style={{width: "100%"}}/>
+      </Form.Item></>
+      : null }
+      <Form.Item name="description"  tooltip="This is a required field" label="Description" rules={[{   required: true, message: (<div style={{ fontWeight: "500" }}>Please input your Description!</div>)}]}>
+        <TextArea size="middle"  placeholder={"Description"}/>
+      </Form.Item> 
+      <div style={{width: "100%", marginBottom: "20px", display: "flex", justifyContent: "right"}}> 
+    <ReCAPTCHA   onErrored={errorCapt}  ref={recaptchaRef}   sitekey="6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t" onChange={onChangeCaptcha}/>
+    </div>  
+      <Form.Item status="error" wrapperCol={{span: 24}}> <div className={css.Login}><Button disabled={userFormCapt} style={{width: "100%",background: "rgb(244, 63, 94)", border: "none" }} type="primary" htmlType="submit" className="login-form-button" size="large">Continue</Button></div></Form.Item>
+    </Form>   
+  </div>
+</div>
+: null }
+         {showBank ?
+          <MongolianObot userInfo={userInfo}  mnBack={mnBack} sucessOrder={sucessOrder} sourceData={sourceData} mntUsdPrice={mntUsdPrice} defaultMaxFi={defaultMaxFi} 
+          orgIdRadio={basketContext.orgNames[0].orgIdstate} 
+          item={basketContext.basketState}  price={totalPriceState}/>
+        : null }
+        </div> : null}
 
       </div>}
 

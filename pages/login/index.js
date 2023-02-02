@@ -67,20 +67,15 @@ const [loggedLoad, setLoggedLoad]= useState(true);
     if(cdBoolean){
       setTimeout(() => {
         clearInterval(timer); 
-        setCdBoolean(false);
-        console.log("blsn timer1");
-      },100); 
-      console.log("true");
-    }else{
-      console.log("ene shvvv ");
-      setTimeout(() => { 
-        console.log("focus");
+        setCdBoolean(false); 
+      },100);  
+    }else{ 
+      setTimeout(() => {  
         focusInput();
       }, secondsToGo * 100); 
       setTimeout(() => {
         clearInterval(timer); 
-        setCdBoolean(false);
-        console.log("blsn timer2");
+        setCdBoolean(false); 
      
       }, secondsToGo * 1000); 
     }
@@ -133,8 +128,7 @@ const focusInput = () =>{
       setToggle(0);
     }
   };
-  const onChangeCaptcha = (a) =>{ 
-    console.log("captcha change: ", a);
+  const onChangeCaptcha = (a) =>{  
     a == null ? setBtnDis(true) : setBtnDis(false)
   }
   const errorCapt = (err) =>{
@@ -145,8 +139,7 @@ const focusInput = () =>{
   }
  
   const VerifyOTP = () =>{
-    console.log("VerifyOTP");
-    console.log("code: ", code);
+   
     setVerifyOTPLoad(true);
     var passwordHash = sha256(password);  
     const body ={

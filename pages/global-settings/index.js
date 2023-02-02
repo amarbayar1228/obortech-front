@@ -11,6 +11,7 @@ import sha256 from "sha256";
 import InvoiceDate from "../../components/Setting comp/InvoiceDate";
 import ReCAPTCHA from "react-google-recaptcha";
 import BasketContext from "../../context/basketContext/BasketContext";
+import { WithdrawRequest } from "../../components/Setting comp/WithdrawRequest";
 
 const EditableCell = ({
   editing,
@@ -233,10 +234,11 @@ const errorCapt = (err) =>{
 </div>
 </div>
 : 
-<Tabs defaultActiveKey="4" items={["a","b"].map((Icon, i) => {  
+<Tabs defaultActiveKey="4" items={["a","b", "c"].map((Icon, i) => {  
 
-return {label: i === 0 ?  <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>Percentage</div> :
-            i === 1 ? <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>Other settings</div> : null,
+return {label: i === 0 ?  <div style={{  fontSize: "14px", color: "#4d5057"}}>Percentage</div> :
+            i === 1 ? <div style={{  fontSize: "14px", color: "#4d5057"}}>Other settings</div> : 
+            i === 2 ? <div style={{  fontSize: "14px", color: "#4d5057"}}>Withdrawal request</div> : null,
 
 key: i, children: i === 0? 
 <div className={css.PaymentCss}> 
@@ -264,7 +266,11 @@ key: i, children: i === 0?
       <InvoiceDate />
     </div>
         
-</div> : null,
+</div> 
+: i === 2 ? <div className={css.PaymentCss}>
+             <WithdrawRequest />
+            </div> 
+: null,
 };
 })}/> 
 }

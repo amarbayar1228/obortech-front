@@ -68,7 +68,7 @@ const onChangeCaptcha = (a) =>{
   
 return<BaseLayout pageName="security">
       {loggedLoad ? <Spin style={{display: "flex", alignItems: "center", justifyContent: "center", marginTop: "100px"}}/>  : <> 
-      {basketContext.userInfoProfile ? <div style={{padding: "10px", width: "60%", margin: "0px auto"}}>
+      {basketContext.userInfoProfile ? <div className={css.Scroll}>
             <div className={css.Title}>{basketContext.t('securityAndLogin', { ns: 'security' })}</div>
             <div className={css.Layout}> 
                 <div className={css.Password}>

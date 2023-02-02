@@ -177,7 +177,7 @@
 }
 
 .ImgZ {
-    background-color: #4d5057;
+    /* background-color: #f0f0f0; */
     color: #fff;
     display: flex;
     align-items: center;
@@ -189,7 +189,8 @@
 }
 
 .UserDe {
-    line-height: 19px;
+    line-height: 15px;
+    text-transform: capitalize;
     padding-left: 7px;
 }
 

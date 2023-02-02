@@ -69,7 +69,7 @@
 }
 
 .Hdr {
-    font-size: 18px;
+    font-size: 15px;
     color: #4d5057;
     font-weight: 600;
 }
@@ -163,7 +163,9 @@
     font-size: 12px;
     color: #4d5057;
     padding: 30px;
-    background: #f9f9f9;
+    /* background: #f9f9f9; */
+    background-color: #fffbe6;
+    border: 1px solid #ffe58f;
     margin: 10px;
     font-weight: 600;
     box-shadow: 1px 1px 3px 1px #ebebeb;

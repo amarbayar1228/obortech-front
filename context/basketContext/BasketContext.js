@@ -15,7 +15,7 @@ export const BasketItem = (props) => {
   const [todayDateState,setTodayDateState] = useState();
   const [orgId, setOrgId] = useState(undefined);
   const [orgNames, setOrgNames] = useState([]);
-  const { t } = useTranslation(["login", "organization", "dashboard", "order-history", "security"]); 
+  const { t } = useTranslation(["login", "organization", "dashboard", "order-history", "security", "header"]); 
 
   const router = useRouter();
   useEffect(() => {   
@@ -162,6 +162,7 @@ const orgIdRemove = () =>{
         pkId: localStorage.getItem("pkId"),
       };
       axios.post("/api/post/Gate", body).then((res) => {  
+        // console.log("pro: ", res.data.data);
           setUserInfoProfile(res.data.data);
         }).catch((err) => {console.log(err)});
     } else { 
@@ -182,7 +183,7 @@ const orgIdRemove = () =>{
       // console.log("rate: ", res.data.data);
       const obotRate = res.data.data.map.data.map.obotValueCG
       axios.post("/api/post/Gate",rate ).then((res)=>{
-        console.log("Rate: ", res.data.data.myArrayList[0].map);
+        // console.log("Rate: ", res.data.data.myArrayList[0].map);
         // setHanshnuud(res.data.data);
         setHanshnuud([{mnt:{hansh1:  res.data.data.myArrayList[0].map.rate, hansh2: res.data.data.myArrayList[0].map.rate_float}},{obot:{hansh: obotRate}}]);
 

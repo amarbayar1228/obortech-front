@@ -18,10 +18,20 @@ const KhanBank = (props) => {
   const weekFormat = "MM/DD";
   const monthFormat = "YYYY/MM";
   const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
+  const [sourceData, setSourceDate] = useState();
   useEffect(()=>{
-    console.log("kanbank: ", props);
-  })
-
+    console.log("kanbank: ======> ", props);
+    getSource();
+  },[])
+const getSource = () =>{ 
+const body = {
+  func: "getSource"
+}
+axios.post("/api/post/Gate", body).then((res)=>{
+  console.log("res", res.data.data);
+  setSourceDate(res.data.data);
+}).catch((err)=>{console.log("err", err)})
+}
   const customFormat = (value) => `custom format: ${value.format(dateFormat)}`;
   //aaaaaaaaaaaaaaaaaaa
   const customWeekStartEndFormat = (value) =>
@@ -33,7 +43,7 @@ const KhanBank = (props) => {
  
   const sendOrders = () => {
   
-
+ 
 if(props.data){
   // ene bol Huuwaaj tuluh
   console.log("data");
@@ -104,7 +114,7 @@ axios.post("/api/post/Gate", bodyNoId).then((result) => {
 
   },(error) => {console.log(error)});
 }
-
+// shuuud tulult =======================================>
 }else{
   // ene bol shuud tuluhud 
   console.log("props: ", props);
@@ -129,23 +139,54 @@ totalPrice: props.totalPriceState,
 pkId: localStorage.getItem("pkId"), 
 };
 console.log("bodyId:2  ===>> ", body2);
-var basketLocal = [];
+var today = new Date();
+var dd = String(today.getDate()).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+var yyyy = today.getFullYear();
+
+today = mm + '/' + dd + '/' + yyyy;
+console.log("date: ",today);
 axios.post("/api/post/Gate", body2).then((result) => {
-  console.log("res orderId: ", result.data.orderid); 
-    props.sucessOrder();  
-    basketContext.removeBasketStorage();   
+console.log("res orderId: ", result.data.orderid); 
 
-    const bodySmart = {
-      func: "orderSend",
-      orderid: result.data.orderid
-     }
-     axios.post("/api/post/Gate", bodySmart).then((res)=>{
-      console.log("res: ", res.data);
-     }).catch((err)=>{
-      console.log("object", err);
-     });
+  const payOrders = {
+    func: "payOrders",
+    orgID: props.orgIdRadio,
+    orderID: result.data.orderid,
+    // date_: today, 
+    amount: props.totalPriceState,
+    totalPrice: props.totalPriceState,
+    method: 3,
+    paymentMethod: 1,  
+    coin: 0,
+    // status: 1,
+    // sourceDesc: "",
+    description: props.userInfo.description, 
+    sourceDesc: sourceData[0].nameeng,
+    source: sourceData[0].index_,
+    userPkId: localStorage.getItem("pkId"),
+  }
+  axios.post("/api/post/Gate", payOrders).then((res)=>{
+    console.log("payOrders", res.data);
+  }).catch((err)=>{
+    console.log("err". err);
+  })
 
-  },(error) => {console.log(error)}); 
+  props.sucessOrder();  
+  basketContext.removeBasketStorage();   
+
+  // const bodySmart = {
+  //   func: "orderSend",
+  //   orderid: result.data.orderid,
+  //   description: props.userInfo.description,
+  //  }
+  //  axios.post("/api/post/Gate", bodySmart).then((res)=>{
+  //   console.log("res: ", res.data);
+  //  }).catch((err)=>{
+  //   console.log("object", err);
+  //  });
+
+},(error) => {console.log(error)}); 
 } else {
 // newtreeq hereglegch bwl Axiosru shidne
 const bodyNoId = {
@@ -161,15 +202,15 @@ axios.post("/api/post/Gate", bodyNoId).then((result) => {
 
     props.sucessOrder();
     basketContext.removeBasketStorage();  
-    const bodySmart = {
-      func: "orderSend",
-      orderid: result.data.orderid
-     }
-     axios.post("/api/post/Gate", bodySmart).then((res)=>{
-      console.log("res: ", res.data);
-     }).catch((err)=>{
-      console.log("object", err);
-     });
+    // const bodySmart = {
+    //   func: "orderSend",
+    //   orderid: result.data.orderid
+    //  }
+    //  axios.post("/api/post/Gate", bodySmart).then((res)=>{
+    //   console.log("res: ", res.data);
+    //  }).catch((err)=>{
+    //   console.log("object", err);
+    //  });
 
   },(error) => {console.log(error)});
 }
@@ -194,7 +235,7 @@ axios.post("/api/post/Gate", bodyNoId).then((result) => {
           />
         </div>
         <div className={css.AllCard}>
-          Бүх банкны картаар төлбөр хийх боломжтой
+          Бүх банкны картаар төлбөр хийх боломжтой {console.log("source", sourceData)}
         </div>
         <div className={css.Section}>
           <div className={css.SectionChild}>
