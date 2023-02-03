@@ -113,9 +113,16 @@ const onFinishFailed = () =>{
     console.log("error");
 }
 const obotFunc = () =>{
-
-    setPayNum(2);
-    setBankValue(1); 
+   console.log("mntPrice: ", props.mntUsdPrice[0].obot);
+  console.log("price: ", props.price);
+  console.log("obotprice: ", props.mntUsdPrice[0].obot);
+    // amount: props.mntUsdPrice[0].obot,
+    // totalPrice: props.price,
+   
+    // coin: props.mntUsdPrice[0].obot, 
+  
+    // setPayNum(2);
+    // setBankValue(1); 
     const arr = item;  
     arr.forEach((element, i) => {
     if (element.img) {arr[i].state = 2} else {arr[i].state = 1; arr[i].img = "";}
@@ -141,11 +148,11 @@ const payOrders = {
     func: "payOrders",
     orgID: props.orgIdRadio,
     orderID: result.data.orderid, 
-    amount: props.mntUsdPrice[0].obot,
+    amount:18649.9,
     totalPrice: props.price,
     method: 1,
     paymentMethod: 8,  
-    coin: props.mntUsdPrice[0].obot, 
+    coin: 18649.9, 
     description: props.userInfo.description, 
     sourceDesc: props.sourceData[7].nameeng,
     source: props.sourceData[7].index_,

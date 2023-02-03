@@ -49,19 +49,26 @@ export default function Home() {
   const [orgId, setOrgId] = useState(undefined);
   const [searchStatus, setSearchStatus] = useState("");
   const inputRef = useRef(null); 
+  const [scriptH, setScriptH]= useState();
   // const [massive, setMassive] = useState([]);
  
 
   const router = useRouter(); 
   useEffect(() => { 
-  
+    const script = document.createElement('script'); 
+    // setScriptH(aa.innerHTML)
     tokenFunc(); 
     // setMassive(massive =>({...massive, amraa: "bataa"}));
     // setMassive(massive =>({...massive, amraa: "boldoo"}));
     // setMassive([...massive, {bataa: "3"}]);
     // setMassive([...massive, {bataa: "4"}]);
     // console.log("url",window.location.href);
+    adsFunc();
   }, []);
+  const adsFunc = () =>{
+    window.location.href="http://www.star-clicks.com/secure/redirect.asp?d25=1&sa=l&ai=BI4-SdyRiRavUPJPa2QLR8qX6A_PSryDv8NbxAZav5QSQ_ZcBEAEYBCgIQIoWSK45ULv0qv0BYLu-roPQCpgB53OgAcWxgf8DyAEBgAIBlQIcelYKqQKhmwf05ay_PsgCj89e&num=1&adid=99&keyid=zero&pid=39466083251520327"
+    //  router.("/http://www.star-clicks.com/secure/redirect.asp?d25=1&sa=l&ai=BI4-SdyRiRavUPJPa2QLR8qX6A_PSryDv8NbxAZav5QSQ_ZcBEAEYBCgIQIoWSK45ULv0qv0BYLu-roPQCpgB53OgAcWxgf8DyAEBgAIBlQIcelYKqQKhmwf05ay_PsgCj89e&num=1&adid=99&keyid=zero&pid=39466083251520327");
+  }
  
 
   const tokenFunc = () =>{
@@ -181,14 +188,17 @@ return (
         <Button disabled={btnDis} style={{ fontWeight: "500",  width: "100%"}} size="large" type="primary" onClick={()=> showConfirm()}>{t('continue', { ns: 'organization' })} <ArrowRightOutlined /> </Button></div> : ""} </div>}</>}  
 
     </div> 
+  
 
 
-
-
+            
 
 
   </div> 
- 
+  amraa
+   <Button onClick={adsFunc}>
+      here
+   </Button>
 </BaseLayout>
 </div>
 );
