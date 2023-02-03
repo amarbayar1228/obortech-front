@@ -1,10 +1,10 @@
 
-import {React, useContext, useEffect, useState } from "react";
+import {useContext, useEffect, useState } from "react";
 import BaseLayout from "../../components/Layout/BaseLayout";
-import { Button, Carousel, Empty, Image, message, Spin, Tooltip } from "antd";
+import { Button, Empty, Image, message, Spin, Tooltip } from "antd";
 
 import css from "./style.module.css";
-import {ShoppingCartOutlined, PlusCircleOutlined} from "@ant-design/icons";
+import {ShoppingCartOutlined} from "@ant-design/icons";
 import axios from "axios";
 import BasketContext from "../../context/basketContext/BasketContext";
 // import "swiper/css"; 
