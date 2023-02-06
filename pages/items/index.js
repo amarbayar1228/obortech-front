@@ -14,21 +14,13 @@ import { Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ItemDetails from "../../components/ItemDetails";
 import Snowflake from "../../components/Snowflake";
-const Items = () => {
+const ItemGroup = () => {
   const [itemData, setItemData] = useState([]);
   const [addItemStyle, setAddItemStyle] = useState([css.addItemStyle]);
   const basketContext = useContext(BasketContext);
   const [spinState, setSpinState] = useState(true); 
   const [groupState1, setGroupState1] = useState([]);
-  useEffect(() => {
-   
-  //  setTimeout(()=>{
-  //   basketContext.orgIdLocal();
-  //  }, 500);
-    // basketContext.MenuKey();
-    // basketContext.basketStateFunc();
-    // popFunc();
-    
+  useEffect(() => { 
     getItems();
     getGroupItemsS1();
   }, []);
@@ -69,11 +61,7 @@ const Items = () => {
 
         if (data.pkId === e.pkId) {
           basketA[i].product[indexs].cnt++;
-          localStorage.setItem("basket", JSON.stringify(basketA));
-        //   console.log("basket: ", basketA[i].product[0].cnt++ );
-        //   console.log("basket2: ", basketA[i].product[0]);
-        //   // basketA[i].product.push(data);
-        // localStorage.setItem("basket", JSON.stringify(basketA));
+          localStorage.setItem("basket", JSON.stringify(basketA)); 
           notArrived = false;
           message.warn("Added to cart!");
           basketContext.basketStateFunc();
@@ -96,15 +84,7 @@ const Items = () => {
       });
       if(Overlap === false){
           message.error("Error");
-      }
-      // if(notArrived2){
-      //   basketA[i].product.push(data);
-      //   localStorage.setItem("basket", JSON.stringify(basketA));
-      //   popFunc();
-      //   basketContext.basketStateFunc();
-      //   message.success("Added to cart!");
-      //   basketContext.totalPriceFunction2();
-      // }
+      } 
       
       if (notArrived) {
         basketA[i].product.push(data);
@@ -146,23 +126,9 @@ const Items = () => {
       }
     });
   }; 
-  const  snow=()=> {
-    let animationDelay = '0s';
-    let fontSize = '100px';
-    let arr = Array.from('Snowflakes are awesome!!! They are like little pieces of magic!!! Love snowflakes!!! Snowflakes are awesome!!! They are like little pieces of magic!!! Love snowflakes!!! Snowflakes are awesome!!! They are like little pieces of magic!!! Love snowflakes!!!')
-     return arr.map((el, i) => {
-      animationDelay = `${(Math.random()*16).toFixed(2)}s`;
-      fontSize = `${(Math.floor(Math.random()*10) + 10)}px`;
-      let style = {
-        animationDelay,
-        fontSize
-      }
-      return (<Snowflake key={i} id={i} style={style}/>)
-     })
-  }
+  
   return (
     <BaseLayout pageName="items" addItemStyle={addItemStyle} style={{ maxWidth: "100%", fontFamily: "Roboto Condensed, sans-serif" }}> 
-      {/* { console.log("Org Id html: ", basketContext.orgId)} */}
       {basketContext.orgId === undefined ? <Empty style={{marginTop: "100px"}}/> :  
        <div className={css.ScrollItemsCont} style={{fontFamily: "Roboto Condensed, sans-serif"}}>
            
@@ -173,13 +139,7 @@ const Items = () => {
             </h3> </SwiperSlide>
           <SwiperSlide className={css.SlideCss}><h3 className={css.BackgrounImg} style={{background: "url(/img/obBack3.png) no-repeat"}}></h3></SwiperSlide>
           <SwiperSlide className={css.SlideCss}><h3 className={css.BackgrounImg} style={{background: "url(/img/obBack2.png) no-repeat"}}></h3></SwiperSlide> 
-        </Swiper>
-       {/* <Carousel>
-         <div><h3 className={css.BackgrounImg} style={{background: "url(/img/obBack1.png) no-repeat"}}> 
-           </h3></div>
-         <div><h3 className={css.BackgrounImg} style={{background: "url(/img/obBack3.png) no-repeat"}}></h3></div>
-         <div><h3 className={css.BackgrounImg} style={{background: "url(/img/obBack2.png) no-repeat"}}></h3></div>
-       </Carousel> */}
+        </Swiper> 
        </div>
      {spinState === true ? (<div><Spin className={css.SpinCss} tip="" size="large"></Spin></div>) : (
        <>
@@ -187,8 +147,7 @@ const Items = () => {
            <div className={css.ItemSection}>
              {itemData.map((iData, index) => (
                <div className={css.Item} key={index}>
-                 <div className={css.ItemLogo}>
-                  {/* <Image preview={false} alt="Obertech" src="/img/OBORTECH_logo_V_clean.svg"/> */}
+                 <div className={css.ItemLogo}> 
                  </div>
                  <div className={css.ItemPic}> 
                    <Image preview={false} alt="Obertech" src={"data:image/gif;base64," + iData.img} className={css.ImgItem}/>
@@ -205,6 +164,294 @@ const Items = () => {
          )}
          {/* Groupt items ===========================================================================================================*/}
          <div className={css.Package}> <div className={css.PackageLine}></div> <div className={css.PackageTitle}>Package items</div></div>
+          
+          <div className={css.GroupCss}>
+              <div className={css.GroupItems}>
+                <div className={css.GrpPic}>
+                <div className={css.GrpPackHdr}> 
+                  <div className={css.BackImg}></div>
+                  <div className={css.PackageName}>Package</div>
+                  <div className={css.GroupPackageTitle}>
+                      <div className={css.Gphtitle}>This is group package</div> <div className={css.Gphdescrip}> This is description</div>
+                      <div className={css.Gphprice}><span>Package price: </span><span>{120.5}$</span></div>
+                  </div>
+                  </div> 
+                </div>
+                <div className={css.GrpDetails}>
+                    <div className={css.GrpHdrTitle}>
+                      <div>This is group package</div>
+                    </div>
+                    <div className={css.GrpItems}>
+                      <div className={css.ItemGLayout}>
+                        <div style={{margin: "3px"}}>
+                          <Image preview={false} alt="Obertech" src="/img/avatar.png" style={{display: "flex",  margin: "0px auto", justifyContent: "center", width:"40px"}}/>
+                        </div>
+                        <div className={css.ItemsDetLa}>
+                            <div>Title</div>
+                            <div className={css.ItemsPrice}>
+                              <div>Description</div>
+                              <div>Price: 123$</div>
+                            </div>
+                        </div>
+                      </div>
+                      <div className={css.ItemGLayout}>
+                        <div style={{margin: "3px"}}>
+                          <Image preview={false} alt="Obertech" src="/img/user.png" style={{display: "flex",  margin: "0px auto", justifyContent: "center", width:"40px"}}/>
+                        </div>
+                        <div className={css.ItemsDetLa}>
+                            <div>Title</div>
+                            <div className={css.ItemsPrice}>
+                              <div>Description</div>
+                              <div>Price: 123$</div>
+                            </div>
+                        </div>
+                      </div>
+                      <div className={css.ItemGLayout}>
+                        <div style={{margin: "3px"}}>
+                          <Image preview={false} alt="Obertech" src="/img/bag.png" style={{display: "flex",  margin: "0px auto", justifyContent: "center", width:"40px"}}/>
+                        </div>
+                        <div className={css.ItemsDetLa}>
+                            <div>Title</div>
+                            <div className={css.ItemsPrice}>
+                              <div>Description</div>
+                              <div>Price: 123$</div>
+                            </div>
+                        </div>
+                      </div>
+                      <div className={css.ItemGLayout}>
+                        <div style={{margin: "3px"}}>
+                          <Image preview={false} alt="Obertech" src="/img/avatar.png" style={{display: "flex",  margin: "0px auto", justifyContent: "center", width:"40px"}}/>
+                        </div>
+                        <div className={css.ItemsDetLa}>
+                            <div>Title</div>
+                            <div className={css.ItemsPrice}>
+                              <div>Description</div>
+                              <div>Price: 123$</div>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className={css.GrpHdrDesc}>
+                      <div style={{fontWeight: "600"}}>120.5$</div>
+                    <Tooltip title="Add basket" color="red" placement="right"><div className={css.GrpBtn2}><Button type="link" shape="circle" size="large" danger icon={<ShoppingCartOutlined />}    onClick={() => groupBasketAdd(e, gst1)}></Button></div></Tooltip>
+                    </div>
+                </div>
+              </div>
+              <div className={css.GroupItems}>
+                <div className={css.GrpPic}>
+                <div className={css.GrpPackHdr}> 
+                  <div className={css.BackImg}></div>
+                  <div className={css.PackageName}>Package</div>
+                  <div className={css.GroupPackageTitle}>
+                      <div className={css.Gphtitle}>This is group package</div> <div className={css.Gphdescrip}> This is description</div>
+                      <div className={css.Gphprice}><span>Package price: </span><span>{120.5}$</span></div>
+                  </div>
+                  </div> 
+                </div>
+                <div className={css.GrpDetails}>
+                    <div className={css.GrpHdrTitle}>
+                      <div>This is group package</div>
+                    </div>
+                    <div className={css.GrpItems}>
+                      <div className={css.ItemGLayout}>
+                        <div style={{margin: "3px"}}>
+                          <Image preview={false} alt="Obertech" src="/img/avatar.png" style={{display: "flex",  margin: "0px auto", justifyContent: "center", width:"40px"}}/>
+                        </div>
+                        <div className={css.ItemsDetLa}>
+                            <div>Title</div>
+                            <div className={css.ItemsPrice}>
+                              <div>Description</div>
+                              <div>Price: 123$</div>
+                            </div>
+                        </div>
+                      </div>
+                      <div className={css.ItemGLayout}>
+                        <div style={{margin: "3px"}}>
+                          <Image preview={false} alt="Obertech" src="/img/avatar.png" style={{display: "flex",  margin: "0px auto", justifyContent: "center", width:"40px"}}/>
+                        </div>
+                        <div className={css.ItemsDetLa}>
+                            <div>Title</div>
+                            <div className={css.ItemsPrice}>
+                              <div>Description</div>
+                              <div>Price: 123$</div>
+                            </div>
+                        </div>
+                      </div>
+                      <div className={css.ItemGLayout}>
+                        <div style={{margin: "3px"}}>
+                          <Image preview={false} alt="Obertech" src="/img/avatar.png" style={{display: "flex",  margin: "0px auto", justifyContent: "center", width:"40px"}}/>
+                        </div>
+                        <div className={css.ItemsDetLa}>
+                            <div>Title</div>
+                            <div className={css.ItemsPrice}>
+                              <div>Description</div>
+                              <div>Price: 123$</div>
+                            </div>
+                        </div>
+                      </div>
+                      <div className={css.ItemGLayout}>
+                        <div style={{margin: "3px"}}>
+                          <Image preview={false} alt="Obertech" src="/img/avatar.png" style={{display: "flex",  margin: "0px auto", justifyContent: "center", width:"40px"}}/>
+                        </div>
+                        <div className={css.ItemsDetLa}>
+                            <div>Title</div>
+                            <div className={css.ItemsPrice}>
+                              <div>Description</div>
+                              <div>Price: 123$</div>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className={css.GrpHdrDesc}>
+                      <div style={{fontWeight: "600"}}>120.5$</div>
+                    <Tooltip title="Add basket" color="red" placement="right"><div className={css.GrpBtn2}><Button type="link" shape="circle" size="large" danger icon={<ShoppingCartOutlined />}    onClick={() => groupBasketAdd(e, gst1)}></Button></div></Tooltip>
+                    </div>
+                </div>
+              </div>
+              <div className={css.GroupItems}>
+                <div className={css.GrpPic}>
+                <div className={css.GrpPackHdr}> 
+                  <div className={css.BackImg}></div>
+                  <div className={css.PackageName}>Package</div>
+                  <div className={css.GroupPackageTitle}>
+                      <div className={css.Gphtitle}>This is group package</div> <div className={css.Gphdescrip}> This is description</div>
+                      <div className={css.Gphprice}><span>Package price: </span><span>{120.5}$</span></div>
+                  </div>
+                  </div> 
+                </div>
+                <div className={css.GrpDetails}>
+                    <div className={css.GrpHdrTitle}>
+                      <div>This is group package</div>
+                    </div>
+                    <div className={css.GrpItems}>
+                      <div className={css.ItemGLayout}>
+                        <div style={{margin: "3px"}}>
+                          <Image preview={false} alt="Obertech" src="/img/avatar.png" style={{display: "flex",  margin: "0px auto", justifyContent: "center", width:"40px"}}/>
+                        </div>
+                        <div className={css.ItemsDetLa}>
+                            <div>Title</div>
+                            <div className={css.ItemsPrice}>
+                              <div>Description</div>
+                              <div>Price: 123$</div>
+                            </div>
+                        </div>
+                      </div>
+                      <div className={css.ItemGLayout}>
+                        <div style={{margin: "3px"}}>
+                          <Image preview={false} alt="Obertech" src="/img/avatar.png" style={{display: "flex",  margin: "0px auto", justifyContent: "center", width:"40px"}}/>
+                        </div>
+                        <div className={css.ItemsDetLa}>
+                            <div>Title</div>
+                            <div className={css.ItemsPrice}>
+                              <div>Description</div>
+                              <div>Price: 123$</div>
+                            </div>
+                        </div>
+                      </div>
+                      <div className={css.ItemGLayout}>
+                        <div style={{margin: "3px"}}>
+                          <Image preview={false} alt="Obertech" src="/img/avatar.png" style={{display: "flex",  margin: "0px auto", justifyContent: "center", width:"40px"}}/>
+                        </div>
+                        <div className={css.ItemsDetLa}>
+                            <div>Title</div>
+                            <div className={css.ItemsPrice}>
+                              <div>Description</div>
+                              <div>Price: 123$</div>
+                            </div>
+                        </div>
+                      </div>
+                      <div className={css.ItemGLayout}>
+                        <div style={{margin: "3px"}}>
+                          <Image preview={false} alt="Obertech" src="/img/avatar.png" style={{display: "flex",  margin: "0px auto", justifyContent: "center", width:"40px"}}/>
+                        </div>
+                        <div className={css.ItemsDetLa}>
+                            <div>Title</div>
+                            <div className={css.ItemsPrice}>
+                              <div>Description</div>
+                              <div>Price: 123$</div>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className={css.GrpHdrDesc}>
+                      <div style={{fontWeight: "600"}}>120.5$</div>
+                    <Tooltip title="Add basket" color="red" placement="right"><div className={css.GrpBtn2}><Button type="link" shape="circle" size="large" danger icon={<ShoppingCartOutlined />}    onClick={() => groupBasketAdd(e, gst1)}></Button></div></Tooltip>
+                    </div>
+                </div>
+              </div>
+              <div className={css.GroupItems}>
+                <div className={css.GrpPic}>
+                <div className={css.GrpPackHdr}> 
+                  <div className={css.BackImg}></div>
+                  <div className={css.PackageName}>Package</div>
+                  <div className={css.GroupPackageTitle}>
+                      <div className={css.Gphtitle}>This is group package</div> <div className={css.Gphdescrip}> This is description</div>
+                      <div className={css.Gphprice}><span>Package price: </span><span>{120.5}$</span></div>
+                  </div>
+                  </div> 
+                </div>
+                <div className={css.GrpDetails}>
+                    <div className={css.GrpHdrTitle}>
+                      <div>This is group package</div>
+                    </div>
+                    <div className={css.GrpItems}>
+                      <div className={css.ItemGLayout}>
+                        <div style={{margin: "3px"}}>
+                          <Image preview={false} alt="Obertech" src="/img/avatar.png" style={{display: "flex",  margin: "0px auto", justifyContent: "center", width:"40px"}}/>
+                        </div>
+                        <div className={css.ItemsDetLa}>
+                            <div>Title</div>
+                            <div className={css.ItemsPrice}>
+                              <div>Description</div>
+                              <div>Price: 123$</div>
+                            </div>
+                        </div>
+                      </div>
+                      <div className={css.ItemGLayout}>
+                        <div style={{margin: "3px"}}>
+                          <Image preview={false} alt="Obertech" src="/img/avatar.png" style={{display: "flex",  margin: "0px auto", justifyContent: "center", width:"40px"}}/>
+                        </div>
+                        <div className={css.ItemsDetLa}>
+                            <div>Title</div>
+                            <div className={css.ItemsPrice}>
+                              <div>Description</div>
+                              <div>Price: 123$</div>
+                            </div>
+                        </div>
+                      </div>
+                      <div className={css.ItemGLayout}>
+                        <div style={{margin: "3px"}}>
+                          <Image preview={false} alt="Obertech" src="/img/avatar.png" style={{display: "flex",  margin: "0px auto", justifyContent: "center", width:"40px"}}/>
+                        </div>
+                        <div className={css.ItemsDetLa}>
+                            <div>Title</div>
+                            <div className={css.ItemsPrice}>
+                              <div>Description</div>
+                              <div>Price: 123$</div>
+                            </div>
+                        </div>
+                      </div>
+                      <div className={css.ItemGLayout}>
+                        <div style={{margin: "3px"}}>
+                          <Image preview={false} alt="Obertech" src="/img/avatar.png" style={{display: "flex",  margin: "0px auto", justifyContent: "center", width:"40px"}}/>
+                        </div>
+                        <div className={css.ItemsDetLa}>
+                            <div>Title</div>
+                            <div className={css.ItemsPrice}>
+                              <div>Description</div>
+                              <div>Price: 123$</div>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className={css.GrpHdrDesc}>
+                      <div style={{fontWeight: "600"}}>120.5$</div>
+                    <Tooltip title="Add basket" color="red" placement="right"><div className={css.GrpBtn2}><Button type="link" shape="circle" size="large" danger icon={<ShoppingCartOutlined />}    onClick={() => groupBasketAdd(e, gst1)}></Button></div></Tooltip>
+                    </div>
+                </div>
+              </div>
+          </div>
+            
          <div className={css.GroupLayoutCss}> 
            <div>
              {groupState1 === undefined ?  <Empty /> : (
@@ -239,4 +486,4 @@ const Items = () => {
     </BaseLayout>
   );
 };
-export default Items;
+export default ItemGroup;

@@ -17,6 +17,12 @@
     border-radius: 10px;
     flex-direction: column;
     justify-content: space-between;
+    animation: scaledown .2s linear;
+}
+
+.Box:hover {
+    animation: scale 0.2s linear;
+    animation-fill-mode: forwards;
 }
 
 .Col1 {
@@ -139,4 +145,30 @@
     width: 10px;
     height: 10px;
 
+}
+
+/* animation: scale 0.2s linear;
+animation-fill-mode: forwards; */
+@keyframes scaledown {
+    0% {
+        -webkit-transform: scale(1.05);
+        transform: scale(1.05);
+    }
+
+    100% {
+        -webkit-transform: scale(1.0);
+        transform: scale(1.0);
+    }
+}
+
+@keyframes scale {
+    0% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+
+    100% {
+        -webkit-transform: scale(1.05);
+        transform: scale(1.05);
+    }
 }

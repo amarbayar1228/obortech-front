@@ -779,7 +779,7 @@
   color: rgb(239 68 68);
   background-color: #fff;
   cursor: pointer;
-  animation: style_scaledown__Ojs52 .2s linear;
+  animation: scaledown .2s linear;
   justify-content: center;
   align-items: center;
 }

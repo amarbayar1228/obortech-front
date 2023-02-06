@@ -23,9 +23,7 @@ export default function BaseLayout(props) {
   const [localStorageUserId, setLocalStorageUserId] = useState(); 
   const [admin, setAdmin] = useState("3");
   const [localPkId, setLocalPkid] = useState("");
-  const [open2, setOpen2] = useState(false);
-  const [enState, setEnState] = useState("en");
-  const [mnState, setMnState] = useState("mn");
+  const [open2, setOpen2] = useState(false); 
   const [profileS, setProfileS] = useState();
   const [toogleCss, setToogleCss] = useState(false);
   const [settingToggle, setSettingToggle] = useState(false);

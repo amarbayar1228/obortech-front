@@ -44,6 +44,9 @@
     width: 1130px;
     /* justify-content: center; */
     flex-flow: wrap;
+    animation-name: bankRouteAnimation;
+    animation-duration: 0.3s;
+    animation-timing-function: ease;
 }
 
 .Item {
@@ -147,7 +150,7 @@
 }
 
 .BtnPlus {
-    display: none;
+    /* display: none; */
     position: absolute;
     bottom: 10px;
     right: 10px;
@@ -528,9 +531,8 @@
     padding: 0px 12px;
     font-weight: 600;
     text-transform: uppercase;
-    /* margin: 0px 10px; */
     z-index: 100;
-    background-color: #fff;
+    background-color: #f6f6f6;
 }
 
 .ZuragCont {
@@ -574,7 +576,6 @@
 .GroupPackageHdr {
     position: relative;
     display: flex;
-    /* background: #fff; */
     border-radius: 5px;
     width: 280px;
     height: 340px;
@@ -582,9 +583,7 @@
     justify-content: center;
     align-items: center;
     padding: 0px 25px;
-    /* background-image: url("/img/backgroundCircle2.png"); */
     background: linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%);
-    /* background: linear-gradient(90deg, #Ff0000 0%, #F54040 100%) */
 }
 
 .PackageName {
@@ -675,6 +674,14 @@
     margin: 12px;
 }
 
+.GrpBtn2 {
+    bottom: 7px;
+    right: 14px;
+    background-color: #f3f4f6;
+    border-radius: 50%;
+    margin: 12px;
+}
+
 /* .GroupPackage:hover .GrpBtn {
     display: flex;
     margin: 12px;
@@ -685,6 +692,183 @@
 
 .SlideCss {
     background-color: red;
+}
+
+.GroupCss {
+    display: flex;
+    flex-direction: row;
+    margin: 40px auto;
+    width: 1130px;
+    max-width: 100%;
+    flex-flow: wrap;
+    justify-content: space-around;
+    animation-name: bankRouteAnimation;
+    animation-duration: 0.3s;
+    animation-timing-function: ease;
+}
+
+@keyframes bankRouteAnimation {
+    0% {
+        transform: scale(0.1);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.GroupItems {
+    position: relative;
+    display: flex;
+    margin: 15px;
+    width: 532px;
+    height: 315px;
+    border-radius: 15px;
+    /* background-color: #ccc; */
+    animation: scaledown .2s linear;
+    box-shadow: 4px 5px 6px 2px rgb(49 74 86 / 25%);
+}
+
+.GroupItems:hover {
+    animation: scale 0.2s linear;
+    animation-fill-mode: forwards;
+}
+
+@keyframes scaledown {
+    0% {
+        -webkit-transform: scale(1.05);
+        transform: scale(1.05);
+    }
+
+    100% {
+        -webkit-transform: scale(1.0);
+        transform: scale(1.0);
+    }
+}
+
+@keyframes scale {
+    0% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+
+    100% {
+        -webkit-transform: scale(1.05);
+        transform: scale(1.05);
+    }
+}
+
+.GrpPic {
+    position: relative;
+    width: 50%;
+    border-bottom-left-radius: 15px;
+    border-top-left-radius: 15px;
+    background: linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%);
+}
+
+.GrpDetails {
+    display: flex;
+    background-color: #ffffff;
+    width: 50%;
+    flex-direction: column;
+    justify-content: space-between;
+    border-bottom-right-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.GrpPackHdr {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    padding: 0px 25px;
+    /* border-right: 1px solid #cbd5e1; */
+    background: linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%);
+}
+
+.GrpItems {
+    height: 216px;
+    background-color: #fff;
+    overflow-y: auto;
+    box-shadow: inset 1px 1px 4px 2px #d1deeb;
+}
+
+.GrpItems::-webkit-scrollbar {
+    width: 3px;
+}
+
+.GrpItems::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.GrpItems::-webkit-scrollbar-thumb {
+    background-color: rgb(254, 80, 80);
+    border-radius: 10px;
+}
+
+.GrpHdrTitle {
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
+    text-transform: uppercase;
+    height: 50px;
+    padding-left: 10px;
+    /* color: #4d5057; */
+    font-weight: 600;
+    border-top-right-radius: 15px;
+    /* background-color: rgb(226 232 240); */
+    /* background: linear-gradient(90deg, #d9e7ff 0%, #e3ffe7 100%); */
+    /* border: 1px solid rgb(211 224 241); */
+
+}
+
+.GrpHdrDesc {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
+    padding-left: 10px;
+    border-bottom-right-radius: 15px;
+    /* background-color: rgb(203 213 225); */
+    /* background: linear-gradient(90deg, #d9e7ff 0%, #e3ffe7 100%); */
+    border: 1px solid rgb(211 224 241);
+
+}
+
+.ItemGLayout {
+    display: flex;
+    height: 50px;
+    margin: 12px;
+    background: rgb(241 245 249);
+    border-radius: 15px;
+}
+
+.ItemsDetLa {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    padding-left: 12px;
+    padding-right: 12px;
+    color: #4d5052;
+    font-size: 13px;
+    font-weight: 600;
+    justify-content: center;
+}
+
+.ItemsPrice {
+    display: flex;
+    justify-content: space-between;
 }
 
 @media only screen and (max-width: 1024px) {
