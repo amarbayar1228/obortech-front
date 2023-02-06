@@ -65,10 +65,10 @@ export default function Home() {
     // console.log("url",window.location.href);
     // adsFunc();
   }, []);
-  const adsFunc = () =>{
-    window.location.href="http://www.star-clicks.com/secure/redirect.asp?d25=1&sa=l&ai=BI4-SdyRiRavUPJPa2QLR8qX6A_PSryDv8NbxAZav5QSQ_ZcBEAEYBCgIQIoWSK45ULv0qv0BYLu-roPQCpgB53OgAcWxgf8DyAEBgAIBlQIcelYKqQKhmwf05ay_PsgCj89e&num=1&adid=99&keyid=zero&pid=39466083251520327"
-    //  router.("/http://www.star-clicks.com/secure/redirect.asp?d25=1&sa=l&ai=BI4-SdyRiRavUPJPa2QLR8qX6A_PSryDv8NbxAZav5QSQ_ZcBEAEYBCgIQIoWSK45ULv0qv0BYLu-roPQCpgB53OgAcWxgf8DyAEBgAIBlQIcelYKqQKhmwf05ay_PsgCj89e&num=1&adid=99&keyid=zero&pid=39466083251520327");
-  }
+  // const adsFunc = () =>{
+  //   window.location.href="http://www.star-clicks.com/secure/redirect.asp?d25=1&sa=l&ai=BI4-SdyRiRavUPJPa2QLR8qX6A_PSryDv8NbxAZav5QSQ_ZcBEAEYBCgIQIoWSK45ULv0qv0BYLu-roPQCpgB53OgAcWxgf8DyAEBgAIBlQIcelYKqQKhmwf05ay_PsgCj89e&num=1&adid=99&keyid=zero&pid=39466083251520327"
+  //   //  router.("/http://www.star-clicks.com/secure/redirect.asp?d25=1&sa=l&ai=BI4-SdyRiRavUPJPa2QLR8qX6A_PSryDv8NbxAZav5QSQ_ZcBEAEYBCgIQIoWSK45ULv0qv0BYLu-roPQCpgB53OgAcWxgf8DyAEBgAIBlQIcelYKqQKhmwf05ay_PsgCj89e&num=1&adid=99&keyid=zero&pid=39466083251520327");
+  // }
  
 
   const tokenFunc = () =>{
@@ -196,9 +196,9 @@ return (
 
   </div> 
  
-   <Button onClick={adsFunc}>
+   {/* <Button onClick={adsFunc}>
       Amraa
-   </Button>
+   </Button> */}
 </BaseLayout>
 </div>
 );
