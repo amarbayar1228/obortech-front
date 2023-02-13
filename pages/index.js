@@ -126,7 +126,7 @@ export default function Home() {
       // {console.log("orgID: ", basketContext.orgId)}
       basketContext.orgId === undefined ? null : basketContext.clearBasket()
       basketContext.orgIdLocal(value, orgId); 
-      router.push("/item-group");
+      router.push("/items");
     }, 
     okText: t('ok', { ns: 'organization' }),
     cancelText: t('cancel', { ns: 'organization' }),

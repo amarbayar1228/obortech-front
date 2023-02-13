@@ -65,6 +65,32 @@
     height: 50px;
 } */
 
+.ItemGLayout {
+    display: flex;
+    height: 50px;
+    margin: 12px;
+    background: rgb(241 245 249);
+    border-radius: 15px;
+}
+
+.ItemsDetLa {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    padding-left: 12px;
+    padding-right: 12px;
+    color: #4d5052;
+    font-size: 13px;
+    font-weight: 600;
+    justify-content: center;
+}
+
+.ItemsPrice {
+    display: flex;
+    justify-content: space-between;
+}
+
+
 @media only screen and (max-width: 1024px) {
     .GroupPackageDtl {
         width: 100%;

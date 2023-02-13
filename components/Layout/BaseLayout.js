@@ -66,6 +66,9 @@ export default function BaseLayout(props) {
       setAddItemStyleProps([css.BasketPop]);
     }, 500); 
   }, [props]);
+  useEffect(()=>{
+    
+  },[basketContext])
 
   // Locize Loading...
   // if (!ready)
@@ -477,9 +480,14 @@ export default function BaseLayout(props) {
     <div className={css.Links}> 
     <div className={css.ProfileZX}> 
     <div className={css.ImgZ}>
+      {basketContext.userInfoProfile ? 
     <Image alt="Obertech" preview={false} className={css.Zurag} 
     src={basketContext.userInfoProfile.img === "-" ? "/img/user.png" :  "data:image/png;base64," + basketContext.userInfoProfile.img } 
     width={50}/> 
+    : 
+    <Image alt="Obertech" preview={false} className={css.Zurag}  src={"/img/user.png"} width={50}/> 
+    }
+
       {/* <div><Image alt="Obertech" preview={true} className={css.Zurag} src={"data:image/png;base64,"} style={{display: "flex", width: "30px", margin:"0px auto"}}/> </div> */}
       </div>
         {toogleCss ? 

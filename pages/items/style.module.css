@@ -57,6 +57,7 @@
     background-color: #fff;
     margin: 8px;
     border-radius: 5px;
+    box-shadow: 3px 3px 3px 1px #e9e9e9;
     animation: scaledown .2s linear;
 }
 
@@ -105,8 +106,17 @@
 
 .ItemLogo {
     position: absolute;
+    top: 20px;
+    left: 0px;
+    /* font-weight: 900; */
+    text-transform: uppercase;
+    box-shadow: 3px 3px 3px 1px #c98484;
     width: 60px;
-    margin-left: 27px;
+    background-color: rgb(220 38 38);
+    padding: 5px 10px;
+    font-weight: 500;
+    color: rgb(254 242 242);
+    z-index: 1;
 }
 
 .ItemPic {
@@ -118,16 +128,17 @@
 
 .ContText {
     margin: 23px 27px 35px 27px;
-    line-height: 20px;
+    line-height: 18px;
     padding-top: 10px;
     font-size: 15px;
-    border-top: 1px solid #ccc;
+    border-top: 3px solid rgb(239 68 68);
 }
 
 .ItemTitle1 {
     font-weight: 700;
     text-transform: uppercase;
-    color: #3e3b3b;
+    color: #4d5057;
+    ;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -139,12 +150,16 @@
     color: #6f8391;
     white-space: nowrap;
     width: 100%;
+    text-transform: capitalize;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 .ItemPrice {
     font-weight: 700;
+    margin-top: 19px;
+    font-size: 19px;
+    color: #4d5057;
 }
 
 .Item:hover .BtnPlus {
@@ -883,7 +898,7 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        width: 350px;
+        /* width: 350px; */
     }
 
     .Gphprice {
@@ -942,6 +957,11 @@
         height: 350px;
     }
 
+    .ItemPrice {
+
+        margin-top: 9px;
+    }
+
     .Item {
         position: relative;
         width: 45%;
@@ -987,7 +1007,7 @@
     }
 
     .Gphdescrip {
-        width: 300px;
+        /* width: 300px; */
     }
 
     .ContText {
