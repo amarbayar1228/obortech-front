@@ -1,4 +1,4 @@
-import {Input,Button,message,Empty,Steps,Modal,Image,InputNumber,Row,Col,Radio,Form,Spin, Tooltip, Alert, Typography, notification, DatePicker, Select} from "antd";
+import {Input,Button,message,Empty,Steps,Modal,Image,Radio,Form,Spin, Tooltip, Alert, Typography, notification, Select} from "antd";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import BaseLayout from "../../components/Layout/BaseLayout";
 import css from "./style.module.css";
@@ -7,20 +7,17 @@ import { WalletOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import BasketContext from "../../context/basketContext/BasketContext";
 import axios from "axios";
-import {CaretRightOutlined,ShoppingCartOutlined,MailOutlined ,ArrowLeftOutlined,DeleteOutlined, PhoneOutlined, CheckCircleOutlined} from "@ant-design/icons";
+import {ShoppingCartOutlined,MailOutlined ,DeleteOutlined,  CheckCircleOutlined, SmileOutlined, SmileFilled } from "@ant-design/icons";
 // import jsPDF from "jspdf"; 
 import { Tabs } from "antd"; 
 import SuccessOrder from "../../components/PaymentCom/SuccessOrder"; 
 import KhanBank from "../../components/PaymentCom/khanBank";
-import moment from 'moment';
-import CreditOrDebitCard from "../../components/PaymentCom/CreditOrDebitCard";
 import Coin from "../../components/PaymentCom/Coin";
 import Paypal from "../../components/PaymentCom/Paypal";
 import TdbBank from "../../components/PaymentCom/TdbBank";
 import PhoneInput from "react-phone-input-2";
 import 'react-phone-input-2/lib/style.css'
 import Hansh from "../../components/PaymentCom/Hansh";
-import MongolBanks from "../../components/PaymentCom/MongolBanks";
 import ItemDetails from "../../components/PaymentCom/ItemDetails";
 import ForeignObot from "../../components/PaymentCom/ForeignObot";
 import MongolianObot from "../../components/PaymentCom/MongolianObot";
@@ -79,26 +76,26 @@ const Payment = () => {
   const [showBank, setShowBank] = useState(false);
   const [invoiceSuccess, setInvoiceSuccess] = useState(0);
   const [mntPrice, setMntPrice] = useState(0);
-  const [sourceData, setSourceDate] = useState()
+  const [sourceData, setSourceDate] = useState();
+  const [orderIdSt, setOrderIdSt] = useState(0);
   //const { amaraa } = router.query;
   useEffect(() => {
     console.log("payment");
-    const totalPriceFunction = () => { 
-      let itemPrice = 0;
-      let result = 0; 
-       basketContext.basketState.forEach((element) => {
-        if (element.itemPriceTotal == undefined) { 
-          result = element.price;
-        } else {
-          result = element.itemPriceTotal;
-        }
-        itemPrice += element.cnt * result; 
-      })
-      setSuccessOrderPrice(itemPrice);
-      setTotalPriceState(itemPrice);
-    };
-    totalPriceFunction();
+    if(localStorage.getItem("orderId")){
+      // console.log("order id: ", localStorage.getItem("orderId"));
+  
+      const order = localStorage.getItem("orderId");
+      setOrderIdSt(order); 
+     
+     
+     
+    }else{
+      console.log("bhq");
+    } 
 
+    
+    totalPriceFunction();
+ 
     dateFunction(); 
     // console.log("url",window.location.href); 
     getDefMaximFi(); 
@@ -114,11 +111,32 @@ const Payment = () => {
     } 
     // var url_string = "http://192.168.1.14:3000/payment?parameter1=amaraa&parameter2=000&body=asdjflajsdlkfjaklsjfklhadbd2626251dsf3as5df1as53df1as5df1as3fd51as3df153sadfas&fbclid=IwAR24B-dJ611MB46g-9X2v0rK3P8_7NgWmDtCnZxPTY1ZVraFwFfzM4pd760";  
     // // console.log('amaraa', router.query); 
-    // window.onpopstate = (event) =>{ 
-    //   history.go(1)
-    //   console.log("event", event); 
-    // }
-  }, [basketContext]);
+    window.onpopstate = (event) =>{ 
+      history.go(1)
+      console.log("event", event); 
+    }
+  }, [basketContext]); 
+  useEffect(()=>{
+    if(localStorage.getItem("orderId")){
+      const order = localStorage.getItem("orderId");
+      router.push("/payment/?orderid=" + order);
+    }
+   
+  },[])
+  const totalPriceFunction = () => { 
+    let itemPrice = 0;
+    let result = 0; 
+     basketContext.basketState.forEach((element) => {
+      if (element.itemPriceTotal == undefined) { 
+        result = element.price;
+      } else {
+        result = element.itemPriceTotal;
+      }
+      itemPrice += element.cnt * result; 
+    })
+    setSuccessOrderPrice(itemPrice);
+    setTotalPriceState(itemPrice);
+  };
   const recaptchaRef = useRef();
   const validateMessages = {
     required: "${label} is required!",
@@ -287,41 +305,9 @@ axios.post("/api/post/Gate", bodyNoId).then((result) => {
     setCheckFalse(false); 
     setIsModalVisibleOrgId2(false);
   }; 
-  // const CoinFunc = (e) => {
-  //   console.log("coin input: ", e);
-  //   setCoinTargetState(e);
-  //   const result = 0;
-  //   result = e / basketContext.hanshnuud[2].rate;
-  //   console.log("coin: ", result);
-  //   setCoinState(result);
 
-  //   console.log("coinstate");
-  // };
-  // const UsdFunc = (e) => {
-  //   console.log("Usd input: ", e);
-  //   setUsdTargetState(e);
-  //   const result = 0;
-  //   if (e === null) {
-  //     setUsdState(0);
-  //   } else {
-  //     result = e;
-  //     setUsdState(result);
-  //   }
-  // };
-  // const TugrugFunc = (e) => {
-  //   setTugrugTargetState(e);
-  //   const result = 0;
-  //   result = e * basketContext.hanshnuud[1].rate;
-  //   setTugrugState(result);
-  // };
-  // const TotalPriceFunc = () => {
-  //   console.log("coinState: ", coinStateTarget);
-  //   console.log("usdState: ", usdStateTarget);
-  //   console.log("tugrugState: ", tugrugStateTarget);
-  // };
 const orgIdChoose = (e) =>{ 
   console.log("e.target: ", e.target.value); 
-  // setOrgOnChange()
   setOrgIdRadio(e.target.value);
    
   // if(localStorage.getItem("pkId")){
@@ -426,7 +412,7 @@ const getOrderId = () =>{
   }
 }
 const placeOrder = () =>{
-
+  
   console.log("place order: ", bankValue );
   if(bankValue === undefined){
     notification["warning"]({
@@ -443,80 +429,23 @@ const placeOrder = () =>{
 
   if(bankValue === "Foreign"){
     // <KhanBank totalPriceState={totalPriceState} orgIdRadio={basketContext.orgNames[0].orgIdstate} basketState={basketContext.basketState} sucessOrder={sucessOrder}/>  
-    const arr = basketContext.basketState;
-    // img tei bol Item, imggui bol Group
-    
-    // arr.forEach((element, i) => {
-    // if (element.img) {arr[i].state = 2} else {arr[i].state = 1; arr[i].img = "";}
-    // });  
-    
-    // newtersen hereglegch bwl Axiosru shidne
-    // if (localStorage.getItem("token")) {
-    // const body = arr;
-    // const body2 = {
-    // func: "neworder",
-    // item: body,
-    // orgId: basketContext.orgNames[0].orgIdstate,
-    // totalPrice: totalPriceState, 
-    // pkId: localStorage.getItem("pkId"), 
-    // };
-    // console.log("bodyId:2  ===>> ", body2);
-    // var basketLocal = [];
-    // axios.post("/api/post/Gate", body2).then((result) => {
-    //   console.log("res orderId: ", result.data.orderid); 
-    //    localStorage.setItem("oAiD", result.data.orderid); 
-        
-    //     basketContext.removeBasketStorage();   
-    //     getOrderId();
-    //     const bodySmart = {
-    //       func: "orderSend",
-    //       orderid: result.data.orderid
-    //      }
-    //      axios.post("/api/post/Gate", bodySmart).then((res)=>{
-    //       console.log("res: ", res.data);
-         
-    //      }).catch((err)=>{
-    //       console.log("object", err);
-    //      });
-    
-    //   },(error) => {console.log(error)}); 
-    // } else {
-    // // newtreeq hereglegch bwl Axiosru shidne
-    // const bodyNoId = {
-    // func: "neworder",
-    // orgId: basketContext.orgNames[0].orgIdstate,
-    // totalPrice: totalPriceState,
-    // item: arr, 
-    // };  
-    // axios.post("/api/post/Gate", bodyNoId).then((result) => {
-    //   console.log("res orderId: ", result.data.orderid); 
-    //   localStorage.setItem("oAiD", result.data.orderid); 
-        
-    //     basketContext.removeBasketStorage();  
-    //     getOrderId();
-    //     const bodySmart = {
-    //       func: "orderSend",
-    //       orderid: result.data.orderid
-    //      }
-    //      axios.post("/api/post/Gate", bodySmart).then((res)=>{
-    //       console.log("res: ", res.data);
-    //      }).catch((err)=>{
-    //       console.log("object", err);
-    //      });
-    
-    //   },(error) => {console.log(error)});
-    // } 
-
+    // const arr = basketContext.basketState;
+    console.log('foreign');
   }
 }
 const BackFunc = () =>{
+   
   setBankPay(undefined);
   setBankValue(undefined);
 }
-const foreignOnChange = (value) =>{
-
-  setForeignValue(value.target.value);
+const BackFuncVnd = () =>{
+  setBankValue(undefined);
+  prev();
 }
+// const foreignOnChange = (value) =>{
+
+//   setForeignValue(value.target.value);
+// }
 const PayInInstallmentsForeign = () =>{
 setPayInInstallments(1);
 localStorage.setItem("Bank", 1);
@@ -531,18 +460,7 @@ const sucessOrder = () =>{
 }
 const removeBask = () =>{ 
   setSuccessOrderValue(4);
-}
-// const TulsunFunc=()=>{
-//   setTulsunMnUsd("MN");
- 
-// }
-// const usdTulsun = () =>{
-//   setTulsunMnUsd("USD");
-//   localStorage.setItem("or", 2);
-// }
-// const ValueTulbur = () =>{
-//   setForeignValue(3);
-// }
+} 
 const invoBack = () =>{
   setInvoiceBoolean(false)
   console.log("object");
@@ -894,23 +812,22 @@ const steps = [
 
         <div className={css.SubTotal}><div><Image alt="Obertech" preview={false} src="/img/logoCirc.svg" width={20}/><span style={{marginLeft: "2px"}}>OBOT</span></div><div className={payInInstallmentsValue === 2 ? css.SubTotalSuccess : null}> 
           {mntUsdPrice[0].obot}
-        <span style={{fontSize: "10px", fontWeight: "600"}}> Obot</span><span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / {defaultMaxFi.Coin}%</span></div></div>
+          <span style={{fontSize: "10px", fontWeight: "600"}}> Obot</span><span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / {defaultMaxFi.Coin}%</span></div>
+        </div>
         </>
-        : 
-        
-        <> 
+        : bankValue === "Mongol" ?
+        <>
+
         <div className={css.SubTotal}><div>  <span style={{display: "flex"}}><div className={css.Tugrug}> ₮ </div> MNT</span></div>
           <div className={payInInstallmentsValue === 1 ? css.SubTotalSuccess : null}>   {mntUsdPrice[0].mnt}₮
             <span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / {defaultMaxFi.USD}%</span>
           </div>
         </div>
-        <div className={css.SubTotal}><div><Image alt="Obertech" preview={false} src="/img/logoCirc.svg" width={20} style={{borderRadius: "16px"}}/><span style={{marginLeft: "7px"}}>OBOT</span></div><div className={payInInstallmentsValue === 2 ? css.SubTotalSuccess : null}>  {mntUsdPrice[0].obot}<span style={{fontSize: "10px", fontWeight: "600"}}> Obot</span><span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / {defaultMaxFi.Coin}%</span></div></div>
+        <div className={css.SubTotal}><div><Image alt="Obertech" preview={false} src="/img/logoCirc.svg" width={20} style={{borderRadius: "16px"}}/><span style={{marginLeft: "7px"}}>OBOT</span></div><div className={payInInstallmentsValue === 2 ? css.SubTotalSuccess : null}>  {mntUsdPrice[0].obot}<span style={{fontSize: "10px", fontWeight: "600"}}> Obot</span><span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / {defaultMaxFi.Coin}%</span></div>
+        </div>
         </>
+        : ""
         }
-
-        
-
-        
 
 
         </>
@@ -936,11 +853,6 @@ const steps = [
         {/* <Button onClick={BackFunc} className={css.BackCss}>Back</Button> */}
         {bankValue === "khan" || bankValue === "Golomt" || bankValue === "Tdb" || bankValue === "Monpay"? 
     <div> 
-
-             
-
-
-
 
 {!showBank ? 
 <div className={css.AlertDesk}>
@@ -1012,33 +924,39 @@ key: i, children: i === 0?
       <> 
       <div className={css.ShiljvvlegCont}> 
         <div className={css.Shiljvvleg}>
-          <div className={css.ShilTitle}>Дансны дугаар </div>
+          <div className={css.ShilTitle}>Account number </div>
           <div className={css.ShilTitle2}> 5220042965</div>
-          <div className={css.Copy}> <Paragraph copyable={{ text: "5220042965",  icon: ["Хуулах", "Хуулагдсан"],   tooltips: ['Хуулах', 'Хуулагдсан']}} ></Paragraph></div>
+          <div className={css.Copy}> 
+            <Paragraph copyable={{text: "5220042965"}}></Paragraph> 
+          </div>
         </div>
         
         <div className={css.Shiljvvleg}>
-          <div className={css.ShilTitle}>Хүлээн авагч </div>
+          <div className={css.ShilTitle}>Receiver</div>
           <div className={css.ShilTitle2}> Obortech XXK</div>
-          <div className={css.Copy}>  <Paragraph copyable={{ text: "Obortech XXK",  icon: ["Хуулах", "Хуулагдсан"],   tooltips: ['Хуулах', 'Хуулагдсан']}} ></Paragraph></div>
+          <div className={css.Copy}>  
+          <Paragraph copyable={{text: "Obortech XXK"}}></Paragraph>
+          </div> 
         </div>
 
         <div className={css.Shiljvvleg}>
-          <div className={css.ShilTitle}>Төлөх дүн </div>
+          <div className={css.ShilTitle}>Amount to be paid </div>
           <div className={css.ShilTitle2}> {mntPrice}₮</div>
-          <div className={css.Copy}> 
-            <Paragraph copyable={{ text: totalPriceState,  icon: ["Хуулах", "Хуулагдсан"],   tooltips: ['Хуулах', 'Хуулагдсан']}} ></Paragraph>
+          <div className={css.Copy}>  
+            <Paragraph copyable={{text: totalPriceState}}></Paragraph>
           </div>
         </div>
 
         <div className={css.Shiljvvleg}>
-          <div className={css.ShilTitle}>Гүйлгээний утга </div>
+          <div className={css.ShilTitle}>transaction value</div>
           <div className={css.ShilTitle2}> 5220042965</div>
-          <div className={css.Copy}> <Paragraph copyable={{ text: "5220042965",  icon: ["Хуулах", "Хуулагдсан"],   tooltips: ['Хуулах', 'Хуулагдсан']}} ></Paragraph></div>
+          <div className={css.Copy}> 
+          <Paragraph copyable={{text: '5220042965'}}></Paragraph>
+          </div>
         </div>  
       </div>
       <div> 
-        <Button onClick={()=>setInvoiceBoolean(true)}>Invoice</Button>
+        <Button size="large" type="primary" style={{width: "150px"}} onClick={()=>setInvoiceBoolean(true)}>Invoice</Button>
       </div>
     </>
     : <div>
@@ -1124,10 +1042,14 @@ key: i, children: i === 0?
 {
   title: "Completed",
   content: (
-    <div> 
-     
+    <div>
+      <div className={css.AbsoClear}> 
+      <Tooltip title="Clear">
+        <Button onClick={removeBask} type="primary" shape="circle" style={{marginTop: "10px"}}>X</Button>
+      </Tooltip>
+      </div>
       <SuccessOrder totalPriceState={successOrderPrice} items={propsItem} invoiceSuccess={invoiceSuccess} mnPrice={mntUsdPrice}/>
-      <Button onClick={removeBask} shape="circle" style={{marginTop: "10px"}}> X</Button>
+     
      
   </div>
   ),
@@ -1137,14 +1059,15 @@ key: i, children: i === 0?
   return (
     <div style={{fontFamily: "Roboto Condensed, sans-serif"}}>
       <BaseLayout pageName="payment">
-        <div style={{ fontSize: "14px", fontWeight: "500" }}>
-       
+        <div style={{ fontSize: "14px", fontWeight: "500" }}> 
         {/*  */}
           {basketContext.basketState.length === 0 || basketContext.orgId === undefined ? (
 
             <div style={successOrderValue === 2 ? {display: "none"} : {fontSize: "15px", marginTop: "50px"}}>
-                {orderIdLocal2}
+                {orderIdSt.length > 2 ? <div> {orderIdSt}Baraa bn </div>:  
               <Empty description="Cart is empty"></Empty> 
+          }
+
             </div>
           ) : (
             <div className={css.ContentCss}>
@@ -1177,7 +1100,7 @@ key: i, children: i === 0?
                     </Modal>
                   </>
                 )} 
-                {bankPay === undefined ? current > 0 && (<Button style={{margin: "0 8px",}}onClick={() => prev()}>Back</Button>) :  <Button onClick={BackFunc} disabled={disableBtn}>Back</Button>}
+                {bankPay === undefined ? current > 0 && (<Button style={{margin: "0 8px",}}onClick={BackFuncVnd}>Back1</Button>) :  <Button onClick={BackFunc} disabled={disableBtn}>Back</Button>}
               </div>
             </div>
           )}

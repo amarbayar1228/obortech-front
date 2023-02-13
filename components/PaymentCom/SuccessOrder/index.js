@@ -275,9 +275,9 @@ return <div>
 </div>
 
 <div> 
-    <div style={{fontSize: "20px", marginBottom: "20px", marginTop: "20px"}}>OBORTECH 5355907 </div>
-    <div> OBORTECH Mongolia LLC Ulaanbaatar, Mongolia. OBORTECH in India: Sco 362, Top Floor Sector 44D, Chandigarh, India</div>
-    <div>info@obortech.io </div>
+    <div style={{fontSize: "20px", marginBottom: "10px", marginTop: "10px"}}>OBORTECH 5355907 </div>
+    <div style={{textAlign: "left"}}> OBORTECH Mongolia LLC Ulaanbaatar, Mongolia. OBORTECH in India: Sco 362, Top Floor Sector 44D, Chandigarh, India</div>
+    <div style={{textAlign: "left", marginTop: "10px"}}>info@obortech.io </div>
 </div>
 <div className={css.Layout}>
      {items.map((e,i)=>(
@@ -286,7 +286,7 @@ return <div>
                 {e.img === "" ?  <div className={css.Group}> G </div>: <Image preview={false} alt="Obertech" src={"data:image/png;base64," + e.img} className={css.Img}/> }
             </div>
             <div className={css.DescWidth}> 
-                <div style={{textTransform: "uppercase"}}>{e.title} </div>
+                <div style={{textTransform: "uppercase", fontWeight: "600"}}>{e.title} </div>
                 <div className={css.Descr}> 
                     <div className={css.Descrtext}>{e.description} </div> <div> Price: {e.price}$</div> 
                 </div>
@@ -296,7 +296,7 @@ return <div>
 </div>
 
 
-<div>Total price: {price} </div>
+<div className={css.TotalPriceCss}>Total price: {price} </div>
 </div>
 : ""}
 </>  

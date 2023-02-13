@@ -70,72 +70,32 @@ const Invoice = (props) =>{
     const [disable, setDisable] = useState(true);
     const recaptchaRef = useRef();
     const reportTemplateRef = useRef(null);
-// useEffect(()=>{
-// // console.log("object", props);
-// // console.log("hansh: ", basketContext.hanshnuud[1].rate);
-// const price = props.totalPrice * basketContext.hanshnuud[1].rate;
-// // console.log("price: ", price);
-// // setPrice(price);
-// // setItems(props.items);
+useEffect(()=>{
 
-// },[]);
-
-const inNumber = "XXXXXXXXXXX";
-  const handleOk = () => { 
-    //lkhagvatsend.99@gmail.com
-    //blr8391@gmail.com
-    //togosorea@gmail.com
-    //bulganb28@gmail.com
-    //amarbayarbatbayar2@gmail.com
-
-    // const sentInvo = {
-    // func: "sendMail",
-    // email: userInfo.mail,
-    // body: invoHtml.innerHTML,
-    // title_: "In444"
-    // }
-    // axios.post("/api/post/Gate", sentInvo).then((res)=>{
-    // console.log("sentInvo: ", res.data);
-    // }).catch((err)=>console.log("err", err)); 
-  };
-const handleCancel = () => {
-setIsModalOpen(false);
-};
+console.log("hansh: ", basketContext.hanshnuud[0].mnt.hansh2);
+const price = props.totalPrice * basketContext.hanshnuud[0].mnt.hansh2;
  
+// setPrice(price);
+// setItems(props.items);
+
+},[]);
+
+const inNumber = "XXXXXXXXXXX"; 
 const onFinish = (values) => {
-    // props.invoiceSuccessFunc();
-// setLoading(true); 
+console.log("userInfo: ", userInfo);
+setLoading(true); 
 localStorage.setItem("invoF", JSON.stringify(values));
 
 const mounths = ["Jan","Feb","Mar","Apr","May","jun","jul","Aug","Sep","Oct","Nov","Dec",];
-var datePlus = new Date();
-
+var datePlus = new Date(); 
 const date1 =  mounths[datePlus.getMonth()] + " " + datePlus.getDate()+ ", " + datePlus.getFullYear()
 datePlus.setDate(datePlus.getDate() + 14); 
 const date2 = mounths[datePlus.getMonth()] + " " + datePlus.getDate()+ ", " + datePlus.getFullYear();
-setInvoDate([{date1: date1}, {date2: date2}]);
-
+setInvoDate([{date1: date1}, {date2: date2}]); 
 localStorage.setItem("d1",  JSON.stringify([{date1: date1}, {date2: date2}]));
 setUserInfo(values);
-
-// const invoiceEngPdfID = document.getElementById("invoiceEngPdf");
-//     html2canvas(invoiceEngPdfID).then((canvas) =>{
-//         const imgData = canvas.toDataURL("image/png");
-//         const pdf = new jsPDF("p", "pt", "a4");
-//         pdf.addImage(imgData, "JPEG", 10, 10)
-//         pdf.output("datauristring");
-//         pdf.save('test.pdf');
-//         const nPdf = pdf.output("datauristring"); 
-//         console.log("pdf: ", nPdf);
-//         const splitPDF = nPdf.split("base64,")[1];  
-
-//     });
-
-
-
-setTimeout(() => {  
-console.log("userInfo: ", userInfo.mail);
-    const invoHtml = document.getElementById("invoiceHtml");
+setTimeout(() => {   
+const invoHtml = document.getElementById("invoiceHtml");
     // console.log("html: ",invoHtml.innerHTML);  
 const arr = props.items; 
 arr.forEach((element, i) => {
@@ -153,7 +113,7 @@ if(localStorage.getItem("token")){
             }; 
     }else{console.log("token urt baga bn");} 
 }else{
-    console.log("false");
+    
     body = {
     func: "neworder",
     orgId: basketContext.orgNames[0].orgIdstate,
@@ -171,30 +131,15 @@ const number = 9 - orderId.toString().length;
 var result = "";
 for(const i = 0; i<number; i++){ 
     result += "0";
-} 
-console.log("Invoice Number: ", 'In-'+result+orderId);
+}  
 inNumber = "Invoice Number: ", 'In-'+result+orderId;
-setInvoNumber("In-"+result+orderId);
- 
-
-
-const invoiceEngPdfID = document.getElementById("invoiceEngPdf");
-const invoiceMnPdf = document.getElementById("invoiceMnPdf");
-    // html2canvas(invoiceEngPdfID).then((canvas) =>{
-        // const imgData = canvas.toDataURL("image/png");
-        // const pdf = new jsPDF("p", "pt", "a4");
-        // pdf.addImage(imgData, "JPEG", 10, 10)
-        // pdf.output("datauristring"); 
-        // pdf.save("en.pdf");
+setInvoNumber("In-"+result+orderId);  
 const doc = new jsPDF({
     format: "a4",
     unit: "px"
-    });
-
-    // Adding the fonts
+    }); 
     doc.addFont("arial")
-    doc.setFont("arial", "normal");
-    
+    doc.setFont("arial", "normal"); 
     doc.html(reportTemplateRef.current, {
     async callback(doc) { 
         // await doc.save("document"); 
@@ -206,6 +151,7 @@ const doc = new jsPDF({
             base64: splitPDF,
           } 
             axios.post("/api/post/Gate", body).then((res)=>{
+                message.loading("mail sending..");
               console.log("res1", res.data.fileName);
                 const pdfEn = res.data.fileName;
             const invoice = {
@@ -217,11 +163,23 @@ const doc = new jsPDF({
             } 
             axios.post("/api/post/Gate", invoice).then((res)=>{
                 console.log("invoice: ", res.data);
-                setLoading(false);
-                message.success("mail sending..");
+                message.success("Success");
+                setLoading(false); 
                 props.sucessOrder();
                 basketContext.removeBasketStorage(); 
                 console.log("sentInvo: ", res.data);
+                const bodySmart = {
+                    func: "orderSend",
+                    orderid: orderId,
+                    description: values.description
+                    }
+                    axios.post("/api/post/Gate", bodySmart).then((res)=>{
+                    console.log("smartHubSent: ", res.data);
+                    // message.success("success");
+                    setIsModalOpen(false);
+                    }).catch((err)=>{
+                    console.log("object", err);
+    });
             }).catch((err)=>{
                 console.log("err", err);
             });
@@ -233,45 +191,7 @@ const doc = new jsPDF({
 
 
     }
-    });  
-        // const nPdf = pdf.output("datauristring"); 
-      
-        // const splitPDF = nPdf.split("base64,")[1];  
-        // console.log("asd", splitPDF); 
-
-    
-
-    // });
-
-
-
-// const sentInvo = {
-//     func: "sendMail",
-//     email: values.mail,
-//     body: invoHtml.innerHTML,
-//     title_: "Invoice"
-//     }
-//     axios.post("/api/post/Gate", sentInvo).then((res)=>{
-//     setLoading(false);
-//     message.success("mail sending..");
-//     props.sucessOrder();
-//     basketContext.removeBasketStorage(); 
-//     console.log("sentInvo: ", res.data);
-//     }).catch((err)=>console.log("err", err));
-
-  
-const bodySmart = {
-    func: "orderSend",
-    orderid: orderId,
-    }
-    axios.post("/api/post/Gate", bodySmart).then((res)=>{
-    console.log("smartHubSent: ", res.data);
-    // message.success("success");
-    setIsModalOpen(false);
-    }).catch((err)=>{
-    console.log("object", err);
-    });
-
+    });   
 },(error) => {console.log(error)}
 );   
 }, 1000); 
@@ -288,8 +208,9 @@ const errorCapt = (err) =>{
 console.log("err", err);
 }
 const handleGeneratePdf = () => {
-   
-  };
+
+};
+const price2 = props.totalPrice * basketContext.hanshnuud[0].mnt.hansh2;
     return<div>
         <div style={{display: "flex", alignItems: "center", fontWeight: "600", fontSize: "20px", marginBottom: "10px"}}> 
             <div style={{marginRight: "5px", display: "flex", alignItems: "center"}}>
@@ -319,7 +240,103 @@ const handleGeneratePdf = () => {
 
 </div>
 </Modal>  */}
+
 <div style={{display: "none"}}> 
+<div ref={reportTemplateRef} >
+        <div style={{padding: "22px"}}> 
+         <div style={{width: "400px", border: "1px solid #ccc", fontSize: "8px", padding: "15px"}}>
+          <div style={{display: "flex", alignItems: "center", justifyContent: "space-between",   borderBottom: "1px solid #ccc"}}> 
+            <Image preview={false} alt="obortech" style={{width: "90px"}} src="/img/invoLogo.png" /> 
+            <div style={{display: "flex", flexDirection: "column", fontSize: "8px", textAlign: "right"}}>
+              <div style={{fontWeight: "bold"}}>INVOICE</div>
+              <div style={{fontWeight: "bold"}}>Reg.No: 6371159</div>
+              <div>#902, 9th floor, New Horizon Building</div>
+              <div>Olympic Street 4, Ulaanbaatar,</div>
+              <div>Mongolia.</div>
+              <div style={{color: "#646464"}}>www.obortech.io</div>
+            </div>
+          </div>
+          <div style={{position: "relative", width: "100%", display: "flex", justifyContent: "space-between",  paddingTop: "5px"}} >
+                <div style={{width: "180px", textAlign: "left"}}>
+                    <div style={{color: "#ccc", fontWeight: "600"}}>BILL TO</div>
+                    <div>{userInfo.companyName}</div>
+                    <div>{userInfo.surename} {userInfo.lastname} </div>
+                    <div>{userInfo.companyAddress}</div>
+                    <div style={{marginTop: "30px", marginBottom: "10px"}}>{userInfo.mail}</div>
+                </div>
+                <div style={{textAlign: "right", width: "180px"}} >
+                    <div style={{display: "flex"}}>  
+                        <div style={{width: "160px", textAlign: "left"}}>Invoice Number:  </div>
+                        <div style={{width: "50%", textAlign: "right"}}>{invoNumber}</div>
+                    </div>
+                    <div style={{display: "flex" }}> 
+                        <div style={{width: "160px", textAlign: "left"}}>Invoice Date:</div>
+                        <div style={{width: "50%", textAlign: "right"}}>{invoDate ? invoDate[0].date1: ""}</div>
+                    </div>
+                    <div style={{display: "flex" }}> 
+                        <div style={{width: "160px", textAlign: "left"}}>Payment Due:</div>
+                        <div style={{width: "50%", textAlign: "right"}}> {invoDate ? invoDate[1].date2: ""}</div>
+                    </div>
+                    <div style={{display: "flex" }}> 
+                        <div style={{width: "160px", textAlign: "left"}}>Amount Due(MNT):</div>
+                        <div style={{width: "50%", textAlign: "right"}}>{price2.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,")}₮</div>
+                    </div> 
+                    
+                </div>
+            </div>
+            <div  style={{display: "flex", justifyContent: "space-between", textAlign: "left", marginTop: "10px", fontWeight: "600"}}>
+                <div>Product</div>
+                <div>Quantity</div>
+                <div>Price</div>
+                <div>Amount</div>
+            </div>
+            {props.items.map((e, i)=>( 
+            <div style={{display: "flex", justifyContent: "space-between", textAlign: "left", marginTop: "10px", fontWeight: "600"}} key={i}>
+                <div>{e.title}</div>
+                <div>{e.cnt}</div>
+                <div>{e.price}$</div>
+                <div>{e.price * e.cnt}$</div>
+            </div>
+            ))}
+            <div style={Total} > 
+            <div>Total: </div>
+            <div>{props.totalPrice}$</div>
+            </div>
+            <div style={AmountDue}>
+            <div>Amount Due(MNT):</div>
+            <div>{price2.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,")}₮</div>
+            </div> 
+            <div style={Notes}> 
+                <div style={BoldText}>Notes / Terms</div>
+                <div style={{color: "red"}}>Be sure to write the invoice number on your transaction!</div>
+            </div> 
+            <div style={{display: "flex", textAlign: "left", margin: "10px 0px"}} > 
+                <div style={{width: "50%"}}>
+                    <div style={BoldText}>Trade Development Bank</div>
+                    <div>A/C Name: Обортек Монголиа ХХК</div>
+                    <div>A/C Number: 555555555555555555</div>
+                </div>
+                <div style={{marginLeft: "10px", width: "50%"}}>
+                    <div style={BoldText}>State Bank</div>
+                    <div>A/C Name: Обортек Монголиа ХХК</div>
+                    <div>A/C Number: 555555555555555555</div>
+                </div>
+            </div>
+            <div style={{display: "flex", textAlign: "left", margin: "10px 0px"}}> 
+            <div style={{width: "50%"}}>
+                    <div style={BoldText}>Golomt Bank</div>
+                    <div>A/C Name: Обортек Монголиа ХХК</div>
+                    <div>A/C Number: 555555555555555555</div>
+            </div>
+            <div style={{marginLeft: "10px", width: "50%"}}>
+                <div style={BoldText} >Khaan Bank</div>
+                <div>A/C Name: Обортек Монголиа ХХК</div>
+                <div>A/C Number: 555555555555555555</div>
+            </div>
+            </div> 
+         </div>
+         </div>
+</div>
                 {/* HTML Body english */}
 <div id="invoiceHtml">  
     <div style={{position: "relative", width: "650px", margin: "0px auto", border: "1px solid #ccc", padding: "40px", color: "#000" }} > 
@@ -615,104 +632,12 @@ const handleGeneratePdf = () => {
         </div> 
 </div> 
 </div>
+
 <button className="button" onClick={handleGeneratePdf}>
         Generate PDF
 </button>
-<div ref={reportTemplateRef} >
-        <div style={{padding: "22px"}}> 
-         <div style={{width: "400px", border: "1px solid #ccc", fontSize: "8px", padding: "15px"}}>
-          <div style={{display: "flex", alignItems: "center", justifyContent: "space-between",   borderBottom: "1px solid #ccc"}}> 
-            <Image preview={false} alt="obortech" style={{width: "90px"}} src="/img/invoLogo.png" /> 
-            <div style={{display: "flex", flexDirection: "column", fontSize: "8px", textAlign: "right"}}>
-              <div style={{fontWeight: "bold"}}>INVOICE</div>
-              <div style={{fontWeight: "bold"}}>Reg.No: 6371159</div>
-              <div>#902, 9th floor, New Horizon Building</div>
-              <div>Olympic Street 4, Ulaanbaatar,</div>
-              <div>Mongolia.</div>
-              <div style={{color: "#646464"}}>www.obortech.io</div>
-            </div>
-          </div>
-          <div style={{position: "relative", width: "100%", display: "flex", justifyContent: "space-between",  paddingTop: "5px"}} >
-                <div style={{width: "180px", textAlign: "left"}}>
-                    <div style={{color: "#ccc", fontWeight: "600"}}>BILL TO</div>
-                    <div>{userInfo.companyName}</div>
-                    <div>{userInfo.surename} {userInfo.lastname} </div>
-                    <div>{userInfo.companyAddress}</div>
-                    <div style={{marginTop: "30px", marginBottom: "10px"}}>{userInfo.mail}</div>
-                </div>
-                <div style={{textAlign: "right", width: "180px"}} >
-                    <div style={{display: "flex"}}>  
-                        <div style={{width: "160px", textAlign: "left"}}>Invoice Number:  </div>
-                        <div style={{width: "50%", textAlign: "right"}}>{invoNumber}</div>
-                    </div>
-                    <div style={{display: "flex" }}> 
-                        <div style={{width: "160px", textAlign: "left"}}>Invoice Date:</div>
-                        <div style={{width: "50%", textAlign: "right"}}>{invoDate ? invoDate[0].date1: ""}</div>
-                    </div>
-                    <div style={{display: "flex" }}> 
-                        <div style={{width: "160px", textAlign: "left"}}>Payment Due:</div>
-                        <div style={{width: "50%", textAlign: "right"}}> {invoDate ? invoDate[1].date2: ""}</div>
-                    </div>
-                    <div style={{display: "flex" }}> 
-                        <div style={{width: "160px", textAlign: "left"}}>Amount Due(MNT):</div>
-                        <div style={{width: "50%", textAlign: "right"}}>{props.totalPrice * basketContext.hanshnuud[1].rate}₮</div>
-                    </div>
-                    
-                </div>
-            </div>
-            <div  style={{display: "flex", justifyContent: "space-between", textAlign: "left", marginTop: "10px", fontWeight: "600"}}>
-                <div>Product</div>
-                <div>Quantity</div>
-                <div>Price</div>
-                <div>Amount</div>
-            </div>
-            {props.items.map((e, i)=>( 
-            <div style={{display: "flex", justifyContent: "space-between", textAlign: "left", marginTop: "10px", fontWeight: "600"}} key={i}>
-                <div>{e.title}</div>
-                <div>{e.cnt}</div>
-                <div>{e.price}$</div>
-                <div>{e.price * e.cnt}$</div>
-            </div>
-            ))}
-            <div style={Total} > 
-            <div>Total: </div>
-            <div>{props.totalPrice}$</div>
-            </div>
-            <div style={AmountDue}>
-            <div>Amount Due(MNT):</div>
-            <div>{props.totalPrice * basketContext.hanshnuud[1].rate}₮</div>
-            </div> 
-            <div style={Notes}> 
-                <div style={BoldText}>Notes / Terms</div>
-                <div style={{color: "red"}}>Be sure to write the invoice number on your transaction!</div>
-            </div> 
-            <div style={{display: "flex", textAlign: "left", margin: "10px 0px"}} > 
-                <div style={{width: "50%"}}>
-                    <div style={BoldText}>Trade Development Bank</div>
-                    <div>A/C Name: Обортек Монголиа ХХК</div>
-                    <div>A/C Number: 555555555555555555</div>
-                </div>
-                <div style={{marginLeft: "10px", width: "50%"}}>
-                    <div style={BoldText}>State Bank</div>
-                    <div>A/C Name: Обортек Монголиа ХХК</div>
-                    <div>A/C Number: 555555555555555555</div>
-                </div>
-            </div>
-            <div style={{display: "flex", textAlign: "left", margin: "10px 0px"}}> 
-            <div style={{width: "50%"}}>
-                    <div style={BoldText}>Golomt Bank</div>
-                    <div>A/C Name: Обортек Монголиа ХХК</div>
-                    <div>A/C Number: 555555555555555555</div>
-            </div>
-            <div style={{marginLeft: "10px", width: "50%"}}>
-                <div style={BoldText} >Khaan Bank</div>
-                <div>A/C Name: Обортек Монголиа ХХК</div>
-                <div>A/C Number: 555555555555555555</div>
-            </div>
-            </div> 
-         </div>
-         </div>
-</div>
+
+
 </div>
         </div>
           

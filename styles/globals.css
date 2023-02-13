@@ -276,7 +276,6 @@ a:hover {
   left: 0;
   background-color: rgb(255, 255, 255);
   z-index: 9999;
-
 }
 
 .spinner {
@@ -579,7 +578,7 @@ a:hover {
 }
 
 .steps-action {
-  margin-top: 24px;
+  margin-top: 21px;
 }
 
 .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {

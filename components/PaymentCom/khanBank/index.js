@@ -69,6 +69,7 @@ var basketLocal = [];
 axios.post("/api/post/Gate", body2).then((result) => {
   console.log("res orderId: ", result.data.orderid); 
   localStorage.setItem("or", result.data.orderid);  
+  router.push("/payment/?orderid=232323232", result.data.orderid);
   message.success("Success");
   props.data.Tulsun();
   props.data.ValueTulbur();  
@@ -175,16 +176,16 @@ console.log("res orderId: ", result.data.orderid);
   props.sucessOrder();  
   basketContext.removeBasketStorage();   
 
-  // const bodySmart = {
-  //   func: "orderSend",
-  //   orderid: result.data.orderid,
-  //   description: props.userInfo.description,
-  //  }
-  //  axios.post("/api/post/Gate", bodySmart).then((res)=>{
-  //   console.log("res: ", res.data);
-  //  }).catch((err)=>{
-  //   console.log("object", err);
-  //  });
+  const bodySmart = {
+    func: "orderSend",
+    orderid: result.data.orderid,
+    description: props.userInfo.description,
+   }
+   axios.post("/api/post/Gate", bodySmart).then((res)=>{
+    console.log("ordersend SMH: ", res.data);
+   }).catch((err)=>{
+    console.log("object", err);
+   });
 
 },(error) => {console.log(error)}); 
 } else {
@@ -198,19 +199,23 @@ item: arr,
 
 axios.post("/api/post/Gate", bodyNoId).then((result) => {
   console.log("res orderId: ", result.data.orderid); 
+  localStorage.setItem("orderId", result.data.orderid)
+  router.push("/payment/?orderid=" + result.data.orderid);
+
     // message.success("Success");
 
     props.sucessOrder();
     basketContext.removeBasketStorage();  
-    // const bodySmart = {
-    //   func: "orderSend",
-    //   orderid: result.data.orderid
-    //  }
-    //  axios.post("/api/post/Gate", bodySmart).then((res)=>{
-    //   console.log("res: ", res.data);
-    //  }).catch((err)=>{
-    //   console.log("object", err);
-    //  });
+    const bodySmart = {
+      func: "orderSend",
+      orderid: result.data.orderid,
+      description: props.userInfo.description,
+     }
+     axios.post("/api/post/Gate", bodySmart).then((res)=>{
+      console.log("SHM ordersend: ", res.data);
+     }).catch((err)=>{
+      console.log("object", err);
+     });
 
   },(error) => {console.log(error)});
 }

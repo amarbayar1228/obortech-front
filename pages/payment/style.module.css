@@ -1205,6 +1205,11 @@
   animation: scaledown .2s linear;
 }
 
+.AbsoClear {
+  position: absolute;
+  right: 200px;
+}
+
 .BankCss:hover {
   animation: scale 0.2s linear;
   animation-fill-mode: forwards;
