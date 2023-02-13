@@ -36,7 +36,7 @@ useEffect(()=>{
 
     return <div> 
                 {item.map((e, i)=>(
-                    <div className={css.ItemGLayout}>
+                    <div className={css.ItemGLayout} key={i}>
                     <div style={{margin: "3px"}}>
                       <Image preview={false} alt="Obertech" src="/img/avatar.png" style={{display: "flex",  margin: "0px auto", justifyContent: "center", width:"40px"}}/>
                     </div>
