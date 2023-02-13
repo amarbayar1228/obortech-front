@@ -474,7 +474,7 @@ export default function BaseLayout(props) {
 {loggedLoad ? <Spin style={{display: "flex", alignItems: "center", justifyContent: "center", marginTop: "100px"}}/> : 
 <div className={props.pageName === "payment" ? css.Layout2 : css.Layout} style={{fontFamily: "Roboto Condensed, sans-serif"}}>
 {localStorageUserId === "Null" ? null  : <>
-{props.pageName === "home" || props.pageName === "login" || props.pageName === "items" ||props.pageName === "register" || 
+{props.pageName === "home" || props.pageName === "login" || props.pageName === "item-group" ||props.pageName === "register" || 
     props.pageName === "basket" || props.pageName === "profile" || props.pageName === "payment" ? null : 
 <div className={toogleCss ? css.Sidebar : css.SidebarHide}>
     <div className={css.Links}> 
@@ -578,7 +578,7 @@ export default function BaseLayout(props) {
 }
 {/* Content ============================================================================== */}
  
-<div className={props.pageName === "items" ? css.ContentItem : props.pageName === "home" ? css.ContentHome  : props.pageName === "login" ? css.ContentHome :    toogleCss ? css.ContentCss : 
+<div className={props.pageName === "item-group" ? css.ContentItem : props.pageName === "home" ? css.ContentHome  : props.pageName === "login" ? css.ContentHome :    toogleCss ? css.ContentCss : 
 props.pageName === "payment" ? css.ContentPayment : css.Content}> 
       {props.children} 
 </div> 

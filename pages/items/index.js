@@ -7,13 +7,10 @@ import css from "./style.module.css";
 import {ShoppingCartOutlined} from "@ant-design/icons";
 import axios from "axios";
 import BasketContext from "../../context/basketContext/BasketContext";
-// import "swiper/css"; 
-// import "swiper/css/free-mode"; 
 // import "swiper/css/pagination"; 
 import { Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ItemDetails from "../../components/ItemDetails";
-import Snowflake from "../../components/Snowflake";
 const ItemGroup = () => {
   const [itemData, setItemData] = useState([]);
   const [addItemStyle, setAddItemStyle] = useState([css.addItemStyle]);
