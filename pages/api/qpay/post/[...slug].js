@@ -2,8 +2,15 @@ import axios from "axios";
 async function SlugPost(slug, data, headers) {
     console.log("data: ", data);  
   return new Promise((resolve, reject) => { 
-    var username = 'SMARTHUB_ECOSYS';
-    var password = 'z7l1nSmZ';
+    if(data){
+      
+      var username = 'TEST_MERCHANT';
+      var password = '123456';
+    }else{
+      var username = 'SMARTHUB_ECOSYS';
+      var password = 'z7l1nSmZ';
+    }
+     
     const token = `${username}:${password}` 
     const basicAuth = Buffer.from(token).toString('base64');
     axios.post(`${"https://merchant-sandbox.qpay.mn/v2/auth"}/${slug}`,data,
