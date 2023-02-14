@@ -116,6 +116,7 @@ const Payment = () => {
       console.log("event", event); 
     }
   }, [basketContext]); 
+ 
   useEffect(()=>{
     if(localStorage.getItem("orderId")){
       const order = localStorage.getItem("orderId");
@@ -1055,7 +1056,19 @@ key: i, children: i === 0?
   ),
 },
 ];
-
+const qpay = () =>{
+  console.log("qpay: "); 
+  axios.post("/api/qpay/post/token").then((res)=>{
+    console.log("refresh_expires_in: ", res.data);
+    const expiresIn = res.data.refresh_expires_in;
+    const refreshToken = res.data.refresh_token;
+    const expireDate = new Date(new Date().getTime() + expiresIn * 1000);
+    console.log("exp: ", expireDate);
+    console.log("object");
+  }).catch((err)=>{
+    console.log("err", err);
+  })
+}
   return (
     <div style={{fontFamily: "Roboto Condensed, sans-serif"}}>
       <BaseLayout pageName="payment">
@@ -1064,8 +1077,11 @@ key: i, children: i === 0?
           {basketContext.basketState.length === 0 || basketContext.orgId === undefined ? (
 
             <div style={successOrderValue === 2 ? {display: "none"} : {fontSize: "15px", marginTop: "50px"}}>
-                {orderIdSt.length > 2 ? <div> {orderIdSt}Baraa bn </div>:  
-              <Empty description="Cart is empty"></Empty> 
+                {orderIdSt.length > 2 ? <div> {orderIdSt}Baraa bn <Button onClick={qpay}>qpay</Button></div>:  
+              <> 
+                <Button onClick={qpay}>qpay</Button>
+                <Empty description="Cart is empty"></Empty> 
+              </>
           }
 
             </div>
