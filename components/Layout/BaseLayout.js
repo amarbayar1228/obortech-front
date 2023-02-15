@@ -113,16 +113,14 @@ export default function BaseLayout(props) {
 
     return {key,icon,children,label,type,};
   };
-  const items2 = [
-    getItem(t("sidebarDashboard"),"1",<PieChartOutlined style={{ fontSize: "18px", fontWeight: "500px" }} />),
-    admin === "1" ? getItem("Item / Coupon","2",<AppstoreAddOutlined style={{ fontSize: "18px", fontWeight: "500px" }}/>) : "",
-    getItem("Order","3", <ContainerOutlined style={{ fontSize: "18px", fontWeight: "500px" }} />),
-    admin === "1" ? getItem("User management","4",<UserAddOutlined style={{ fontSize: "18px", fontWeight: "500px" }} />): "",
-    admin === "1" || admin === "2" ? "": getItem("Referral","5",<PlusSquareOutlined style={{ fontSize: "18px", fontWeight: "500px" }}/>),
-    admin === "1" || admin === "2" ? getItem("Referral management","6",<PlusSquareOutlined style={{ fontSize: "18px", fontWeight: "500px" }}/>): "",
-
-
-  ];
+  // const items2 = [
+  //   getItem(t("sidebarDashboard"),"1",<PieChartOutlined style={{ fontSize: "18px", fontWeight: "500px" }} />),
+  //   admin === "1" ? getItem("Item / Coupon","2",<AppstoreAddOutlined style={{ fontSize: "18px", fontWeight: "500px" }}/>) : "",
+  //   getItem("Order","3", <ContainerOutlined style={{ fontSize: "18px", fontWeight: "500px" }} />),
+  //   admin === "1" ? getItem("User management","4",<UserAddOutlined style={{ fontSize: "18px", fontWeight: "500px" }} />): "",
+  //   admin === "1" || admin === "2" ? "": getItem("Referral","5",<PlusSquareOutlined style={{ fontSize: "18px", fontWeight: "500px" }}/>),
+  //   admin === "1" || admin === "2" ? getItem("Referral management","6",<PlusSquareOutlined style={{ fontSize: "18px", fontWeight: "500px" }}/>): "", 
+  // ];
   const handleVisibleChange = (newVisible) => {
     setVisible(newVisible);
   };
@@ -353,7 +351,7 @@ export default function BaseLayout(props) {
 
 {/* Dashboard */}
 {localPkId ? (<div><Button onClick={userDashboard} type="link" className={router.pathname === "/dashboard" ?  css.LanguageBtnActive : css.LanguageBtn}>
-  <AppstoreOutlined /> {t("dashboardTitle")}</Button></div>) : ("")}
+  <PieChartOutlined /> {t("dashboardTitle")}</Button></div>) : ("")}
 {/* Profile */}
 {localPkId ? (<div><Button onClick={Profile} type="link" className={router.pathname === "/profile" ? css.LanguageBtnActive : css.LanguageBtn}>
   <UserOutlined />{basketContext.t('profile', { ns: 'header' })} </Button></div>) : ("")}
@@ -396,8 +394,8 @@ export default function BaseLayout(props) {
     </div>
     {basketContext.orgId === undefined ? "" : 
       <div className={router.pathname == "/items" ? css.Active : ""}>
-      <Tooltip title={basketContext.t('items', { ns: 'header' })}><Button onClick={() => router.push("/items")} type="link" className={css.Icons}><AppstoreAddOutlined /></Button></Tooltip>
-    </div>} 
+        <Tooltip title={basketContext.t('items', { ns: 'header' })}><Button onClick={() => router.push("/items")} type="link" className={css.Icons}><AppstoreAddOutlined /></Button></Tooltip>
+      </div>} 
     {localPkId ? (
       <div className={
           router.pathname == "/dashboard" ||
@@ -408,7 +406,7 @@ export default function BaseLayout(props) {
           router.pathname == "/add-admin" ||
           router.pathname == "/add-item" ? css.Active : ""}>
         <Tooltip title={basketContext.t('dashboardTitle', { ns: 'header' })}><Button onClick={userDashboard} type="link" className={css.Icons}>
-          <AppstoreOutlined /></Button>
+          <PieChartOutlined /></Button>
         </Tooltip>
       </div>) : ("")}
 

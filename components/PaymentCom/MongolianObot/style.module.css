@@ -84,7 +84,16 @@
     font-size: 15px;
 }
 
+.successPayCss {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 3px;
+    padding-top: 3px;
+}
 
+.Sp1 {
+    width: 100px;
+}
 
 
 .Content2 {

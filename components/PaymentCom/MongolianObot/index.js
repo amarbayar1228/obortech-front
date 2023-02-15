@@ -1,4 +1,4 @@
-import { Button, DatePicker, Form, Image, Radio, Space, InputNumber, message, Input   } from "antd";
+import { Button, DatePicker, Form, Image, Radio, Space, InputNumber, message, Input, Modal, Result, Spin   } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import BasketContext from "../../../context/basketContext/BasketContext";
 import css from "./style.module.css"
@@ -25,294 +25,177 @@ const [payNum, setPayNum] = useState(0);
 const basketContext = useContext(BasketContext); 
 const [matches, setMatches] = useState(window.matchMedia("(min-width: 768px)").matches);
 const [item, setItem] = useState(null);
+const [isModalOpen, setIsModalOpen] = useState(false);
+const [successPay, setSuccesPay] = useState([]);
+const [payOrderId, setPayOrderId] = useState(0);
+const showModal = () => {
+  setIsModalOpen(true);
+};
+const handleOk = () => {
+  setIsModalOpen(false);
+};
+const handleCancel = () => {
+  setIsModalOpen(false);
+};
 useEffect(()=>{
     window.matchMedia("(min-width: 768px)").addEventListener('change', e => setMatches( e.matches ));
     // console.log("Mongol Obot props ===> ", props);
     setItem(props.item);
 },[props])
 const onChange = (e) => {
-    console.log('radio checked', e.target.value);
+    // console.log('radio checked', e.target.value);
     setBankValue(e.target.value);
 };
-const onFinished = (values) =>{
-    console.log("value: ", values); 
-    setPayNum(1);
-    setBankValue(2);
-    props.mnBack("isOk"); 
-    console.log("ehnii"); 
-if(payNum === 1 || payNum === 2 ){
-    console.log("2r ");
-    message.success("Success");
-
+const sendAxios = (a) =>{ 
+   
+const body = [];
 const arr = item;
-// img tei bol Item, imggui bol Group
-
+const axiosOrderId = [];
+// img tei bol Item, imggui bol Group 
 arr.forEach((element, i) => {
 if (element.img) {arr[i].state = 2} else {arr[i].state = 1; arr[i].img = "";}
-});       
-// console.log("item: ", arr);
-// console.log("orgId", basketContext.orgNames[0].orgIdstate);   
-// console.log("price: ", props.price);
+}); 
+if (localStorage.getItem("pkId")) {   
+body = {
+    func: "neworder",
+    item: arr,
+    orgId: basketContext.orgNames[0].orgIdstate,
+    totalPrice: props.price, 
+    pkId: localStorage.getItem("pkId"), 
+}; 
+} else { 
+body = {
+    func: "neworder",
+    orgId: basketContext.orgNames[0].orgIdstate,
+    totalPrice: props.price,
+    item: arr, 
+}; 
+} 
 
-// newtersen hereglegch bwl Axiosru shidne
-// if (localStorage.getItem("token")) {
-// const body = arr;
-// const body2 = {
-// func: "neworder",
-// item: body,
-// orgId: basketContext.orgNames[0].orgIdstate,
-// totalPrice: props.price, 
-// pkId: localStorage.getItem("pkId"), 
-// };
-
-// axios.post("/api/post/Gate", body2).then((result) => {
-// console.log("res orderId: ", result.data.orderid); 
-// props.sucessOrder();  
-// basketContext.removeBasketStorage();   
-
-// const bodySmart = {
-//     func: "orderSend",
-//     orderid: result.data.orderid
-//     }
-//     axios.post("/api/post/Gate", bodySmart).then((res)=>{
-//     console.log("res: ", res.data);
-//     }).catch((err)=>{
-//     console.log("object", err);
-//     });
-
-// },(error) => {console.log(error)}); 
-// } else { 
-// const bodyNoId = {
-// func: "neworder",
-// orgId: basketContext.orgNames[0].orgIdstate,
-// totalPrice: props.price,
-// item: arr, 
-// }; 
-
-// axios.post("/api/post/Gate", bodyNoId).then((result) => {
-// console.log("res orderId: ", result.data.orderid);  
-// props.sucessOrder();  
-// basketContext.removeBasketStorage();  
-// const bodySmart = {
-//     func: "orderSend",
-//     orderid: result.data.orderid
-//     }
-//     axios.post("/api/post/Gate", bodySmart).then((res)=>{
-//     console.log("res: ", res.data);
-//     }).catch((err)=>{
-//     console.log("object", err);
-//     });
-
-// },(error) => {console.log(error)});
-
-// }
+if(payOrderId === 0){ 
+// item insert
+axios.post("/api/post/Gate", body).then((result) => {
+    console.log("res orderId: ", result.data.orderid); 
+    axiosOrderId = result.data.orderid
+    setPayOrderId(result.data.orderid);
+},(error) => {console.log(error)});
 
 }
+console.log("payOrderState: ", payOrderId);
+console.log("axiosOrderID: ", axiosOrderId);
+
+setTimeout(()=>{
+const payOrders = [];
+if(localStorage.getItem("pkId")){
+    payOrders ={
+        func: "payOrders",
+        orgID: props.orgIdRadio,
+        orderID: payOrderId === 0 ? axiosOrderId : payOrderId, 
+        amount: a === "mongol" || a === "mongolPay" ? props.mntUsdPrice[0].mnt : props.mntUsdPrice[0].obot,
+        totalPrice: props.price,
+        method: a === "mongol" || a === "mongolPay" ? 3 : 1, //khanBank
+        paymentMethod: a === "mongol" || a === "mongolPay" ? 1 : 8,  
+        coin: a === "mongol" || a === "mongolPay" ? 0 : props.mntUsdPrice[0].obot, 
+        description: props.userInfo.description, 
+        sourceDesc: props.sourceData[7].nameeng,
+        source: props.sourceData[7].index_, 
+        userPkId: localStorage.getItem("pkId"),
+    }
+}else {
+    payOrders ={
+        func: "payOrders",
+        orgID: props.orgIdRadio,
+        orderID: payOrderId === 0 ? axiosOrderId : payOrderId, 
+        amount: a === "mongol" || a === "mongolPay" ? props.mntUsdPrice[0].mnt : props.mntUsdPrice[0].obot,
+        totalPrice: props.price,
+        method: a === "mongol" || a === "mongolPay" ? 3 : 1, //khanBank
+        paymentMethod:a === "mongol" || a === "mongolPay" ? 1 : 8,  
+        coin: a === "mongol" || a === "mongolPay" ? 0 : props.mntUsdPrice[0].obot, 
+        description: props.userInfo.description, 
+        sourceDesc: props.sourceData[7].nameeng,
+        source: props.sourceData[7].index_,  
+    }
+} 
+//tulbur tuluh instert
+axios.post("/api/post/Gate", payOrders).then((res)=>{
+console.log("payOrders", res.data); 
+
+const getPayment = {
+    func: "getPayment",
+    orderID: payOrderId === 0 ? axiosOrderId : payOrderId,
 }
+// amjilttai tulult hariu
+axios.post("/api/post/Gate", getPayment).then((res)=>{
+console.log("payGet: ", res.data);
+setSuccesPay(res.data.data[0]);
+setIsModalOpen(true)
+if(a === "mongolPay" || a === "obotPay"){
+    props.sucessOrder();  
+    basketContext.removeBasketStorage(); 
+}
+    const bodySmart = {
+        func: "orderSend",
+        orderid: payOrderId === 0 ? axiosOrderId : payOrderId,
+        description: props.userInfo.description,
+    }
+    axios.post("/api/post/Gate", bodySmart).then((res)=>{
+        console.log("SMH: ", res.data);
+    }).catch((err)=>{
+        console.log("object", err);
+    });
+
+})
+
+}).catch((err)=>{
+console.log("err". err);
+})
+},300)
+
+
+
+
+    
+
+
+
+
+
+
+
+}
+
+
+const onFinished = (values) =>{ 
+
+payNum === 1 || payNum === 2 ? sendAxios("mongolPay") : sendAxios("mongol") 
+props.mnBack("isOk"); 
+if(payNum === 1 || payNum === 2 ){
+    message.success("Success"); 
+} 
+if(payNum === 2){
+  console.log("2");
+}else{
+    setPayNum(1);
+    setBankValue(2); 
+}
+    
+
+}
+
 const onFinishFailed = () =>{
     console.log("error");
 }
-const obotFunc = () =>{
-   console.log("mntPrice: ", props.mntUsdPrice[0].obot);
-  console.log("price: ", props.price);
-  console.log("obotprice: ", props.mntUsdPrice[0].obot);
-    // amount: props.mntUsdPrice[0].obot,
-    // totalPrice: props.price,
+const obotFunc = () =>{   
+
+payNum === 1 || payNum === 2 ? sendAxios("obotPay") : sendAxios("obot")
+    if(payNum === 1){
+        console.log("1");
+    }else{
+        setPayNum(2);
+        setBankValue(1); 
+    }
    
-    // coin: props.mntUsdPrice[0].obot, 
-  
-    // setPayNum(2);
-    // setBankValue(1); 
-    const arr = item;  
-    arr.forEach((element, i) => {
-    if (element.img) {arr[i].state = 2} else {arr[i].state = 1; arr[i].img = "";}
-    });       
-    // console.log("item: ", arr);
-    // console.log("orgId", basketContext.orgNames[0].orgIdstate);   
-    // console.log("price: ", props.price);
-    
-    // newtersen hereglegch bwl Axiosru shidne
-if (localStorage.getItem("token")) {
-const body = arr;
-const body2 = {
-func: "neworder",
-item: body,
-orgId: basketContext.orgNames[0].orgIdstate,
-totalPrice: props.price, 
-pkId: localStorage.getItem("pkId"), 
-};
-
-axios.post("/api/post/Gate", body2).then((result) => {
-console.log("res orderId: ", result.data.orderid); 
-const payOrders = {
-    func: "payOrders",
-    orgID: props.orgIdRadio,
-    orderID: result.data.orderid, 
-    amount:18649.9,
-    totalPrice: props.price,
-    method: 1,
-    paymentMethod: 8,  
-    coin: 18649.9, 
-    description: props.userInfo.description, 
-    sourceDesc: props.sourceData[7].nameeng,
-    source: props.sourceData[7].index_,
-    userPkId: localStorage.getItem("pkId"),
-}
-    axios.post("/api/post/Gate", payOrders).then((res)=>{
-    console.log("payOrders", res.data);
-    
-    }).catch((err)=>{
-    console.log("err". err);
-    })
-// props.sucessOrder();  
-// basketContext.removeBasketStorage();   
-
-// const bodySmart = {
-//     func: "orderSend",
-//     orderid: result.data.orderid
-// }
-// axios.post("/api/post/Gate", bodySmart).then((res)=>{
-// console.log("res: ", res.data);
-// }).catch((err)=>{
-// console.log("object", err);
-// });
-
-},(error) => {console.log(error)}); 
-} else { 
-const bodyNoId = {
-func: "neworder",
-orgId: basketContext.orgNames[0].orgIdstate,
-totalPrice: props.price,
-item: arr, 
-};  
-axios.post("/api/post/Gate", bodyNoId).then((result) => {
-console.log("res orderId: ", result.data.orderid);
-const payOrders = {
-    func: "payOrders",
-    orgID: props.orgIdRadio,
-    orderID: result.data.orderid, 
-    amount: props.mntUsdPrice[0].obot,
-    totalPrice: props.price,
-    method: 1,
-    paymentMethod: 8,  
-    coin: props.mntUsdPrice[0].obot, 
-    description: props.userInfo.description, 
-    sourceDesc: props.sourceData[0].nameeng,
-    source: props.sourceData[0].index_,
-    userPkId: localStorage.getItem("pkId"),
-}
-    axios.post("/api/post/Gate", payOrders).then((res)=>{
-    console.log("payOrders", res.data);
-
-    // props.sucessOrder();  
-    // basketContext.removeBasketStorage();  
-    }).catch((err)=>{
-    console.log("err". err);
-    })
-
-    
-
-},(error) => {console.log(error)}); 
-}
-
-
-
-if(payNum === 1 || payNum === 2 ){
  
-// message.success("Success");
-const arr = item;  
-arr.forEach((element, i) => {
-if (element.img) {arr[i].state = 2} else {arr[i].state = 1; arr[i].img = "";}
-});       
-// console.log("item: ", arr);
-// console.log("orgId", basketContext.orgNames[0].orgIdstate);   
-// console.log("price: ", props.price);
-
-// newtersen hereglegch bwl Axiosru shidne
-if (localStorage.getItem("token")) {
-const body = arr;
-const body2 = {
-func: "neworder",
-item: body,
-orgId: basketContext.orgNames[0].orgIdstate,
-totalPrice: props.price, 
-pkId: localStorage.getItem("pkId"), 
-};
-
-axios.post("/api/post/Gate", body2).then((result) => {
-console.log("res orderId: ", result.data.orderid); 
-const payOrders = {
-    func: "payOrders",
-    orgID: props.orgIdRadio,
-    orderID: result.data.orderid, 
-    amount: props.mntUsdPrice[0].obot,
-    totalPrice: props.price,
-    method: 1,
-    paymentMethod: 8,  
-    coin: props.mntUsdPrice[0].obot, 
-    description: props.userInfo.description, 
-    sourceDesc: props.sourceData[0].nameeng,
-    source: props.sourceData[0].index_,
-    userPkId: localStorage.getItem("pkId"),
-}
-  axios.post("/api/post/Gate", payOrders).then((res)=>{
-    console.log("payOrders", res.data);
-    props.sucessOrder();  
-    basketContext.removeBasketStorage(); 
-  }).catch((err)=>{
-    console.log("err". err);
-  })
-  
-
-// const bodySmart = {
-//     func: "orderSend",
-//     orderid: result.data.orderid
-// }
-// axios.post("/api/post/Gate", bodySmart).then((res)=>{
-// console.log("res: ", res.data);
-// }).catch((err)=>{
-// console.log("object", err);
-// });
-
-},(error) => {console.log(error)}); 
-} else { 
-const bodyNoId = {
-func: "neworder",
-orgId: basketContext.orgNames[0].orgIdstate,
-totalPrice: props.price,
-item: arr, 
-};  
-axios.post("/api/post/Gate", bodyNoId).then((result) => {
-console.log("res orderId: ", result.data.orderid);
-const payOrders = {
-    func: "payOrders",
-    orgID: props.orgIdRadio,
-    orderID: result.data.orderid, 
-    amount: props.mntUsdPrice[0].obot,
-    totalPrice: props.price,
-    method: 1,
-    paymentMethod: 8,  
-    coin: props.mntUsdPrice[0].obot, 
-    description: props.userInfo.description, 
-    sourceDesc: props.sourceData[0].nameeng,
-    source: props.sourceData[0].index_,
-    userPkId: localStorage.getItem("pkId"),
-}
-  axios.post("/api/post/Gate", payOrders).then((res)=>{
-    console.log("payOrders", res.data);
-
-    props.sucessOrder();  
-    basketContext.removeBasketStorage();  
-  }).catch((err)=>{
-    console.log("err". err);
-  })
-
- 
-
-},(error) => {console.log(error)}); 
-}
-
-}
 }
 return <div className={css.Flex}>
 <div className={css.Cont1}>
@@ -382,10 +265,48 @@ return <div className={css.Flex}>
         
         
     </div>
+    <Modal title="Success pay" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null} >
+        {successPay ?
+        <div> 
+            <Result status="success" title="Successfully Purchased Items!"
+                subTitle={"Order number: " + successPay.orderID + "."}/>
+            <div className={css.successPayCss}>
+                <div className={css.Sp1}>Date: </div>
+                <div>{successPay.date_}</div>
+            </div>
+            <div  className={css.successPayCss}>
+                <div className={css.Sp1}>Order ID: </div>
+                <div> {successPay.orderID}</div>
+            </div>
+            <div className={css.successPayCss}>
+                <div className={css.Sp1}>Organzation ID: </div>
+                <div>{successPay.orgID}</div>
+            </div>
+            <div className={css.successPayCss}>
+                <div className={css.Sp1}>source: </div>
+                <div> {successPay.source}</div>
+            </div>
+          
+            <div className={css.successPayCss}>
+                <div className={css.Sp1}>Total price: </div>
+                <div>{successPay.totalprice}$</div>
+            </div>
+            <div className={css.successPayCss}>
+                <div className={css.Sp1}>Amount: </div>
+                <div>{successPay.amount}{successPay.method === 3 ? "₮" : successPay.method === 1 ? "OBOT" : "$"} </div>
+            </div> 
+            <div className={css.successPayCss}>
+                <div className={css.Sp1}>status: </div>
+                <div>{successPay.status} Success</div>
+            </div>
+        </div>
+            : null}
+      </Modal>
 </div>
 </div>
 {bankValue === 1 ?
 <div className={css.Cont2}> 
+    <Spin size="large"/>
     <div className={css.Content}> 
     {pMethod === 0 ?
     <> 
@@ -594,6 +515,8 @@ return <div className={css.Flex}>
 </div>
 // OBOT pay now
 : <div className={css.Cont2}> 
+
+    <Spin size="large"/>
     <div className={css.Content2}>
     <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
             <div style={{marginBottom: "10px"}}><Image alt="Obertech" preview={false} src="/img/OBORTECH_logo_H_clean.svg" width={160}/></div>

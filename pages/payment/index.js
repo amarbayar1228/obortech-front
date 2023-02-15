@@ -357,7 +357,7 @@ const BankTypo = (value) =>{
   mnt = totalPriceState * convert2 * basketContext.hanshnuud[0].mnt.hansh2;
   //  console.log("mnt: ", mnt);
   // console.log("xansh", basketContext.hanshnuud);
-  setMntUsdPrice([{ usd: usd.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,"), obot: obot.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,"), mnt: mnt.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,") }]);
+  setMntUsdPrice([{ usd: usd.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,"), obot: obot, mnt: mnt}]);
   
   const mntr = 0;
   mntr = totalPriceState* basketContext.hanshnuud[0].mnt.hansh2;
@@ -1080,9 +1080,11 @@ const qpay = () =>{
           {basketContext.basketState.length === 0 || basketContext.orgId === undefined ? (
 
             <div style={successOrderValue === 2 ? {display: "none"} : {fontSize: "15px", marginTop: "50px"}}>
-                {orderIdSt.length > 2 ? <div> {orderIdSt}Baraa bn <Button onClick={qpay}>qpay</Button></div>:  
+                {orderIdSt.length > 2 ? <div> {orderIdSt}
+                  {/* <Button onClick={qpay}>qpay</Button> */}
+                </div>:  
               <> 
-                <Button onClick={qpay}>qpay</Button>
+                {/* <Button onClick={qpay}>qpay</Button> */}
                 <Empty description="Cart is empty"></Empty> 
               </>
           }
