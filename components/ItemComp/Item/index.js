@@ -314,7 +314,7 @@ return<div className={css.ItemLayout}>
             {value: 4,label: <div>Items </div>,}]}/>
         <Button onClick={searchDate} icon={<SearchOutlined shape="#000" />}></Button>
        </div>
-         <Table bordered size="small" columns={columns} dataSource={data} onChange={handleChangeTable} loading={spinner}  scroll={{x:  1000, y: 500 }} pagination={tableParams.pagination} />
+         <Table bordered size="small" columns={columns} dataSource={data} onChange={handleChangeTable} loading={spinner}  scroll={{x:  1000, y: 600 }} pagination={tableParams.pagination} />
 </div>
 }
 export default Item;

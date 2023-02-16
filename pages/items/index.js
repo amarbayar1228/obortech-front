@@ -1,16 +1,17 @@
 
 import {useContext, useEffect, useState } from "react";
 import BaseLayout from "../../components/Layout/BaseLayout";
-import { Button, Empty, Image, message, Spin, Tooltip } from "antd";
+import { Button, Empty, Image, message, Spin, Tooltip  } from "antd";
 
 import css from "./style.module.css";
 import {ShoppingCartOutlined} from "@ant-design/icons";
 import axios from "axios";
 import BasketContext from "../../context/basketContext/BasketContext";
-// import "swiper/css/pagination"; 
+import "swiper/css/pagination"; 
 import { Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ItemDetails from "../../components/ItemDetails";
+import PaginationComp from "../../components/ItemGroupComp/Pagination";
 const ItemGroup = () => {
   const [itemData, setItemData] = useState([]);
   const [addItemStyle, setAddItemStyle] = useState([css.addItemStyle]);
@@ -129,18 +130,29 @@ const ItemGroup = () => {
       {basketContext.orgId === undefined ? <Empty style={{marginTop: "100px"}}/> :  
        <div className={css.ScrollItemsCont} style={{fontFamily: "Roboto Condensed, sans-serif"}}>
            
-        <div>
+      <div>
         <Swiper pagination={true} modules={[Pagination]} className={css.mySwiper}>
-          <SwiperSlide className={css.SlideCss}><h3 className={css.BackgrounImg} style={{background: "url(/img/obBack1.png) no-repeat",display: "flex", justifyContent: "space-between", margin: 0, padding: "0", overflow: 'hidden'}}> 
-            </h3> </SwiperSlide>
+          <SwiperSlide className={css.SlideCss}>
+            <h3 className={css.BackgrounImg} style={{background: "url(/img/obBack1.png) no-repeat",display: "flex", justifyContent: "space-between", margin: 0, padding: "0", overflow: 'hidden'}}></h3> 
+          </SwiperSlide>
           <SwiperSlide className={css.SlideCss}><h3 className={css.BackgrounImg} style={{background: "url(/img/obBack3.png) no-repeat"}}></h3></SwiperSlide>
           <SwiperSlide className={css.SlideCss}><h3 className={css.BackgrounImg} style={{background: "url(/img/obBack2.png) no-repeat"}}></h3></SwiperSlide> 
         </Swiper> 
        </div>
      {spinState === true ? (<div><Spin className={css.SpinCss} tip="" size="large"></Spin></div>) : (
        <>
+          <div className={css.ItemTitlecss}>
+            <div className={css.ItemBackcss}>
+              <div className={css.ItemsTitlechild}>
+                <div className={css.TitleWhiteBackg}>
+
+                </div>
+                Items</div>
+            </div>
+          </div>
          {itemData === undefined ? <Empty /> : (
            <div className={css.ItemSection}>
+               
              {itemData.map((iData, index) => (
                <div className={css.Item} key={index}>
                  <div className={css.ItemLogo}> 
@@ -161,11 +173,20 @@ const ItemGroup = () => {
                  </div>
                </div>
              ))}
+             <div style={{display: "flex",marginTop: "25px", justifyContent: "flex-end", width: "100%"}}> 
+                <PaginationComp />
+             </div>
            </div>
          )}
          {/* Groupt items ===========================================================================================================*/}
-         <div className={css.Package}> <div className={css.PackageLine}></div> <div className={css.PackageTitle}>Package items</div></div>
-          
+         <div className={css.ItemTitlecss}>
+            <div className={css.ItemBackcss}>
+              <div className={css.ItemsTitlechild}>
+                <div className={css.TitleWhiteBackg}>
+
+                </div>Pacakge items</div>
+            </div>
+          </div>
           <div className={css.GroupCss}>
             {groupState1.map((e, i)=>(
                 <div className={css.GroupItems} key={i}>
@@ -202,7 +223,7 @@ const ItemGroup = () => {
                        
                      </div>
                      <div className={css.GrpHdrDesc}>
-                       <div style={{fontWeight: "600"}}>120.5$</div>
+                       <div style={{fontWeight: "600"}}>Price: {e.price}$</div>
                      <Tooltip title="Add basket" color="red" placement="right"><div className={css.GrpBtn2}><Button type="link" shape="circle" size="large" danger icon={<ShoppingCartOutlined />}    onClick={() => groupBasketAdd(e, i)}></Button></div></Tooltip>
                      </div>
                  </div>

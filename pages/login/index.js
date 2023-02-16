@@ -44,8 +44,7 @@ const [loggedLoad, setLoggedLoad]= useState(true);
     },800);
   
   },[]);
-  const countDown = () => { 
-    console.log("countDown");
+  const countDown = () => {  
       // setResentDis(true);
     // clearInterval(timer); 
    
@@ -153,14 +152,13 @@ const focusInput = () =>{
         const body = {func: "signIn",username: username,password: passwordHash,};  
         axios.post("/api/post/Gate", body).then((res) => {
           message.success("success");
-          setVerifyOTPLoad(false);
           router.push("/");
           localStorage.setItem("pkId", res.data.data.pkId);
-          localStorage.setItem("token", res.data.data.token);
-          console.log("hansh: ", passwordHash); 
+          localStorage.setItem("token", res.data.data.token); 
           localStorage.setItem("pz2r3t5", passwordHash); 
           localStorage.setItem("state", res.data.data.state); 
           basketContext.getUserProfileFunction();
+          setVerifyOTPLoad(false);
         }).catch((err)=>{
           console.log("err");
         })

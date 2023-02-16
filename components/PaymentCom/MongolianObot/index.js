@@ -39,7 +39,8 @@ const handleCancel = () => {
 };
 useEffect(()=>{
     window.matchMedia("(min-width: 768px)").addEventListener('change', e => setMatches( e.matches ));
-    // console.log("Mongol Obot props ===> ", props);
+    console.log("Mongol Obot props ===> ", props);
+    
     setItem(props.item);
 },[props])
 const onChange = (e) => {
@@ -72,84 +73,89 @@ body = {
 }; 
 } 
 
+const isOk2 = false;
 if(payOrderId === 0){ 
 // item insert
 axios.post("/api/post/Gate", body).then((result) => {
     console.log("res orderId: ", result.data.orderid); 
-    axiosOrderId = result.data.orderid
+    isOk2 = true;
+    axiosOrderId = result.data.orderid 
     setPayOrderId(result.data.orderid);
 },(error) => {console.log(error)});
 
 }
+
+
+
+setTimeout(()=>{ 
 console.log("payOrderState: ", payOrderId);
 console.log("axiosOrderID: ", axiosOrderId);
-
-setTimeout(()=>{
-const payOrders = [];
-if(localStorage.getItem("pkId")){
-    payOrders ={
-        func: "payOrders",
-        orgID: props.orgIdRadio,
-        orderID: payOrderId === 0 ? axiosOrderId : payOrderId, 
-        amount: a === "mongol" || a === "mongolPay" ? props.mntUsdPrice[0].mnt : props.mntUsdPrice[0].obot,
-        totalPrice: props.price,
-        method: a === "mongol" || a === "mongolPay" ? 3 : 1, //khanBank
-        paymentMethod: a === "mongol" || a === "mongolPay" ? 1 : 8,  
-        coin: a === "mongol" || a === "mongolPay" ? 0 : props.mntUsdPrice[0].obot, 
-        description: props.userInfo.description, 
-        sourceDesc: props.sourceData[7].nameeng,
-        source: props.sourceData[7].index_, 
-        userPkId: localStorage.getItem("pkId"),
+    const payOrders = [];
+    if(localStorage.getItem("pkId")){
+        payOrders ={
+            func: "payOrders",
+            orgID: props.orgIdRadio,
+            orderID: payOrderId === 0 ? axiosOrderId : payOrderId, 
+            amount: a === "mongol" || a === "mongolPay" ? props.mntUsdPrice[0].mnt : props.mntUsdPrice[0].obot,
+            totalPrice: props.price,
+            method: a === "mongol" || a === "mongolPay" ? 3 : 1, //khanBank
+            paymentMethod: a === "mongol" || a === "mongolPay" ? 1 : 8,  
+            coin: a === "mongol" || a === "mongolPay" ? 0 : props.mntUsdPrice[0].obot, 
+            description: props.userInfo.description, 
+            sourceDesc: a === "mongol" || a === "mongolPay" ? props.sourceData[0].nameeng  :  props.sourceData[7].nameeng,
+            source: a === "mongol" || a === "mongolPay" ? props.sourceData[0].index_ : props.sourceData[7].index_, 
+            userPkId: localStorage.getItem("pkId"),
+        }
+    }else {
+        payOrders ={
+            func: "payOrders",
+            orgID: props.orgIdRadio,
+            orderID: payOrderId === 0 ? axiosOrderId : payOrderId, 
+            amount: a === "mongol" || a === "mongolPay" ? props.mntUsdPrice[0].mnt : props.mntUsdPrice[0].obot,
+            totalPrice: props.price,
+            method: a === "mongol" || a === "mongolPay" ? 3 : 1, //khanBank
+            paymentMethod:a === "mongol" || a === "mongolPay" ? 1 : 8,  
+            coin: a === "mongol" || a === "mongolPay" ? 0 : props.mntUsdPrice[0].obot, 
+            description: props.userInfo.description, 
+            sourceDesc: a === "mongol" || a === "mongolPay" ? props.sourceData[0].nameeng  :  props.sourceData[7].nameeng,
+            source: a === "mongol" || a === "mongolPay" ? props.sourceData[0].index_ : props.sourceData[7].index_, 
+        }
+    } 
+    //tulbur tuluh instert
+    axios.post("/api/post/Gate", payOrders).then((res)=>{
+    console.log("payOrders", res.data);  
+    const getPayment = {
+        func: "getPayment",
+        orderID: payOrderId === 0 ? axiosOrderId : payOrderId,
     }
-}else {
-    payOrders ={
-        func: "payOrders",
-        orgID: props.orgIdRadio,
-        orderID: payOrderId === 0 ? axiosOrderId : payOrderId, 
-        amount: a === "mongol" || a === "mongolPay" ? props.mntUsdPrice[0].mnt : props.mntUsdPrice[0].obot,
-        totalPrice: props.price,
-        method: a === "mongol" || a === "mongolPay" ? 3 : 1, //khanBank
-        paymentMethod:a === "mongol" || a === "mongolPay" ? 1 : 8,  
-        coin: a === "mongol" || a === "mongolPay" ? 0 : props.mntUsdPrice[0].obot, 
-        description: props.userInfo.description, 
-        sourceDesc: props.sourceData[7].nameeng,
-        source: props.sourceData[7].index_,  
+    // amjilttai tulult hariu
+    axios.post("/api/post/Gate", getPayment).then((res)=>{
+    console.log("payGet: ", res.data);
+    setSuccesPay(res.data.data[0]);
+    setIsModalOpen(true)
+    if(a === "mongolPay" || a === "obotPay"){
+        props.sucessOrder();  
+        basketContext.removeBasketStorage(); 
     }
-} 
-//tulbur tuluh instert
-axios.post("/api/post/Gate", payOrders).then((res)=>{
-console.log("payOrders", res.data); 
-
-const getPayment = {
-    func: "getPayment",
-    orderID: payOrderId === 0 ? axiosOrderId : payOrderId,
-}
-// amjilttai tulult hariu
-axios.post("/api/post/Gate", getPayment).then((res)=>{
-console.log("payGet: ", res.data);
-setSuccesPay(res.data.data[0]);
-setIsModalOpen(true)
-if(a === "mongolPay" || a === "obotPay"){
-    props.sucessOrder();  
-    basketContext.removeBasketStorage(); 
-}
-    const bodySmart = {
-        func: "orderSend",
-        orderid: payOrderId === 0 ? axiosOrderId : payOrderId,
-        description: props.userInfo.description,
-    }
-    axios.post("/api/post/Gate", bodySmart).then((res)=>{
-        console.log("SMH: ", res.data);
+        const bodySmart = {
+            func: "orderSend",
+            orderid: payOrderId === 0 ? axiosOrderId : payOrderId,
+            description: props.userInfo.description,
+        }
+        axios.post("/api/post/Gate", bodySmart).then((res)=>{
+            console.log("SMH: ", res.data);
+        }).catch((err)=>{
+            console.log("object", err);
+        });
+    
+    })
+    
     }).catch((err)=>{
-        console.log("object", err);
-    });
+    console.log("err". err);
+    })
+},500)
 
-})
 
-}).catch((err)=>{
-console.log("err". err);
-})
-},300)
 
 
 
@@ -306,7 +312,7 @@ return <div className={css.Flex}>
 </div>
 {bankValue === 1 ?
 <div className={css.Cont2}> 
-    <Spin size="large"/>
+  
     <div className={css.Content}> 
     {pMethod === 0 ?
     <> 
@@ -377,7 +383,7 @@ return <div className={css.Flex}>
             <Form.Item name="secrurityCode" label="Security Code" rules={[{type: "number", required: true, message: (<div style={{ fontWeight: "500" }}>Please input your Phone number!</div>)}]}>
                 <InputNumber maxLength={3} size="middle" placeholder={"000"}  style={{width: "70px", display: "flex"}}/>
             </Form.Item>  
-            <div className={css.Price}> <div>Total Payment</div> <div> {props.mntUsdPrice[0].mnt}₮</div></div>
+            <div className={css.Price}> <div>Total Payment</div> <div> {props.mntUsdPrice[0].mnt.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}₮</div></div>
             <Form.Item  wrapperCol={{span: 24}}> <div className={css.Login}><Button style={{width: "100%"}} type="primary" htmlType="submit" className="login-form-button">Pay now</Button></div></Form.Item>
         </Form>
         {payNum === 2 ? <div style={{marginTop: "30px"}}><Button>Submit a withdrawal request</Button> </div> : null}
@@ -515,8 +521,7 @@ return <div className={css.Flex}>
 </div>
 // OBOT pay now
 : <div className={css.Cont2}> 
-
-    <Spin size="large"/>
+ 
     <div className={css.Content2}>
     <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
             <div style={{marginBottom: "10px"}}><Image alt="Obertech" preview={false} src="/img/OBORTECH_logo_H_clean.svg" width={160}/></div>
@@ -525,7 +530,7 @@ return <div className={css.Flex}>
                     <div><Input  maxLength={16} size="middle" placeholder={"Your current Obortech address is"} style={{marginLeft: "9px",width: "300px"}}/></div>
                 </div>
             <div style={{width: "73%", marginTop: "20px"}}>
-                <div style={{color: "#4d5057", fontSize: "16px", fontWeight: "600", marginBottom: "5px"}}>Total price: {props.mntUsdPrice[0].obot} Obot</div>
+                <div style={{color: "#4d5057", fontSize: "16px", fontWeight: "600", marginBottom: "5px"}}>Total price: {props.mntUsdPrice[0].obot.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, "$&,")} Obot</div>
                 <Button style={{width: "100%"}} type="primary" onClick={obotFunc}>Pay now</Button>
             </div>
             {payNum === 1 ? <div style={{marginTop: "30px"}}>

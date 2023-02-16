@@ -90,7 +90,7 @@ if(res.data.data.isSuperAdmin == 1 || res.data.data.isSuperAdmin == 2 ){
   setTodayDateState(d1); 
   const body2 = {func:"getOrders", d1: d1, d2: d1, } 
   axios.post("/api/post/Gate", body2).then((res)=>{
-    console.log("admin and operator data: ", res.data.data); setOrderNull(1);  setLoadingPage(false); setLoading(false);  setOrderHdr(res.data.data);
+    console.log("admin and operator order historys: ", res.data.data); setOrderNull(1);  setLoadingPage(false); setLoading(false);  setOrderHdr(res.data.data);
   }).catch((err)=>{console.log("err: ", err)})
   // User all order historys
   }else if(res.data.data.isSuperAdmin == 0){
@@ -221,6 +221,9 @@ const columns = [
     key: 'price',
     ellipsis: true,
     width: 80,
+    render: (_, record) => (
+       <div>{record.all.totalPrice} $</div>
+    ),
   },
 
   {

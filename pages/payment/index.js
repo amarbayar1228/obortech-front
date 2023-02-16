@@ -24,6 +24,7 @@ import MongolianObot from "../../components/PaymentCom/MongolianObot";
 import Invoice from "../../components/PaymentCom/Invoice";
 import ReCAPTCHA from "react-google-recaptcha";
 import TextArea from "antd/lib/input/TextArea";
+import Qpay from "../../components/PaymentCom/Qpay";
 const { TabPane } = Tabs;
 const { Step } = Steps;
 const { Paragraph } = Typography;
@@ -383,8 +384,7 @@ const onFinishUserInfo = (values) =>{
   
  
 }
-const onChangeCaptcha = (a) =>{ 
-  console.log("captcha change: ", a);
+const onChangeCaptcha = (a) =>{  
   a == null ? setUserFormCapt(true) : setUserFormCapt(false);
 
 }
@@ -811,8 +811,8 @@ const steps = [
           </div>
         </div>
 
-        <div className={css.SubTotal}><div><Image alt="Obertech" preview={false} src="/img/logoCirc.svg" width={20}/><span style={{marginLeft: "2px"}}>OBOT</span></div><div className={payInInstallmentsValue === 2 ? css.SubTotalSuccess : null}> 
-          {mntUsdPrice[0].obot}
+        <div className={css.SubTotal}><div><Image alt="Obertech" preview={false} src="/img/logoCirc.svg" width={20}/><span style={{marginLeft: "7px"}}>OBOT</span></div><div className={payInInstallmentsValue === 2 ? css.SubTotalSuccess : null}> 
+          {mntUsdPrice[0].obot.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}
           <span style={{fontSize: "10px", fontWeight: "600"}}> Obot</span><span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / {defaultMaxFi.Coin}%</span></div>
         </div>
         </>
@@ -820,11 +820,11 @@ const steps = [
         <>
 
         <div className={css.SubTotal}><div>  <span style={{display: "flex"}}><div className={css.Tugrug}> ₮ </div> MNT</span></div>
-          <div className={payInInstallmentsValue === 1 ? css.SubTotalSuccess : null}>   {mntUsdPrice[0].mnt}₮
+          <div className={payInInstallmentsValue === 1 ? css.SubTotalSuccess : null}> {mntUsdPrice[0].mnt.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}₮
             <span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / {defaultMaxFi.USD}%</span>
           </div>
         </div>
-        <div className={css.SubTotal}><div><Image alt="Obertech" preview={false} src="/img/logoCirc.svg" width={20} style={{borderRadius: "16px"}}/><span style={{marginLeft: "7px"}}>OBOT</span></div><div className={payInInstallmentsValue === 2 ? css.SubTotalSuccess : null}>  {mntUsdPrice[0].obot}<span style={{fontSize: "10px", fontWeight: "600"}}> Obot</span><span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / {defaultMaxFi.Coin}%</span></div>
+        <div className={css.SubTotal}><div><Image alt="Obertech" preview={false} src="/img/logoCirc.svg" width={20} style={{borderRadius: "16px"}}/><span style={{marginLeft: "7px"}}>OBOT</span></div><div className={payInInstallmentsValue === 2 ? css.SubTotalSuccess : null}>  {mntUsdPrice[0].obot.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}<span style={{fontSize: "10px", fontWeight: "600"}}> Obot</span><span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / {defaultMaxFi.Coin}%</span></div>
         </div>
         </>
         : ""
@@ -852,9 +852,8 @@ const steps = [
 
     : <div className={css.PayBanks}>  
         {/* <Button onClick={BackFunc} className={css.BackCss}>Back</Button> */}
-        {bankValue === "khan" || bankValue === "Golomt" || bankValue === "Tdb" || bankValue === "Monpay"? 
-    <div> 
-
+  {bankValue === "khan" || bankValue === "Golomt" || bankValue === "Tdb" || bankValue === "Monpay" || bankValue === "Qpay" ? 
+    <div>  
 {!showBank ? 
 <div className={css.AlertDesk}>
   <div className={css.AlertText}>
@@ -892,7 +891,7 @@ const steps = [
 <Tabs defaultActiveKey="4" items={["a","b", "c"].map((Icon, i) => {  
 
 return {label: i === 0 ?  <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>Cart</div> :
-            i === 1 ? <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>QPay</div> : 
+            i === 1 ? <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>QR code</div> : 
             i === 2 ? <div  style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>Invoice</div> : null,
 
 key: i, children: i === 0? 
@@ -900,25 +899,31 @@ key: i, children: i === 0?
   {bankValue === "khan" ? 
   <KhanBank userInfo={userInfo} mntPrice={mntPrice} sourceData={sourceData} totalPriceState={totalPriceState} orgIdRadio={basketContext.orgNames[0].orgIdstate} basketState={basketContext.basketState} sucessOrder={sucessOrder}/> 
   : null}
-  
+  {/* Mongol banknuudaas songoso n  */}
   {bankValue === "Golomt" ? <div>Golomt </div> : null}
+  {bankValue === "Qpay" ? <div> Qpay </div> : "bhq"}
   {bankValue === "Tdb" ? <div>
-    dssdsdsd
+    TDB bank
       <TdbBank />
-      </div> : null}
+  </div> : null}
+
   {bankValue === "Monpay" ? <div>Monpay2 </div> : null}
 
 </div> 
-: i === 1 ? <div className={css.PaymentCss}>
-  
+
+: i === 1 ? <div className={css.PaymentCss}> 
+    {bankValue === "Qpay" ?  <Qpay userInfo={userInfo}  mnBack={mnBack} sucessOrder={sucessOrder} sourceData={sourceData} mntUsdPrice={mntUsdPrice} defaultMaxFi={defaultMaxFi} 
+    orgIdRadio={basketContext.orgNames[0].orgIdstate} 
+    item={basketContext.basketState}  price={totalPriceState}/> : 
     <div className={css.Qpay}> 
+    asd
       <div className={css.QpaySize}>
         <Image alt="Obertech" preview={false} src="/img/qr.png" width={150}/>
       </div>
       <div className={css.QpayTitle}>Төлөх дүн </div>
       <div className={css.QpayPrice}>{mntPrice}₮</div>
     </div>
-
+}
 </div> : 
   i === 2 ? <div className={css.PaymentCss}>
     {!invoiceBoolean ?
@@ -976,7 +981,7 @@ key: i, children: i === 0?
 })}/>   
 : null }
 
-        </div> 
+    </div> 
         : 
           bankValue === "Paypal" ? <div> 
             <Paypal sucessOrder={sucessOrder} bankValue={bankValue} totalPriceState={totalPriceState} orgIdRadio={orgIdRadio} basketState={basketContext.basketState} BackFunc={BackFunc} PayInInstallmentsForeign={PayInInstallmentsForeign} payInInstallmentsValue={payInInstallmentsValue}/>
@@ -1044,34 +1049,20 @@ key: i, children: i === 0?
   title: "Completed",
   content: (
     <div>
+      
+      <SuccessOrder totalPriceState={successOrderPrice} items={propsItem} invoiceSuccess={invoiceSuccess} mnPrice={mntUsdPrice}/>
       <div className={css.AbsoClear}> 
       <Tooltip title="Clear">
         <Button onClick={removeBask} type="primary" shape="circle" style={{marginTop: "10px"}}>X</Button>
       </Tooltip>
       </div>
-      <SuccessOrder totalPriceState={successOrderPrice} items={propsItem} invoiceSuccess={invoiceSuccess} mnPrice={mntUsdPrice}/>
      
      
   </div>
   ),
 },
 ];
-const qpay = () =>{
-  console.log("qpay: "); 
-  const body = {
-    amraa: "amraa"
-  }
-  axios.post("/api/qpay/post/token", body).then((res)=>{
-    console.log("refresh_expires_in: ", res.data);
-    const expiresIn = res.data.refresh_expires_in;
-    const refreshToken = res.data.refresh_token;
-    const expireDate = new Date(new Date().getTime() + expiresIn * 1000);
-    console.log("exp: ", expireDate);
-    console.log("object");
-  }).catch((err)=>{
-    console.log("err", err);
-  })
-}
+
   return (
     <div style={{fontFamily: "Roboto Condensed, sans-serif"}}>
       <BaseLayout pageName="payment">

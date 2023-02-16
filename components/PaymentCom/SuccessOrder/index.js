@@ -1,4 +1,4 @@
-import { Button, Image, Modal, Select } from "antd";
+import { Button, Image, Modal, Result, Select } from "antd";
 import React, { useEffect, useState } from "react";
 import css from "./style.module.css"
 import {CheckOutlined, DownloadOutlined} from "@ant-design/icons";
@@ -95,7 +95,7 @@ const SuccessOrder = (props) =>{
     const [formValue, setFormValue] = useState("mn");
     const [mnPrice, setMnPrice] = useState(0);
     useEffect(()=>{
-        // console.log("items: ", props);
+        console.log("successorder props: ", props);
         
        const funcu = () =>{
         setMnPrice(props.mnPrice[0].mnt);
@@ -265,10 +265,11 @@ return <div>
 {toggle ?
 <div className={css.Absolute}>
 <div className={css.Logo}> <Image alt="Obertech" preview={false} src="/img/OBORTECH_logo_H_clean.svg" width={200}/></div>
-
+<Result status="success" title="Successfully Purchased Items!"
+                subTitle={"Order number: 123123. "}/>
 <div style={{marginTop: "22px"}}> 
     <div>Сайн байна уу? OBORTECH 5355907</div>
-    <div>Таны <span style={{color: 'red'}}> R441340050</span> дугаартай <span style={{color: 'red'}}>{price} </span> төгрөг захиалгын төлбөр амжилттай <span style={{color: 'red'}}>ТӨЛӨГДЛӨӨ </span></div>
+    <div>Таны <span style={{color: 'red'}}> R441340050</span> дугаартай <span style={{color: 'red'}}>{price}$ </span> захиалгын төлбөр амжилттай <span style={{color: 'red'}}>ТӨЛӨГДЛӨӨ </span></div>
 </div>
 <div className={css.textDesc}> 
     Асууж лавлах зүйл байвал <span> 7719-9999 </span> дугаараас, <span>online@obortech.mn</span>  Хаягаар бидэнд хандана уу.

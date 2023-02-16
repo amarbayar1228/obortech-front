@@ -26,7 +26,7 @@ useEffect(()=>{
             status: 1,
             pkId: props.item,
             };
-        axios.post("/api/post/Gate", body).then((res) => { 
+        axios.post("/api/post/Gate", body).then((res) => {  
             setItem(res.data.data.itemList);
         }).catch((err) => {console.log("err", err)});
     // }
@@ -41,10 +41,10 @@ useEffect(()=>{
                       <Image preview={false} alt="Obertech" src="/img/avatar.png" style={{display: "flex",  margin: "0px auto", justifyContent: "center", width:"40px"}}/>
                     </div>
                     <div className={css.ItemsDetLa}>
-                        <div>{e.title}</div>
+                        <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", width: "115px"}}>{e.title}</div>
                         <div className={css.ItemsPrice}>
-                          <div>Description</div>
-                          <div>Price: 123$</div>
+                          <div></div>
+                          <div>Price: {e.itemPriceD}$</div>
                         </div>
                     </div>
                   </div>

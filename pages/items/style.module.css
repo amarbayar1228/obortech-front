@@ -40,7 +40,7 @@
     display: flex;
     flex-direction: row;
     /* background: red; */
-    margin: 40px auto;
+    margin: 20px auto;
     width: 1130px;
     /* justify-content: center; */
     flex-flow: wrap;
@@ -105,6 +105,7 @@
 }
 
 .ItemLogo {
+    display: none;
     position: absolute;
     top: 20px;
     left: 0px;
@@ -131,7 +132,38 @@
     line-height: 18px;
     padding-top: 10px;
     font-size: 15px;
-    border-top: 3px solid rgb(239 68 68);
+    border-top: 3px solid rgb(223 217 217);
+}
+
+.ItemTitlecss {
+    width: 1108px;
+    margin: 36px auto;
+
+}
+
+.ItemBackcss {
+    border-bottom: 4px solid #4d5057;
+    color: #fff;
+    font-size: 18px;
+}
+
+.ItemsTitlechild {
+    position: relative;
+    background-color: #4d5057;
+    width: 230px;
+    padding: 3px 20px;
+
+}
+
+.TitleWhiteBackg {
+    position: absolute;
+    top: -6.1px;
+    width: 50px;
+    overflow: hidden;
+    height: 26px;
+    background-color: #f6f6f6;
+    transform: rotate(45deg);
+    right: -16.3px;
 }
 
 .ItemTitle1 {
@@ -793,7 +825,7 @@
 .GrpDetails {
     display: flex;
     background-color: #ffffff;
-    width: 50%;
+    width: 51%;
     flex-direction: column;
     justify-content: space-between;
     border-bottom-right-radius: 15px;
