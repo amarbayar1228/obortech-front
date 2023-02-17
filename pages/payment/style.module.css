@@ -1338,6 +1338,16 @@
   width: 80%;
 }
 
+.TextOrgName {
+  margin-left: 10px;
+  color: rgb(115 115 115);
+}
+
+.TextOrgName2 {
+  color: rgb(115 115 115);
+  margin-left: 28px;
+}
+
 @media only screen and (max-width: 1024px) {
   .PayContent {
     flex-direction: column;
@@ -1364,7 +1374,7 @@
 @media only screen and (max-width: 760px) {
   .OrgConfirm {
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     width: 100%;
   }
 
@@ -1494,8 +1504,20 @@
   }
 }
 
-@media only screen and (max-width: 1024px) {
+@media only screen and (max-width: 400px) {
   .AlertDesk {
+    width: 100%;
+  }
+
+  .TextOrgName {
+    margin-left: 0px;
+  }
+
+  .TextOrgName2 {
+    margin-left: 0px;
+  }
+
+  .OrgDesc {
     width: 100%;
   }
 }

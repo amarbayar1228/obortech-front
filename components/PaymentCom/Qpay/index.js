@@ -14,6 +14,7 @@ const Qpay = (props) =>{
     const [itemOrderId, setItemOrderId] = useState();
     const [loadingQR, setLoadingQR] = useState(false);
     const [checkToken, setCheckToken] = useState("");
+    const [countDown, setCountDown] = useState(0);
 useEffect(()=>{
   console.log("Qpay props: ", props);
   setItem(props.item)
@@ -71,6 +72,7 @@ const qpayPay = (orderid) =>{
     }
     axios.post("/api/qpay/post/token", body).then((res)=>{
     console.log("login Token: ", res.data);
+
     setCheckToken(res.data.access_token);
     const headers = { 
         'Authorization': "Bearer " + res.data.access_token,
@@ -86,10 +88,35 @@ const qpayPay = (orderid) =>{
         }
         axios.post("/api/qpay/invoicePost/invoice", invo, {headers: headers}).then((res)=>{ 
             console.log("invoice: ", res.data);
-          
+            
             setObjectId(res.data.invoice_id);
             setImgQr(res.data.qr_image)
             setLoadingQR(false);
+            // expires time 
+            // let unix_timestamp = res.data.expires_in; 
+            // var date = new Date(unix_timestamp * 1000); 
+            // var hours = date.getHours(); 
+            // var minutes = "0" + date.getMinutes(); 
+            // var seconds = "0" + date.getSeconds();  
+            // var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+            
+            // var countDownDate = new Date(date.toLocaleDateString() + " " + formattedTime).getTime(); 
+            // var x = setInterval(function() { 
+            //   var now = new Date().getTime(); 
+            //   var distance = countDownDate - now;
+                 
+            //   var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            //   var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            //   var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            //   var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                 
+           
+            //   setCountDown("date loop: ", days + "d " + hours + "h "+ minutes + "m " + seconds + "s ")
+            //   if (distance < 0) {
+            //     setCountDown(0);
+            //     clearInterval(x); 
+            //   }
+            // }, 1000);
         }).catch((err)=>{
             console.log("err", err);
         }) 
@@ -205,6 +232,9 @@ const qpayPay = (orderid) =>{
         {loadingQR ? <Spin  style={{margin: "30px auto", width: "100%"}}/> :
         <div style={{display: "flex", flexDirection: "column", alignItems: "center", marginTop: "20px"}}>  
             <div>
+                <div>
+                    {countDown}
+                </div>
                 <div style={{color: "#4d5052", fontSize: "22px", fontWeight: "600", textAlign: "center"}}> Price: {props.mntUsdPrice[0].mnt.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}₮</div>
                 <Image src={"data:image/png;base64," + imgQr} preview={true} alt="obortech" width={200}/>
                 

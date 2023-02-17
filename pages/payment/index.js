@@ -81,7 +81,7 @@ const Payment = () => {
   const [orderIdSt, setOrderIdSt] = useState(0);
   //const { amaraa } = router.query;
   useEffect(() => {
-    console.log("payment");
+ 
     if(localStorage.getItem("orderId")){
       // console.log("order id: ", localStorage.getItem("orderId"));
   
@@ -97,18 +97,17 @@ const Payment = () => {
     
     totalPriceFunction();
  
-    dateFunction(); 
+    // dateFunction(); 
     // console.log("url",window.location.href); 
-    getDefMaximFi(); 
+
     setOrderId(localStorage.getItem("or"));
-    getSource();
+  
     const queryString = window.location.search;
     if(localStorage.getItem("oAiD") === undefined){
      
       setOrderIdLocal(0);
     }else {
-      setOrderIdLocal(localStorage.getItem("oAiD"))
-      console.log("object", localStorage.getItem("oAiD"));
+      setOrderIdLocal(localStorage.getItem("oAiD")) 
     } 
     // var url_string = "http://192.168.1.14:3000/payment?parameter1=amaraa&parameter2=000&body=asdjflajsdlkfjaklsjfklhadbd2626251dsf3as5df1as53df1as5df1as3fd51as3df153sadfas&fbclid=IwAR24B-dJ611MB46g-9X2v0rK3P8_7NgWmDtCnZxPTY1ZVraFwFfzM4pd760";  
     // // console.log('amaraa', router.query); 
@@ -119,6 +118,8 @@ const Payment = () => {
   }, [basketContext]); 
  
   useEffect(()=>{
+    getDefMaximFi(); 
+    getSource();
     if(localStorage.getItem("orderId")){
       const order = localStorage.getItem("orderId");
       router.push("/payment/?orderid=" + order);
@@ -584,8 +585,8 @@ const steps = [
                     {/* <div>Байгууллагын нэр: Обортек</div> */}
                   </div>
                   <div className={css.OrgDesc}> 
-                    <div><span>Organization name:</span> <span style={{marginLeft: "10px"}}>{basketContext.orgId}</span></div>
-                    <div><span>Organization ID:</span> <span style={{marginLeft: "26px"}}>{basketContext.orgNames[0] ? basketContext.orgNames[0].orgIdstate : "xxxx"} </span></div>
+                    <div><span>Organization name:</span> <span className={css.TextOrgName}>{basketContext.orgId}</span></div>
+                    <div><span>Organization ID:</span> <span className={css.TextOrgName2}>{basketContext.orgNames[0] ? basketContext.orgNames[0].orgIdstate : "xxxx"} </span></div>
                     {/* <div><span>Байгууллагын нэр: </span> <span style={{marginLeft: "9px"}}>Обортек</span></div>
                     <div><span>Байгууллагын ID: </span> <span style={{marginLeft: "19px"}}>Obogti760</span></div> */}
                   </div>
