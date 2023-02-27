@@ -67,7 +67,7 @@ const selectBefore = (
 const selectAfter = (
 <Form.Item name="after" noStyle rules={[{required: true, message: "Please select your dot!"}]}> 
 <Select className="select-after">
-    <Option value=".com">.com</Option>
+    <Option value=".com" >.com</Option>
     <Option value=".mn">.mn</Option>
     <Option value=".io">.io</Option>
     <Option value=".org">.org</Option>

@@ -32,6 +32,8 @@
     justify-content: space-between; */
 }
 
+
+
 .SettingToggleCss {
     animation-name: bankRouteAnimation;
     animation-duration: 0.3s;
@@ -257,27 +259,48 @@
     animation-duration: 5s
 }
 
+.MiniIcon {
+    display: flex;
+
+}
+
+.MiniHdr {
+    display: flex;
+    color: #fff;
+    background-color: #4d5057;
+    width: 100%;
+    justify-content: space-between;
+    padding: 5px 50px;
+
+}
+
 .Header {
     display: flex;
-    padding-left: 50px;
-    padding-right: 66px;
+    padding: 0px 50px;
+    /* padding-left: 50px;
+    padding-right: 66px; */
     width: 100%;
-    margin-bottom: 5px;
+
     background-color: #fff;
     align-items: center;
     height: 60px;
     justify-content: space-between;
-    box-shadow: 0px 0px 5px 1px #d7d7d7;
+    border-bottom: 1px solid #efefef;
+    /* margin-bottom: 5px;
+    box-shadow: 0px 0px 5px 1px #d7d7d7; */
 }
+
 
 .FlexPro {
     display: flex;
     color: #fff;
     align-items: center;
+    cursor: pointer;
 }
 
 .HeaderItem {
     display: flex;
+    align-items: center;
 }
 
 .Logo {
@@ -328,13 +351,16 @@
 
 .PopoverStyle1 {
     position: relative;
-
+    /* border-left: 1px solid #ccc; */
 }
+
 
 .PopoverStyle2 {
     position: relative;
-    border-bottom: 2px solid red;
+    /* border-bottom: 1px solid red; */
+    /* padding-left: 5px; */
     margin-bottom: -14px;
+    /* border-left: 1px solid #ccc; */
 }
 
 .BasketPopNone {
@@ -344,7 +370,7 @@
 .BasketPop {
     position: absolute;
     background: red;
-    font-size: 11px;
+    font-size: 8px;
     color: #fff;
     top: -5px;
     border-radius: 10px;
@@ -444,7 +470,7 @@
 
 .Icons {
     display: flex;
-    font-size: 22px;
+    font-size: 18px;
     align-items: center;
 }
 
@@ -453,9 +479,29 @@
 }
 
 .Active {
+    display: flex;
+    align-items: center;
     border-bottom: 2px solid var(--red);
-    margin-bottom: -14px;
+    color: red;
+    font-size: 17px;
+    margin: 0px 7px;
+    /* margin-bottom: -14px; */
+    cursor: pointer;
 }
+
+.HdrLink {
+    cursor: pointer;
+    font-size: 17px;
+    margin: 0px 12px;
+    display: flex;
+    align-items: center;
+}
+
+.HdrLink:hover {
+    color: red;
+}
+
+
 
 .Active button {
     color: var(--red);
@@ -463,7 +509,7 @@
 
 .ActiveBasket {
     display: flex;
-    font-size: 22px;
+    font-size: 18px;
     align-items: center;
     color: red;
 }
@@ -488,11 +534,12 @@
     align-items: center;
     color: #fff;
     font-size: 17px;
+    cursor: pointer;
 }
 
 /* //border-b-2 border-red-500 -mb-3.5 */
 .ProfileBackCss {
-    border-bottom: 1px solid red;
+    /* border-bottom: 1px solid red; */
     margin-bottom: -5.2px;
 }
 

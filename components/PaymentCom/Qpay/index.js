@@ -237,7 +237,7 @@ const qpayPay = (orderid) =>{
                 </div> */}
                 <div style={{color: "#4d5052", fontSize: "22px", fontWeight: "600", textAlign: "center"}}> Price: {props.mntUsdPrice[0].mnt.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}₮</div>
                 <Image src={"data:image/png;base64," + imgQr.qr_image} preview={true} alt="obortech" width={200}/>
-                <div style={{margin: "10px 0px"}}> <Button type="primary" onClick={payCheckFunc}>Check pay</Button></div>
+                <div style={{margin: "10px 0px"}}> <Button type="primary" onClick={payCheckFunc} size="large">Check pay</Button></div>
                 <div style={{display: "flex", width: "84%", flexFlow: "wrap"}}>
                    
                       {imgQr.urls.map((e, i)=>(

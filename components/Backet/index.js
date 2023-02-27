@@ -63,9 +63,9 @@ const clearFunc = () =>{
               <div className={css.Descrip}>
                 <div className={css.Title}>
                   <div className={css.ItemTitle}>{e.title}</div>
-                  <div>
-                    <Button className={css.CloseBtn} type="default" size="small" shape="circle" onClick={() =>basketContext.basketItemDelete(i, totalPriceFunction)}
-                      icon={<CloseOutlined style={{ fontSize: "10px", fontWeight: "500"}}/>}></Button>
+                  <div  >  
+                    <Button style={{height: "23px", width: "23px"}} className={css.CloseBtn} type="default" size="small" shape="circle" onClick={() =>basketContext.basketItemDelete(i, totalPriceFunction)}
+                      icon={<CloseOutlined style={{ fontSize: "8px", fontWeight: "500"}}/>}></Button>
                   </div>
                 </div>
                 <div className={css.Price}>
