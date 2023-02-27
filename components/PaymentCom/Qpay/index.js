@@ -90,7 +90,7 @@ const qpayPay = (orderid) =>{
             console.log("invoice: ", res.data);
             
             setObjectId(res.data.invoice_id);
-            setImgQr(res.data.qr_image)
+            setImgQr(res.data);
             setLoadingQR(false);
             // expires time 
             // let unix_timestamp = res.data.expires_in; 
@@ -230,16 +230,30 @@ const qpayPay = (orderid) =>{
         : null }
         {toogle ? <> 
         {loadingQR ? <Spin  style={{margin: "30px auto", width: "100%"}}/> :
-        <div style={{display: "flex", flexDirection: "column", alignItems: "center", marginTop: "20px"}}>  
-            <div>
-                <div>
+        <div style={{ marginTop: "20px"}}>  
+            <div style={{display: "flex", flexDirection: "column", alignItems: "center",}}>
+                {/* <div>
                     {countDown}
-                </div>
+                </div> */}
                 <div style={{color: "#4d5052", fontSize: "22px", fontWeight: "600", textAlign: "center"}}> Price: {props.mntUsdPrice[0].mnt.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}₮</div>
-                <Image src={"data:image/png;base64," + imgQr} preview={true} alt="obortech" width={200}/>
-                
+                <Image src={"data:image/png;base64," + imgQr.qr_image} preview={true} alt="obortech" width={200}/>
+                <div style={{margin: "10px 0px"}}> <Button type="primary" onClick={payCheckFunc}>Check pay</Button></div>
+                <div style={{display: "flex", width: "84%", flexFlow: "wrap"}}>
+                   
+                      {imgQr.urls.map((e, i)=>(
+                         <a href={e.link}  key={i}> 
+                        <div style={{display: "flex", flexDirection: "column", alignItems: "center", width: "112px",   margin: "10px 0px"}}> 
+                        
+                            <Image src={e.logo} preview={false} alt="obortech" width={50} style={{borderRadius: "24px"}}/>
+                            <div style={{fontWeight: "600", marginTop: "5px", textAlign: "center"}}>{e.description}</div>
+                     
+                        </div>
+                        </a>
+                     ))}
+                     
+                </div>
             </div>
-            <div style={{marginTop: "10px"}}> <Button type="primary" onClick={payCheckFunc}>Check pay</Button></div>
+          
         </div>
         }
         </>
