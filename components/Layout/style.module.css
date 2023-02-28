@@ -16,7 +16,7 @@
     position: relative;
     display: flex;
     width: 200px;
-    height: 91vh;
+    height: calc(100vh - 94px);
     background: #fff;
     /* flex-direction: column;
     justify-content: space-between; */
@@ -26,7 +26,7 @@
     position: relative;
     display: flex;
     width: 60px;
-    height: 91vh;
+    height: calc(100vh - 94px);
     background: #fff;
     /* flex-direction: column;
     justify-content: space-between; */
@@ -198,7 +198,7 @@
 
 .BorderTop {
     position: absolute;
-    bottom: 10px;
+    bottom: 00px;
     width: 100%;
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;

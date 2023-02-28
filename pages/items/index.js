@@ -1,10 +1,10 @@
 
 import {useContext, useEffect, useState } from "react";
 import BaseLayout from "../../components/Layout/BaseLayout";
-import { Button, Empty, Image, message, Spin, Tooltip  } from "antd";
+import { Button, Empty, Image, Input, message, Spin, Tooltip  } from "antd";
 
 import css from "./style.module.css";
-import {ShoppingCartOutlined} from "@ant-design/icons";
+import {ShoppingCartOutlined, SendOutlined, MediumOutlined, LinkedinOutlined, FacebookOutlined, TwitterOutlined, YoutubeOutlined } from "@ant-design/icons";
 import axios from "axios";
 import BasketContext from "../../context/basketContext/BasketContext";
 import "swiper/css/pagination"; 
@@ -12,6 +12,8 @@ import { Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ItemDetails from "../../components/ItemDetails";
 import PaginationComp from "../../components/ItemGroupComp/Pagination";
+ 
+const { TextArea } = Input;
 const ItemGroup = () => {
   const [itemData, setItemData] = useState([]);
   const [addItemStyle, setAddItemStyle] = useState([css.addItemStyle]);
@@ -229,8 +231,9 @@ const ItemGroup = () => {
                  </div>
                </div>
             ))}
-             
-               
+              <div style={{display: "flex",marginTop: "25px", justifyContent: "flex-end", width: "100%"}}> 
+                <PaginationComp />
+             </div>
           </div>
             
          {/* <div className={css.GroupLayoutCss}> 
@@ -259,7 +262,104 @@ const ItemGroup = () => {
          </div> */}
 
 
-         <div style={{width: "100%", background: "rgb(30 41 59)", height: "250px"}}></div>
+         <div style={{width: "100%", background: "#D2D3D5", color: "#4d5057"}}>
+            <div className={css.Footercss}>
+              <div className={css.FtLayout}>
+                <div className={css.Socialapp}>
+                  <div style={{marginBottom: "10px"}}>
+                    <Image preview={false} alt="Obertech" src={"/img/OBORTECH_logo_H_clean.svg"} width={150} />
+                  </div>
+                  <div className={css.FtInfo}>
+                    <div className={css.FtText}>
+                      <div>OBORTECHglobal OU</div>
+                      <div>Tallinn, Estonia.</div>
+                    </div>
+                    <div className={css.FtText}>
+                      <div>ОБОРТЕЧ МОНГОЛИА ХХК</div>
+                      <div>Улаанбаатар хот, Монгол улс.</div>
+                    </div>
+                    <div className={css.FtText}>
+                      <div>OBORTECH Poland</div>
+                      <div>Warsaw, Poland.</div>
+                    </div>
+                    <div className={css.FtText}>
+                      <div>OBORTECH БНЭУ:</div>
+                      <div>Chandigarh, India </div>
+                    </div>
+                    <div className={css.FtText}>
+                      <div>info@obortech.io</div> 
+                    </div>
+                  </div>
+                  <div style={{display: "flex", gap: "10px"}}>
+                    <Button shape="circle" icon={<SendOutlined />}></Button>
+                    <Button shape="circle" icon={<MediumOutlined />}></Button>
+                    <Button shape="circle" icon={<LinkedinOutlined />}></Button>
+                    <Button shape="circle" icon={<FacebookOutlined />}></Button>
+                    <Button shape="circle" icon={<TwitterOutlined />}></Button>
+                    <Button shape="circle" icon={<YoutubeOutlined />}></Button>
+                  </div>
+                </div>
+                <div className={css.myAcc}>
+                    <div className={css.myAccTitle}> 
+                      <div className={css.BorderLef}></div>
+                      <div style={{textTransform: "uppercase"}}>MY ACCOUNT</div>
+                    </div>
+                    <div className={css.myAccChild}>
+                      <div className={css.CircleLink}> 
+                        <div className={css.circleAcc}></div>
+                        <div> My Account</div>
+                      </div>
+                      <div className={css.CircleLink}> 
+                        <div className={css.circleAcc}></div>
+                        <div> My Cart</div>
+                      </div> 
+                      <div className={css.CircleLink}> 
+                        <div className={css.circleAcc}></div>
+                        <div>Sign in</div>
+                      </div> 
+                      <div className={css.CircleLink}> 
+                        <div className={css.circleAcc}></div>
+                        <div>Registration</div>
+                      </div>  
+                      <div className={css.CircleLink}> 
+                        <div className={css.circleAcc}></div>
+                        <div>Check out</div>
+                      </div>  
+                      <div className={css.CircleLink}> 
+                        <div className={css.circleAcc}></div>
+                        <div> Order Complete</div>
+                      </div>  
+                    </div>
+                </div>
+                <div className={css.SendMail}>
+                  <div className={css.myAccTitle}> 
+                    <div className={css.BorderLef}></div>
+                    <div style={{textTransform: "uppercase"}}>Get in touch</div>
+                  </div>
+                  <div>
+                      <Input placeholder="Name" style={{marginBottom: "10px"}} />
+                  </div>
+                  <div>
+                      <Input placeholder="Email" style={{marginBottom: "10px"}}/>
+                  </div>
+                  <div>
+                      <TextArea placeholder="Message" style={{marginBottom: "10px"}}/>
+                  </div>
+                   <div>
+                      <Button type="primary">SUBMIT MESSAGE</Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={css.CrSize}> 
+              <div className={css.CopyRight}>
+                  <div>Copyright © 2023 OBORTECH. All Rights Reserved.</div>
+                  <div>
+                    <Image preview={false} alt="Obertech" src={"/img/cardnuud.png"} width={150} />
+                  </div>
+              </div>
+            </div>
+         </div>
        </>
        
      )}

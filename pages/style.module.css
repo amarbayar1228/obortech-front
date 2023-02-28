@@ -28,6 +28,22 @@
     flex-flow: wrap;
 }
 
+.CrSize {
+    display: flex;
+    background-color: #4d5057;
+    align-items: center;
+}
+
+.CopyRight {
+    margin: 0px auto;
+    width: 1130px;
+    max-width: 100%;
+    padding: 0px 30px;
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+}
+
 .BaraaDiv {
     background-color: #fff;
     width: 140px;

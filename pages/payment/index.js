@@ -902,12 +902,8 @@ key: i, children: i === 0?
   : null}
   {/* Mongol banknuudaas songoso n  */}
   {bankValue === "Golomt" ? <div>Golomt </div> : null}
-  {bankValue === "Qpay" ? <div> Qpay </div> : "bhq"}
-  {bankValue === "Tdb" ? <div>
-    TDB bank
-      <TdbBank />
-  </div> : null}
-
+  {bankValue === "Qpay" ? <div> Qpay </div> : ""}
+  {bankValue === "Tdb" ? <div>TDB bank <TdbBank /></div> : null} 
   {bankValue === "Monpay" ? <div>Monpay2 </div> : null}
 
 </div> 
