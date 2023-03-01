@@ -1,8 +1,10 @@
 .Absolute {
-    width: 70%;
+    width: 84%;
     margin: 20px auto;
-    font-size: 17px;
+    font-size: 15px;
     color: #4d5057;
+    box-shadow: 0px 0px 4px 2px #efefef;
+
 }
 
 .Title {
@@ -169,4 +171,71 @@
 
 .TotalPriceCss {
     font-weight: 600;
+}
+
+.OutOrder {
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 30px;
+}
+
+.LayoutOrder1 {
+    width: 50%;
+}
+
+.LayoutOrder2 {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.OrderTitle {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.OrderLine {
+    height: 13px;
+    width: 2px;
+    background: #4d5057;
+    margin-right: 5px;
+}
+
+.OrderItem {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0px;
+    color: #8d9299;
+    font-size: 14px;
+}
+
+.OrderTotal {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+}
+
+.OrderNO {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+
+.OrderNoLay2 {
+    padding-left: 30px;
+    padding-right: 30px;
+    border-right: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+}
+
+.OrgName {
+    width: 138px;
+    font-size: 14px;
+    text-align: left;
+    text-transform: uppercase;
 }

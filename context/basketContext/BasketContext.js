@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { message } from "antd";
+import { message, Spin } from "antd";
 import axios from "axios";
 import { useTranslation } from "next-i18next";
 const BasketContext = React.createContext();
@@ -15,11 +15,11 @@ export const BasketItem = (props) => {
   const [todayDateState,setTodayDateState] = useState();
   const [orgId, setOrgId] = useState(undefined);
   const [orgNames, setOrgNames] = useState([]);
-  const { t } = useTranslation(["login", "organization", "dashboard", "order-history", "security", "header"]); 
+  const { t, ready } = useTranslation(["login", "organization", "dashboard", "order-history", "security", "header"]); 
 
   const router = useRouter();
   useEffect(() => {   
-    setTimeout(()=>{
+    // setTimeout(()=>{
       basketStateFunc();
       routerFunction();
       MenuKey();
@@ -27,11 +27,11 @@ export const BasketItem = (props) => {
       HanshFunc();
       todayDate();
       orgIdLocal(); 
-    },600)
+    // },600)
     
 
   }, []);
- 
+
   const onCollapse = (e) => {
     setCollapsed(e);
   };
@@ -212,6 +212,15 @@ const orgIdRemove = () =>{
     localStorage.removeItem("basket");
     setBasketState([]);
   }
+     // Locize Loading...
+     if (!ready)
+     return (
+       <div style={{position: "absolute", height:"100vh", width: "100%", }} >
+         <div style={{display: "flex", alignItems: "center", justifyContent: "center", height: "100%", width: "100%"}}>
+           <Spin size="default" /> 
+         </div>
+       </div>
+     );
   return (
     <BasketContext.Provider
       value={{ orgNames, t,

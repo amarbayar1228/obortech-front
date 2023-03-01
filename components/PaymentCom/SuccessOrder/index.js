@@ -1,7 +1,7 @@
 import { Button, Image, Modal, Result, Select } from "antd";
 import React, { useEffect, useState } from "react";
 import css from "./style.module.css"
-import {CheckOutlined, DownloadOutlined} from "@ant-design/icons";
+import {CheckCircleOutlined, DownloadOutlined} from "@ant-design/icons";
 
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
@@ -264,23 +264,102 @@ return <div>
 <> 
 {toggle ?
 <div className={css.Absolute}>
-<div className={css.Logo}> <Image alt="Obertech" preview={false} src="/img/OBORTECH_logo_H_clean.svg" width={200}/></div>
-<Result status="success" title="Successfully Purchased Items!"
-                subTitle={"Order number: 123123. "}/>
-<div style={{marginTop: "22px"}}> 
+{/* <div className={css.Logo}> 
+<Image alt="Obertech" preview={false} src="/img/OBORTECH_logo_H_clean.svg" width={200}/>
+</div> */}
+{/* <Result status="success" title="Thank you. Your order has been received." subTitle={"Order number: 123123. "}/> */}
+{/* <div style={{marginTop: "22px"}}> 
     <div>Сайн байна уу? OBORTECH 5355907</div>
     <div>Таны <span style={{color: 'red'}}> R441340050</span> дугаартай <span style={{color: 'red'}}>{price}$ </span> захиалгын төлбөр амжилттай <span style={{color: 'red'}}>ТӨЛӨГДЛӨӨ </span></div>
 </div>
 <div className={css.textDesc}> 
     Асууж лавлах зүйл байвал <span> 7719-9999 </span> дугаараас, <span>online@obortech.mn</span>  Хаягаар бидэнд хандана уу.
-</div>
+</div> */}
 
-<div> 
+{/* <div> 
     <div style={{fontSize: "20px", marginBottom: "10px", marginTop: "10px"}}>OBORTECH 5355907 </div>
     <div style={{textAlign: "left"}}> OBORTECH Mongolia LLC Ulaanbaatar, Mongolia. OBORTECH in India: Sco 362, Top Floor Sector 44D, Chandigarh, India</div>
     <div style={{textAlign: "left", marginTop: "10px"}}>info@obortech.io </div>
+</div> */}
+<div style={{padding: "20px"}}><CheckCircleOutlined style={{color: "green", marginRight: "5px"}}/>Thank you. Your order has been received.</div>
+<div style={{borderTop: "1px solid #ccc", borderBottom: "1px solid #ccc", padding: "20px 0px" }}>
+    <div  className={css.OrderNO}>
+        <div>
+            <div >Order NO</div>
+            <div style={{color: "#8D9299", fontSize: "14px"}}>M 2653257</div>
+        </div>
+        <div className={css.OrderNoLay2}>
+            <div>Organization ID</div>
+            <div style={{color: "#8D9299", fontSize: "14px"}}>Obogti760</div>
+        </div>
+        <div>
+            <div>Bank</div>
+            <div style={{color: "#8D9299", fontSize: "14px"}}>Qpay</div>
+        </div>
+        {/* <div style={{ paddingRight: "30px", paddingLeft: "30px"}}>
+            <div>Order NO</div>
+            <div>M 2653257</div>
+        </div> */}
+    </div>
 </div>
-<div className={css.Layout}>
+<div className={css.OutOrder}>
+    <div className={css.LayoutOrder1}> 
+        <div className={css.OrderTitle}>
+            <div className={css.OrderLine}></div>
+            <div>Our order</div>
+        </div>
+            {items.map((e,i)=>( 
+                <div  key={i}  className={css.OrderItem}>
+                    <div>{e.title} {e.cnt === 1 ? "" : "X "+ e.cnt}</div>
+                    <div style={{fontWeight: "600"}}>${e.price}</div>
+                </div> 
+            ))} 
+            <div className={css.OrderItem}>
+                <div>Shipping</div>
+                <div style={{fontWeight: "600"}}>$0</div>
+            </div>
+        <div className={css.OrderTotal}>
+            <div>Order total</div>
+            <div style={{fontWeight: "600"}}>${price}</div>
+        </div>
+    </div>
+
+    <div className={css.LayoutOrder2}>
+
+        <div style={{width: "100%",  paddingLeft: "30px"}}> 
+            <div className={css.OrderTitle}>
+                <div className={css.OrderLine}></div>
+                <div>BILLING DETAILS</div>
+            </div>
+            <div style={{display: "flex", padding: "3px 0px", color: "#8D9299"}}>
+                <div className={css.OrgName}>Organization name: </div>
+                <div style={{fontSize: "14px"}}>Obortech</div>
+            </div>
+            <div style={{display: "flex", padding: "3px 0px", color: "#8D9299"}}>
+                <div  className={css.OrgName}>Organization ID: </div>
+                <div style={{textAlign: "left", fontSize: "14px"}}> Obogti760 </div>
+            </div>
+        </div>
+
+        <div style={{width: "100%",  paddingLeft: "30px", paddingTop: "10px"}}>
+            <div className={css.OrderTitle}>
+                <div className={css.OrderLine}></div>
+                <div>BILLING DETAILS</div>
+            </div>
+            
+            <div style={{display: "flex", padding: "3px 0px", color: "#8D9299"}}>
+                <div className={css.OrgName}>Email: </div>
+                <div style={{fontSize: "14px"}}>Amarbayar</div>
+            </div>
+            <div style={{display: "flex", padding: "3px 0px", color: "#8D9299"}}>
+                <div className={css.OrgName}>Description: </div>
+                <div style={{textAlign: "left", fontSize: "14px", width: "55%"}}> 28 Green Tower, Street name, New York </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{/* <div className={css.Layout}>
      {items.map((e,i)=>(
         <div className={css.Items} key={i}>
             <div className={css.Image}>
@@ -294,10 +373,10 @@ return <div>
             </div>
         </div>
      ))}
-</div>
+</div> */}
 
 
-<div className={css.TotalPriceCss}>Total price: {price} </div>
+{/* <div className={css.TotalPriceCss}>Total price: {price} </div> */}
 </div>
 : ""}
 </>  

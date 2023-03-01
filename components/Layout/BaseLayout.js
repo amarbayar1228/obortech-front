@@ -481,24 +481,29 @@ export default function BaseLayout(props) {
       )} 
 
       {localPkId ? (
-        <div className={ router.pathname == "/profile" || router.pathname == "/security" ?  css.ProfileBackCss : ""}>
-          <div className={css.ProfileBackground}>
-            <Popover content={changeProfile}>
+        <div>
+          {/* <div className={css.ProfileBackground}> */} 
+            <Popover content={changeProfile} placement="rightTop">
               {/* <Button type="link" className={css.Icons} size="middle"> */}
-                <div className={ router.pathname == "/profile" ? css.ProfileCss : css.FlexPro}>
+               
+                  <Image alt="Obertech" preview={false} src="/img/redAvatar2.png" width={40}/> 
+          
+                {/* <div className={ router.pathname == "/profile" ? css.ProfileCss : css.FlexPro}>
                   <UserOutlined style={{paddingTop: "5px", paddingBottom: "7px", paddingLeft: "10px", fontSize: "15px"}}/>
                   <span className={css.ProfileText}> 
                     {admin === "0" ? basketContext.userInfoProfile === undefined ? "" : basketContext.userInfoProfile.firstname : admin === "1" ? basketContext.t('admin', { ns: 'header' }) : admin === "2" ? basketContext.t('operator', { ns: 'header' }) : ""}
                   </span>
-                </div>
+                </div> */}
               {/* </Button> */}
-            </Popover>
-          </div>
+            </Popover> 
         </div>
       ) : (
-        <div className={router.pathname == "/login" ? css.Active : ""} >
+        <div>
           <Link href={"/login"}> 
-            <div className={css.HdrLink}><UserOutlined style={{paddingRight: "5px"}}/> {basketContext.t('loginName', { ns: 'header' })}</div>
+            <div className={css.HdrLink}>   
+              <Image alt="Obertech" preview={false} src="/img/userRed2.jpg" width={32} />  
+              <div style={{paddingLeft: "3px"}}>{basketContext.t('loginName', { ns: 'header' })}</div>
+             </div>
           </Link>
           {/* <Tooltip title={basketContext.t('loginName', { ns: 'header' })}>
           <Button onClick={loginRouter} type="link" className={css.Icons}><UserOutlined /></Button></Tooltip> */}
