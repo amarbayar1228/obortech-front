@@ -51,7 +51,7 @@ const GroupDelete = (props) => {
 
   return (
     <div>
-      <Button style={{ marginLeft: "3px", marginRight: "3px" }} danger type="primary" shape="circle"size="small"onClick={confirm}icon={<DeleteOutlined />}></Button>
+      <Button style={{ marginLeft: "3px", marginRight: "3px" }} danger type="primary"   size="small"onClick={confirm}icon={<DeleteOutlined />}></Button>
     </div>
   );
 };

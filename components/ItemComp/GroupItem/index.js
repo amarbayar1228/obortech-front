@@ -1,7 +1,7 @@
 import { Badge, Button, DatePicker, Image, Input, message, Select, Space, Table, Tooltip } from "antd";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import {SearchOutlined ,CheckOutlined, ExclamationCircleOutlined, FormOutlined, ClearOutlined, StarOutlined,SolutionOutlined, FundViewOutlined,DeleteOutlined, EditOutlined} from "@ant-design/icons";
+import {SearchOutlined , RedoOutlined,  ClearOutlined,   } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import css from "./style.module.css"
 import StatusChangeModal from "../../StatusChangeModal";
@@ -32,8 +32,7 @@ const [typeLevel, setType] = useState(null);
 const searchInput = useRef(null); 
 const [date, setDate] = useState([]); 
 const [status, setStatus] = useState(-1);
-useEffect(()=>{
-    console.log("group item component");
+useEffect(()=>{ 
     groupItems();
 },[]);
 
@@ -44,14 +43,17 @@ const groupItems = () => {
     }
     axios.post("/api/post/Gate", body).then((res) => { 
         setSpinner(false);
-        console.log("group: ", res.data.data);
+         const date = res.data.data.list;  
+          date.sort((a, b) => {
+            return new Date(b.date_) - new Date(a.date_); // descending
+          }) 
+
         // setGroup(res.data.data.list); 
 
         if(res.data == ""){
-            console.log("aldaa");
             setGroup([]);
         }else{
-            setGroup(res.data.data.list); 
+            setGroup(date); 
         }
     }).catch((err)=>{console.log("group item err", err)});   
 };
@@ -163,19 +165,19 @@ const data = group ?  group.map((r, i)=>(
         action: null,
 }];
 const columns = [
-    // {
-    // title: <div className={css.TableTitle}>Date</div>,
-    // dataIndex: 'date',
-    // key: 'date', 
-    // width: 100,
-    // fixed: 'left', 
-    // ...getColumnSearchProps('date'), 
-    // filteredValue: filteredInfo.date || null,
-    // onFilter: (value, record) => record.date.includes(value),
-    // // sorter: (a, b) => a.date.length - b.date.length,
-    // sortOrder: sortedInfo.columnKey === 'date' ? sortedInfo.order : null,
-    // ellipsis: true,
-    // },
+    {
+    title: <div className={css.TableTitle}>Date</div>,
+    dataIndex: 'date',
+    key: 'date', 
+    width: 100,
+    fixed: 'left', 
+    ...getColumnSearchProps('date'), 
+    filteredValue: filteredInfo.date || null,
+    onFilter: (value, record) => record.date.includes(value),
+    // sorter: (a, b) => a.date.length - b.date.length,
+    sortOrder: sortedInfo.columnKey === 'date' ? sortedInfo.order : null,
+    ellipsis: true,
+    },
  
     {
     title: <div className={css.TableTitle}>Title</div>,
@@ -257,9 +259,10 @@ const columns = [
         {b.state.status === 2 ? <GroupDisInsert groupData={b.state} getGroupItems={groupItems}/> :  
          <div style={{display: "flex"}}>  
            
-            <StatusChangeModal groupData={b.state} getGroupItems={groupItems}/>
-            <GroupDelete groupData={b.state} getGroupItems={groupItems}/>
-            <GroupEdit pkId={b.state} getGroupItems={groupItems}/> 
+            <StatusChangeModal groupData={b.state} getGroupItems={searchDate}/>
+            <GroupEdit pkId={b.state} getGroupItems={searchDate}/> 
+            <GroupDelete groupData={b.state} getGroupItems={searchDate}/>
+            
            
          {/* <StatusChangeModal addItemStatus={b.state} addItemGetItems={getItems} />
          <ItemEdit addItemStatus={b.state} addItemGetItems={getItems} typeLevel={typeLevel}/>
@@ -285,9 +288,7 @@ console.log("value: ", value);
 setStatus(value);
 }
 const searchDate = () =>{
-setSpinner(true); 
-console.log("date: ", date[0]);
-console.log("status: ", status);
+setSpinner(true);  
 const body = {
     func: "getGroups",
     d1: date[0],
@@ -296,7 +297,6 @@ const body = {
 }; 
 axios.post("/api/post/Gate", body).then((res) => { 
     setSpinner(false);
-    console.log("group: ", res.data);  
     if(res.data.data.error){
         console.log("aldaa");
         setGroup([]);
@@ -312,6 +312,7 @@ return<div className={css.GroupLayout}>
      
     </div>
     <div style={{marginBottom: "5px", position: "relative"}}>
+        <Button onClick={groupItems}><RedoOutlined rotate={280} /></Button>
         <RangePicker showToday defaultValue={[ moment("2022-09-12", dateFormat), moment("2022-09-12", dateFormat)]} format={dateFormat} onChange={dateOnchange}/>
         <Select value={status} style={{width: 120}} onChange={selectStatus} 
             options={[
@@ -319,7 +320,7 @@ return<div className={css.GroupLayout}>
             {value: 1, label: <div style={{color: "green"}}>Active </div>},
             {value: 0, label: 'Invisible'}, 
             {value: 2,label: <div style={{color: "red"}}>Disable </div>,}]}/>
-        <Button onClick={searchDate} icon={<SearchOutlined  />}></Button>
+        <Button onClick={searchDate}  type="primary"><SearchOutlined  /></Button>
 
         <div className={css.ClearTable}><Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Clear</Button></div>
     </div>

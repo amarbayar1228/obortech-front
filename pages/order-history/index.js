@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import BaseLayout from "../../components/Layout/BaseLayout";
-import { SolutionOutlined,ExclamationCircleOutlined, ArrowLeftOutlined } from "@ant-design/icons";
+import { SolutionOutlined,ExclamationCircleOutlined, ArrowLeftOutlined,RedoOutlined } from "@ant-design/icons";
 import {Button, Collapse, Divider, Empty, Image, Modal, Spin, Space, DatePicker, Table, Tag, Input} from "antd";
 import css from "./style.module.css";
 import { UserOutlined,SearchOutlined  } from "@ant-design/icons";
@@ -13,8 +13,8 @@ const { Panel } = Collapse;
 const { confirm } = Modal;
 const OrderHistory = () => { 
   const basketContext = useContext(BasketContext);
-  const [date1, setDate1] = useState("");
-  const [date2, setDate2] = useState("");
+  const [date1, setDate1] = useState(null);
+  const [date2, setDate2] = useState(null);
   const [loading, setLoading]= useState(false);
   const [loadingPage, setLoadingPage]= useState(true);
   const [isModalUserInfo, setIsModalUserInfo] = useState(false);
@@ -76,38 +76,51 @@ const OrderHistory = () => {
     setIdIndex("");
   };
 const getOders = () =>{
+  setDate1(null)
+  setDate2(null)
   setLoading(true);
   setLoadingPage(true);
   const body = {}
 if (localStorage.getItem("pkId")) {
 const body = {func: "getUserInfo", pkId: localStorage.getItem("pkId")};
   axios.post("/api/post/Gate", body).then((res) => {
-  setTodayDateState("2022-10-10");
+  // setTodayDateState("2022-10-10");
+  setTodayDateState("---- -- --"); 
   console.log("res: ", res.data.data);
 // admin bolon operator all order historys
 if(res.data.data.isSuperAdmin == 1 || res.data.data.isSuperAdmin == 2 ){
-  const mounths = ["01","02","03","04","05","06","07","08","09","10","11","12",]; var date = new Date(); var d1 =  date.getFullYear() + "-" + mounths[date.getMonth()] + "-" + date.getDate() + "";   
-  setTodayDateState(d1); 
-  const body2 = {func:"getOrders", d1: d1, d2: d1, } 
+  const mounths = ["01","02","03","04","05","06","07","08","09","10","11","12",]; 
+  var date = new Date(); 
+  var d1 =  date.getFullYear() + "-" + mounths[date.getMonth()] + "-" + date.getDate() + "";   
+  setTodayDateState("---- -- --"); 
+  const body2 = {func:"getOrders", d1: "2022-03-01", d2: d1, } 
   axios.post("/api/post/Gate", body2).then((res)=>{
-    console.log("admin and operator order historys: ", res.data.data); setOrderNull(1);  setLoadingPage(false); setLoading(false);  setOrderHdr(res.data.data);
+    console.log("admin and operator order historys: ", res.data.data); 
+       const dateS = res.data.data;  
+          dateS.sort((a, b) => {
+            return new Date(b.date_) - new Date(a.date_); // descending
+          })  
+    setOrderNull(1);  setLoadingPage(false); setLoading(false);  setOrderHdr(dateS);
   }).catch((err)=>{console.log("err: ", err)})
   // User all order historys
   }else if(res.data.data.isSuperAdmin == 0){
     const mounths = ["01","02","03","04","05","06","07","08","09","10","11","12",]; var date = new Date(); var d1 =  date.getFullYear() + "-" + mounths[date.getMonth()] + "-" + date.getDate() + "";  
-    setTodayDateState(d1);
+    // setTodayDateState(d1);
+    setTodayDateState("---- -- --"); 
     const bodyUser = {
-    func:"getOrderUserID", d1: d1, d2: d1,pkId: localStorage.getItem("pkId")}
-    axios.post("/api/post/Gate", bodyUser).then((res)=>{
-      console.log("user data: ", res.data.data); setOrderNull(1);  setLoadingPage(false); setLoading(false); setOrderHdr(res.data.data);
+    func:"getOrderUserID", d1: "2022-03-01", d2: d1,pkId: localStorage.getItem("pkId")}
+    axios.post("/api/post/Gate", bodyUser).then((res)=>{  
+      const dateS = res.data.data;  
+      dateS.sort((a, b) => {
+        return new Date(b.date_) - new Date(a.date_); // descending
+      }) 
+      setOrderNull(1);  setLoadingPage(false); setLoading(false); setOrderHdr(dateS);
     }).catch((err)=>{console.log("err: ", err)})  
   } 
 }).catch((err) => {console.log(err)});
 } else {setOrderNull(0); setLoadingPage(false); setLoading(false);} 
 }
- 
-  // admin orderHistory
- 
+  
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
     setSearchText(selectedKeys[0]);
@@ -435,7 +448,8 @@ const groupDeitalsFunc = (data, index) =>{
 
 {/* ------------------------------end--------------------------------------------------------------------- */}
 <div style={{marginBottom: "10px"}}>
-  <RangePicker size="small" showToday defaultValue={[ moment(todayDateState, dateFormat), moment(todayDateState, dateFormat)]} format={dateFormat} onChange={dateOnchange}/>
+  <Button onClick={getOders} size="small"><RedoOutlined rotate={280} /></Button>
+  <RangePicker size="small" showToday  format={dateFormat} onChange={dateOnchange} value={date1 ? [moment(date1, dateFormat), moment(date2, dateFormat)] : null}/>
   <Button onClick={searchDate} size="small" icon={<SearchOutlined/>}></Button>
 </div>
 

@@ -14,11 +14,11 @@ const [typeLevelValue, setTypeLevelValue] = useState(14);
 const [typeLevelSub, setTypeLevelSub] = useState(14);
 const [typeSubValue, setTypeSubValue] = useState(0);
 const [levelSpin, setLevelSping] = useState(false);
-const showModal = () => {
-console.log("edit modal", props.addItemStatus.type_);
+const [disableBtn, setDisableBtn] = useState(false);
+const showModal = () => { 
 // console.log("14", typeLevelValue);
 if(props.addItemStatus.type_ === 18 || props.addItemStatus.type_ === 19 || props.addItemStatus.type_ === 20){
-    console.log("type: 14");
+    
     setTypeLevelValue(14);
 
     setLevelSping(true);
@@ -34,7 +34,6 @@ if(props.addItemStatus.type_ === 18 || props.addItemStatus.type_ === 19 || props
         setTypeLevelSub(props.addItemStatus.type_);
     }).catch((err)=>console.log("err"));
 }else if(props.addItemStatus.type_ === 21 || props.addItemStatus.type_ === 23 || props.addItemStatus.type_ === 25 ||  props.addItemStatus.type_ === 27 || props.addItemStatus.type_ === 29){
-    console.log("type: 15");
     setTypeLevelValue(15);
      
     setLevelSping(true);
@@ -51,7 +50,6 @@ if(props.addItemStatus.type_ === 18 || props.addItemStatus.type_ === 19 || props
     }).catch((err)=>console.log("err"));
 
 }else if(props.addItemStatus.type_ === 22 || props.addItemStatus.type_ === 24 || props.addItemStatus.type_ === 26 ||props.addItemStatus.type_ === 28 || props.addItemStatus.type_ === 30){
-    console.log("type: 16");
     setTypeLevelValue(16);
     setLevelSping(true);
     const body = {
@@ -67,7 +65,6 @@ if(props.addItemStatus.type_ === 18 || props.addItemStatus.type_ === 19 || props
     }).catch((err)=>console.log("err"));
 
 }else if(props.addItemStatus.type_ === 31){
-    console.log("type: 17");
     setTypeLevelValue(17);
     setLevelSping(true);
     const body = {
@@ -117,14 +114,13 @@ const imgWindow = window.open(src);
 imgWindow?.document.write(image.outerHTML);
 };
 const onChangeImageUpdate = ({ fileList: newFileList }) => {
+
 console.log("newFileList: ", newFileList);
 setImgNullText("");
 setFileListUpdate(newFileList);
 };
-const  onFinishEdit= (values) =>{ 
-console.log("values: ", values);
-console.log("pkId", itemInfo.pkId);
-console.log("zyrag: ", fileListUpdate);
+const  onFinishEdit= (values) =>{  
+setDisableBtn(true)
 // console.log("state: ", fileListUpdate);
 // console.log("editStatus: ", editStatus);
 // console.log("idPk: ", idPk);
@@ -148,12 +144,14 @@ const body ={
         description:
             'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
         });
+        setDisableBtn(false);
         setIsModalOpen(false); 
-        props.addItemGetItems();
+        props.searchDate();
     }else{
+        setDisableBtn(false);
         message.success("Success");
         setIsModalOpen(false); 
-        props.addItemGetItems();
+        props.searchDate();
     } 
   
     }).catch((err) => {console.log("err", err)});  
@@ -189,7 +187,7 @@ const onChangeTypeSub = (e) =>{
 }
 return <div>
 <Tooltip title="Edit">
-    <Button size="small" className={css.BtnReject}  icon={<EditOutlined />} onClick={showModal} style={{margin: "0px 5px", color: "rgb(22 78 99)",background: "rgb(165 243 252)",borderColor: "rgb(108 151 167)"}}></Button>
+    <Button size="small" className={css.BtnReject}  icon={<EditOutlined />} onClick={showModal} style={{margin: "0px 5px"}}></Button>
 </Tooltip>
 
 <Modal title="Edit item" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
@@ -250,7 +248,7 @@ initialValues={{
 </>
 
 {/* <div><Button onClick={()=> formEdit.resetFields()}>Reset</Button></div> */}
-<Form.Item><div style={{marginBottom: "-35px"}}><Button type="primary" htmlType="submit" className="login-form-button" size="large" style={{width: "100%"}}>Update</Button></div></Form.Item> 
+<Form.Item><div style={{marginBottom: "-35px"}}><Button type="primary" htmlType="submit" className="login-form-button" size="large" style={{width: "100%"}} disabled={disableBtn}>Update</Button></div></Form.Item> 
 </Form> 
 </Modal>
 </div>

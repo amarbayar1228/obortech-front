@@ -1,7 +1,7 @@
 import { Badge, Button, DatePicker, Image, Input, message, Select, Space, Table, Tooltip } from "antd";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import {SearchOutlined ,CheckOutlined, ExclamationCircleOutlined, FormOutlined, ClearOutlined, StarOutlined,SolutionOutlined, FundViewOutlined,DeleteOutlined, EditOutlined} from "@ant-design/icons";
+import {SearchOutlined ,CheckOutlined, ExclamationCircleOutlined, RedoOutlined, ClearOutlined, StarOutlined,SolutionOutlined, FundViewOutlined,DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import css from "./style.module.css"
 import StatusChangeModal from "../../StatusChangeModal";
@@ -26,22 +26,29 @@ const [sortedInfo, setSortedInfo] = useState({});
 const [searchText, setSearchText] = useState('');
 const [searchedColumn, setSearchedColumn] = useState('');   
 const [typeLevel, setType] = useState(null);
-const [selectLevel, setSelectLevel] = useState(-1);
+const [selectLevel, setSelectLevel] = useState(-1); 
 const searchInput = useRef(null); 
 
-const [date, setDate] = useState([]); 
+const [date, setDate] = useState(null); 
 const [status, setStatus] = useState(-1);
 useEffect(()=>{ 
     getItems();
 },[]);
 
-const getItems = () => {
+const getItems = () => { 
+    setDate(null)
     setSpinner(true);
     const body = {
     func: "getItems",
     status: "0,1"
     };
     axios.post("/api/post/Gate", body).then((res) => { 
+        // const date = res.data.getItems.list;  
+        //   date.sort((a, b) => {
+        //     return new Date(b.date_) - new Date(a.date_); // descending
+        //   }) 
+       
+
     setSpinner(false); 
     setItemData(res.data.getItems.list);
     }).catch((err) => {message.error(err)}); 
@@ -147,19 +154,19 @@ const data = itemData ? itemData.map((r, i)=>(
     action: ""
 }];
 const columns = [
-    // {
-    // title: <div className={css.TableTitle}>Date</div>,   
-    // dataIndex: 'date',
-    // key: 'date', 
-    // width: 120,
-    // fixed: 'left', 
+    {
+    title: <div className={css.TableTitle}>Date</div>,   
+    dataIndex: 'date',
+    key: 'date', 
+    width: 120,
+    fixed: 'left', 
     // ...getColumnSearchProps('date'), 
     // filteredValue: filteredInfo.date || null,
     // onFilter: (value, record) => record.date.includes(value),
-    // // sorter: (a, b) => a.date.length - b.date.length,
-    // sortOrder: sortedInfo.columnKey === 'date' ? sortedInfo.order : null,
-    // ellipsis: true,
-    // },
+    sorter: (a, b) =>  new Date(a.date) - new Date(b.date),
+    // sortOrder: sortedInfo.columnKey === 'date' ? sortedInfo.order : null, 
+    ellipsis: true,
+    },
     {
     title:<div className={css.TableTitle}>Image</div>,  
     dataIndex: 'img',
@@ -230,9 +237,9 @@ const columns = [
     // ...getColumnSearchProps('state'), 
     render: (a) => <div>
 
-        {a.status == 1 ? (<Tooltip title="Active"><Badge status="success" text="active" style={{color: "#349f3c",fontWeight: "600"}}/></Tooltip>) : 
-        a.status == 0 ? <Tooltip title="Invisible">  <Badge status="default" text="invisible" style={{color: "#8d8d8d",fontWeight: "600"}}/></Tooltip> : 
-        a.status == 2 ? <Tooltip title="Disable">  <Badge status="error" text="Disable" style={{color: "red",fontWeight: "600"}}/></Tooltip>  : ""
+        {a.status == 1 ? (<Tooltip title="Active"><Badge status="success" text="active" style={{color: "#349f3c"}}/></Tooltip>) : 
+        a.status == 0 ? <Tooltip title="Invisible">  <Badge status="default" text="invisible" style={{color: "#8d8d8d"}}/></Tooltip> : 
+        a.status == 2 ? <Tooltip title="Disable">  <Badge status="error" text="Disable" style={{color: "red"}}/></Tooltip>  : ""
         }
         
     </div>, 
@@ -246,21 +253,22 @@ const columns = [
     {title: <div className={css.TableTitle}>Action</div>,   key: 'action', fixed: 'right', width: 140,
     render: (b) => <div className={css.ActionCss}>
          <div style={{display: "flex"}}> 
-         <StatusChangeModal addItemStatus={b.state} addItemGetItems={getItems} />
-         <ItemEdit addItemStatus={b.state} addItemGetItems={getItems} typeLevel={typeLevel}/>
-         <ItemDel addItemStatus={b.state} addItemGetItems={getItems}/> 
+         <StatusChangeModal addItemStatus={b.state} addItemGetItems={searchDate} />
+         <ItemEdit addItemStatus={b.state}  searchDate={searchDate} typeLevel={typeLevel}/>
+         <ItemDel addItemStatus={b.state} addItemGetItems={searchDate}/> 
         </div>   
     </div>,
     },
 ];
 const dateOnchange = (a,b) =>{
+    console.log("onchange", b);
+
 const date1 = [];
 b.forEach(element => { 
-    date1.push(element);
+    date1.push(element); 
 });
-setDate(date1); 
-// setDate1(b[0]);
-// setDate2(b[1]);
+setDate(date1);  
+
 } 
 const selectStatus = (value) =>{
 setStatus(value);
@@ -269,6 +277,7 @@ const selectLevelF = (value) =>{
     setSelectLevel(value);
 }
 const searchDate = () =>{
+    console.log("search");
 setSpinner(true); 
  
 const body = {
@@ -291,28 +300,31 @@ axios.post("/api/post/Gate", body).then((res)=>{
    
 }).catch((err)=>{console.log("err: ", err)}) 
 }
-const onOk = (value) => { 
-  };
+ 
+  const dateEmpty = (a) => {
+    console.log("delete", a);
+  }
 return<div className={css.ItemLayout}>
        <div className={css.StateCss}>
         <ItemAdd getItems={getItems} typeLevel={typeLevel}/> <div className={css.ClearTable}><Button type="dashed" onClick={clearAll} icon={<ClearOutlined />}>Table sort clear</Button></div>
        </div>
        <div style={{marginBottom: "5px"}}>
-        <RangePicker showToday defaultValue={[ moment("2022-09-12", dateFormat), moment("2022-09-12", dateFormat)]} format={dateFormat} onChange={dateOnchange}  onOk={onOk}/>
+        <Button onClick={getItems}><RedoOutlined rotate={280} /></Button>
+        <RangePicker showToday  format={dateFormat} onChange={dateOnchange}  value={date ? [moment(date[0], dateFormat), moment(date[1], dateFormat)] : null}/>
         <Select value={status} style={{width: 120}} onChange={selectStatus} 
             options={[
-            {value: -1, label: <div style={{color: "#096dd9"}}>All</div>},
+            {value: -1, label: <div>All</div>},
             {value: 1, label: <div style={{color: "green"}}>Active </div>},
             {value: 0, label: 'Invisible'}, 
             {value: 2,label: <div style={{color: "red"}}>Disable </div>,}]}/>
         <Select value={selectLevel} style={{width: 120}} onChange={selectLevelF} 
             options={[
-            {value: -1, label: <div style={{color: "#096dd9"}}>All</div>},
+            {value: -1, label: <div>All</div>},
             {value: 1, label: <div>Subscribtion</div>},
             {value: 2, label: <div>Device 6</div>},
             {value: 3, label: 'Device 12'}, 
             {value: 4,label: <div>Items </div>,}]}/>
-        <Button onClick={searchDate} icon={<SearchOutlined shape="#000" />}></Button>
+        <Button onClick={searchDate}  type="primary"><SearchOutlined shape="#000" /></Button>
        </div>
          <Table bordered size="small" columns={columns} dataSource={data} onChange={handleChangeTable} loading={spinner}  scroll={{x:  1000, y: 600 }} pagination={tableParams.pagination} />
 </div>
