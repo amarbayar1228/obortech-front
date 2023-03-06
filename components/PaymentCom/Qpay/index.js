@@ -28,34 +28,40 @@ const checkPay = () =>{
         onOk() { 
             setToogle(true);
             setLoadingQR(true)
-            const body = [];
-            const arr = item;
-            // img tei bol Item, imggui bol Group 
-            arr.forEach((element, i) => {
-            if (element.img) {arr[i].state = 2} else {arr[i].state = 1; arr[i].img = "";}
-            }); 
-            if (localStorage.getItem("pkId")) {   
-            body = {
-                func: "neworder",
-                item: arr,
-                orgId: basketContext.orgNames[0].orgIdstate,
-                totalPrice: props.price, 
-                pkId: localStorage.getItem("pkId"), 
-            }; 
-            } else { 
-            body = {
-                func: "neworder",
-                orgId: basketContext.orgNames[0].orgIdstate,
-                totalPrice: props.price,
-                item: arr, 
-            }; 
-            } 
-                axios.post("/api/post/Gate", body).then((result) => {
-                    console.log("items orderId: ", result.data.orderid); 
-                        setItemOrderId(result.data.orderid)
-                        qpayPay(result.data.orderid);
-
-                },(error) => {console.log(error)});
+            if(props.mongolObot === "mongolObot"){
+                setItemOrderId("123456")
+                qpayPay("123456");
+            }else {
+                const body = [];
+                const arr = item;
+                // img tei bol Item, imggui bol Group 
+                arr.forEach((element, i) => {
+                if (element.img) {arr[i].state = 2} else {arr[i].state = 1; arr[i].img = "";}
+                }); 
+                if (localStorage.getItem("pkId")) {   
+                body = {
+                    func: "neworder",
+                    item: arr,
+                    orgId: basketContext.orgNames[0].orgIdstate,
+                    totalPrice: props.price, 
+                    pkId: localStorage.getItem("pkId"), 
+                }; 
+                } else { 
+                body = {
+                    func: "neworder",
+                    orgId: basketContext.orgNames[0].orgIdstate,
+                    totalPrice: props.price,
+                    item: arr, 
+                }; 
+                } 
+                    axios.post("/api/post/Gate", body).then((result) => {
+                        console.log("items orderId: ", result.data.orderid); 
+                            setItemOrderId(result.data.orderid)
+                            qpayPay(result.data.orderid);
+    
+                    },(error) => {console.log(error)});
+            }
+           
 
         },
         onCancel() {
@@ -85,7 +91,7 @@ const qpayPay = (orderid) =>{
             invoice_description: props.userInfo.description,
             sender_branch_code:"SALBAR1",
             amount: props.mntUsdPrice[0].mnt,
-            callback_url:"https://pay.obortech.io/payment"
+            callback_url:"https://pay.obortech.io/payment?invoice=" + orderid
         }
         axios.post("/api/qpay/invoicePost/invoice", invo, {headers: headers}).then((res)=>{ 
             console.log("invoice: ", res.data);

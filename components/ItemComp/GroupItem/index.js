@@ -42,6 +42,7 @@ const groupItems = () => {
         func:"getGroups",   
     }
     axios.post("/api/post/Gate", body).then((res) => { 
+        console.log("group item components");
         setSpinner(false);
          const date = res.data.data.list;  
           date.sort((a, b) => {

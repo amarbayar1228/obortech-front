@@ -294,7 +294,7 @@ return <div>
         </div>
         <div>
             <div>Bank</div>
-            <div style={{color: "#8D9299", fontSize: "14px"}}>Qpay</div>
+            <div style={{color: "#8D9299", fontSize: "14px"}}>Khan bank</div>
         </div>
         {/* <div style={{ paddingRight: "30px", paddingLeft: "30px"}}>
             <div>Order NO</div>
@@ -315,7 +315,7 @@ return <div>
                 </div> 
             ))} 
             <div className={css.OrderItem}>
-                <div>Shipping</div>
+                <div>Fee</div>
                 <div style={{fontWeight: "600"}}>$0</div>
             </div>
         <div className={css.OrderTotal}>
@@ -326,32 +326,53 @@ return <div>
 
     <div className={css.LayoutOrder2}>
 
-        <div style={{width: "100%",  paddingLeft: "30px"}}> 
+    <div style={{width: "100%",  paddingLeft: "30px", paddingTop: "10px"}}>
+            <div className={css.OrderTitle}>
+                <div className={css.OrderLine}></div>
+                <div>BANK DETAILS</div>
+            </div>
+        <div className={css.BankDetails}>  
+            <div className={css.BankDetailsChild}>
+                <div className={css.OrgName}>Payment id: </div>
+                <div style={{fontSize: "14px"}}>712536946515663</div>
+            </div>
+            <div className={css.BankDetailsChild} >
+                <div className={css.OrgName}>Payment wallet: </div>
+                <div style={{textAlign: "left", fontSize: "14px", width: "55%"}}>Khaan bank app</div>
+            </div>
+            <div className={css.BankDetailsChild}>
+                <div className={css.OrgName}>Payment amount: </div>
+                <div style={{textAlign: "left", fontSize: "14px", width: "55%"}}>112.69</div>
+            </div>
+            <div className={css.BankDetailsChild}>
+                <div className={css.OrgName}>Trx fee: </div>
+                <div style={{textAlign: "left", fontSize: "14px", width: "55%"}}>1.13</div>
+            </div>
+            <div className={css.BankDetailsChild}>
+                <div className={css.OrgName}>Payment currency: </div>
+                <div style={{textAlign: "left", fontSize: "14px", width: "55%"}}>MNT</div>
+            </div> 
+        </div>
+    </div> 
+
+        <div style={{width: "100%",  paddingLeft: "30px", paddingTop: "10px"}}> 
             <div className={css.OrderTitle}>
                 <div className={css.OrderLine}></div>
                 <div>BILLING DETAILS</div>
             </div>
-            <div style={{display: "flex", padding: "3px 0px", color: "#8D9299"}}>
+            <div className={css.BankDetailsChild}>
                 <div className={css.OrgName}>Organization name: </div>
                 <div style={{fontSize: "14px"}}>Obortech</div>
             </div>
-            <div style={{display: "flex", padding: "3px 0px", color: "#8D9299"}}>
+            <div className={css.BankDetailsChild}>
                 <div  className={css.OrgName}>Organization ID: </div>
                 <div style={{textAlign: "left", fontSize: "14px"}}> Obogti760 </div>
             </div>
-        </div>
-
-        <div style={{width: "100%",  paddingLeft: "30px", paddingTop: "10px"}}>
-            <div className={css.OrderTitle}>
-                <div className={css.OrderLine}></div>
-                <div>BILLING DETAILS</div>
-            </div>
-            
-            <div style={{display: "flex", padding: "3px 0px", color: "#8D9299"}}>
+            <div className={css.BankDetailsChild}>
                 <div className={css.OrgName}>Email: </div>
                 <div style={{fontSize: "14px"}}>Amarbayar</div>
             </div>
-            <div style={{display: "flex", padding: "3px 0px", color: "#8D9299"}}>
+            <div className={css.BankDetailsChild}>
                 <div className={css.OrgName}>Description: </div>
                 <div style={{textAlign: "left", fontSize: "14px", width: "55%"}}> 28 Green Tower, Street name, New York </div>
             </div>

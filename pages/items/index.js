@@ -32,6 +32,7 @@ const ItemGroup = () => {
   const getGroupItemsS1 = () => {
     const body = {func: "getGroups", status: 1};
     axios.post("/api/post/Gate", body).then((res) => {
+      console.log("group items");
         setGroupState1(res.data.data.list);
       }).catch((err) => {console.log("err", err)}); 
   }; 
@@ -112,7 +113,7 @@ const ItemGroup = () => {
           message.warn("It's in the cart!");
           basketContext.basketStateFunc();
           popFunc();
-          getItems();
+          // getItems();
         }
       });
       if (notArrived) {

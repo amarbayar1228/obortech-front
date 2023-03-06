@@ -493,7 +493,7 @@
     align-items: center;
     border-bottom: 2px solid var(--red);
     color: red;
-    font-size: 17px;
+    font-size: 14px;
     margin: 0px 7px;
     /* margin-bottom: -14px; */
     cursor: pointer;
@@ -501,7 +501,7 @@
 
 .HdrLink {
     cursor: pointer;
-    font-size: 17px;
+    font-size: 14px;
     margin: 0px 12px;
     display: flex;
     align-items: center;

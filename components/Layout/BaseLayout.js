@@ -416,7 +416,7 @@ export default function BaseLayout(props) {
   </div> 
 {/* Header Desktop ==============================================================================  deerh mobile */}
   <div className={css.HeaderItem}>
-    <div style={{display: "flex", alignItems: "center", marginRight: "30px"}}> 
+    <div style={{display: "flex", alignItems: "center", marginRight: "30px", textTransform: "uppercase", fontWeight: "600"}}> 
     {localPkId ? 
     <div className={router.pathname === "/" ? css.Active : css.HdrLink}>
       <Link href="/">
@@ -633,54 +633,6 @@ props.pageName === "payment" ? css.ContentPayment : css.Content}>
 </div> 
  </div> 
 }
-
-
-
-
-{/* <Content>
-  {props.pageName === "home" || props.pageName === "login" || props.pageName === "items" || props.pageName === "register" ||
-  props.pageName === "basket"  || props.pageName === "security" ? null : (
-    <Breadcrumb style={{margin: "4px 10px",}}>
-      <Breadcrumb.Item><AppstoreOutlined /></Breadcrumb.Item>
-      <Breadcrumb.Item href="/payment"> <ShoppingCartOutlined /> </Breadcrumb.Item>
-      <Breadcrumb.Item> <UserOutlined /></Breadcrumb.Item>
-    </Breadcrumb>
-  )}
-
-  <Layout className="site-layout-background">
-    {localStorageUserId === "Null" ? ("" ) : (
-      <>
-        {props.pageName === "home" || props.pageName === "login" || props.pageName === "items" ||props.pageName === "register" || 
-        props.pageName === "basket" || props.pageName === "profile" ? null : (
-          <Sider trigger={null} collapsible collapsed={basketContext.collapsed} onCollapse={() => basketContext.onCollapse()} style={{ background: "#fff", color: "red", fontWeight: "500", fontSize: "18px",}} width={200}>
-            <Menu theme="light" mode="inline"
-              defaultSelectedKeys={[
-                    router.pathname == "/dashboard" ? "1"
-                  : router.pathname == "/affiliate" ? "6"
-                  : router.pathname == "/confirmation-list" ? "7"
-                  : router.pathname == "/add-item" ? "2"
-                  : router.pathname == "/order-history" ? "3"
-                  : router.pathname == "/add-admin" ? "4"
-                  : router.pathname == "/referral" ? "5"
-                  : "",
-              ]}
-              defaultOpenKeys={[router.pathname == "/dashboard" ? "1" : "6",]} items={items2} onClick={getItem}/>
-            <div className={css.Toggle}>
-              <Button style={{ width: "100%" }} className={css.ToggleBtn} onClick={() => basketContext.toggle()} type="primary" 
-                icon={basketContext.collapsed ? (<DoubleLeftOutlined /> ) : (<DoubleRightOutlined />)}
-              ></Button>
-            </div>
-          </Sider>
-        )}
-      </>
-    )}
-    <Content>
-      <Row justify="center" style={{ minHeight: "84.7vh", background: "#fff",}}>
-        <Col className="content" span={23}>{props.children}</Col>
-      </Row>
-    </Content>
-  </Layout>  
-</Content> */}
 
 </>
   );

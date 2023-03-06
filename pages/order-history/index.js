@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import BaseLayout from "../../components/Layout/BaseLayout";
 import { SolutionOutlined,ExclamationCircleOutlined, ArrowLeftOutlined,RedoOutlined } from "@ant-design/icons";
-import {Button, Collapse, Divider, Empty, Image, Modal, Spin, Space, DatePicker, Table, Tag, Input} from "antd";
+import {Button, Collapse, Divider, Empty, Image, Modal, Spin, Space, DatePicker, Table, Tag, Input, Skeleton} from "antd";
 import css from "./style.module.css";
 import { UserOutlined,SearchOutlined  } from "@ant-design/icons";
 import axios from "axios";
@@ -9,6 +9,7 @@ import BasketContext from "../../context/basketContext/BasketContext";
 import moment from "moment"; 
 import Highlighter from 'react-highlight-words';
 import Invoice from "../../components/OrderHistory/Invoice";
+import ItemInfo from "../../components/OrderHistory/ItemInfo";
 const { Panel } = Collapse;
 const { confirm } = Modal;
 const OrderHistory = () => { 
@@ -343,7 +344,7 @@ const groupDeitalsFunc = (data, index) =>{
 {/* ================================================= item info modal ===================================================================== */}
 <Modal title={basketContext.t('itemsInfo', { ns: 'order-history' })} open={isModalOpen} footer={null} onOk={handleOk} onCancel={handleCancel}>
   <div>
-  {orderSpin ? <Spin className={css.SpinCss}/> : 
+  {orderSpin ? <Skeleton active /> : 
     <>  
     <div className={css.OrderHdrLaCss}>
       <div className={css.DateCss}>
@@ -351,7 +352,9 @@ const groupDeitalsFunc = (data, index) =>{
         <div>  {orderHdrInfo.date}</div>
       </div>
     </div>
-    <div className={css.ItemInfoScroll}>  
+    <ItemInfo modalOrderItem={modalOrderItem} />
+
+    {/* <div className={css.ItemInfoScroll}>  
       {showItem === 0 ? 
       <>
       {modalOrderItem.map((e, i)=>(
@@ -409,7 +412,7 @@ const groupDeitalsFunc = (data, index) =>{
               </div>
       </div>
       }
-    </div>
+    </div> */}
 
     <div className={css.TotalPriceInfo}>{basketContext.t('totalPrice', { ns: 'order-history' })}:   {showItem === 0 ? orderHdrInfo.price : itemHdrData.price} $ </div>
     </> } 

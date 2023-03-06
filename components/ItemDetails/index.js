@@ -32,7 +32,7 @@ useEffect(()=>{
     // }
     // getGroup();
 
-},[props])
+},[])
 
     return <div> 
                 {item.map((e, i)=>(

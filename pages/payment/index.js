@@ -25,6 +25,7 @@ import Invoice from "../../components/PaymentCom/Invoice";
 import ReCAPTCHA from "react-google-recaptcha";
 import TextArea from "antd/lib/input/TextArea";
 import Qpay from "../../components/PaymentCom/Qpay";
+import OrderCheck from "../../components/PaymentCom/OrderCheck";
 const { TabPane } = Tabs;
 const { Step } = Steps;
 const { Paragraph } = Typography;
@@ -79,6 +80,8 @@ const Payment = () => {
   const [mntPrice, setMntPrice] = useState(0);
   const [sourceData, setSourceDate] = useState();
   const [orderIdSt, setOrderIdSt] = useState(0);
+  const [newOrderId, setNewOrderId] = useState(0);
+  const [callBackUrl, setCallBackUrl] = useState(0);
   //const { amaraa } = router.query;
   useEffect(() => {
  
@@ -118,11 +121,25 @@ const Payment = () => {
   }, [basketContext]); 
  
   useEffect(()=>{
+  
     getDefMaximFi(); 
     getSource();
-    if(localStorage.getItem("orderId")){
-      const order = localStorage.getItem("orderId");
+    if(localStorage.getItem("orderid")){
+      const order = localStorage.getItem("orderid");
       router.push("/payment/?orderid=" + order);
+      console.log("url",window.location.href);
+
+      const body = {
+        func: "getPayment",
+        orderID: localStorage.getItem("orderid")
+      }
+      axios.post("/api/post/Gate", body).then((res)=>{
+        console.log("res: ", res.data);
+        
+      }).catch((err)=>{
+        console.log("err: ", err);
+      })
+
     }
    
   },[])
@@ -201,26 +218,13 @@ const Payment = () => {
   //   const urlParams = new URLSearchParams(url_string);
   //   console.log("query: "); 
   //   console.log("url param: ", urlParams);
-  // }
-
-  const dateFunction = () => {
-   
-    console.log("date time: ");
+  // } 
+const orderOrgId2 = () => {
+  const rs = usdStateTarget + coinStateTarget + tugrugStateTarget;
     
-    const mounths = ["01","02","03","04","05","06","07","08","09","10","11","12"];
-    var date = new Date();
-    setDateState(date.getFullYear() + "/" + mounths[date.getMonth()] + "/" + date.getDate()); 
-    var datePlus = new Date();
-    datePlus.setDate(datePlus.getDate() + 30);
-    setDatePlusState(datePlus.getFullYear() +"/" +mounths[datePlus.getMonth()] +"/" +datePlus.getDate()); 
-  };  
-
-  const orderOrgId2 = () => {
-    const rs = usdStateTarget + coinStateTarget + tugrugStateTarget;
-     
-    setDollarResult(rs);
-    setIsModalVisibleOrgId2(true);
-  }; 
+  setDollarResult(rs);
+  setIsModalVisibleOrgId2(true);
+}; 
 const handleOkOrgId2 = () => {
 // console.log("orgIdInput2: ", orgIdInput2);
 // console.log("dollarResult: ", dollarResult);
@@ -301,13 +305,13 @@ axios.post("/api/post/Gate", bodyNoId).then((result) => {
   }
 };
  
-  const handleCancelOrgId2 = () => {
-    setOrgIdRadio("");
-    console.log("cancel: ", checkFalse);
-    formOrgId.resetFields();
-    setCheckFalse(false); 
-    setIsModalVisibleOrgId2(false);
-  }; 
+const handleCancelOrgId2 = () => {
+  setOrgIdRadio("");
+  console.log("cancel: ", checkFalse);
+  formOrgId.resetFields();
+  setCheckFalse(false); 
+  setIsModalVisibleOrgId2(false);
+}; 
 
 const orgIdChoose = (e) =>{ 
   console.log("e.target: ", e.target.value); 
@@ -398,7 +402,7 @@ const onFinishFailedUserInfo = (values) =>{
 
 const bankOnChange = (e) =>{
   console.log("bank", e.target.value);
-  setBankValue(e.target.value);
+  setBankValue(e.target.value); 
 
 }
 const onSearch = (value) => {
@@ -434,6 +438,40 @@ const placeOrder = () =>{
     // const arr = basketContext.basketState;
     console.log('foreign');
   }
+  if(bankValue === "Mongol"){
+    console.log("basket: ", basketContext);
+    console.log("object", totalPriceState);
+  const body = [];
+      const arr = basketContext.basketState;
+      // img tei bol Item, imggui bol Group 
+      arr.forEach((element, i) => {
+      if (element.img) {arr[i].state = 2} else {arr[i].state = 1; arr[i].img = "";}
+      }); 
+      if (localStorage.getItem("pkId")) {   
+      body = {
+          func: "neworder",
+          item: arr,
+          orgId: basketContext.orgNames[0].orgIdstate,
+          totalPrice: totalPriceState, 
+          pkId: localStorage.getItem("pkId"), 
+      }; 
+      } else {
+      body = {
+          func: "neworder",
+          orgId: basketContext.orgNames[0].orgIdstate,
+          totalPrice: totalPriceState,
+          item: arr, 
+      }; 
+      } 
+          axios.post("/api/post/Gate", body).then((result) => {
+              console.log("items orderId: ", result.data.orderid); 
+              setNewOrderId(result.data.orderid);
+              router.push("/payment/?orderid=" + result.data.orderid); 
+                  // setItemOrderId(result.data.orderid)
+                  // qpayPay(result.data.orderid);
+
+          },(error) => {console.log(error)});
+  }
 }
 const BackFunc = () =>{
    
@@ -462,6 +500,7 @@ const sucessOrder = () =>{
 }
 const removeBask = () =>{ 
   setSuccessOrderValue(4);
+  
 } 
 const invoBack = () =>{
   setInvoiceBoolean(false)
@@ -1033,6 +1072,7 @@ key: i, children: i === 0?
 : null }
          {showBank ?
           <MongolianObot userInfo={userInfo}  mnBack={mnBack} sucessOrder={sucessOrder} sourceData={sourceData} mntUsdPrice={mntUsdPrice} defaultMaxFi={defaultMaxFi} 
+          newOrderId={newOrderId}
           orgIdRadio={basketContext.orgNames[0].orgIdstate} 
           item={basketContext.basketState}  price={totalPriceState}/>
         : null }
@@ -1059,23 +1099,26 @@ key: i, children: i === 0?
   ),
 },
 ];
-
+ 
   return (
     <div style={{fontFamily: "Roboto Condensed, sans-serif"}}>
-      <BaseLayout pageName="payment">
+      <BaseLayout pageName="payment"> 
         <div style={{ fontSize: "14px", fontWeight: "500" }}> 
         {/*  */}
           {basketContext.basketState.length === 0 || basketContext.orgId === undefined ? (
 
             <div style={successOrderValue === 2 ? {display: "none"} : {fontSize: "15px", marginTop: "50px"}}>
-                {orderIdSt.length > 2 ? <div> {orderIdSt}
+                {orderIdSt.length > 2 ? <div> 
+                  {orderIdSt}
+                  <OrderCheck />
                   {/* <Button onClick={qpay}>qpay</Button> */}
                 </div>:  
-              <> 
-                {/* <Button onClick={qpay}>qpay</Button> */}
-                <Empty description="Cart is empty"></Empty> 
-              </>
-          }
+                      <> 
+                        {/* <Button onClick={qpay}>qpay</Button> */}
+
+                        <Empty description="Cart is empty"></Empty> 
+                      </>
+                  }
 
             </div>
           ) : (

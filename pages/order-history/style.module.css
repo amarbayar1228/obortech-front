@@ -60,8 +60,8 @@
     display: flex;
     box-shadow: 1px 3px 4px 0px rgb(0 0 0 / 5%);
     justify-content: space-between;
-    /* border-radius: 5px; */
     padding: 5px 10px;
+    margin-bottom: 10px;
 }
 
 .OrderTitle {

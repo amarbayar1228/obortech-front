@@ -5,6 +5,7 @@ import css from "./style.module.css"
 import moment from 'moment';
 import axios from "axios";
 import WithdrawalRequest from "./WithdrawalRequest";
+import Qpay from "../Qpay";
 const monthFormat = 'YYYY/MM';
 const validateMessages = {
     required: "${label} is required!",
@@ -47,41 +48,43 @@ const onChange = (e) => {
     // console.log('radio checked', e.target.value);
     setBankValue(e.target.value);
 };
+
+
 const sendAxios = (a) =>{ 
    
 const body = [];
 const arr = item;
 const axiosOrderId = [];
 // img tei bol Item, imggui bol Group 
-arr.forEach((element, i) => {
-if (element.img) {arr[i].state = 2} else {arr[i].state = 1; arr[i].img = "";}
-}); 
-if (localStorage.getItem("pkId")) {   
-body = {
-    func: "neworder",
-    item: arr,
-    orgId: basketContext.orgNames[0].orgIdstate,
-    totalPrice: props.price, 
-    pkId: localStorage.getItem("pkId"), 
-}; 
-} else { 
-body = {
-    func: "neworder",
-    orgId: basketContext.orgNames[0].orgIdstate,
-    totalPrice: props.price,
-    item: arr, 
-}; 
-} 
+// arr.forEach((element, i) => {
+// if (element.img) {arr[i].state = 2} else {arr[i].state = 1; arr[i].img = "";}
+// }); 
+// if (localStorage.getItem("pkId")) {   
+// body = {
+//     func: "neworder",
+//     item: arr,
+//     orgId: basketContext.orgNames[0].orgIdstate,
+//     totalPrice: props.price, 
+//     pkId: localStorage.getItem("pkId"), 
+// }; 
+// } else { 
+// body = {
+//     func: "neworder",
+//     orgId: basketContext.orgNames[0].orgIdstate,
+//     totalPrice: props.price,
+//     item: arr, 
+// }; 
+// } 
 
-const isOk2 = false;
+// const isOk2 = false;
 if(payOrderId === 0){ 
 // item insert
-axios.post("/api/post/Gate", body).then((result) => {
-    console.log("res orderId: ", result.data.orderid); 
-    isOk2 = true;
-    axiosOrderId = result.data.orderid 
-    setPayOrderId(result.data.orderid);
-},(error) => {console.log(error)});
+// axios.post("/api/post/Gate", body).then((result) => {
+//     console.log("res orderId: ", result.data.orderid); 
+//    isOk2 = true;
+    axiosOrderId = props.newOrderId; 
+    setPayOrderId(props.newOrderId);
+// },(error) => {console.log(error)});
 
 }
 
@@ -153,7 +156,7 @@ console.log("axiosOrderID: ", axiosOrderId);
     }).catch((err)=>{
     console.log("err". err);
     })
-},500)
+},800)
 
 
 
@@ -172,7 +175,8 @@ console.log("axiosOrderID: ", axiosOrderId);
 
 
 const onFinished = (values) =>{ 
-
+localStorage.setItem("orderid", props.newOrderId);
+localStorage.setItem("orderIdIndex", 0);
 payNum === 1 || payNum === 2 ? sendAxios("mongolPay") : sendAxios("mongol") 
 props.mnBack("isOk"); 
 if(payNum === 1 || payNum === 2 ){
@@ -192,6 +196,8 @@ const onFinishFailed = () =>{
     console.log("error");
 }
 const obotFunc = () =>{   
+localStorage.setItem("orderid", props.newOrderId);
+localStorage.setItem("orderIdIndex", 0);
 
 payNum === 1 || payNum === 2 ? sendAxios("obotPay") : sendAxios("obot")
     if(payNum === 1){
@@ -246,7 +252,7 @@ return <div className={css.Flex}>
     <div className={css.Basket}> 
         <div>Cart</div>
         <div style={{display: "flex", textAlign: "left", fontWeight: "600", color: "#4d5057"}}>
-            <div style={{width: "50px"}}>Zurag</div>
+            <div style={{width: "50px"}}>Image</div>
             <div style={{width: "100px"}}>Item name</div>
             <div style={{width: "40px"}}>Cnt</div>
             <div style={{width: "53px"}}>Price</div>
@@ -356,6 +362,7 @@ return <div className={css.Flex}>
                     <Image alt="Obertech" preview={false} src="/img/qpay.png" width={60}/> 
                     {/* <div>Qpay</div> */}
                  </Button> 
+              
             </div>
            
         </div>
@@ -509,10 +516,7 @@ return <div className={css.Flex}>
         <div> </div>
     </div> 
     <div style={{display:"flex", justifyContent: "center"}}> 
-    <div style={{ width: "430px"}}>
-    <Image alt="Obertech" preview={false} src="/img/qpay.png" width={180} style={{marginBottom: "10px"}}/>
-    <Image alt="Obertech" preview={false} src="/img/qr.png" width={180} style={{marginBottom: "10px"}}/>
-    </div>
+        <Qpay mongolObot={"mongolObot"} userInfo={props.userInfo} mntUsdPrice={props.mntUsdPrice} />
     </div>
     </div>
     : ""          

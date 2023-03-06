@@ -239,3 +239,12 @@
     text-align: left;
     text-transform: uppercase;
 }
+
+.BankDetails {
+    padding-bottom: 5px;
+}
+
+.BankDetailsChild {
+    display: flex;
+    color: #8D9299;
+}
