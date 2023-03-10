@@ -235,8 +235,8 @@ axios.post("/api/post/Gate", bodyNoId).then((result) => {
             preview={false}
             alt="Landscape picture"
             src="/img/Khanbank.png"
-            width={300}
-            height={60}
+            width={250}
+            height={50}
           />
         </div>
         <div className={css.AllCard}>
@@ -316,7 +316,7 @@ axios.post("/api/post/Gate", bodyNoId).then((result) => {
               </div>
             </div>
           </div>
-          <div className={css.Zaawar}>
+          {/* <div className={css.Zaawar}>
             <div className={css.Zurag}>
               <Image
                 alt="Landscape picture"
@@ -343,7 +343,7 @@ axios.post("/api/post/Gate", bodyNoId).then((result) => {
                 Заавар харах / See gude{" "}
               </Button>{" "}
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
        

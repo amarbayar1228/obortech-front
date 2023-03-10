@@ -279,7 +279,9 @@ const selectLevelF = (value) =>{
 const searchDate = () =>{
     console.log("search");
 setSpinner(true); 
- 
+ if(date){
+
+
 const body = {
     func: "getItems",
     d1: date[0],
@@ -299,6 +301,10 @@ axios.post("/api/post/Gate", body).then((res)=>{
 
    
 }).catch((err)=>{console.log("err: ", err)}) 
+
+}else {
+    getItems();
+}
 }
  
   const dateEmpty = (a) => {
