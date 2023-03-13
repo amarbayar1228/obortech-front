@@ -69,7 +69,8 @@ const clearFunc = () =>{
                   </div>
                 </div>
                 <div className={css.Price}>
-                  <div> Cnt: {e.cnt}</div>
+                   
+                  <div> Quantity: {e.cnt}</div>
                   <div>{parseInt(e.price).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}$ {e.itemPriceTotal}</div>
                 </div>
               </div>

@@ -14,6 +14,7 @@ const [matches, setMatches] = useState(window.matchMedia("(min-width: 768px)").m
  
 
 useEffect(()=>{
+    console.log("object", props.item);
     window.matchMedia("(min-width: 768px)").addEventListener('change', e => setMatches( e.matches ));
     // console.log("item DetailsL ", props);
     // doorh js dere bichne
@@ -27,6 +28,7 @@ useEffect(()=>{
             pkId: props.item,
             };
         axios.post("/api/post/Gate", body).then((res) => {  
+            console.log("res: ", res.data);
             setItem(res.data.data.itemList);
         }).catch((err) => {console.log("err", err)});
     // }
@@ -38,7 +40,7 @@ useEffect(()=>{
                 {item.map((e, i)=>(
                     <div className={css.ItemGLayout} key={i}>
                     <div style={{margin: "3px"}}>
-                      <Image preview={false} alt="Obertech" src="/img/avatar.png" style={{display: "flex",  margin: "0px auto", justifyContent: "center", width:"40px"}}/>
+                      <Image preview={false} alt="Obertech" src={e.img ? "data:image/gif;base64," + e.img : "/img/avatar.png"} style={{display: "flex",  margin: "0px auto", justifyContent: "center", width:"40px"}}/>
                     </div>
                     <div className={css.ItemsDetLa}>
                         <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", width: "115px"}}>{e.title}</div>

@@ -1152,7 +1152,7 @@ key: i, children: i === 0?
                     </Modal>
                   </>
                 )} 
-                {bankPay === undefined ? current > 0 && (<Button style={{margin: "0 8px",}}onClick={BackFuncVnd}>Back1</Button>) :  <Button onClick={BackFunc} disabled={disableBtn}>Back</Button>}
+                {bankPay === undefined ? current > 0 && (<Button style={{margin: "0 8px",}}onClick={BackFuncVnd}>Back</Button>) :  <Button onClick={BackFunc} disabled={disableBtn}>Back</Button>}
               </div>
             </div>
           )}
