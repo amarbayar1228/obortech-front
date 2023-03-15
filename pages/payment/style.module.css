@@ -26,7 +26,8 @@
 }
 
 .ItemSize::-webkit-scrollbar {
-  width: 5px;
+  height: 3px;
+  width: 3px;
 }
 
 /* .ItemSize::-webkit-scrollbar-track {
@@ -1349,6 +1350,10 @@
 }
 
 @media only screen and (max-width: 1024px) {
+  .AlertDesk {
+    width: 100%;
+  }
+
   .PayContent {
     flex-direction: column;
   }

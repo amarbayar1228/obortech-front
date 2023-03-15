@@ -953,6 +953,7 @@
 }
 
 .GrpItems::-webkit-scrollbar {
+    height: 3px;
     width: 3px;
 }
 
@@ -1029,7 +1030,7 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        /* width: 350px; */
+        width: 230px;
     }
 
     .Gphprice {
@@ -1084,6 +1085,57 @@
 
 
 @media only screen and (max-width: 561px) {
+    .CrSize {
+        display: flex;
+        background-color: #4d5057;
+        height: 52px;
+        align-items: center;
+    }
+
+    .CopyRight {
+        flex-direction: column;
+    }
+
+    .Socialapp {
+        width: 80%;
+    }
+
+    .myAcc {
+        width: 80%;
+    }
+
+    .SendMail {
+        width: 80%;
+    }
+
+    .ItemTitlecss {
+        width: 96%;
+    }
+
+    .GroupItems {
+        width: 90%;
+    }
+
+    .GrpPic {
+        width: 50%;
+    }
+
+    .GrpDetails {
+        width: 50%;
+    }
+
+    .FtLayout {
+        flex-direction: column;
+    }
+
+    /* .GetTouchInput {
+        width: 100%;
+    } */
+
+    .myAcc {
+        margin: 20px 0px;
+    }
+
     .mySwiper {
         height: 350px;
     }
@@ -1138,7 +1190,7 @@
     }
 
     .Gphdescrip {
-        /* width: 300px; */
+        width: 126px;
     }
 
     .ContText {

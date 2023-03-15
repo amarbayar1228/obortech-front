@@ -43,7 +43,7 @@ useEffect(()=>{
                       <Image preview={false} alt="Obertech" src={e.img ? "data:image/gif;base64," + e.img : "/img/avatar.png"} style={{display: "flex",  margin: "0px auto", justifyContent: "center", width:"40px"}}/>
                     </div>
                     <div className={css.ItemsDetLa}>
-                        <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", width: "115px"}}>{e.title}</div>
+                        <div style={{whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", width: "69px"}}>{e.title}</div>
                         <div className={css.ItemsPrice}>
                           <div></div>
                           <div>Price: {e.itemPriceD}$</div>

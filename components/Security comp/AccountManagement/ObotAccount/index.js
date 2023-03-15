@@ -28,8 +28,7 @@ const handleChange = (value) => {
 const errorCapt = (err) =>{
     console.log("err", err);
 }
-const onChangeAddress = (e) =>{
-   
+const onChangeAddress = (e) =>{ 
     setWalletAddress(e.target.value)
 }
     return<div>

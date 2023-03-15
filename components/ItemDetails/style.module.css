@@ -101,6 +101,11 @@
 }
 
 @media only screen and (max-width: 561px) {
+    .ItemsPrice {
+        display: flex;
+        justify-content: flex-start;
+    }
+
     .GroupPackageDtl {
         height: 240px;
     }

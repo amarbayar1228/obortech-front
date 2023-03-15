@@ -338,13 +338,13 @@ const ItemGroup = () => {
                     <div style={{textTransform: "uppercase"}}>Get in touch</div>
                   </div>
                   <div>
-                      <Input placeholder="Name" style={{marginBottom: "10px"}} />
+                      <Input placeholder="Name" style={{marginBottom: "10px"}}  className={css.GetTouchInput}/>
                   </div>
                   <div>
-                      <Input placeholder="Email" style={{marginBottom: "10px"}}/>
+                      <Input placeholder="Email" style={{marginBottom: "10px"}} className={css.GetTouchInput}/>
                   </div>
                   <div>
-                      <TextArea placeholder="Message" style={{marginBottom: "10px"}}/>
+                      <TextArea placeholder="Message" style={{marginBottom: "10px"}} className={css.GetTouchInput}/>
                   </div>
                    <div>
                       <Button type="primary">SUBMIT MESSAGE</Button>
