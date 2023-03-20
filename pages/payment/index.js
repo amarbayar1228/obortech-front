@@ -930,24 +930,27 @@ const steps = [
 {showBank ? 
 <Tabs defaultActiveKey="4" items={["a","b", "c"].map((Icon, i) => {  
 
-return {label: i === 0 ?  <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>Cart</div> :
-            i === 1 ? <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>QR code</div> : 
-            i === 2 ? <div  style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>Invoice</div> : null,
+return {label:  i === 0 ? <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>{bankValue === "Qpay" ? "" : "Cart"}</div>  
+            : i === 1 ? <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>Qpay</div> : 
+            i === 2 ? <div  style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>{bankValue === "Qpay" ? "" : "Invoice"}</div> : null ,
 
-key: i, children: i === 0? 
+key: i, children: i === 0 ? 
 <div className={css.PaymentCss}>
   {bankValue === "khan" ? 
   <KhanBank userInfo={userInfo} mntPrice={mntPrice} sourceData={sourceData} totalPriceState={totalPriceState} orgIdRadio={basketContext.orgNames[0].orgIdstate} basketState={basketContext.basketState} sucessOrder={sucessOrder}/> 
   : null}
   {/* Mongol banknuudaas songoso n  */}
   {bankValue === "Golomt" ? <div>Golomt </div> : null}
-  {bankValue === "Qpay" ? <div> Qpay </div> : ""}
+  {bankValue === "Qpay" ? <div>  <Qpay userInfo={userInfo}  mnBack={mnBack} sucessOrder={sucessOrder} sourceData={sourceData} mntUsdPrice={mntUsdPrice} defaultMaxFi={defaultMaxFi} 
+    orgIdRadio={basketContext.orgNames[0].orgIdstate} 
+    item={basketContext.basketState}  price={totalPriceState}/>
+  </div> : ""}
   {bankValue === "Tdb" ? <div>TDB bank <TdbBank /></div> : null} 
   {bankValue === "Monpay" ? <div>Monpay2 </div> : null}
 
 </div> 
 
-: i === 1 ? <div className={css.PaymentCss}> 
+:  i === 1 ? <div className={css.PaymentCss}> 
     {bankValue === "Qpay" ?  <Qpay userInfo={userInfo}  mnBack={mnBack} sucessOrder={sucessOrder} sourceData={sourceData} mntUsdPrice={mntUsdPrice} defaultMaxFi={defaultMaxFi} 
     orgIdRadio={basketContext.orgNames[0].orgIdstate} 
     item={basketContext.basketState}  price={totalPriceState}/> : 

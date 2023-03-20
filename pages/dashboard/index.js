@@ -88,6 +88,7 @@ const columns = [
     render: (a)=>
       <div>  
         {a === 2 ? <Badge status="processing" text="Processing" /> : ""}
+        <div>Cancel</div>
       </div>
   },
   // {
