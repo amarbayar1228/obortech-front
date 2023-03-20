@@ -511,7 +511,7 @@ const getDefMaximFi = () =>{
     func: "getDefMaximFi",
 }
 axios.post("/api/post/Gate", body).then((res)=>{
-    console.log("rs", res.data);
+    console.log("getDefMaximFi", res.data);
     setDefaultMaxFi(res.data.data);
 }).catch((err)=>{
     console.log("err");
@@ -1119,7 +1119,7 @@ key: i, children: i === 0 ?
                       <> 
                         {/* <Button onClick={qpay}>qpay</Button> */}
 
-                        <Empty description="Cart is empty"></Empty> 
+                        <Empty description="Cart is empty"></Empty>  
                       </>
                   }
 

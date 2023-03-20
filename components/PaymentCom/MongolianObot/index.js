@@ -6,6 +6,7 @@ import moment from 'moment';
 import axios from "axios";
 import WithdrawalRequest from "./WithdrawalRequest";
 import Qpay from "../Qpay";
+import { Router, useRouter } from "next/router";
 const monthFormat = 'YYYY/MM';
 const validateMessages = {
     required: "${label} is required!",
@@ -29,6 +30,7 @@ const [item, setItem] = useState(null);
 const [isModalOpen, setIsModalOpen] = useState(false);
 const [successPay, setSuccesPay] = useState([]);
 const [payOrderId, setPayOrderId] = useState(0);
+const router = useRouter();
 const showModal = () => {
   setIsModalOpen(true);
 };
@@ -158,19 +160,6 @@ console.log("axiosOrderID: ", axiosOrderId);
     })
 },800)
 
-
-
-
-
-
-    
-
-
-
-
-
-
-
 }
 
 
@@ -208,6 +197,51 @@ payNum === 1 || payNum === 2 ? sendAxios("obotPay") : sendAxios("obot")
     }
    
  
+}
+
+const newObotSend = () =>{
+  console.log("props: ", props);
+  const amountCounUsd = props.price * props.defaultMaxFi.Coin / 100;
+  console.log("coinii 20huwiin huwid Dollar n: ", amountCounUsd);
+    const payOrders = [];
+    if(localStorage.getItem("pkId")){
+        payOrders ={
+            func: "payOrders",
+            orgID: props.orgIdRadio,
+            orderID: props.newOrderId, 
+            amount: amountCounUsd,
+            totalPrice: props.price,
+            method: 1, //khanBank
+            paymentMethod: 8,  
+            coin: props.mntUsdPrice[0].obot, 
+            description: props.userInfo.description, 
+            sourceDesc: props.sourceData[7].nameeng,
+            source: props.sourceData[7].index_, 
+            userPkId: localStorage.getItem("pkId"),
+        }
+    }else {
+        payOrders ={
+            func: "payOrders",
+            orgID: props.orgIdRadio,
+            orderID: props.newOrderId, 
+            amount: amountCounUsd,
+            totalPrice: props.price,
+            method:  1, //khanBank
+            paymentMethod: 8,  
+            coin:  props.mntUsdPrice[0].obot, 
+            description: props.userInfo.description, 
+            sourceDesc: props.sourceData[7].nameeng,
+            source: props.sourceData[7].index_, 
+        }
+    } 
+    console.log("asdf: ", payOrders);
+    axios.post("/api/post/Gate", payOrders).then((res)=>{
+        console.log("res: ", res.data);
+        res.data.data === "success" ?   router.push("http://3.144.78.34:3000/dashboard?orderId=" + props.newOrderId ) : null
+        
+    }).catch((err)=>{
+        console.log("err");
+    })
 }
 return <div className={css.Flex}>
 <div className={css.Cont1}>
@@ -530,12 +564,15 @@ return <div className={css.Flex}>
     <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
             <div style={{marginBottom: "10px"}}><Image alt="Obertech" preview={false} src="/img/OBORTECH_logo_H_clean.svg" width={160}/></div>
                 <div style={{display: "flex", alignItems: "center"}}>
-                    <div style={{color: "#4d5057", fontSize: "16px", fontWeight: "600"}}>Obortech address:  </div>
+                    <div style={{color: "#4d5057", fontSize: "16px", fontWeight: "600"}}>Obortech address2:  </div>
                     <div><Input  maxLength={16} size="middle" placeholder={"Your current Obortech address is"} style={{marginLeft: "9px",width: "300px"}}/></div>
                 </div>
             <div style={{width: "73%", marginTop: "20px"}}>
                 <div style={{color: "#4d5057", fontSize: "16px", fontWeight: "600", marginBottom: "5px"}}>Total price: {props.mntUsdPrice[0].obot.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, "$&,")} Obot</div>
-                <Button style={{width: "100%"}} type="primary" onClick={obotFunc}>Pay now</Button>
+                <Button style={{width: "100%"}} type="primary"
+                //  onClick={obotFunc}
+                onClick={newObotSend}
+                 >Pay now</Button> 
             </div>
             {payNum === 1 ? <div style={{marginTop: "30px"}}>
                  <WithdrawalRequest />
