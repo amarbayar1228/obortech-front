@@ -47,6 +47,7 @@ useEffect(()=>{
     
     setItem(props.item);
 },[props])
+
 const onChange = (e) => {
     // console.log('radio checked', e.target.value);
     setBankValue(e.target.value);
@@ -244,7 +245,7 @@ const newObotSend = () =>{
             
             
             setTimeout(()=>{
-                basketContext.removeBasketStorage();
+                localStorage.removeItem("basket");
                 setObotLoad(false);
                 router.push("http://3.144.78.34:3000/dashboard?orderId=" + props.newOrderId );
             },800)
@@ -566,7 +567,7 @@ return <div className={css.Flex}>
         <div> </div>
     </div> 
     <div style={{display:"flex", justifyContent: "center"}}> 
-        <Qpay mongolObot={"mongolObot"} userInfo={props.userInfo} mntUsdPrice={props.mntUsdPrice} />
+        <Qpay mongolObot={"mongolObot"} userInfo={props.userInfo} mntUsdPrice={props.mntUsdPrice} orderId={props.newOrderId}/>
     </div>
     </div>
     : ""          

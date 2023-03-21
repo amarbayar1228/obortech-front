@@ -83,6 +83,7 @@ const Payment = () => {
   const [orderIdSt, setOrderIdSt] = useState(0);
   const [newOrderId, setNewOrderId] = useState(0);
   const [callBackUrl, setCallBackUrl] = useState(0);
+  const [showCheckPay, setShowCheckPay] = useState(false)
   //const { amaraa } = router.query;
   useEffect(() => {
  
@@ -125,23 +126,33 @@ const Payment = () => {
   
     getDefMaximFi(); 
     getSource();
-    if(localStorage.getItem("orderid")){
-      const order = localStorage.getItem("orderid");
-      router.push("/payment/?orderid=" + order);
-      console.log("url",window.location.href);
 
-      const body = {
-        func: "getPayment",
-        orderID: localStorage.getItem("orderid")
-      }
-      axios.post("/api/post/Gate", body).then((res)=>{
-        console.log("res: ", res.data);
-        
-      }).catch((err)=>{
-        console.log("err: ", err);
-      })
-
+    const urlId = window.location.href; 
+    const orderIdUrl = urlId.split("http://127.0.0.1:3000/payment?orderid=");
+    console.log("array: ", orderIdUrl);     
+    if(orderIdUrl[1] === undefined){
+        console.log("undef");
+        setShowCheckPay(false)
+    }else{  
+      setShowCheckPay(true);
     }
+    // if(localStorage.getItem("orderid")){
+    //   const order = localStorage.getItem("orderid");
+    //   router.push("/payment/?orderid=" + order);
+    //   console.log("url",window.location.href);
+
+    //   const body = {
+    //     func: "getPayment",
+    //     orderID: localStorage.getItem("orderid")
+    //   }
+    //   axios.post("/api/post/Gate", body).then((res)=>{
+    //     console.log("res: ", res.data);
+        
+    //   }).catch((err)=>{
+    //     console.log("err: ", err);
+    //   })
+
+    // }
    
   },[])
   const totalPriceFunction = () => { 
@@ -1103,7 +1114,9 @@ key: i, children: i === 0 ?
   ),
 },
 ];
- 
+ const reloadFunc = () =>{
+  location.replace("http://127.0.0.1:3000/payment?orderid=230321361");
+ }
   return (
     <div style={{fontFamily: "Roboto Condensed, sans-serif"}}>
       <BaseLayout pageName="payment"> 
@@ -1119,8 +1132,12 @@ key: i, children: i === 0 ?
                 </div>:  
                       <> 
                         {/* <Button onClick={qpay}>qpay</Button> */}
+                        {showCheckPay ? 
                         <CheckPay />
-                        <Empty description="Cart is empty"></Empty>  
+                        : <> 
+                        <Button onClick={reloadFunc}>reload</Button>
+                        <Empty description="Cart is empty"></Empty> 
+                        </> }
                       </>
                   }
 

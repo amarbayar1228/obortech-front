@@ -20,6 +20,7 @@ const ItemGroup = () => {
   const basketContext = useContext(BasketContext);
   const [spinState, setSpinState] = useState(true); 
   const [groupState1, setGroupState1] = useState([]);
+  const [groupItemShow, setGroupItemShow] = useState(false);
   useEffect(() => { 
     getItems();
     getGroupItemsS1();
@@ -32,8 +33,13 @@ const ItemGroup = () => {
   const getGroupItemsS1 = () => {
     const body = {func: "getGroups", status: 1};
     axios.post("/api/post/Gate", body).then((res) => {
-      console.log("group items");
-        setGroupState1(res.data.data.list);
+      console.log("group items", res.data.data);
+        if(res.data.data.error === "nodata"){
+          setGroupItemShow(false)
+        }else if(res.data.data.list){
+          setGroupState1(res.data.data.list);
+        }
+        
       }).catch((err) => {console.log("err", err)}); 
   }; 
   const getItems = () => {
@@ -190,6 +196,7 @@ const ItemGroup = () => {
                 </div>Pacakge items</div>
             </div>
           </div>
+              {groupItemShow ? 
           <div className={css.GroupCss}>
             {groupState1.map((e, i)=>(
                 <div className={css.GroupItems} key={i}>
@@ -235,7 +242,8 @@ const ItemGroup = () => {
               <div style={{display: "flex",marginTop: "25px", justifyContent: "flex-end", width: "100%"}}> 
                 <PaginationComp />
              </div>
-          </div>
+          </div> : null}
+
             
          {/* <div className={css.GroupLayoutCss}> 
            <div>

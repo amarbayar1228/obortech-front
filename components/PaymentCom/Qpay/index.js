@@ -29,8 +29,8 @@ const checkPay = () =>{
             setToogle(true);
             setLoadingQR(true)
             if(props.mongolObot === "mongolObot"){
-                setItemOrderId("123456")
-                qpayPay("123456");
+                setItemOrderId(props.orderId)
+                qpayPay(props.orderId);
             }else {
                 const body = [];
                 const arr = item;
@@ -88,10 +88,10 @@ const qpayPay = (orderid) =>{
             invoice_code: "SMARTHUB_ECOSYS_INVOICE",
             sender_invoice_no: "1234567",
             invoice_receiver_code: orderid,
-            invoice_description: props.userInfo.description,
+            invoice_description: props.mongolObot === "mongolObot"? props.userInfo : props.userInfo.description,
             sender_branch_code:"SALBAR1",
-            amount: props.mntUsdPrice[0].mnt,
-            callback_url:"https://pay.obortech.io/payment?invoice=" + orderid
+            amount: props.mongolObot === "mongolObot" ? props.mntUsdPrice : props.mntUsdPrice[0].mnt,
+            callback_url:"http://pay.obortech.io/payment?orderid=" + orderid
         }
         axios.post("/api/qpay/invoicePost/invoice", invo, {headers: headers}).then((res)=>{ 
             console.log("invoice: ", res.data);
@@ -210,7 +210,11 @@ const qpayPay = (orderid) =>{
     axios.post("/api/post/Gate", getPayment).then((res)=>{
     console.log("payGet: ", res.data);
     // setSuccesPay(res.data.data[0]);      // ene bol tululiin hariultuud
-    
+    if(monbolObot === "mongolObot"){
+        if(res.data.data === "success") {
+            location.replace("http://127.0.0.1:3000/payment?orderid=" + itemOrderId)
+        }
+    } else {
         props.sucessOrder();  
         basketContext.removeBasketStorage(); 
         const bodySmart = {
@@ -223,6 +227,8 @@ const qpayPay = (orderid) =>{
         }).catch((err)=>{
             console.log("object", err);
         });
+    }
+       
     
     })
     
@@ -242,12 +248,12 @@ const qpayPay = (orderid) =>{
                 {/* <div>
                     {countDown}
                 </div> */}
-                <div style={{color: "#4d5052", fontSize: "22px", fontWeight: "600", textAlign: "center"}}> Price: {props.mntUsdPrice[0].mnt.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}₮</div>
+                <div style={{color: "#4d5052", fontSize: "22px", fontWeight: "600", textAlign: "center"}}> Price: {props.mongolObot === "mongolObot" ? props.mntUsdPrice :  props.mntUsdPrice[0].mnt.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}₮</div>
                 <Image src={"data:image/png;base64," + imgQr.qr_image} preview={true} alt="obortech" width={200}/>
                 <div style={{margin: "10px 0px"}}> <Button type="primary" onClick={payCheckFunc} size="large" icon={<CheckOutlined />}>Check pay</Button></div>
                 <div style={{display: "flex", width: "84%", flexFlow: "wrap"}}>
                    
-                      {imgQr.urls.map((e, i)=>(
+                      {/* {imgQr.urls.map((e, i)=>(
                          <a href={e.link}  key={i}> 
                         <div style={{display: "flex", flexDirection: "column", alignItems: "center", width: "112px",   margin: "10px 0px"}}> 
                         
@@ -256,7 +262,7 @@ const qpayPay = (orderid) =>{
                      
                         </div>
                         </a>
-                     ))}
+                     ))} */}
                      
                 </div>
             </div>
