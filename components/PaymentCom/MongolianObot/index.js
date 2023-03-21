@@ -6,7 +6,7 @@ import moment from 'moment';
 import axios from "axios";
 import WithdrawalRequest from "./WithdrawalRequest";
 import Qpay from "../Qpay";
-import { Router, useRouter } from "next/router";
+import { Router, useRouter } from "next/router"; 
 const monthFormat = 'YYYY/MM';
 const validateMessages = {
     required: "${label} is required!",
@@ -31,6 +31,7 @@ const [isModalOpen, setIsModalOpen] = useState(false);
 const [successPay, setSuccesPay] = useState([]);
 const [payOrderId, setPayOrderId] = useState(0);
 const [obotLoad, setObotLoad] = useState(false);
+const [totalPrice, setTotalPrice] = useState();
 const router = useRouter();
 const showModal = () => {
   setIsModalOpen(true);
@@ -567,7 +568,7 @@ return <div className={css.Flex}>
         <div> </div>
     </div> 
     <div style={{display:"flex", justifyContent: "center"}}> 
-        <Qpay mongolObot={"mongolObot"} userInfo={props.userInfo} mntUsdPrice={props.mntUsdPrice} orderId={props.newOrderId}/>
+        <Qpay mongolObot={"mongolObot"} userInfo={props.userInfo} mntUsdPrice={props.mntUsdPrice} orderId={props.newOrderId} totalPrice={props.price}/>
     </div>
     </div>
     : ""          

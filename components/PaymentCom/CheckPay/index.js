@@ -6,8 +6,8 @@ import BasketContext from "../../../context/basketContext/BasketContext";
 import css from "./style.module.css"
 import moment from 'moment'; 
 import WithdrawalRequest from "../MongolianObot/WithdrawalRequest";
+import { useRouter } from "next/router"; 
 import Qpay from "../Qpay";
-import { useRouter } from "next/router";
 const monthFormat = 'YYYY/MM';
 const validateMessages = {
     required: "${label} is required!",
@@ -37,6 +37,7 @@ const [getPaymentList, setGetPaymentList] = useState([]);
 const [hanshnuud, setHanshnuud] = useState();
 const [loadingPage, setLoadingPage] = useState(false);
 const [mntPrice, setMntPrice] = useState(0);
+const [totalPrice, setTotalPrice] = useState(0);
 const [orderId, setOrderId] = useState(0);
 
 const router = useRouter();
@@ -83,6 +84,7 @@ axios.post("/api/post/Gate", body).then((res) => {
                     console.log("MNT rate: ",  mntRate);
                     // Mongol bank vniin dvn
                     console.log("total price: ", res.data.data[0].totalprice);
+                    setTotalPrice(res.data.data[0].totalprice);
                     console.log("Amount: ", res.data.data[0].amount);
                     let totalSum = res.data.data[0].totalprice - res.data.data[0].amount;
                     let totalPrice= totalSum * mntRate;
@@ -342,6 +344,38 @@ const newObotSend = () =>{
     }).catch((err)=>{
         console.log("err");
     })
+}
+const testFuncQpay = () =>{
+    const body = {
+        login: "login"
+    }
+    axios.post("/api/qpay/post/token", body).then((res)=>{
+    console.log("login Token: ", res.data);
+
+    const headers = { 
+        'Authorization': "Bearer " + res.data.access_token,
+    };  
+        const invo ={ 
+            invoice_code: "SMARTHUB_ECOSYS_INVOICE",
+            sender_invoice_no: "1234567",
+            invoice_receiver_code: "order id item",
+            invoice_description:"test",
+            sender_branch_code:"SALBAR1",
+            amount:130,
+            callback_url:"https://pay.obortech.io/payment?123456" 
+        }
+        axios.post("/api/qpay/invoicePost/invoice", invo, {headers: headers}).then((res)=>{ 
+            console.log("invoice: ", res.data);
+            console.log("invo: ", invo);
+            // setObjectId(res.data.invoice_id);
+            // setImgQr(res.data);
+            // setLoadingQR(false);
+        }).catch((err)=>{
+            console.log("err", err);
+        }) 
+    }).catch((err)=>{
+    console.log("err", err);
+    });
 }
 return<div> 
 {loadingPage ?
@@ -629,7 +663,8 @@ return<div>
         <div> </div>
     </div> 
     <div style={{display:"flex", justifyContent: "center"}}> 
-        <Qpay mongolObot={"mongolObot"} userInfo={"orgId"} mntUsdPrice={mntPrice} orderId={orderId}/>
+  
+        <Qpay mongolObot={"mongolObotCheck"} userInfo={"description"} mntUsdPrice={mntPrice} orderId={orderId} totalPrice={totalPrice}/>
     </div>
     </div>
     : ""          

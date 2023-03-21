@@ -31,6 +31,9 @@ const checkPay = () =>{
             if(props.mongolObot === "mongolObot"){
                 setItemOrderId(props.orderId)
                 qpayPay(props.orderId);
+            }else if(props.mongolObot === "mongolObotCheck"){
+                setItemOrderId(props.orderId)
+                qpayPay(props.orderId);
             }else {
                 const body = [];
                 const arr = item;
@@ -57,8 +60,7 @@ const checkPay = () =>{
                     axios.post("/api/post/Gate", body).then((result) => {
                         console.log("items orderId: ", result.data.orderid); 
                             setItemOrderId(result.data.orderid)
-                            qpayPay(result.data.orderid);
-    
+                            qpayPay(result.data.orderid); 
                     },(error) => {console.log(error)});
             }
            
@@ -87,10 +89,10 @@ const qpayPay = (orderid) =>{
         const invo ={ 
             invoice_code: "SMARTHUB_ECOSYS_INVOICE",
             sender_invoice_no: "1234567",
-            invoice_receiver_code: orderid,
-            invoice_description: props.mongolObot === "mongolObot"? props.userInfo : props.userInfo.description,
+            invoice_receiver_code: orderid + "",
+            invoice_description: props.mongolObot === "mongolObotCheck" ? props.userInfo : props.userInfo.description,
             sender_branch_code:"SALBAR1",
-            amount: props.mongolObot === "mongolObot" ? props.mntUsdPrice : props.mntUsdPrice[0].mnt,
+            amount:  props.mongolObot === "mongolObotCheck" ? props.mntUsdPrice : props.mntUsdPrice[0].mnt,
             callback_url:"http://pay.obortech.io/payment?orderid=" + orderid
         }
         axios.post("/api/qpay/invoicePost/invoice", invo, {headers: headers}).then((res)=>{ 
@@ -169,17 +171,18 @@ const qpayPay = (orderid) =>{
  }
  const backSuccessOrder = () =>{
     const payOrders = [];
+    // end deer huuwal tuluh heseg dutuu ym bga 
     if(localStorage.getItem("pkId")){
         payOrders ={
             func: "payOrders",
             orgID: props.orgIdRadio,
             orderID: itemOrderId, 
-            amount: props.mntUsdPrice[0].mnt,
-            totalPrice: props.price,
+            amount:  props.mongolObot === "mongolObotCheck" ? props.mntUsdPrice : props.mntUsdPrice[0].mnt,
+            totalPrice: props.mongolObot === "mongolObot" || props.mongolObot === "mongolObotCheck" ? props.totalPrice : props.price,
             method:  3, // MNT
             paymentMethod: 5,  // Qpay
             coin: 0, 
-            description: props.userInfo.description, 
+            description: props.mongolObot === "mongolObotCheck" ? props.useInfo : props.userInfo.description, 
             sourceDesc: props.sourceData[4].nameeng,
             source: props.sourceData[4].index_, 
             userPkId: localStorage.getItem("pkId"),
@@ -189,12 +192,12 @@ const qpayPay = (orderid) =>{
             func: "payOrders",
             orgID: props.orgIdRadio,
             orderID: itemOrderId, 
-            amount: props.mntUsdPrice[0].mnt,
-            totalPrice: props.price,
+            amount:  props.mongolObot === "mongolObotCheck" ? props.mntUsdPrice : props.mntUsdPrice[0].mnt,
+            totalPrice: props.mongolObot === "mongolObot" || props.mongolObot === "mongolObotCheck" ? props.totalPrice : props.price,
             method:  3, // MNT
             paymentMethod: 5,  // Qpay
             coin: 0, 
-            description: props.userInfo.description, 
+            description: props.mongolObot === "mongolObotCheck" ? props.useInfo : props.userInfo.description, 
             sourceDesc: props.sourceData[4].nameeng,
             source: props.sourceData[4].index_,  
         }
@@ -210,7 +213,7 @@ const qpayPay = (orderid) =>{
     axios.post("/api/post/Gate", getPayment).then((res)=>{
     console.log("payGet: ", res.data);
     // setSuccesPay(res.data.data[0]);      // ene bol tululiin hariultuud
-    if(monbolObot === "mongolObot"){
+    if(mongolObot === "mongolObot" || mongolObot === "mongolObotCheck"){
         if(res.data.data === "success") {
             location.replace("http://127.0.0.1:3000/payment?orderid=" + itemOrderId)
         }
@@ -248,12 +251,12 @@ const qpayPay = (orderid) =>{
                 {/* <div>
                     {countDown}
                 </div> */}
-                <div style={{color: "#4d5052", fontSize: "22px", fontWeight: "600", textAlign: "center"}}> Price: {props.mongolObot === "mongolObot" ? props.mntUsdPrice :  props.mntUsdPrice[0].mnt.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}₮</div>
+                <div style={{color: "#4d5052", fontSize: "22px", fontWeight: "600", textAlign: "center"}}> Price: {props.mongolObot === "mongolObotCheck" ? props.mntUsdPrice :  props.mntUsdPrice[0].mnt.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}₮</div>
                 <Image src={"data:image/png;base64," + imgQr.qr_image} preview={true} alt="obortech" width={200}/>
                 <div style={{margin: "10px 0px"}}> <Button type="primary" onClick={payCheckFunc} size="large" icon={<CheckOutlined />}>Check pay</Button></div>
                 <div style={{display: "flex", width: "84%", flexFlow: "wrap"}}>
                    
-                      {/* {imgQr.urls.map((e, i)=>(
+                      {imgQr.urls.map((e, i)=>(
                          <a href={e.link}  key={i}> 
                         <div style={{display: "flex", flexDirection: "column", alignItems: "center", width: "112px",   margin: "10px 0px"}}> 
                         
@@ -262,7 +265,7 @@ const qpayPay = (orderid) =>{
                      
                         </div>
                         </a>
-                     ))} */}
+                     ))}
                      
                 </div>
             </div>

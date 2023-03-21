@@ -3,9 +3,9 @@ import axios from "axios";
 async function SlugPost(slug, data, headers) {
  
   return new Promise((resolve, reject) => { 
-    // console.log('data: ',data);
-    // console.log("slug: ", slug);
-    // console.log("header", headers);
+    console.log('data: ',data);
+    console.log("slug: ", slug);
+    console.log("header", headers);
     // console.log("get url2--------> " + `${process.env.URL}/${slug}?cat_id=1`);  
     // var q = ''
     // for(const k in query){
