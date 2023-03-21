@@ -30,6 +30,7 @@ const [item, setItem] = useState(null);
 const [isModalOpen, setIsModalOpen] = useState(false);
 const [successPay, setSuccesPay] = useState([]);
 const [payOrderId, setPayOrderId] = useState(0);
+const [obotLoad, setObotLoad] = useState(false);
 const router = useRouter();
 const showModal = () => {
   setIsModalOpen(true);
@@ -203,6 +204,8 @@ const newObotSend = () =>{
   console.log("props: ", props);
   const amountCounUsd = props.price * props.defaultMaxFi.Coin / 100;
   console.log("coinii 20huwiin huwid Dollar n: ", amountCounUsd);
+  console.log("coin: ", props.mntUsdPrice[0].obot + "OBOT");
+  setObotLoad(true);
     const payOrders = [];
     if(localStorage.getItem("pkId")){
         payOrders ={
@@ -237,7 +240,20 @@ const newObotSend = () =>{
     console.log("asdf: ", payOrders);
     axios.post("/api/post/Gate", payOrders).then((res)=>{
         console.log("res: ", res.data);
-        res.data.data === "success" ?   router.push("http://3.144.78.34:3000/dashboard?orderId=" + props.newOrderId ) : null
+        if(res.data.data === "success"){
+            
+            
+            setTimeout(()=>{
+                basketContext.removeBasketStorage();
+                setObotLoad(false);
+                router.push("http://3.144.78.34:3000/dashboard?orderId=" + props.newOrderId );
+            },800)
+            
+        } else {
+            message.error("Error");
+        }
+        
+        
         
     }).catch((err)=>{
         console.log("err");
@@ -563,15 +579,17 @@ return <div className={css.Flex}>
     <div className={css.Content2}>
     <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
             <div style={{marginBottom: "10px"}}><Image alt="Obertech" preview={false} src="/img/OBORTECH_logo_H_clean.svg" width={160}/></div>
-                <div style={{display: "flex", alignItems: "center"}}>
+                {/* <div style={{display: "flex", alignItems: "center"}}>
                     <div style={{color: "#4d5057", fontSize: "16px", fontWeight: "600"}}>Obortech address2:  </div>
                     <div><Input  maxLength={16} size="middle" placeholder={"Your current Obortech address is"} style={{marginLeft: "9px",width: "300px"}}/></div>
-                </div>
+                </div> */}
             <div style={{width: "73%", marginTop: "20px"}}>
                 <div style={{color: "#4d5057", fontSize: "16px", fontWeight: "600", marginBottom: "5px"}}>Total price: {props.mntUsdPrice[0].obot.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, "$&,")} Obot</div>
                 <Button style={{width: "100%"}} type="primary"
                 //  onClick={obotFunc}
                 onClick={newObotSend}
+                loading={obotLoad}
+                disabled={obotLoad}
                  >Pay now</Button> 
             </div>
             {payNum === 1 ? <div style={{marginTop: "30px"}}>

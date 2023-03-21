@@ -26,6 +26,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import TextArea from "antd/lib/input/TextArea";
 import Qpay from "../../components/PaymentCom/Qpay";
 import OrderCheck from "../../components/PaymentCom/OrderCheck";
+import { CheckPay } from "../../components/PaymentCom/CheckPay";
 const { TabPane } = Tabs;
 const { Step } = Steps;
 const { Paragraph } = Typography;
@@ -1118,7 +1119,7 @@ key: i, children: i === 0 ?
                 </div>:  
                       <> 
                         {/* <Button onClick={qpay}>qpay</Button> */}
-
+                        <CheckPay />
                         <Empty description="Cart is empty"></Empty>  
                       </>
                   }
