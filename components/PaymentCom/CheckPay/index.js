@@ -74,16 +74,19 @@ axios.post("/api/post/Gate", body).then((res) => {
 
         // getOrderId
         const urlId = window.location.href; 
-        const orderIdUrl = urlId.split("http://127.0.0.1:3000/payment?orderid=");
+        // local const orderIdUrl = urlId.split("http://127.0.0.1:3000/payment?orderid=");
+        // server const orderIdUrl = urlId.split("http://127.0.0.1:3000/payment?orderid=");
+        const orderIdUrl = urlId.split("http://pay.obortech.io/payment?orderid=");
         console.log("array: ", orderIdUrl);     
         if(orderIdUrl[1] === undefined){
             console.log("undef");
             setShowCheckPay(false);
         }else{ 
-        const body  = {
-            func: "getPayment",
-            orderID:  orderIdUrl[1],
-        }
+            console.log("server url: ", orderIdUrl[1]);
+            const body  = {
+                func: "getPayment",
+                orderID:  orderIdUrl[1],
+            }
         axios.post("/api/post/Gate", body).then((res)=>{
             console.log("getPayment: ", res.data.data.length);
             console.log("getPayment: ", res.data.data);
