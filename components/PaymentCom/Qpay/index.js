@@ -182,7 +182,7 @@ const qpayPay = (orderid) =>{
             method:  3, // MNT
             paymentMethod: 5,  // Qpay
             coin: 0, 
-            description: props.mongolObot === "mongolObotCheck" ? props.useInfo : props.userInfo.description, 
+            description: props.mongolObot === "mongolObotCheck" || props.mongolObot === "mongolObot"  ? props.useInfo : props.userInfo.description, 
             sourceDesc: props.sourceData[4].nameeng,
             source: props.sourceData[4].index_, 
             userPkId: localStorage.getItem("pkId"),
@@ -197,7 +197,7 @@ const qpayPay = (orderid) =>{
             method:  3, // MNT
             paymentMethod: 5,  // Qpay
             coin: 0, 
-            description: props.mongolObot === "mongolObotCheck" ? props.useInfo : props.userInfo.description, 
+            description: props.mongolObot === "mongolObotCheck" || props.mongolObot === "mongolObot"  ? props.useInfo : props.userInfo.description, 
             sourceDesc: props.sourceData[4].nameeng,
             source: props.sourceData[4].index_,  
         }

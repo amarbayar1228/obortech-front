@@ -16,7 +16,9 @@ const [typeSubValue, setTypeSubValue] = useState(0);
 const [levelSpin, setLevelSping] = useState(false);
 const [disableBtn, setDisableBtn] = useState(false);
 const showModal = () => { 
-// console.log("14", typeLevelValue);
+console.log("14", typeLevelValue);
+console.log("props: ", props.addItemStatus);
+
 if(props.addItemStatus.type_ === 18 || props.addItemStatus.type_ === 19 || props.addItemStatus.type_ === 20){
     
     setTypeLevelValue(14);
@@ -73,7 +75,7 @@ if(props.addItemStatus.type_ === 18 || props.addItemStatus.type_ === 19 || props
         type_: 2
     }
     axios.post("/api/post/Gate", body).then((res)=>{
-        console.log("res", res.data);
+        console.log("31 res: ", res.data);
         setLevelSping(false);
         setTypeSubValue(res.data.data);
         setTypeLevelSub(props.addItemStatus.type_);

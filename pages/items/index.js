@@ -37,6 +37,7 @@ const ItemGroup = () => {
         if(res.data.data.error === "nodata"){
           setGroupItemShow(false)
         }else if(res.data.data.list){
+          setGroupItemShow(true)
           setGroupState1(res.data.data.list);
         }
         
@@ -193,7 +194,7 @@ const ItemGroup = () => {
               <div className={css.ItemsTitlechild}>
                 <div className={css.TitleWhiteBackg}>
 
-                </div>Pacakge items</div>
+                </div>Pacakge items {console.log("group Items: ", groupState1)}</div>
             </div>
           </div>
               {groupItemShow ? 

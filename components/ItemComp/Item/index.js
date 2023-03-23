@@ -59,6 +59,8 @@ parid:0,
 type_:2,
 }
 axios.post("/api/post/Gate", itemLevel).then((res)=>{ 
+    console.log("typeLevel: ", res.data.data);
+
 setType(res.data.data);
 }).catch((err)=>{
     console.log("err",err);
