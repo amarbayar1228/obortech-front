@@ -125,7 +125,8 @@ const Payment = () => {
     getSource();
 
     const urlId = window.location.href; 
-    const orderIdUrl = urlId.split("http://127.0.0.1:3000/payment?orderid=");
+    // const orderIdUrl = urlId.split("http://127.0.0.1:3000/payment?orderid=");
+    const orderIdUrl = urlId.split("https://pay.obortech.io/payment?orderid=");
     console.log("array: ", orderIdUrl);     
     if(orderIdUrl[1] === undefined){
         console.log("undef");
