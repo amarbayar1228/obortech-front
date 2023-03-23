@@ -76,10 +76,10 @@ axios.post("/api/post/Gate", body).then((res) => {
         const urlId = window.location.href; 
         // local const orderIdUrl = urlId.split("http://127.0.0.1:3000/payment?orderid=");
         // server const orderIdUrl = urlId.split("http://127.0.0.1:3000/payment?orderid=");
-        const orderIdUrl = urlId.split("http://pay.obortech.io/payment?orderid=");
+        const orderIdUrl = urlId.split("https://pay.obortech.io/payment?orderid=");
         console.log("array: ", orderIdUrl);     
         if(orderIdUrl[1] === undefined){
-            console.log("undef");
+            console.log("undef123456");
             setShowCheckPay(false);
         }else{ 
             console.log("server url: ", orderIdUrl[1]);
