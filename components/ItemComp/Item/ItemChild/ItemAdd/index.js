@@ -9,7 +9,7 @@ const [formAddItem] = Form.useForm();
 const [isModalVisible, setIsModalVisible]= useState(false);
 const [vType, setVType] = useState(1);
 const [typeLevelValue, setTypeLevelValue] = useState(14);
-const [typeLevelSub, setTypeLevelSub] = useState(14);
+const [typeLevelSub, setTypeLevelSub] = useState(0);
 const [typeSubValue, setTypeSubValue] = useState(0);
 const [levelSpin, setLevelSping] = useState(false);
 useEffect(()=>{
@@ -18,6 +18,19 @@ useEffect(()=>{
 const showModal = () =>{
     console.log("props: ", props);
     setIsModalVisible(true);
+    setLevelSping(true);
+    const body = {
+        func:"getTypes",  
+        parid:14,
+        type_:2
+    }
+    axios.post("/api/post/Gate", body).then((res)=>{
+        console.log("res", res.data);
+        setLevelSping(false);
+        setTypeSubValue(res.data.data);
+        setTypeLevelSub(0)
+        
+    }).catch((err)=>console.log("err"));
 }
 const  onFinishAddItem = (values) =>{ 
 // setIsModalVisible(false);
@@ -26,9 +39,8 @@ const  onFinishAddItem = (values) =>{
 if(fileList[0]){
 let baseImg2 = fileList[0].thumbUrl.split("base64,")[1];
 
-if(typeSubValue === 0 || typeLevelSub === 14){
+if(typeSubValue === 0 || typeLevelSub === 0){
     message.error("error");
- 
 }else{ 
         const data = {
             func: "newItem", title: values.itemName, description: values.descrip2, 
@@ -48,11 +60,8 @@ if(typeSubValue === 0 || typeLevelSub === 14){
     
 }
 
-
-
-
 }else{
-    message.error("bhq");
+    message.error("Error");
 }
 }
 
@@ -84,6 +93,8 @@ setFileList(newFileList);
 };
  
 const handleCancel = ()=>{
+    setTypeSubValue(0);
+    setTypeLevelSub(14);
     setFileList([]);
     setIsModalVisible(false);
     formAddItem.resetFields();
@@ -133,7 +144,7 @@ return <div>
 </div>
 
 <div > 
-{typeLevelValue == 14 || typeLevelValue == 15  || typeLevelValue == 16 || typeLevelValue == 17 ? 
+
 <div style={{margin: "10px 47px"}}> 
 {levelSpin ? <Spin /> : 
 <Radio.Group size="small" onChange={onChangeTypeSub} value={typeLevelSub}> 
@@ -144,7 +155,7 @@ return <div>
 ))}</>} 
 </Radio.Group>
 } 
-</div>: null}
+</div>
 </div>
 </div>
     <Form.Item><div className={css.Ok}><Button style={{width: "100%"}} size="large" type="primary" htmlType="submit" className="login-form-button">+ Add</Button></div></Form.Item>

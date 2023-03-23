@@ -39,11 +39,22 @@ const [loadingPage, setLoadingPage] = useState(false);
 const [mntPrice, setMntPrice] = useState(0);
 const [totalPrice, setTotalPrice] = useState(0);
 const [orderId, setOrderId] = useState(0);
-
+const [sourceData, setSourceDate] = useState();
+const [orgId, setOrgId] = useState();
+const [successOrder, setSuccessOrder] = useState(false);
 const router = useRouter();
 useEffect(()=>{
     console.log("checkPay page, url: ",window.location.href);
-    setLoadingPage(true)
+    setLoadingPage(true);
+    
+const sourceBody = {
+    func: "getSource"
+}
+axios.post("/api/post/Gate", sourceBody).then((res)=>{
+    console.log("get Sourse ==> ", res.data.data);
+    setSourceDate(res.data.data);
+}).catch((err)=>{console.log("err", err)})
+   
     const body = {func: "getRate"};
     const rate  = {
         func: "getUSDrate"
@@ -74,36 +85,74 @@ axios.post("/api/post/Gate", body).then((res) => {
             orderID:  orderIdUrl[1],
         }
         axios.post("/api/post/Gate", body).then((res)=>{
-            console.log("getPayment: ", res.data);
-            setLoadingPage(false)
-            if(res.data.data[0]){ 
-
-                    setGetPaymentList(res.data.data[0]);
-                    // OBOT
-                if(res.data.data[0].method === 1){
-                    console.log("MNT rate: ",  mntRate);
-                    // Mongol bank vniin dvn
-                    console.log("total price: ", res.data.data[0].totalprice);
-                    setTotalPrice(res.data.data[0].totalprice);
-                    console.log("Amount: ", res.data.data[0].amount);
-                    let totalSum = res.data.data[0].totalprice - res.data.data[0].amount;
-                    let totalPrice= totalSum * mntRate;
-                    console.log("totalPri: ", totalPrice);
-                    setOrderId(res.data.data[0].orderID)
-                     setMntPrice(totalPrice)
-                    setShowCheckPay(true);
-                    setPayNum(2)
-                    setBankValue(1)
-                    //Mongol bank
-                }else if(res.data.data[0].method === 3){
-                  
-                    setShowCheckPay(true);
-                    setPayNum(1);
-                    setBankValue(2)
+            console.log("getPayment: ", res.data.data.length);
+            console.log("getPayment: ", res.data.data);
+            const getData = res.data.data; 
+            const done = 0;
+            setLoadingPage(false);
+            // 1 tei tentsvv ved
+            if(res.data.data.length === 1){ 
+                console.log("urt 1: ");
+                    const doneTwo = 0;
+                    getData.forEach(element => {
+                        // doorh true Successfully order iin datanuudiig haruulna[price, orgID, amount. status]
+                        setSuccesPay(element);
+                        doneTwo += element.amount
+                    }); 
+                    // total price ih buyu tentsvv ved gants tulsun bank - busad ved 2r tulultiin ali neg n dutuu
+                    if(getData[0].totalprice  <= doneTwo){  
+                        console.log("doneTwo: ", getData[0].totalprice);
+                        // doorh true Successfully show hiine
+                        setSuccessOrder(true) 
+                    }else {
+                        res.data.data.forEach(element => { 
+                            setGetPaymentList(element);
+                            // OBOT
+                            if(element.method === 1){
+                                console.log("MNT rate: ",  mntRate);
+                                // Mongol bank vniin dvn
+                                console.log("total price: ", element.totalprice);
+                                setOrgId(element.orgID);
+                                setTotalPrice(element.totalprice);
+                                console.log("Amount: ", element.amount);
+                                let totalSum = element.totalprice - element.amount;
+                                let totalPriceMn = totalSum * mntRate;
+                                console.log("totalPri: ", totalSum);
+                                setOrderId(element.orderID)
+                                setMntPrice([{ usd: totalSum, mnt: totalPriceMn.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,")}]);
+                                setShowCheckPay(true);
+                                setPayNum(2)
+                                setBankValue(1)
+                                //Mongol bank
+                            }else if(element.method === 3){ 
+                                setShowCheckPay(true);
+                                setPayNum(1);
+                                setBankValue(2)
+                            }  
+                        });
+                    }
+                // }
+            
+            // 2oos deesh ved 2r tulult 
+            }else if(res.data.data.length === 2){
+                console.log("urt 2: ");
+                getData.forEach(element => {
+                    setSuccesPay(element);
+                    //setSuccessOrder(true) 
+                    done += element.amount
+                }); 
+                console.log("done", done);
+                if(getData[0].totalprice  <= done){
+                    console.log("tentsvv");
+                    setSuccessOrder(true) 
+                }else {
+                    message.error("vne dutuu")
                 }
-            }else {
+            } else {
+                console.log("urt 3: ");
                 setShowCheckPay(false)
             }
+           
             
             
         }).catch((err)=>{
@@ -345,38 +394,7 @@ const newObotSend = () =>{
         console.log("err");
     })
 }
-const testFuncQpay = () =>{
-    const body = {
-        login: "login"
-    }
-    axios.post("/api/qpay/post/token", body).then((res)=>{
-    console.log("login Token: ", res.data);
-
-    const headers = { 
-        'Authorization': "Bearer " + res.data.access_token,
-    };  
-        const invo ={ 
-            invoice_code: "SMARTHUB_ECOSYS_INVOICE",
-            sender_invoice_no: "1234567",
-            invoice_receiver_code: "order id item",
-            invoice_description:"test",
-            sender_branch_code:"SALBAR1",
-            amount:130,
-            callback_url:"https://pay.obortech.io/payment?123456" 
-        }
-        axios.post("/api/qpay/invoicePost/invoice", invo, {headers: headers}).then((res)=>{ 
-            console.log("invoice: ", res.data);
-            console.log("invo: ", invo);
-            // setObjectId(res.data.invoice_id);
-            // setImgQr(res.data);
-            // setLoadingQR(false);
-        }).catch((err)=>{
-            console.log("err", err);
-        }) 
-    }).catch((err)=>{
-    console.log("err", err);
-    });
-}
+ 
 return<div> 
 {loadingPage ?
 <Skeleton active />
@@ -664,7 +682,7 @@ return<div>
     </div> 
     <div style={{display:"flex", justifyContent: "center"}}> 
   
-        <Qpay mongolObot={"mongolObotCheck"} userInfo={"description"} mntUsdPrice={mntPrice} orderId={orderId} totalPrice={totalPrice}/>
+        <Qpay mongolObot={"mongolObotCheck"} userInfo={"description"} mntUsdPrice={mntPrice} orderId={orderId} totalPrice={totalPrice} sourceData={sourceData} orgId={orgId}/>
     </div>
     </div>
     : ""          
@@ -701,7 +719,20 @@ return<div>
 </div>}
 
 </div>
-:  <Empty /> }
+:  successOrder ? <div>
+     <Result
+    status="success"
+    title="Successfully!"
+    subTitle={"Order number: " + successPay.orderID}
+    extra={[
+      <Button type="primary" key="console" onClick={()=>router.push("/")}>
+        Go Home
+      </Button>
+    ]}
+  />
+</div> : 
+<Empty /> 
+}
 </>
 }
     </div>

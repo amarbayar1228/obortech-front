@@ -29,10 +29,6 @@ const GroupAdd  = (props) =>{
     const [showTable, setShowTable] = useState(false);
     const [disableTypeErr, setDisableTypeErr] = useState(false);
     const [itemTypeNum, setItemTypeNum] = useState(0);
-useEffect(()=>{
-    
-    // getItems();
-},[]);
 const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
     setSearchText(selectedKeys[0]);
@@ -74,19 +70,13 @@ setSelectedRowKeys([]);
 setSearchText('');
 setFilteredInfo({});
 setSortedInfo({});
-};
-        
+};   
 const handleChangeTable = (pagination, filters, sorter) => {
-// setSpinner(true);
-console.log('Various pagination: ', pagination);
 setTableParams({
     pagination,
     filters,
     ...sorter,
     });
-// setPagiValue2(page);
-// setPagiValue3(1);
-// setSpinState(true);
 console.log("page: ", pagination.current +" pageSize: "+pagination.pageSize);
 const resultPage = 0;   
 if(pagination.current == 1){
@@ -96,20 +86,6 @@ if(pagination.current == 1){
     resultPage = pagination.current - 1; 
 } 
 resultPage = resultPage * pagination.pageSize;   
-// const body = {
-//     func: "getCompany",
-//     state: 1,
-//     start: resultPage,
-//     count: pagination.pageSize,
-// };
-// axios.post("/api/post/Gate", body).then((res) => {
-// console.log("res.data: ", res.data.data);
-// setCompanyData(res.data.data);
-    
-//     setCompanyData(res.data.data)
-//     setSpinner(false); 
-
-// }).catch((err) => {console.log(err)});
 
 console.log("result page: ", resultPage);
 setFilteredInfo(filters);
@@ -123,7 +99,7 @@ const getItems = () =>{
     status: "0,1",
     };
     axios.post("/api/post/Gate", body).then((res) => { 
-        // console.log("item state: ", res.data.getItems.list);
+        console.log("item state: ", res.data.getItems.list);
         // setItemData(res.data.getItems.list);
         setSpinner(false);
         if(res.data.getItems.error){
@@ -267,21 +243,13 @@ const onSelectChange = (newSelectedRowKeys, data) => {
     // console.log('selectedRowKeys changed: ', newSelectedRowKeys);
     setItemTypeNum(0);
     const notArrived = true;
-    const notArrived2 = 0;
-    const arr = [];
-    // console.log("data: ", data);
+    console.log("data: ", data);
     data.forEach(element => { 
-    if(element.type_ === 21){ 
-        setItemTypeNum(22);  
-    }else if(element.type_ === 22){  
-        setItemTypeNum(21); 
-    }else if(element.type_ === 106){  
-        setItemTypeNum(107); 
-    }else if(element.type_ === 107){  
-        setItemTypeNum(106); 
-    }
-    
-
+        if(element.type_ === 106){ 
+            setItemTypeNum(107);  
+        }else if(element.type_ === 107){  
+            setItemTypeNum(106); 
+        } 
     });
     if(!notArrived){ 
         setDisableTypeErr(true);
@@ -290,7 +258,6 @@ const onSelectChange = (newSelectedRowKeys, data) => {
             description:
               'This item 6 and item 12.',
           });
-     
     }
     setPackageItem(data);
     setSelectedRowKeys(newSelectedRowKeys);
@@ -304,8 +271,6 @@ const rowSelection = {
         name: record.title,
       }),
 };
-
-
 const backF = () =>{
     setShowTable(false);
 }

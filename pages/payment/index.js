@@ -91,10 +91,7 @@ const Payment = () => {
       // console.log("order id: ", localStorage.getItem("orderId"));
   
       const order = localStorage.getItem("orderId");
-      setOrderIdSt(order); 
-     
-     
-     
+      setOrderIdSt(0);  
     }else{
       console.log("bhq");
     } 
@@ -1114,9 +1111,7 @@ key: i, children: i === 0 ?
   ),
 },
 ];
- const reloadFunc = () =>{
-  location.replace("http://127.0.0.1:3000/payment?orderid=230321361");
- }
+ 
   return (
     <div style={{fontFamily: "Roboto Condensed, sans-serif"}}>
       <BaseLayout pageName="payment"> 
@@ -1125,21 +1120,18 @@ key: i, children: i === 0 ?
           {basketContext.basketState.length === 0 || basketContext.orgId === undefined ? (
 
             <div style={successOrderValue === 2 ? {display: "none"} : {fontSize: "15px", marginTop: "50px"}}>
-                {orderIdSt.length > 2 ? <div> 
+                {/* {orderIdSt.length > 2 ? <div> 
                   {orderIdSt}
-                  <OrderCheck />
-                  {/* <Button onClick={qpay}>qpay</Button> */}
+                  <OrderCheck /> 
                 </div>:  
-                      <> 
-                        {/* <Button onClick={qpay}>qpay</Button> */}
+                      <>   */}
                         {showCheckPay ? 
                         <CheckPay />
-                        : <> 
-                        <Button onClick={reloadFunc}>reload</Button>
+                        : <>  
                         <Empty description="Cart is empty"></Empty> 
                         </> }
-                      </>
-                  }
+                      {/* </>
+                  } */}
 
             </div>
           ) : (

@@ -1,4 +1,4 @@
-import { Badge, Button, Form, Input, InputNumber, message, Modal, notification, Radio, Space, Spin, Tooltip, Upload } from "antd";
+import { Badge, Button, Form, Input, InputNumber, message, Modal, notification, Radio, Skeleton, Space, Spin, Tooltip, Upload } from "antd";
 import React, { useState } from "react";
 import css from "./style.module.css"
 import {SearchOutlined ,CheckOutlined, ExclamationCircleOutlined, FormOutlined, ClearOutlined, StarOutlined,SolutionOutlined, FundViewOutlined,DeleteOutlined, EditOutlined} from "@ant-design/icons";
@@ -15,72 +15,39 @@ const [typeLevelSub, setTypeLevelSub] = useState(14);
 const [typeSubValue, setTypeSubValue] = useState(0);
 const [levelSpin, setLevelSping] = useState(false);
 const [disableBtn, setDisableBtn] = useState(false);
+const [typeDetails, setTypeDetails] = useState(0);
 const showModal = () => { 
+setDisableBtn(false);
 console.log("14", typeLevelValue);
-console.log("props: ", props.addItemStatus);
-
-if(props.addItemStatus.type_ === 18 || props.addItemStatus.type_ === 19 || props.addItemStatus.type_ === 20){
-    
-    setTypeLevelValue(14);
-
-    setLevelSping(true);
-    const body = {
-        func:"getTypes",  
-        parid: 14,
-        type_: 2
-    }
-    axios.post("/api/post/Gate", body).then((res)=>{
-        console.log("res", res.data);
-        setLevelSping(false);
-        setTypeSubValue(res.data.data);
-        setTypeLevelSub(props.addItemStatus.type_);
-    }).catch((err)=>console.log("err"));
-}else if(props.addItemStatus.type_ === 21 || props.addItemStatus.type_ === 23 || props.addItemStatus.type_ === 25 ||  props.addItemStatus.type_ === 27 || props.addItemStatus.type_ === 29){
-    setTypeLevelValue(15);
-     
-    setLevelSping(true);
-    const body = {
-        func:"getTypes",  
-        parid: 15,
-        type_: 2
-    }
-    axios.post("/api/post/Gate", body).then((res)=>{
-        console.log("res", res.data);
-        setLevelSping(false);
-        setTypeSubValue(res.data.data);
-        setTypeLevelSub(props.addItemStatus.type_);
-    }).catch((err)=>console.log("err"));
-
-}else if(props.addItemStatus.type_ === 22 || props.addItemStatus.type_ === 24 || props.addItemStatus.type_ === 26 ||props.addItemStatus.type_ === 28 || props.addItemStatus.type_ === 30){
-    setTypeLevelValue(16);
-    setLevelSping(true);
-    const body = {
-        func:"getTypes",  
-        parid: 16,
-        type_: 2
-    }
-    axios.post("/api/post/Gate", body).then((res)=>{
-        console.log("res", res.data);
-        setLevelSping(false);
-        setTypeSubValue(res.data.data);
-        setTypeLevelSub(props.addItemStatus.type_);
-    }).catch((err)=>console.log("err"));
-
-}else if(props.addItemStatus.type_ === 31){
-    setTypeLevelValue(17);
-    setLevelSping(true);
-    const body = {
-        func:"getTypes",  
-        parid: 17,
-        type_: 2
-    }
-    axios.post("/api/post/Gate", body).then((res)=>{
-        console.log("31 res: ", res.data);
-        setLevelSping(false);
-        setTypeSubValue(res.data.data);
-        setTypeLevelSub(props.addItemStatus.type_);
-    }).catch((err)=>console.log("err"));
+console.log("propsasd: ", props.addItemStatus.type_);
+ 
+setLevelSping(true);
+const body = {
+    func:'getTypes',
+    type_:'2',
+    index_: props.addItemStatus.type_
 }
+axios.post("/api/post/Gate", body).then((res)=>{
+    console.log("type hdr: ", res.data.data);
+    setTypeLevelValue(res.data.data[0].parid); 
+    const typeDetailsBody = {
+        func: "getTypes",
+        type_:2,
+        parid: res.data.data[0].parid
+    }
+    axios.post("/api/post/Gate", typeDetailsBody).then((res)=>{
+        console.log("res details: ", res.data.data);    
+        setLevelSping(false);
+        setTypeSubValue(res.data.data);
+        setTypeDetails(props.addItemStatus.type_);
+    }).catch((err)=>{
+        console.log("err");
+    })
+  
+}).catch((err)=>{
+    console.log("err");
+})
+
 setItemInfo(props.addItemStatus);
 setImgNullText("");
 setFileListUpdate([
@@ -122,12 +89,18 @@ setImgNullText("");
 setFileListUpdate(newFileList);
 };
 const  onFinishEdit= (values) =>{  
+    console.log("typeDetails: ", typeDetails);
 setDisableBtn(true)
+ 
 // console.log("state: ", fileListUpdate);
 // console.log("editStatus: ", editStatus);
 // console.log("idPk: ", idPk);
 
 if(fileListUpdate[0]){ 
+    if(typeDetails === 0){
+        message.error("Type level choose!")
+        setDisableBtn(false);
+    }else{
     let baseImg = fileListUpdate[0].thumbUrl.split("base64,")[1]; 
     setImgNullText(""); 
 const body ={
@@ -137,7 +110,7 @@ const body ={
     description: values.descrip,
     price: values.price,
     img: baseImg, 
-    type_: typeLevelSub,
+    type_: typeDetails,
 }
     axios.post("/api/post/Gate", body).then((res) => { 
     if(res.data.error){
@@ -157,6 +130,7 @@ const body ={
     } 
   
     }).catch((err) => {console.log("err", err)});  
+    }
 }else{
     message.error("Please input your Image!");
     setImgNullText("Please input your Image!");
@@ -166,9 +140,10 @@ const onFinishFailedEdit = (errInfo)=>{
 console.log("errInfo: ", errInfo);
 // formAddItem.resetFields(); 
 }
-const onChangeType = (e) =>{
+const onChangeType = (e) =>{ 
     setTypeLevelValue(e.target.value)
     console.log("value: ", e.target.value);
+    setDisableBtn(true);
     setLevelSping(true);
     const body = {
         func:"getTypes",  
@@ -179,13 +154,15 @@ const onChangeType = (e) =>{
         console.log("res", res.data);
         setLevelSping(false); 
        
-        setTypeSubValue(res.data.data);
-        
+        setTypeSubValue(res.data.data); 
+        setTypeDetails(0)
     }).catch((err)=>console.log("err"));
 }
 const onChangeTypeSub = (e) =>{
     console.log("subs: ", e.target.value);
-    setTypeLevelSub(e.target.value); 
+    // setTypeLevelSub(e.target.value); 
+    setTypeDetails(e.target.value)
+    setDisableBtn(false)
 }
 return <div>
 <Tooltip title="Edit">
@@ -221,32 +198,39 @@ initialValues={{
         <Upload fileList={fileListUpdate} onPreview={onPreview} listType="picture-card" onChange={onChangeImageUpdate} >
         {fileListUpdate.length < 1 && "+ Image"}</Upload> <span className={css.ImgErr}>{imgNullText}</span>
 </Form.Item>  
-
-<div className={css.TypeCss}> 
-<span style={{color: "#4d5057",   marginRight: "10px"}}>Type:</span>  
-<Radio.Group size="small" onChange={onChangeType} value={typeLevelValue} style={{display: "flex"}}> 
-        {props.typeLevel === null ? "" : <>{props.typeLevel.map((e,i)=>(
-            <div key={i}><Radio.Button value={e.index_} key={i}>{e.nameeng} </Radio.Button></div>
-        ))}</>} 
-</Radio.Group> 
-</div>
-<>
-{typeLevelValue == 14 || typeLevelValue == 15  || typeLevelValue == 16 || typeLevelValue == 17 ? 
-<div style={{margin: "10px 47px"}}> 
-{levelSpin ? <Spin className={css.Spinner} /> :
-
-<Radio.Group size="small" onChange={onChangeTypeSub} value={typeLevelSub}> 
+<> 
+ {levelSpin ?  <Spin style={{display: "flex", justifyContent: "center", marginBottom: "20px"}}/> :
+<div>
+    <div className={css.TypeCss}>  
+    <span style={{color: "#4d5057",   marginRight: "10px"}}>Type:</span>   
+        <Radio.Group size="small" onChange={onChangeType} value={typeLevelValue} style={{display: "flex"}}> 
+                {props.typeLevel === null ? "" : 
+                    <>
+                    {props.typeLevel.map((e,i)=>(
+                    <div key={i}>
+                        <Radio.Button value={e.index_} key={i}>{e.nameeng} </Radio.Button>
+                    </div>
+                ))}</>
+                } 
+        </Radio.Group>  
+    </div>
+    <div>
+    <div style={{margin: "10px 47px"}}>   
+<Radio.Group size="small" onChange={onChangeTypeSub} value={typeDetails}> 
 {typeSubValue === 0 ? "" : <>{typeSubValue.map((e,i)=>(
     <div key={i}> 
-    <Radio value={e.index_} key={i}>{e.nameeng}</Radio> 
+        <Radio value={e.index_} key={i}>{e.nameeng}</Radio> 
     
     </div>
-))}</>} 
-</Radio.Group>
-}
+))}</>
+} 
+</Radio.Group>  
+</div> 
+    </div>
+</div> }
+</>
+ <> 
 
-
-</div>: null}
 </>
 
 {/* <div><Button onClick={()=> formEdit.resetFields()}>Reset</Button></div> */}
