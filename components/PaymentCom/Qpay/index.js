@@ -219,6 +219,7 @@ const qpayPay = (orderid) =>{
     if(props.mongolObot === "mongolObot" || props.mongolObot === "mongolObotCheck"){
         if(res.data.data[0]) {
             message.success("Success")
+            localStorage.removeItem("basket");
             location.replace("/payment?orderId=" + itemOrderId);
             // router.replace("/payment?orderid=" + itemOrderId);
         }else{
