@@ -586,7 +586,7 @@ return <div className={css.Flex}>
                     <div><Input  maxLength={16} size="middle" placeholder={"Your current Obortech address is"} style={{marginLeft: "9px",width: "300px"}}/></div>
                 </div> */}
             <div style={{width: "73%", marginTop: "20px"}}>
-                <div style={{color: "#4d5057", fontSize: "16px", fontWeight: "600", marginBottom: "5px"}}>Total price: {props.mntUsdPrice[0].obot.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, "$&,")} Obot</div>
+                <div style={{color: "#4d5057", fontSize: "16px", fontWeight: "600", marginBottom: "5px"}}>Total price: {props.mntUsdPrice[0].obot} Obot</div>
                 <Button style={{width: "100%"}} type="primary"
                 //  onClick={obotFunc}
                 onClick={newObotSend}

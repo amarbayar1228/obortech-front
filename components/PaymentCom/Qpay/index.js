@@ -5,6 +5,7 @@ import { ExclamationCircleFilled } from '@ant-design/icons';
 import { useContext, useEffect, useState } from "react";
 import BasketContext from "../../../context/basketContext/BasketContext";
 import {CheckOutlined} from "@ant-design/icons";
+import { useRouter } from "next/router";
 const { confirm } = Modal;
 const Qpay = (props) =>{
     const [imgQr, setImgQr] = useState();
@@ -16,6 +17,7 @@ const Qpay = (props) =>{
     const [loadingQR, setLoadingQR] = useState(false);
     const [checkToken, setCheckToken] = useState("");
     const [countDown, setCountDown] = useState(0);
+    const router = useRouter();
 useEffect(()=>{
   console.log("Qpay props: ", props);
   setItem(props.item)
@@ -216,7 +218,8 @@ const qpayPay = (orderid) =>{
     if(props.mongolObot === "mongolObot" || props.mongolObot === "mongolObotCheck"){
         if(res.data.data[0]) {
             message.success("Success")
-            location.replace("http://127.0.0.1:3000/payment?orderid=" + itemOrderId)
+            location.replace("/payment?orderid=" + itemOrderId);
+            // router.replace("/payment?orderid=" + itemOrderId);
         }else{
             message.error("error");
         }

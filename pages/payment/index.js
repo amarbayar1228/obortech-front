@@ -127,12 +127,13 @@ const Payment = () => {
     const urlId = window.location.href; 
     // const orderIdUrl = urlId.split("http://127.0.0.1:3000/payment?orderid=");
     const orderIdUrl = urlId.split("https://pay.obortech.io/payment?orderid=");
-    console.log("array: ", orderIdUrl);     
-    if(orderIdUrl[1] === undefined){
-        console.log("undef");
-        setShowCheckPay(false)
-    }else{  
+    
+    console.log("array: ", router.query.orderid);     
+    if(router.query.orderid){
       setShowCheckPay(true);
+    }else{  
+      console.log("undef");
+      setShowCheckPay(false) 
     }
     // if(localStorage.getItem("orderid")){
     //   const order = localStorage.getItem("orderid");
@@ -356,28 +357,44 @@ const BankTypo = (value) =>{
 
   // Hansh bodoh
   // console.log("def", defaultMaxFi);
+  const convertObot = totalPriceState * defaultMaxFi.Coin / 100; 
+  console.log("OBOT Tuluh Dollar: ", convertObot + "$");
+  const totalObotHuwi = 0;
+  if(convertObot >= 1){ 
+    totalObotHuwi = 1;
+  }else if(convertObot <= 0.9){
+      const str = convertObot.toString();
+      const str2 = str.slice(2,3);  
+      if(parseInt(str2) >= 1){
+      // console.log("100 vrj");
+        totalObotHuwi = 100;
+      }else {
+        //console.log("1000vrj");
+        totalObotHuwi = 1000;
+      } 
+  }
 
-  
 
   const usd = 0;
   usd = totalPriceState  * defaultMaxFi.USD / 100;
-
+ 
   const obot = 0;
-  const convert = defaultMaxFi.Coin / 100;
-  // console.log("default",defaultMaxFi.Coin );
-  // console.log('convert: ', convert);
-  obot = totalPriceState * convert * basketContext.hanshnuud[1].obot.hansh;
-
+  const convert = totalPriceState * defaultMaxFi.Coin / 100; 
+  // console.log("coin huwi: ", convert);
+ console.log("totalOBotWi: ", totalObotHuwi);
+  obot = convert * basketContext.hanshnuud[1].obot.hansh / totalObotHuwi;
+  // console.log("obot: ", obot);
   const mnt = 0;
   const convert2 = defaultMaxFi.USD / 100;
   mnt = totalPriceState * convert2 * basketContext.hanshnuud[0].mnt.hansh2;
   //  console.log("mnt: ", mnt);
   // console.log("xansh", basketContext.hanshnuud);
-  setMntUsdPrice([{ usd: usd.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,"), obot: obot, mnt: mnt}]);
+  setMntUsdPrice([{ usd: usd, obot: obot, mnt: mnt}]);
   
   const mntr = 0;
   mntr = totalPriceState* basketContext.hanshnuud[0].mnt.hansh2;
   setMntPrice(mntr.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,")) 
+
 }
 const onFinishUserInfo = (values) =>{
   console.log("values: ", values);
@@ -862,7 +879,7 @@ const steps = [
         </div>
 
         <div className={css.SubTotal}><div><Image alt="Obertech" preview={false} src="/img/logoCirc.svg" width={20}/><span style={{marginLeft: "7px"}}>OBOT</span></div><div className={payInInstallmentsValue === 2 ? css.SubTotalSuccess : null}> 
-          {mntUsdPrice[0].obot.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}
+          {mntUsdPrice[0].obot}
           <span style={{fontSize: "10px", fontWeight: "600"}}> Obot</span><span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / {defaultMaxFi.Coin}%</span></div>
         </div>
         </>
@@ -874,7 +891,7 @@ const steps = [
             <span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / {defaultMaxFi.USD}%</span>
           </div>
         </div>
-        <div className={css.SubTotal}><div><Image alt="Obertech" preview={false} src="/img/logoCirc.svg" width={20} style={{borderRadius: "16px"}}/><span style={{marginLeft: "7px"}}>OBOT</span></div><div className={payInInstallmentsValue === 2 ? css.SubTotalSuccess : null}>  {mntUsdPrice[0].obot.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}<span style={{fontSize: "10px", fontWeight: "600"}}> Obot</span><span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / {defaultMaxFi.Coin}%</span></div>
+        <div className={css.SubTotal}><div><Image alt="Obertech" preview={false} src="/img/logoCirc.svg" width={20} style={{borderRadius: "16px"}}/><span style={{marginLeft: "7px"}}>OBOT</span></div><div className={payInInstallmentsValue === 2 ? css.SubTotalSuccess : null}>  {mntUsdPrice[0].obot}<span style={{fontSize: "10px", fontWeight: "600"}}> Obot</span><span style={{fontSize: "11px", color: "#F43F5E", fontWeight: "600"}}> / {defaultMaxFi.Coin}%</span></div>
         </div>
         </>
         : ""

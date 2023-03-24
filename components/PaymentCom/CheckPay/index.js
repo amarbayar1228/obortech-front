@@ -42,9 +42,9 @@ const [orderId, setOrderId] = useState(0);
 const [sourceData, setSourceDate] = useState();
 const [orgId, setOrgId] = useState();
 const [successOrder, setSuccessOrder] = useState(false);
+const [amount, setAmount] = useState(0);
 const router = useRouter();
-useEffect(()=>{
-    console.log("checkPay page, url: ",window.location.href);
+useEffect(()=>{ 
     setLoadingPage(true);
     
 const sourceBody = {
@@ -76,19 +76,14 @@ axios.post("/api/post/Gate", body).then((res) => {
         const urlId = window.location.href; 
         // local const orderIdUrl = urlId.split("http://127.0.0.1:3000/payment?orderid=");
         // server const orderIdUrl = urlId.split("http://127.0.0.1:3000/payment?orderid=");
-        const orderIdUrl = urlId.split("https://pay.obortech.io/payment?orderid=");
-        console.log("array: ", orderIdUrl);     
-        if(orderIdUrl[1] === undefined){
-            console.log("undef123456");
-            setShowCheckPay(false);
-        }else{ 
-            console.log("server url: ", orderIdUrl[1]);
+        // const orderIdUrl = urlId.split("https://pay.obortech.io/payment?orderid=");
+        console.log("orderID: ", router.query.orderid);
+        if(router.query.orderid){ 
             const body  = {
                 func: "getPayment",
-                orderID:  orderIdUrl[1],
+                orderID:  router.query.orderid,
             }
-        axios.post("/api/post/Gate", body).then((res)=>{
-            console.log("getPayment: ", res.data.data.length);
+        axios.post("/api/post/Gate", body).then((res)=>{ 
             console.log("getPayment: ", res.data.data);
             const getData = res.data.data; 
             const done = 0;
@@ -96,6 +91,11 @@ axios.post("/api/post/Gate", body).then((res) => {
             // 1 tei tentsvv ved
             if(res.data.data.length === 1){ 
                 console.log("urt 1: ");
+                if(res.data.data[0].status === 0){
+                    console.log("status: ", 0);
+                    setShowCheckPay(false);
+                } else {
+                    console.log("tentsehq");
                     const doneTwo = 0;
                     getData.forEach(element => {
                         // doorh true Successfully order iin datanuudiig haruulna[price, orgID, amount. status]
@@ -110,6 +110,7 @@ axios.post("/api/post/Gate", body).then((res) => {
                     }else {
                         res.data.data.forEach(element => { 
                             setGetPaymentList(element);
+                            setAmount(element.totalprice - element.amount);
                             // OBOT
                             if(element.method === 1){
                                 console.log("MNT rate: ",  mntRate);
@@ -123,34 +124,128 @@ axios.post("/api/post/Gate", body).then((res) => {
                                 console.log("totalPri: ", totalSum);
                                 setOrderId(element.orderID)
                                 setMntPrice([{ usd: totalSum, mnt: totalPriceMn.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,")}]);
+
                                 setShowCheckPay(true);
                                 setPayNum(2)
                                 setBankValue(1)
                                 //Mongol bank
                             }else if(element.method === 3){ 
+                                console.log("OBOT rate: ", obotRate);
+                                let totalSum = element.totalprice - element.amount+0.001;
+                                console.log("obot price dollar: ", totalSum + "$");
+                                const totalObotHuwi = 0;
+                                if(totalSum >= 1){ 
+                                  totalObotHuwi = 1;
+                                }else if(totalSum <= 0.9){
+                                    const str = totalSum.toString();
+                                    const str2 = str.slice(2,3);  
+                                    if(parseInt(str2) >= 1){
+                                    // console.log("100 vrj");
+                                      totalObotHuwi = 100;
+                                    }else {
+                                      //console.log("1000vrj");
+                                      totalObotHuwi = 1000;
+                                    } 
+                                }
+                                console.log("vrjih huwi: ",totalObotHuwi );
+                                const ObotPrice = totalSum * obotRate/ totalObotHuwi;
+                                console.log("obotPrice: ", ObotPrice);
+
+                                setOrgId(element.orgID);
+                                setTotalPrice(element.totalprice);
+                                setOrderId(element.orderID)
+                                setMntPrice([{ usd: ObotPrice.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, "$&,"), mnt: 123}]);
+                                
                                 setShowCheckPay(true);
                                 setPayNum(1);
                                 setBankValue(2)
+
+
                             }  
                         });
-                    }
-                // }
-            
+                    } 
+                }
             // 2oos deesh ved 2r tulult 
-            }else if(res.data.data.length === 2){
+            }else if(res.data.data.length >= 2){
                 console.log("urt 2: ");
+                const status = false;
                 getData.forEach(element => {
                     setSuccesPay(element);
+                    element.status === 0 ? status = true : null
                     //setSuccessOrder(true) 
                     done += element.amount
                 }); 
-                console.log("done", done);
-                if(getData[0].totalprice  <= done){
-                    console.log("tentsvv");
-                    setSuccessOrder(true) 
+                if(status){
+                    console.log("done", done);
+                    console.log("object, ", res.data.data[1]);
+               
+                        setGetPaymentList(res.data.data[0]);
+                        setAmount(res.data.data[0].totalprice - res.data.data[0].amount);
+                        // OBOT
+                        if(res.data.data[1].method === 1){
+                            console.log("OBOT rate: ", obotRate);
+                            let totalSum = res.data.data[0].totalprice - res.data.data[0].amount+0.001;
+                            console.log("obot price dollar: ", totalSum + "$");
+                            const totalObotHuwi = 0;
+                            if(totalSum >= 1){ 
+                              totalObotHuwi = 1;
+                            }else if(totalSum <= 0.9){
+                                const str = totalSum.toString();
+                                const str2 = str.slice(2,3);  
+                                if(parseInt(str2) >= 1){
+                                // console.log("100 vrj");
+                                  totalObotHuwi = 100;
+                                }else {
+                                  //console.log("1000vrj");
+                                  totalObotHuwi = 1000;
+                                } 
+                            }
+                            console.log("vrjih huwi: ",totalObotHuwi );
+                            const ObotPrice = totalSum * obotRate/ totalObotHuwi;
+                            console.log("obotPrice: ", ObotPrice);
+
+                            setOrgId(res.data.data[1].orgID);
+                            setTotalPrice(res.data.data[1].totalprice);
+                            setOrderId(res.data.data[1].orderID)
+                            setMntPrice([{ usd: ObotPrice.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, "$&,"), mnt: 123}]);
+
+                            setShowCheckPay(true);
+                            setPayNum(1)
+                            setBankValue(2)
+                            //Mongol bank
+                        }else if(res.data.data[1].method === 3){  
+
+                            console.log("MNT rate: ",  mntRate);
+                            // Mongol bank vniin dvn
+                            console.log("total price: ", res.data.data[1].totalprice);
+                            setOrgId(res.data.data[1].orgID);
+                            setTotalPrice(res.data.data[1].totalprice);
+                            console.log("Amount: ", res.data.data[1].amount);
+                            let totalSum = res.data.data[1].totalprice - res.data.data[1].amount;
+                            let totalPriceMn = totalSum * mntRate;
+                            console.log("totalPri: ", totalSum);
+                            setOrderId(res.data.data[1].orderID)
+                            setMntPrice([{ usd: totalSum, mnt: totalPriceMn.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,")}]);
+
+
+                            setShowCheckPay(true);
+                            setPayNum(2);
+                            setBankValue(1)
+
+
+                        }  
+                   
+                    // if(getData[0].totalprice  <= done){
+                    //     console.log("tentsvv");
+                    //     setSuccessOrder(true) 
+                    // }else {
+                    //     message.error("vne dutuu")
+                    // }
                 }else {
-                    message.error("vne dutuu")
+                    console.log("status: 1");
+                    setSuccessOrder(true) 
                 }
+               
             } else {
                 console.log("urt 3: ");
                 setShowCheckPay(false)
@@ -161,6 +256,10 @@ axios.post("/api/post/Gate", body).then((res) => {
         }).catch((err)=>{
             console.log("err:", err);
         })
+          
+        }else{ 
+            console.log("undef, ", router.query.orderid);
+            setShowCheckPay(false);
         }
 
     }).catch((err)=>{
@@ -176,134 +275,10 @@ axios.post("/api/post/Gate", body).then((res) => {
 
 
 },[])
-const HanshFunc = () => {
- 
-};
-const showModal = () => {
-setIsModalOpen(true);
-};
-const handleOk = () => {
-setIsModalOpen(false);
-};
-const handleCancel = () => {
-setIsModalOpen(false);
-};
-
 const onChange = (e) => {
     // console.log('radio checked', e.target.value);
     setBankValue(e.target.value);
 };
-
-
-const sendAxios = (a) =>{ 
-   console.log("MOngol banks");
-const body = [];
-const arr = item;
-const axiosOrderId = [];
-// img tei bol Item, imggui bol Group 
-// arr.forEach((element, i) => {
-// if (element.img) {arr[i].state = 2} else {arr[i].state = 1; arr[i].img = "";}
-// }); 
-// if (localStorage.getItem("pkId")) {   
-// body = {
-//     func: "neworder",
-//     item: arr,
-//     orgId: basketContext.orgNames[0].orgIdstate,
-//     totalPrice: props.price, 
-//     pkId: localStorage.getItem("pkId"), 
-// }; 
-// } else { 
-// body = {
-//     func: "neworder",
-//     orgId: basketContext.orgNames[0].orgIdstate,
-//     totalPrice: props.price,
-//     item: arr, 
-// }; 
-// } 
-
-// const isOk2 = false;
-// if(payOrderId === 0){ 
-// // item insert
-// // axios.post("/api/post/Gate", body).then((result) => {
-// //     console.log("res orderId: ", result.data.orderid); 
-// //    isOk2 = true;
-//     axiosOrderId = props.newOrderId; 
-//     setPayOrderId(props.newOrderId);
-// // },(error) => {console.log(error)});
-
-// }
-
-
-
-// setTimeout(()=>{ 
-// console.log("payOrderState: ", payOrderId);
-// console.log("axiosOrderID: ", axiosOrderId);
-//     const payOrders = [];
-//     if(localStorage.getItem("pkId")){
-//         payOrders ={
-//             func: "payOrders",
-//             orgID: props.orgIdRadio,
-//             orderID: payOrderId === 0 ? axiosOrderId : payOrderId, 
-//             amount: a === "mongol" || a === "mongolPay" ? props.mntUsdPrice[0].mnt : props.mntUsdPrice[0].obot,
-//             totalPrice: props.price,
-//             method: a === "mongol" || a === "mongolPay" ? 3 : 1, //khanBank
-//             paymentMethod: a === "mongol" || a === "mongolPay" ? 1 : 8,  
-//             coin: a === "mongol" || a === "mongolPay" ? 0 : props.mntUsdPrice[0].obot, 
-//             description: props.userInfo.description, 
-//             sourceDesc: a === "mongol" || a === "mongolPay" ? props.sourceData[0].nameeng  :  props.sourceData[7].nameeng,
-//             source: a === "mongol" || a === "mongolPay" ? props.sourceData[0].index_ : props.sourceData[7].index_, 
-//             userPkId: localStorage.getItem("pkId"),
-//         }
-//     }else {
-//         payOrders ={
-//             func: "payOrders",
-//             orgID: props.orgIdRadio,
-//             orderID: payOrderId === 0 ? axiosOrderId : payOrderId, 
-//             amount: a === "mongol" || a === "mongolPay" ? props.mntUsdPrice[0].mnt : props.mntUsdPrice[0].obot,
-//             totalPrice: props.price,
-//             method: a === "mongol" || a === "mongolPay" ? 3 : 1, //khanBank
-//             paymentMethod:a === "mongol" || a === "mongolPay" ? 1 : 8,  
-//             coin: a === "mongol" || a === "mongolPay" ? 0 : props.mntUsdPrice[0].obot, 
-//             description: props.userInfo.description, 
-//             sourceDesc: a === "mongol" || a === "mongolPay" ? props.sourceData[0].nameeng  :  props.sourceData[7].nameeng,
-//             source: a === "mongol" || a === "mongolPay" ? props.sourceData[0].index_ : props.sourceData[7].index_, 
-//         }
-//     } 
-//     //tulbur tuluh instert
-//     axios.post("/api/post/Gate", payOrders).then((res)=>{
-//     console.log("payOrders", res.data);  
-//     const getPayment = {
-//         func: "getPayment",
-//         orderID: payOrderId === 0 ? axiosOrderId : payOrderId,
-//     }
-//     // amjilttai tulult hariu
-//     axios.post("/api/post/Gate", getPayment).then((res)=>{
-//     console.log("payGet: ", res.data);
-//     setSuccesPay(res.data.data[0]);
-//     setIsModalOpen(true)
-//     if(a === "mongolPay" || a === "obotPay"){
-//         props.sucessOrder();  
-//         basketContext.removeBasketStorage(); 
-//     }
-//         const bodySmart = {
-//             func: "orderSend",
-//             orderid: payOrderId === 0 ? axiosOrderId : payOrderId,
-//             description: props.userInfo.description,
-//         }
-//         axios.post("/api/post/Gate", bodySmart).then((res)=>{
-//             console.log("SMH: ", res.data);
-//         }).catch((err)=>{
-//             console.log("object", err);
-//         });
-    
-//     })
-    
-//     }).catch((err)=>{
-//     console.log("err". err);
-//     })
-// },800)
-
-}  
 const onFinished = (values) =>{ 
     console.log("onFinished value: ", values);
 // localStorage.setItem("orderid", props.newOrderId);
@@ -325,74 +300,58 @@ const onFinished = (values) =>{
 const onFinishFailed = () =>{
     console.log("error");
 }
-// const obotFunc = () =>{   
-// localStorage.setItem("orderid", props.newOrderId);
-// localStorage.setItem("orderIdIndex", 0);
-
-// payNum === 1 || payNum === 2 ? sendAxios("obotPay") : sendAxios("obot")
-//     if(payNum === 1){
-//         console.log("1");
-//     }else{
-//         setPayNum(2);
-//         setBankValue(1); 
-//     }
-   
- 
-// }
 
 const newObotSend = () =>{
-  console.log("props: ", props);
-  const amountCounUsd = props.price * props.defaultMaxFi.Coin / 100;
-  console.log("coinii 20huwiin huwid Dollar n: ", amountCounUsd);
-  console.log("coin: ", props.mntUsdPrice[0].obot + "OBOT");
+  console.log("orderId: ", orderId);   
+  console.log("Total Price: ", totalPrice);
+  console.log("orgID: ", orgId);
+  console.log("OBOT price: ", mntPrice[0].usd + "OBOT");
+  console.log("amount $: ", amount); 
   setObotLoad(true);
     const payOrders = [];
     if(localStorage.getItem("pkId")){
         payOrders ={
             func: "payOrders",
-            orgID: props.orgIdRadio,
-            orderID: props.newOrderId, 
-            amount: amountCounUsd,
-            totalPrice: props.price,
-            method: 1, //khanBank
+            orgID: orgId,
+            orderID: orderId, 
+            amount: amount,
+            totalPrice: totalPrice,
+            method: 1, //OBOT
             paymentMethod: 8,  
-            coin: props.mntUsdPrice[0].obot, 
-            description: props.userInfo.description, 
-            sourceDesc: props.sourceData[7].nameeng,
-            source: props.sourceData[7].index_, 
+            coin: mntPrice[0].usd, 
+            description: getPaymentList.description, 
+            sourceDesc: sourceData[7].nameeng,
+            source: sourceData[7].index_, 
             userPkId: localStorage.getItem("pkId"),
         }
     }else {
         payOrders ={
             func: "payOrders",
-            orgID: props.orgIdRadio,
-            orderID: props.newOrderId, 
-            amount: amountCounUsd,
-            totalPrice: props.price,
-            method:  1, //khanBank
-            paymentMethod: 8,  
-            coin:  props.mntUsdPrice[0].obot, 
-            description: props.userInfo.description, 
-            sourceDesc: props.sourceData[7].nameeng,
-            source: props.sourceData[7].index_, 
+            orgID: orgId,
+            orderID: orderId, 
+            amount: amount,
+            totalPrice: totalPrice,
+            method: 1, //COIN
+            paymentMethod: 8, // OBOT  
+            coin: mntPrice[0].usd, 
+            description: getPaymentList.description,
+            sourceDesc: sourceData[7].nameeng,
+            source: sourceData[7].index_, 
         }
     } 
-    console.log("asdf: ", payOrders);
+    console.log("payOrders: ", payOrders);
     axios.post("/api/post/Gate", payOrders).then((res)=>{
         console.log("res: ", res.data);
         if(res.data.data === "success"){ 
             setTimeout(()=>{
-                localStorage.removeItem("basket");
+                // localStorage.removeItem("basket");
                 setObotLoad(false);
-                router.push("http://3.144.78.34:3000/dashboard?orderId=" + props.newOrderId );
+                router.push("http://3.144.78.34:3000/dashboard?orderId=" + orderId );
             },800)
             
         } else {
             message.error("Error");
-        }
-        
-        
-        
+        } 
     }).catch((err)=>{
         console.log("err");
     })
@@ -452,14 +411,27 @@ return<div>
         </div>
     </div> */}
     <div className={css.Basket}> 
-        <div>Price: {getPaymentList.totalprice}$</div>
-        {/* <div style={{display: "flex", textAlign: "left", fontWeight: "600", color: "#4d5057"}}>
-            <div style={{width: "50px"}}>Image</div>
-            <div style={{width: "100px"}}>Item name</div>
-            <div style={{width: "40px"}}>Cnt</div>
-            <div style={{width: "53px"}}>Price</div>
-        </div> */}
+
+    <div style={{fontWeight: "600"}}>{getPaymentList.method === 1 ? "OBOT" : "Mongolian banks"}</div>
+    <div style={{border: "1px solid green", padding: "5px 5px", borderRadius: "5px"}}> 
+        <div>Date: {getPaymentList.date_} </div>
+        <div>Organzation ID: {getPaymentList.orgID}</div>
+        <div>Method: {getPaymentList.paymentMethod === 5 ? sourceData[4].nameeng : "OBOT"}</div>
+       
+        <div>Price: {getPaymentList.amount}$</div>
+        <div>Status: {getPaymentList.status === 0 ? <span style={{color: "red"}}>Unsuccessful</span> :  <span style={{color: "Green"}}>Success</span>}</div>
+    </div>
+
+    <div style={{fontWeight: "600", marginTop: "5px"}}>{getPaymentList.method === 1 ? "Mongolian banks" : "OBOT"}</div>
+    <div style={{border: "1px solid #ccc", padding: "5px 5px", borderRadius: "5px", marginTop: "5px"}}> 
+        <div>Status: <span style={{color: "red"}}>Unsuccessful</span></div>
+        <div>Amount to be paid: {amount.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, "$&,")}$ </div>
+     
+    </div>
         
+    <div style={{border: "1px solid #ccc", padding: "5px 5px", borderRadius: "5px", marginTop: "5px"}}>  
+        <div>Total Price: {getPaymentList.totalprice}$</div>
+    </div>
         
         
     </div>
@@ -574,6 +546,7 @@ return<div>
         </Form.Item>  
         <div className={css.Price}> <div>Total Payment</div> <div>
                 MNT Price: ***** ₮
+               
                 {/* {props.mntUsdPrice[0].mnt.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}₮ */}
              
              </div></div>
@@ -606,7 +579,7 @@ return<div>
         </Form.Item>  
         <div className={css.Price}> <div>Total Payment</div> <div> 
             
-        MNT Price: ***** ₮
+        MNT Price: ***** ₮ 
                 {/* {props.mntUsdPrice[0].mnt.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}₮ */}
         </div></div>
         <Form.Item  wrapperCol={{span: 24}}> <div className={css.Login}><Button style={{width: "100%"}} type="primary" htmlType="submit" className="login-form-button">Pay now</Button></div></Form.Item>
@@ -685,7 +658,7 @@ return<div>
     </div> 
     <div style={{display:"flex", justifyContent: "center"}}> 
   
-        <Qpay mongolObot={"mongolObotCheck"} userInfo={"description"} mntUsdPrice={mntPrice} orderId={orderId} totalPrice={totalPrice} sourceData={sourceData} orgId={orgId}/>
+        <Qpay mongolObot={"mongolObotCheck"} userInfo={getPaymentList.description} mntUsdPrice={mntPrice} orderId={orderId} totalPrice={totalPrice} sourceData={sourceData} orgId={orgId}/>
     </div>
     </div>
     : ""          
@@ -705,8 +678,8 @@ return<div>
             <div style={{width: "73%", marginTop: "20px"}}>
                 <div style={{color: "#4d5057", fontSize: "16px", fontWeight: "600", marginBottom: "5px"}}>Total price:  
                 {/* {props.mntUsdPrice[0].obot.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, "$&,")} */}
-                 *****Obot</div>
-                <Button style={{width: "100%"}} type="primary"
+                {mntPrice[0].usd} OBOT </div>
+                <Button style={{width: "100%"}} type="primary" size="large"
                 //  onClick={obotFunc}
                 onClick={newObotSend}
                 loading={obotLoad}
@@ -729,8 +702,8 @@ return<div>
     subTitle={"Order number: " + successPay.orderID}
     extra={[
       <Button type="primary" key="console" onClick={()=>router.push("/")}>
-        Go Home
-      </Button>
+        Go Home 
+      </Button>, <Button onClick={()=> location.replace("/payment?orderid=230323395")}>replace2</Button>
     ]}
   />
 </div> : 
