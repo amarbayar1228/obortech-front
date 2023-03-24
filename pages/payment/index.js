@@ -136,7 +136,7 @@ const Payment = () => {
         console.log("undef");
         setShowCheckPay(false) 
       }
-    },3000) 
+    },1000) 
   
     // if(localStorage.getItem("orderid")){
     //   const order = localStorage.getItem("orderid");
@@ -1136,7 +1136,7 @@ key: i, children: i === 0 ?
   return (
     <div style={{fontFamily: "Roboto Condensed, sans-serif"}}>
       <BaseLayout pageName="payment"> 
-      
+
         <div style={{ fontSize: "14px", fontWeight: "500" }}> 
         {/*  */}
           {basketContext.basketState.length === 0 || basketContext.orgId === undefined ? (
