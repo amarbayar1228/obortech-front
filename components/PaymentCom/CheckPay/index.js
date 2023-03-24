@@ -703,7 +703,7 @@ return<div>
     extra={[
       <Button type="primary" key="console" onClick={()=>router.push("/")}>
         Go Home 
-      </Button>, <Button onClick={()=> location.replace("/payment?orderid=230323395")}>replace2</Button>
+      </Button> 
     ]}
   />
 </div> : 
