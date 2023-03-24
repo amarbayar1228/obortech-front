@@ -94,7 +94,7 @@ const qpayPay = (orderid) =>{
             invoice_receiver_code: orderid + "",
             invoice_description: props.mongolObot === "mongolObotCheck" || props.mongolObot === "mongolObot" ? props.userInfo : props.userInfo.description,
             sender_branch_code:"SALBAR1",
-            amount: props.mntUsdPrice[0].mnt,
+            amount: parseInt(props.mntUsdPrice[0].mnt),
             callback_url:"http://pay.obortech.io/payment?orderid=" + orderid
         }
         axios.post("/api/qpay/invoicePost/invoice", invo, {headers: headers}).then((res)=>{ 
