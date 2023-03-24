@@ -126,15 +126,18 @@ const Payment = () => {
 
     const urlId = window.location.href; 
     // const orderIdUrl = urlId.split("http://127.0.0.1:3000/payment?orderid=");
-    const orderIdUrl = urlId.split("https://pay.obortech.io/payment?orderid=");
+    // const orderIdUrl = urlId.split("https://pay.obortech.io/payment?orderid=");
     
-    console.log("array: ", router.query.orderId);     
-    if(router.query.orderId){
-      setShowCheckPay(true);
-    }else{  
-      console.log("undef");
-      setShowCheckPay(false) 
-    }
+    console.log("router query: ", router.query);    
+    setTimeout(()=>{
+      if(router.query.orderId){
+        setShowCheckPay(true);
+      }else{  
+        console.log("undef");
+        setShowCheckPay(false) 
+      }
+    },3000) 
+  
     // if(localStorage.getItem("orderid")){
     //   const order = localStorage.getItem("orderid");
     //   router.push("/payment/?orderid=" + order);
@@ -1133,6 +1136,7 @@ key: i, children: i === 0 ?
   return (
     <div style={{fontFamily: "Roboto Condensed, sans-serif"}}>
       <BaseLayout pageName="payment"> 
+      
         <div style={{ fontSize: "14px", fontWeight: "500" }}> 
         {/*  */}
           {basketContext.basketState.length === 0 || basketContext.orgId === undefined ? (
