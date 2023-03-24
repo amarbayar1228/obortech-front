@@ -128,8 +128,8 @@ const Payment = () => {
     // const orderIdUrl = urlId.split("http://127.0.0.1:3000/payment?orderid=");
     const orderIdUrl = urlId.split("https://pay.obortech.io/payment?orderid=");
     
-    console.log("array: ", router.query.orderid);     
-    if(router.query.orderid){
+    console.log("array: ", router.query.orderId);     
+    if(router.query.orderId){
       setShowCheckPay(true);
     }else{  
       console.log("undef");

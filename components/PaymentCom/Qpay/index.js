@@ -95,7 +95,7 @@ const qpayPay = (orderid) =>{
             invoice_description: props.mongolObot === "mongolObotCheck" || props.mongolObot === "mongolObot" ? props.userInfo : props.userInfo.description,
             sender_branch_code:"SALBAR1",
             amount: parseInt(props.mntUsdPrice[0].mnt),
-            callback_url:"http://pay.obortech.io/payment?orderid=" + orderid
+            callback_url:"http://pay.obortech.io/payment?orderId=" + orderid
         }
         axios.post("/api/qpay/invoicePost/invoice", invo, {headers: headers}).then((res)=>{ 
             console.log("invoice: ", res.data);
@@ -218,7 +218,7 @@ const qpayPay = (orderid) =>{
     if(props.mongolObot === "mongolObot" || props.mongolObot === "mongolObotCheck"){
         if(res.data.data[0]) {
             message.success("Success")
-            location.replace("/payment?orderid=" + itemOrderId);
+            location.replace("/payment?orderId=" + itemOrderId);
             // router.replace("/payment?orderid=" + itemOrderId);
         }else{
             message.error("error");

@@ -77,11 +77,11 @@ axios.post("/api/post/Gate", body).then((res) => {
         // local const orderIdUrl = urlId.split("http://127.0.0.1:3000/payment?orderid=");
         // server const orderIdUrl = urlId.split("http://127.0.0.1:3000/payment?orderid=");
         // const orderIdUrl = urlId.split("https://pay.obortech.io/payment?orderid=");
-        console.log("orderID: ", router.query.orderid);
-        if(router.query.orderid){ 
+        console.log("orderID: ", router.query.orderId);
+        if(router.query.orderId){ 
             const body  = {
                 func: "getPayment",
-                orderID:  router.query.orderid,
+                orderID:  router.query.orderId,
             }
         axios.post("/api/post/Gate", body).then((res)=>{ 
             console.log("getPayment: ", res.data.data);
