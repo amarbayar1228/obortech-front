@@ -568,7 +568,7 @@ return <div className={css.Flex}>
         <div> </div>
     </div> 
     <div style={{display:"flex", justifyContent: "center"}}> 
-        <Qpay mongolObot={"mongolObot"} userInfo={props.userInfo} mntUsdPrice={props.mntUsdPrice} orderId={props.newOrderId} totalPrice={props.price} sourceData={props.sourceData}/>
+        <Qpay mongolObot={"mongolObot"} userInfo={props.userInfo} mntUsdPrice={props.mntUsdPrice} orderId={props.newOrderId} totalPrice={props.price} sourceData={props.sourceData} orgIdRadio={props.orgIdRadio}/>
     </div>
     </div>
     : ""          

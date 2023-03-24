@@ -92,7 +92,7 @@ const qpayPay = (orderid) =>{
             invoice_code: "SMARTHUB_ECOSYS_INVOICE",
             sender_invoice_no: "1234567",
             invoice_receiver_code: orderid + "",
-            invoice_description: props.mongolObot === "mongolObotCheck" || props.mongolObot === "mongolObot" ? props.userInfo : props.userInfo.description,
+            invoice_description: props.mongolObot === "mongolObotCheck" ? props.userInfo : props.userInfo.description,
             sender_branch_code:"SALBAR1",
             amount: parseInt(props.mntUsdPrice[0].mnt),
             callback_url:"http://pay.obortech.io/payment?orderId=" + orderid
@@ -174,6 +174,7 @@ const qpayPay = (orderid) =>{
  const backSuccessOrder = () =>{
     const payOrders = [];
     // end deer huuwal tuluh heseg dutuu ym bga 
+
     if(localStorage.getItem("pkId")){
         payOrders ={
             func: "payOrders",
@@ -184,9 +185,9 @@ const qpayPay = (orderid) =>{
             method:  3, // MNT
             paymentMethod: 5,  // Qpay
             coin: 0, 
-            description: props.mongolObot === "mongolObotCheck" || props.mongolObot === "mongolObot"  ? props.userInfo : props.userInfo.description, 
+            description: props.mongolObot === "mongolObotCheck" ? props.userInfo : props.userInfo.description, 
             sourceDesc: props.sourceData[4].nameeng,
-            source: props.sourceData[4].index_, 
+            source: props.sourceData[4].index_,  
             userPkId: localStorage.getItem("pkId"),
         }
     }else {
@@ -199,7 +200,7 @@ const qpayPay = (orderid) =>{
             method:  3, // MNT
             paymentMethod: 5,  // Qpay
             coin: 0, 
-            description: props.mongolObot === "mongolObotCheck" || props.mongolObot === "mongolObot"  ? props.userInfo : props.userInfo.description, 
+            description: props.mongolObot === "mongolObotCheck" ? props.userInfo : props.userInfo.description, 
             sourceDesc: props.sourceData[4].nameeng,
             source: props.sourceData[4].index_,  
         }
