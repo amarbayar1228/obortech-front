@@ -87,6 +87,7 @@ const focusInput = () =>{
     });
 }
   const onFinish = (values) => { 
+    console.log("values: ", values);
     setBtnLogin(true);
     var passwordHash = sha256(password);  
     const body = {func: "signIn",username: username,password: passwordHash,};  
@@ -95,14 +96,23 @@ const focusInput = () =>{
 
         if (res.data.data.username) {
           setEmail(res.data.data.email);
-          message.success(t("WE have sent OTP to your email. Please check your email!")); 
-        
+          message.success(t("We have sent OTP to your email. Please check your email!")); 
+          const body2 = {
+            func: "resendCode",
+            email: res.data.data.email,
+          }
+          axios.post("/api/post/Gate", body2).then((res)=>{
+            // console.log("resendCode: ", res.data);
+            // setResentDis(false);
+          }).catch((err)=>{
+            console.log("err", err);
+          }) 
           setCodePage(1);
           
           setBtnLogin(false); 
           countDown();
           // router.push("/");
-         
+           
         } else {
           recaptchaRef.current.props.grecaptcha.reset();
           notification["error"]({ message: 'Submit Error',description:'These credentials do not match our records.'}); 

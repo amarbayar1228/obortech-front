@@ -90,12 +90,12 @@ const qpayPay = (orderid) =>{
     };  
         const invo ={ 
             invoice_code: "SMARTHUB_ECOSYS_INVOICE",
-            sender_invoice_no: "1234567",
+            sender_invoice_no:"OB " + orderid,
             invoice_receiver_code: orderid + "",
-            invoice_description: props.mongolObot === "mongolObotCheck" ? props.userInfo : props.userInfo.description,
+            invoice_description: props.mongolObot === "mongolObotCheck" ? props.orgId : props.orgIdRadio,
             sender_branch_code:"SALBAR1",
             amount: parseInt(props.mntUsdPrice[0].mnt),
-            callback_url:"http://pay.obortech.io/payment?orderId=" + orderid
+            callback_url:"https://pay.obortech.io/payment?invoiceid=" + orderid
         }
         axios.post("/api/qpay/invoicePost/invoice", invo, {headers: headers}).then((res)=>{ 
             console.log("invoice: ", res.data);
@@ -185,7 +185,7 @@ const qpayPay = (orderid) =>{
             method:  3, // MNT
             paymentMethod: 5,  // Qpay
             coin: 0, 
-            description: props.mongolObot === "mongolObotCheck" ? props.userInfo : props.userInfo.description, 
+            description: props.mongolObot === "mongolObotCheck" ? props.userInfo : props.userInfo.description,
             sourceDesc: props.sourceData[4].nameeng,
             source: props.sourceData[4].index_,  
             userPkId: localStorage.getItem("pkId"),
@@ -200,7 +200,8 @@ const qpayPay = (orderid) =>{
             method:  3, // MNT
             paymentMethod: 5,  // Qpay
             coin: 0, 
-            description: props.mongolObot === "mongolObotCheck" ? props.userInfo : props.userInfo.description, 
+            description: props.mongolObot === "mongolObotCheck" ? props.userInfo : props.userInfo.description,
+            
             sourceDesc: props.sourceData[4].nameeng,
             source: props.sourceData[4].index_,  
         }
@@ -260,7 +261,8 @@ const qpayPay = (orderid) =>{
                     {countDown}
                 </div> */}
                 <div style={{color: "#4d5052", fontSize: "22px", fontWeight: "600", textAlign: "center"}}> Price: {props.mongolObot === "mongolObotCheck" ? props.mntUsdPrice[0].mnt :  props.mntUsdPrice[0].mnt.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,")}₮</div>
-                <Image src={"data:image/png;base64," + imgQr.qr_image} preview={true} alt="obortech" width={200}/>
+                <div><Button onClick={()=>props.sucessOrder("amraa")}>success order</Button></div>
+                <Image src={"data:image/png;base64," + imgQr.qr_image} preview={true} alt="obortech" width={300}/>
                 <div style={{margin: "10px 0px"}}> <Button type="primary" onClick={payCheckFunc} size="large" icon={<CheckOutlined />}>Check pay</Button></div>
                 <div style={{display: "flex", width: "84%", flexFlow: "wrap"}}>
                    
