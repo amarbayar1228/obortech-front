@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import BaseLayout from "../../components/Layout/BaseLayout";
-import { Avatar, Badge, Button, Divider, Image, Input, List, message, Modal, Select, Steps, Table, Typography  } from "antd";
+import { Avatar, Badge, Button, Divider, Image, Input, List, message, Modal, Select, Spin, Steps, Table, Typography  } from "antd";
 import { Statistic, Card, Row, Col } from "antd";
 import { EyeOutlined } from "@ant-design/icons"; 
 import css from "./style.module.css";
@@ -8,17 +8,20 @@ import BasketContext from "../../context/basketContext/BasketContext";
 import { useTranslation } from "next-i18next";
 import Spinner from "../../components/Spinner";
 import ReCAPTCHA from "react-google-recaptcha";
+import axios from "axios";
 const Dashboard = () => {
   const { t } = useTranslation("dashboard");
-  const basketContext = useContext(BasketContext);
-  const [password, setPassword ] = useState("");
-  const [stateToo, setStateToo] = useState("");
+  const basketContext = useContext(BasketContext); 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenWithdraw, setIsModalOpenWithdraw] = useState(false);
   const recaptchaRef = useRef();
   const [userFormCapt, setUserFormCapt] = useState(true);
-
-
+  const [spinner, setSpinner] = useState(true);
+  const [getDollarSt, setDollarSt] = useState([]);
+  const [getCoinSt, setCointSt] = useState([]);
+  const [getMntTotal, setMntTotal] = useState(0);
+  const [getDollarTotal, setDollarTotal] = useState(0);
+  const [showWallet, setShowWallet] = useState(0)
 const onChangeCaptcha = (a) =>{ 
   console.log("captcha change: ", a);
   a == null ? setUserFormCapt(true) : setUserFormCapt(false);
@@ -26,7 +29,12 @@ const onChangeCaptcha = (a) =>{
 const errorCapt = (err) =>{
   console.log("err", err);
 }
-  const showModal = () => {
+  const showModal = (event) => {
+    if(event === 0){
+      setShowWallet(0)
+    }else{
+      setShowWallet(1);
+    }
     setIsModalOpen(true);
   };
   const handleOk = () => {
@@ -38,12 +46,58 @@ const errorCapt = (err) =>{
  
 useEffect(() => {
   window.onpopstate = (event) =>{
-   
     history.go(1)
     console.log("event", event);
     // message.success("Back hiih gj bn ")
   }
+  getInsentive();
 }, []);
+const getInsentive = () =>{
+  setSpinner(true)
+  const body = {
+    func: "getDetInsentive",
+    userPkId: localStorage.getItem("pkId")
+  }
+  axios.post("/api/post/Gate", body ).then((res)=>{ 
+    console.log("body: ", res.data);
+    var getMnt = [];
+    var mntTotal = 0;
+    var dollarTotal = 0;
+    var getCoin = []; 
+    if(res.data.data){
+        res.data.data.forEach(element => {
+          if(element.payMethod === 3){
+            getMnt.push(element)
+            mntTotal += element.fee
+          }else if (element.payMethod === 1){
+            getCoin.push(element);
+            dollarTotal += element.fee
+            
+          }
+        });
+
+        console.log("getMnt", getMnt);
+        
+        setDollarSt(getMnt);
+        setCointSt(getCoin);
+
+        setMntTotal(mntTotal);
+        setDollarTotal(dollarTotal); 
+        // if(hooson.length === 0 ){
+        //   console.log("hooson", hooson);
+        // }else{
+        //   console.log("bish", hooson);
+        // }
+    }else {
+      
+    }
+
+  }).catch((err)=>{
+    console.log("err: ", err);
+  }).finally((dd)=>{
+    setSpinner(false)
+  })
+}
 const columns = [
   {
     title: 'Date',
@@ -135,67 +189,70 @@ const handleCancelWithdraw = () =>{
  
       
       <div style={{width: "98%"}}>
-      
-        <div className={css.DashFlex}>
-          <div className={css.Box}>
-            <div className={css.Col1}>
-              <div> 
-                <div style={{color: "#727272"}}>MNT Wallet</div>
-                <div className={css.DPrice}>132,000.0 ₮</div>
-                <div className={css.DMethod}>MNT</div>
-              </div>
-
-              <Image alt="Obertech" preview={false} src="/img/walletMNT.jpg" width={95}/>
-              {/* <div className={css.DIcon}>
-               ₮
-              </div> */}
-            </div>
-            <div className={css.Col2} > 
-              <div><Button icon={<EyeOutlined/>} size="small" type="primary" shape="round" onClick={showModal}></Button></div>
-              <div><Button type="primary" size="small">Withdraw</Button></div>
-            </div>
-          </div> 
-          <div className={css.Box}>
-            <div className={css.Col1}>
-              <div> 
-                <div style={{color: "#727272"}}>USD Wallet</div>
-                <div className={css.DPrice}>$ 26,000</div>
-                <div className={css.DMethod}>USD</div>
-              </div>
-              {/* <div className={css.DIcon}>
-               $
-              </div> */}
+        {spinner ? <Spin /> : 
+          <div className={css.DashFlex}>
+            
+            {/* <div className={css.Box}>
+              <div className={css.Col1}>
+                <div> 
+                  <div style={{color: "#727272"}}>MNT Wallet</div>
+                  <div className={css.DPrice}>132,000.0 ₮</div>
+                  <div className={css.DMethod}>MNT</div>
+                </div>
                 <Image alt="Obertech" preview={false} src="/img/walletMNT.jpg" width={95}/>
-            </div>
-            <div className={css.Col2}> 
-            <div><Button icon={<EyeOutlined/>} size="small" type="primary" shape="round"></Button></div>
-              <div><Button type="primary" size="small">Withdraw</Button></div>
-            </div>
-          </div> 
-          <div className={css.Box}>
-            <div className={css.Col1}>
-              <div> 
-                <div style={{color: "#727272"}}>OBOT Wallet</div>
-                <div className={css.DPrice}>2,600,1 Obot</div>
-                <div className={css.DMethod}>OBOT</div>
               </div>
-              {/* <div className={css.DIcon}>
-               C
-              </div> */}
-                 <Image alt="Obertech" preview={false} src="/img/walletMNT.jpg" width={95}/>
-            </div>
-            <div className={css.Col2}> 
-              <div><Button icon={<EyeOutlined/>} size="small" type="primary" shape="round"></Button></div>
-              <div><Button type="primary" size="small" onClick={showModalWithdraw}> 
-              <Image alt="Obertech" preview={false} src="/img/wallet-money.svg" width={20} style={{paddingRight: "2px"}}/>
-              Withdraw</Button></div>
-            </div>
-          </div> 
-        </div>
+              <div className={css.Col2} > 
+                <div><Button icon={<EyeOutlined/>} size="small" type="primary" shape="round" onClick={showModal}></Button></div>
+                <div><Button type="primary" size="small">Withdraw</Button></div>
+              </div>
+            </div>  */}
+            {getDollarSt.length === 0 ? null : 
+            <div className={css.Box}>
+              <div className={css.Col1}>
+                <div> 
+                  <div style={{color: "#727272"}}>USD Wallet</div>
+                  <div className={css.DPrice}>$ {getMntTotal}</div>
+                  <div className={css.DMethod}>USD</div>
+                </div>
+                {/* <div className={css.DIcon}>
+                $
+                </div> */}
+                  <Image alt="Obertech" preview={false} src="/img/walletMNT.jpg" width={95}/>
+              </div>
+              <div className={css.Col2}> 
+              <div><Button icon={<EyeOutlined/>} size="small" type="primary" shape="round" onClick={()=>showModal(0)}></Button></div>
+                <div><Button type="primary" size="small">Withdraw</Button></div>
+              </div>
+            </div> 
+            }
+            {getCoinSt.length === 0 ? null : 
+              <div className={css.Box}>
+                <div className={css.Col1}>
+                  <div> 
+                    <div style={{color: "#727272"}}>OBOT Wallet</div>
+                    <div className={css.DPrice}>{getDollarTotal} Obot</div>
+                    <div className={css.DMethod}>OBOT</div>
+                  </div>
+                  {/* <div className={css.DIcon}>
+                  C
+                  </div> */}
+                    <Image alt="Obertech" preview={false} src="/img/walletMNT.jpg" width={95}/>
+                </div>
+                <div className={css.Col2}> 
+                  <div><Button icon={<EyeOutlined/>} size="small" type="primary" shape="round" onClick={()=>showModal(1)}></Button></div>
+                  <div><Button type="primary" size="small" onClick={showModalWithdraw}> 
+                  <Image alt="Obertech" preview={false} src="/img/wallet-money.svg" width={20} style={{paddingRight: "2px"}}/>
+                  Withdraw</Button></div>
+                </div>
+              </div> 
+            }
+          </div>
+        }
         <div style={{width: "95%", margin: "30px auto"}}>
         <Table bordered columns={columns} dataSource={data} scroll={{x: 1200, y: 300}}/>
             <div>
             <Modal title="Details" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
+              {showWallet === 0 ? 
               <div>
                 <div className={css.HdrDetails}>
                   <div className={css.Date}>Date</div>
@@ -203,30 +260,38 @@ const handleCancelWithdraw = () =>{
                   <div className={css.OrgName}>Organzition name</div>
                   <div className={css.Amount}>Amount</div>
                   <div className={css.Status}>Status</div>
-                </div>
-                <div className={css.HdrDetails2}> 
-                  <div className={css.Date}>2023-01-05</div>
-                  <div className={css.Currency}>Dollar</div>
-                  <div className={css.OrgName}>Obortech</div>
-                  <div className={css.Amount}>$75.5</div>
-                  <div className={css.Status}>Success</div>
-                </div>
-                <div className={css.HdrDetails2}> 
-                  <div className={css.Date}>2023-01-06</div>
-                  <div className={css.Currency}>Төгрөг</div>
-                  <div className={css.OrgName}>Обортек </div>
-                  <div className={css.Amount}>150.500₮</div>
-                  <div className={css.Status}>Success</div>
-                </div>
-                <div className={css.HdrDetails2}> 
-                  <div className={css.Date}>2023-01-07</div>
-                  <div className={css.Currency}>Obot</div>
-                  <div className={css.OrgName}>Обортек </div>
-                  <div className={css.Amount}>20500.0 </div>
-                  <div className={css.Status}>Success</div>
-                </div>
+                </div> 
+                {getDollarSt.map((e, i)=>(
+                  <div className={css.HdrDetails2} key={i}> 
+                    <div className={css.Date}>{e.date1}</div>
+                    <div className={css.Currency}>Dollar</div>
+                    <div className={css.OrgName}>{e.orgId} </div>
+                    <div className={css.Amount}>{e.fee} $ </div>
+                    <div className={css.Status}>Success</div>
+                  </div>
+                ))}
+                
                 
               </div>
+              :    <div>
+              <div className={css.HdrDetails}>
+                <div className={css.Date}>Date</div>
+                <div className={css.Currency}>Currency</div>
+                <div className={css.OrgName}>Organzition name</div>
+                <div className={css.Amount}>Amount</div>
+                <div className={css.Status}>Status</div>
+              </div>
+              {getCoinSt.map((e, i)=>(
+              <div className={css.HdrDetails2}> 
+                 <div className={css.Date}>{e.date1}</div>
+                    <div className={css.Currency}>Coin</div>
+                    <div className={css.OrgName}>{e.orgId} </div>
+                    <div className={css.Amount}>{e.fee} $ </div>
+                    <div className={css.Status}>Success</div>
+              </div> 
+              ))}
+            </div>
+}
             </Modal>
             </div>
            <div> 

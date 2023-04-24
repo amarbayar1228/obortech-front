@@ -130,7 +130,7 @@ const Payment = () => {
     
     console.log("router query: ", router.query);    
     setTimeout(()=>{
-      if(router.query.orderId){
+      if(router.query.orderid){
         setShowCheckPay(true);
       }else{  
         console.log("undef");

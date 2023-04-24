@@ -131,6 +131,7 @@ const save = async (key) => {
         func: "setPercentage",
         percentage: newData[0].incentive,
         adminPkId: localStorage.getItem("pkId"),
+        // orgID: "obogti760"
         }
         axios.post("/api/post/Gate", body).then((res)=>{
             message.success("Success");
