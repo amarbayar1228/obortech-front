@@ -112,7 +112,7 @@ export default function Home() {
         console.log("res: ", res.data);
         if(res.data.data){
           // console.log("search: ", res.data);
-          setOrgIdState(router.locale === "mn" ? res.data.data.map.local_name : res.data.data.map.name);
+          setOrgIdState(router.locale === "mn" ? res.data.data.map.mongolianName : res.data.data.map.name);
           setOrgError(""); 
           setSpin(false);
         }else { 
