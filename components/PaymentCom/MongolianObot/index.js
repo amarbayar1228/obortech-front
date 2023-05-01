@@ -248,7 +248,9 @@ const newObotSend = () =>{
             setTimeout(()=>{
                 localStorage.removeItem("basket");
                 setObotLoad(false);
-                router.push("http://3.144.78.34:3000/dashboard?orderId=" + props.newOrderId );
+                // router.push("http://3.144.78.34:3000/dashboard?orderId=" + props.newOrderId );
+                
+                router.push("https://devcrypto.obortech.io/dashboard?orderId=" + props.newOrderId );
             },800)
             
         } else {
