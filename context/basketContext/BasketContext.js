@@ -174,10 +174,7 @@ const orgIdRemove = () =>{
    
   };
   
-  const HanshFunc = () => {
-   
-  
-
+  const HanshFunc = () => { 
     const body = {func: "getRate"};
     const rate  = {
       func: "getUSDrate"
@@ -185,15 +182,18 @@ const orgIdRemove = () =>{
     axios.post("/api/post/Gate", body).then((res) => { 
       console.log("OBOT: ", res.data.data);
       const obotRate = res.data.data.map.data.map.obotValueCG
-      axios.post("/api/post/Gate",rate ).then((res)=>{
-        console.log("Rate: ", res.data.data.myArrayList[0].map);
-        // setHanshnuud(res.data.data);
-        setHanshnuud([{mnt:{hansh1:  res.data.data.myArrayList[0].map.rate, hansh2: res.data.data.myArrayList[0].map.rate_float}},{obot:{hansh: obotRate}}]);
+        axios.post("/api/post/Gate",rate ).then((res)=>{
+          console.log("Rate: ", res.data.data.myArrayList[0].map);
+          // setHanshnuud(res.data.data);
+          setHanshnuud([
+            {mnt:{hansh1:  res.data.data.myArrayList[0].map.rate, 
+              hansh2: res.data.data.myArrayList[0].map.rate_float}},
+            {obot:{hansh: obotRate}}]);
 
-      }).catch((err)=>{
-        console.log("err",err);
-      })
-      
+        }).catch((err)=>{
+          console.log("err",err);
+        })
+        
       })
       .catch((err) => {
         console.log("err: ", err);
