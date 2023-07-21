@@ -17,15 +17,13 @@ async function SlugPost(slug, data, headers, aa) {
       headers: {
           'Authorization': "Basic " + basicAuth
       },
-       
     }
   ).then((result) => {resolve(result)},(error) => {reject(error)});
         
     } else if(data.invoice_code === "SMARTHUB_ECOSYS_INVOICE"){
        // Qpay simpleInvoice vvsgeh qr awah
     axios.post(`${"https://merchant.qpay.mn/v2"}/${slug}`,data,
-    { 
-      
+    {  
       headers: { 
       "ContentType": "application/json", 
       'Authorization': headers.authorization}

@@ -282,7 +282,7 @@ const handleCancelWithdraw = () =>{
                 <div className={css.Status}>Status</div>
               </div>
               {getCoinSt.map((e, i)=>(
-              <div className={css.HdrDetails2}> 
+              <div className={css.HdrDetails2} key={i}> 
                  <div className={css.Date}>{e.date1}</div>
                     <div className={css.Currency}>Coin</div>
                     <div className={css.OrgName}>{e.orgId} </div>

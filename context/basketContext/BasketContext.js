@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { message, Spin } from "antd";
+import { message, notification, Spin } from "antd";
 import axios from "axios";
 import { useTranslation } from "next-i18next";
 const BasketContext = React.createContext();
@@ -18,10 +18,9 @@ export const BasketItem = (props) => {
   const { t, ready } = useTranslation(["login", "organization", "dashboard", "order-history", "security", "header"]); 
 
   const router = useRouter();
-  useEffect(() => {   
+  useEffect(() => {
     // setTimeout(()=>{
       basketStateFunc();
-      routerFunction();
       MenuKey();
       getUserProfileFunction();
       HanshFunc();
@@ -52,58 +51,7 @@ const orgIdRemove = () =>{
     setBasketState([]);
     basketStateFunc();
   };
-  const routerFunction = () => {
-    // if(router.pathname == "/items"){
-    //   if(orgId === ""){
-    //       router.push("/");
-    //   }else{
-    //     router.push("/items");
-    //   }
-    // }
-
-    // if (router.pathname == "/login") {
-    //   if (localStorage.getItem("username")) {
-    //     router.push("/");
-    //   } else {
-    //     router.push("/login");
-    //   }
-    // }
-    // if (router.pathname == "/add-item") {
-    //   if (localStorage.getItem("isSuperAdmin") === "1") {
-    //     router.push("/add-item");
-    //   } else {
-    //     router.push("/");
-    //   }
-    // }
-    // if (router.pathname == "/dashboard") {
-    //   if (localStorage.getItem("username")) {
-    //     router.push("/dashboard");
-    //   } else {
-    //     router.push("/");
-    //   }
-    // }
-    // if (router.pathname == "/add-admin") {
-    //   if (localStorage.getItem("isSuperAdmin") === "1") {
-    //     router.push("/add-admin");
-    //   } else {
-    //     router.push("/");
-    //   }
-    // }
-    // if (router.pathname == "/profile") {
-    //   if (localStorage.getItem("username") === "1") {
-    //     router.push("/profile");
-    //   } else {
-    //     router.push("/");
-    //   }
-    // }
-    // if (router.pathname == "/affiliate") {
-    //   if (localStorage.getItem("isSuperAdmin") === "1") {
-    //     router.push("/affiliate");
-    //   } else {
-    //     router.push("/");
-    //   }
-    // }
-  };
+  
 
   var basketLocal = [];
   const basketStateFunc = (a) => { 
@@ -178,10 +126,13 @@ const orgIdRemove = () =>{
     const body = {func: "getRate"};
     const rate  = {
       func: "getUSDrate"
-     }
+    }
+     // obot rate
     axios.post("/api/post/Gate", body).then((res) => { 
+       
       console.log("OBOT: ", res.data.data);
       const obotRate = res.data.data.map.data.map.obotValueCG
+        //mnt rate
         axios.post("/api/post/Gate",rate ).then((res)=>{
           console.log("Rate: ", res.data.data.myArrayList[0].map);
           // setHanshnuud(res.data.data);
@@ -196,7 +147,16 @@ const orgIdRemove = () =>{
         
       })
       .catch((err) => {
-        console.log("err: ", err);
+        notification.error({
+          message: "Error",
+          description:
+            'Obot hansh tatahad aldaa garlaa!!!',
+        });
+
+        setHanshnuud([
+          {mnt:{hansh1:  "100", 
+            hansh2: 100.0}},
+          {obot:{hansh: 0.008746}}]); 
       });
   };
   const todayDate = () =>{ 

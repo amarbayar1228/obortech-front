@@ -12,7 +12,7 @@ const Hansh = (props) =>{
     const [niitVneObot, setNiitVneObot] = useState("");
     const [dollar, setDollar] = useState([]);
     useEffect(()=>{
-        console.log("Hansh");
+        console.log("Ханш");
         // TugrugDollar();
     },[]);
 
@@ -74,7 +74,7 @@ const Hansh = (props) =>{
                {/* <Image alt="Obertech" preview={false} style={{position: "relative",width: "20px",height: "20px",objectFit: "inherit"}} src="/img/usdRate.png"/> */}
                $ 
             </div>
-              <div>1 USD - <span style={{color: "#727272"}}>{basketContext.hanshnuud[0].mnt.hansh1}  MNT</span> </div> 
+              <div>1 USD - <span style={{color: "#727272"}}>{basketContext.hanshnuud[0]?.mnt?.hansh1 || "3500"}  MNT</span> </div> 
               {/* <div style={{paddingLeft: "4px"}}> - {basketContext.hanshnuud[0].mnt.hansh1} ₮ </div> */}
             </div> 
             <div className={css.HanshCss}> 

@@ -27,7 +27,7 @@ const checkPay = () =>{
         title: 'Do you want to make a qpay payment?',
         icon: <ExclamationCircleFilled />,
         content: 'Some descriptions',
-        onOk() { 
+        onOk() {
             setToogle(true);
             setLoadingQR(true)
             if(props.mongolObot === "mongolObot"){
@@ -75,7 +75,7 @@ const checkPay = () =>{
 
 }
 const qpayPay = (orderid) =>{
-    console.log("a: ", orderid);
+    console.log("orderid: ", orderid);
 
     // Qpay tulult
     const body = {
@@ -92,7 +92,8 @@ const qpayPay = (orderid) =>{
             invoice_code: "SMARTHUB_ECOSYS_INVOICE",
             sender_invoice_no:"OB " + orderid,
             invoice_receiver_code: orderid + "",
-            invoice_description: props.mongolObot === "mongolObotCheck" ? props.orgId : props.orgIdRadio,
+            // invoice_description: props.mongolObot === "mongolObotCheck" ? props.orgId : props.orgIdRadio,
+            invoice_description: props.mongolObot === "mongolObotCheck" ? orderid : orderid,
             sender_branch_code:"SALBAR1",
             amount: parseInt(props.mntUsdPrice[0].mnt),
             callback_url:"https://pay.obortech.io/payment?invoiceid=" + orderid
@@ -135,8 +136,6 @@ const qpayPay = (orderid) =>{
     console.log("err", err);
     });
 }
-
-
  const payCheckFunc = () =>{
     console.log("objectId: ", objectId);
     
@@ -153,7 +152,6 @@ const qpayPay = (orderid) =>{
     }
     axios.post("/api/qpay/check/check", body, {headers: headers}).then((res)=>{
         console.log("res: ", res.data);
-        
         if(res.data.count === 0){
             notification["error"]({
                 message: 'The bill has not yet been paid',

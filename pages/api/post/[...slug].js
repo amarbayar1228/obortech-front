@@ -2,7 +2,7 @@ import axios from "axios";
 
 async function SlugPost(slug, data) {
   
-  // console.log("URL=============> : ", process.env.URL);
+  console.log("URL=============> : ", process.env.URL);
   // console.log("data ============> ", slug);
   // console.log("URL:   ", process.env.URL + "/" + slug);
 
@@ -39,6 +39,7 @@ async function SlugPost(slug, data) {
       );
   });
 }
+
 export const config = {
   api: {
     bodyParser: {

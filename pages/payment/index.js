@@ -27,6 +27,7 @@ import TextArea from "antd/lib/input/TextArea";
 import Qpay from "../../components/PaymentCom/Qpay";
 import OrderCheck from "../../components/PaymentCom/OrderCheck";
 import { CheckPay } from "../../components/PaymentCom/CheckPay";
+import GolomtBank from "../../components/PaymentCom/GolomtCard";
 const { TabPane } = Tabs;
 const { Step } = Steps;
 const { Paragraph } = Typography;
@@ -760,8 +761,7 @@ const steps = [
                 } 
                
             </div>
-            <div>
-          
+            <div> 
         
                 <Hansh bankChoose={bankChoose} totalPriceState={totalPriceState} />
             
@@ -922,7 +922,7 @@ const steps = [
 
     : <div className={css.PayBanks}>  
         {/* <Button onClick={BackFunc} className={css.BackCss}>Back</Button> */}
-  {bankValue === "khan" || bankValue === "Golomt" || bankValue === "Tdb" || bankValue === "Monpay" || bankValue === "Qpay" ? 
+{bankValue === "khan" || bankValue === "Golomt" || bankValue === "Tdb" || bankValue === "Monpay" || bankValue === "Qpay" ? 
     <div>  
 {!showBank ? 
 <div className={css.AlertDesk}>
@@ -970,7 +970,10 @@ key: i, children: i === 0 ?
   <KhanBank userInfo={userInfo} mntPrice={mntPrice} sourceData={sourceData} totalPriceState={totalPriceState} orgIdRadio={basketContext.orgNames[0].orgIdstate} basketState={basketContext.basketState} sucessOrder={sucessOrder}/> 
   : null}
   {/* Mongol banknuudaas songoso n  */}
-  {bankValue === "Golomt" ? <div>Golomt </div> : null}
+  {bankValue === "Golomt" ? <div>
+    
+    <GolomtBank data="amraa"/>
+  </div> : null}
   {bankValue === "Qpay" ? <div>  <Qpay userInfo={userInfo}  mnBack={mnBack} sucessOrder={sucessOrder} sourceData={sourceData} mntUsdPrice={mntUsdPrice} defaultMaxFi={defaultMaxFi} 
     orgIdRadio={basketContext.orgNames[0].orgIdstate} 
     item={basketContext.basketState}  price={totalPriceState}/>

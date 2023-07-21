@@ -1,5 +1,4 @@
 import axios from "axios";
- 
 import { Button, DatePicker, Form, Image, Radio, Space, InputNumber, message, Input, Modal, Result, Spin, Empty, Skeleton   } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import BasketContext from "../../../context/basketContext/BasketContext";
@@ -43,6 +42,7 @@ const [sourceData, setSourceDate] = useState();
 const [orgId, setOrgId] = useState();
 const [successOrder, setSuccessOrder] = useState(false);
 const [amount, setAmount] = useState(0);
+const [golomtBank, setGolomBank] = useState(false);
 const router = useRouter();
 useEffect(()=>{ 
     setLoadingPage(true);
@@ -61,7 +61,7 @@ axios.post("/api/post/Gate", sourceBody).then((res)=>{
         }
 axios.post("/api/post/Gate", body).then((res) => { 
         console.log("OBOT: ", res.data.data);
-        const obotRate = res.data.data.map.data.map.obotValueCG
+    const obotRate = res.data.data.map.data.map.obotValueCG
     
     axios.post("/api/post/Gate",rate ).then((res)=>{
         console.log("Rate: ", res.data.data.myArrayList[0].map);
@@ -87,7 +87,13 @@ axios.post("/api/post/Gate", body).then((res) => {
             console.log("getPayment: ", res.data.data);
             const getData = res.data.data; 
             const done = 0;
+            
             setLoadingPage(false);
+            // source 111 buyu golomtbank bhin bol shalgna
+            // if(getData[0].source === "111"){
+                const check =  golomtTransactionCheck(router.query.orderid);
+                console.log("check: ", check);
+            // }
             // 1 tei tentsvv ved
             if(res.data.data.length === 1){ 
                 console.log("urt 1: ");
@@ -270,10 +276,6 @@ axios.post("/api/post/Gate", body).then((res) => {
     console.log("err: ", err);
 });
 
-
-    
-
-
 },[])
 const onChange = (e) => {
     // console.log('radio checked', e.target.value);
@@ -356,7 +358,38 @@ const newObotSend = () =>{
         console.log("err");
     })
 }
- 
+
+//HMAC golomt checksum encryptleh function
+const hmac256 = (message) => {
+    var crypto = require("crypto"); 
+    const msgEncypt = message + message;
+    let hash = crypto.createHmac("sha256", 'g2Q)COW6k5MpF4$u').update(msgEncypt);
+    return hash.digest("hex");
+}  
+const golomtTransactionCheck = (orderid) =>{
+    const encrypt = hmac256(orderid);
+    const body = {
+        checksum: encrypt,
+        transactionId: orderid
+    } 
+    console.log("body: ", body);
+
+    axios.post("/api/golomt/post/inquiry", body).then((res)=>{ 
+        if(res.data.message){
+            // ogt vvseeq nehemjlel bn
+            setGolomBank(false);
+            return false;
+        }else{
+            // vvssen nehemjlel
+            setGolomBank(res.data);
+            return true;
+        }
+      }).catch((err)=>{
+        console.log("err: ", err);
+      })
+
+    return false;
+}
 return<div> 
 {loadingPage ?
 <Skeleton active />
@@ -706,8 +739,15 @@ return<div>
       </Button> 
     ]}
   />
+</div> : golomtBank ? <div>
+    vne: {golomtBank.amount}₮
+    orderID: {golomtBank.transactionId}
+    aldaa: {golomtBank.errorDesc ? golomtBank.errorDesc : "aldaa bhq"}
 </div> : 
+
 <Empty /> 
+
+
 }
 </>
 }
