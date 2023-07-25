@@ -219,7 +219,7 @@ const qpayPay = (orderid) =>{
         if(res.data.data[0]) {
             message.success("Success")
             localStorage.removeItem("basket");
-            location.replace("/payment?orderId=" + itemOrderId);
+            location.replace("/payment?orderid=" + itemOrderId);
             // router.replace("/payment?orderid=" + itemOrderId);
         }else{
             message.error("error");
