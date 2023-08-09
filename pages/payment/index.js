@@ -458,7 +458,7 @@ const placeOrder = () =>{
         'Do you select a Method!!!',
     });
   }else if(bankValue === "Tdb"){ 
-    router.push("/payment?parameter1=amaraa&parameter2=000&body=asdjflajsdlkfjaklsjfklhadbd2626251dsf3as5df1as53df1as5df1as3fd51as3df153sadfas&fbclid=IwAR24B-dJ611MB46g-9X2v0rK3P8_7NgWmDtCnZxPTY1ZVraFwFfzM4pd760");
+    // router.push("/payment?parameter1=amaraa&parameter2=000&body=asdjflajsdlkfjaklsjfklhadbd2626251dsf3as5df1as53df1as5df1as3fd51as3df153sadfas&fbclid=IwAR24B-dJ611MB46g-9X2v0rK3P8_7NgWmDtCnZxPTY1ZVraFwFfzM4pd760");
   }
 
   setPropsItems(basketContext.basketState);
@@ -922,7 +922,7 @@ const steps = [
 
     : <div className={css.PayBanks}>  
         {/* <Button onClick={BackFunc} className={css.BackCss}>Back</Button> */}
-{bankValue === "khan" || bankValue === "Golomt" || bankValue === "Tdb" || bankValue === "Monpay" || bankValue === "Qpay" ? 
+{bankValue === "khan" || bankValue === "Golomt" || bankValue === "Tdb" || bankValue === "Monpay" || bankValue === "Qpay" || bankValue === "SocialPay" ? 
     <div>  
 {!showBank ? 
 <div className={css.AlertDesk}>
@@ -961,8 +961,9 @@ const steps = [
 <Tabs defaultActiveKey="4" items={["a","b", "c"].map((Icon, i) => {  
 
 return {label:  i === 0 ? <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>{bankValue === "Qpay" ? "" : "Cart"}</div>  
-            : i === 1 ? <div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>Qpay</div> : 
-            i === 2 ? <div  style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>{bankValue === "Qpay" ? "" : "Invoice"}</div> : null ,
+            : i === 1 ?  <div  style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>{bankValue === "Qpay" ? "" : "Invoice"}</div> 
+            //<div style={{fontWeight: "600", fontSize: "14px", color: "#4d5057"}}>Qpay</div>
+            : null ,
 
 key: i, children: i === 0 ? 
 <div className={css.PaymentCss}>
@@ -972,34 +973,41 @@ key: i, children: i === 0 ?
   {/* Mongol banknuudaas songoso n  */}
   {bankValue === "Golomt" ? <div>
     
-    <GolomtBank data="amraa"/>
+    <GolomtBank  userInfo={userInfo}  mnBack={mnBack} sucessOrder={sucessOrder} sourceData={sourceData} mntUsdPrice={mntUsdPrice} defaultMaxFi={defaultMaxFi} 
+    orgIdRadio={basketContext.orgNames[0].orgIdstate} 
+    item={basketContext.basketState}  price={totalPriceState} />
   </div> : null}
   {bankValue === "Qpay" ? <div>  <Qpay userInfo={userInfo}  mnBack={mnBack} sucessOrder={sucessOrder} sourceData={sourceData} mntUsdPrice={mntUsdPrice} defaultMaxFi={defaultMaxFi} 
     orgIdRadio={basketContext.orgNames[0].orgIdstate} 
     item={basketContext.basketState}  price={totalPriceState}/>
   </div> : ""}
   {bankValue === "Tdb" ? <div>TDB bank <TdbBank /></div> : null} 
-  {bankValue === "Monpay" ? <div>Monpay2 </div> : null}
+  {bankValue === "SocialPay" ? <div><GolomtBank  userInfo={userInfo}  mnBack={mnBack} sucessOrder={sucessOrder} sourceData={sourceData} mntUsdPrice={mntUsdPrice} defaultMaxFi={defaultMaxFi} 
+    orgIdRadio={basketContext.orgNames[0].orgIdstate} 
+    item={basketContext.basketState}  price={totalPriceState} /> </div> : null} 
+  {bankValue === "Monpay" ? <div>Monpay2 </div> : null}  
 
 </div> 
 
-:  i === 1 ? <div className={css.PaymentCss}> 
-    {bankValue === "Qpay" ?  <Qpay userInfo={userInfo}  mnBack={mnBack} sucessOrder={sucessOrder} sourceData={sourceData} mntUsdPrice={mntUsdPrice} defaultMaxFi={defaultMaxFi} 
-    orgIdRadio={basketContext.orgNames[0].orgIdstate} 
-    item={basketContext.basketState}  price={totalPriceState}/> : 
-    <div className={css.Qpay}> 
-    asd
-      <div className={css.QpaySize}>
-        <Image alt="Obertech" preview={false} src="/img/qr.png" width={150}/>
-      </div>
-      <div className={css.QpayTitle}>Төлөх дүн </div>
-      <div className={css.QpayPrice}>{mntPrice}₮</div>
-    </div>
-}
-</div> : 
-  i === 2 ? <div className={css.PaymentCss}>
+:  
+// i === 1 ? <div className={css.PaymentCss}> 
+//     {bankValue === "Qpay" ?  <Qpay userInfo={userInfo}  mnBack={mnBack} sucessOrder={sucessOrder} sourceData={sourceData} mntUsdPrice={mntUsdPrice} defaultMaxFi={defaultMaxFi} 
+//     orgIdRadio={basketContext.orgNames[0].orgIdstate} 
+//     item={basketContext.basketState}  price={totalPriceState}/> : 
+//     <div className={css.Qpay}> 
+//     Qpay components ==
+//       <div className={css.QpaySize}>
+//         <Image alt="Obertech" preview={false} src="/img/qr.png" width={150}/>
+//       </div>
+//       <div className={css.QpayTitle}>Төлөх дүн </div>
+//       <div className={css.QpayPrice}>{mntPrice}₮</div>
+//     </div>
+// }
+// </div> 
+// : 
+  i === 1 ? <div className={css.PaymentCss}>
     {!invoiceBoolean ?
-      <> 
+    <> 
       <div className={css.ShiljvvlegCont}> 
         <div className={css.Shiljvvleg}>
           <div className={css.ShilTitle}>Account number </div>
@@ -1074,38 +1082,38 @@ key: i, children: i === 0 ?
 
         {bankValue === "Mongol" ? 
         <div> 
-  {!showBank ? 
-<div className={css.AlertDesk}>
-  <div className={css.AlertText}>
-    <Alert message="Informational Notes"
-      description="Additional description and information about copywriting."
-      type="warning"
-      showIcon
-    />
-  </div>
-  
-  <div className={css.AlertInput}> 
-  <div className={css.AlertName}>Please fill in your information!</div>
-    <Form name="normal_login" className="login-form" initialValues={{ remember: true}} validateMessages={validateMessages} labelAlign="left" labelCol={{span: 8,}} wrapperCol={{span: 22}} onFinish={onFinishUserInfo} onFinishFailed={onFinishFailedUserInfo}>
-      {!localStorage.getItem("pkId") ? <> 
-      <Form.Item name="email" label="Email" rules={[{ type: "email", required: true, message: (<div style={{ fontWeight: "500" }}>Please input your Email!</div>)}]}>
-        <Input size="middle" prefix={<MailOutlined className={css.Title} />} placeholder={"Email"}/>
-      </Form.Item> 
-      <Form.Item name="countryCode" label="Phone Number" rules={[{required: true, message: 'Please input your phone number!'}]}>
-          <PhoneInput   enableSearch={true} country={'us'} value={countryCode} onChange={(e) => setCountryCode(e)} style={{width: "100%"}}/>
-      </Form.Item></>
-      : null }
-      <Form.Item name="description"  tooltip="This is a required field" label="Description" rules={[{   required: true, message: (<div style={{ fontWeight: "500" }}>Please input your Description!</div>)}]}>
-        <TextArea size="middle"  placeholder={"Description"}/>
-      </Form.Item> 
-      <div style={{width: "100%", marginBottom: "20px", display: "flex", justifyContent: "right"}}> 
-    <ReCAPTCHA   onErrored={errorCapt}  ref={recaptchaRef}   sitekey="6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t" onChange={onChangeCaptcha}/>
-    </div>  
-      <Form.Item status="error" wrapperCol={{span: 24}}> <div className={css.Login}><Button disabled={userFormCapt} style={{width: "100%",background: "rgb(244, 63, 94)", border: "none" }} type="primary" htmlType="submit" className="login-form-button" size="large">Continue</Button></div></Form.Item>
-    </Form>   
-  </div>
-</div>
-: null }
+          {!showBank ? 
+        <div className={css.AlertDesk}>
+          <div className={css.AlertText}>
+            <Alert message="Informational Notes"
+              description="Additional description and information about copywriting."
+              type="warning"
+              showIcon
+            />
+          </div>
+          
+          <div className={css.AlertInput}> 
+          <div className={css.AlertName}>Please fill in your information!</div>
+            <Form name="normal_login" className="login-form" initialValues={{ remember: true}} validateMessages={validateMessages} labelAlign="left" labelCol={{span: 8,}} wrapperCol={{span: 22}} onFinish={onFinishUserInfo} onFinishFailed={onFinishFailedUserInfo}>
+              {!localStorage.getItem("pkId") ? <> 
+              <Form.Item name="email" label="Email" rules={[{ type: "email", required: true, message: (<div style={{ fontWeight: "500" }}>Please input your Email!</div>)}]}>
+                <Input size="middle" prefix={<MailOutlined className={css.Title} />} placeholder={"Email"}/>
+              </Form.Item> 
+              <Form.Item name="countryCode" label="Phone Number" rules={[{required: true, message: 'Please input your phone number!'}]}>
+                  <PhoneInput   enableSearch={true} country={'us'} value={countryCode} onChange={(e) => setCountryCode(e)} style={{width: "100%"}}/>
+              </Form.Item></>
+              : null }
+              <Form.Item name="description"  tooltip="This is a required field" label="Description" rules={[{   required: true, message: (<div style={{ fontWeight: "500" }}>Please input your Description!</div>)}]}>
+                <TextArea size="middle"  placeholder={"Description"}/>
+              </Form.Item> 
+              <div style={{width: "100%", marginBottom: "20px", display: "flex", justifyContent: "right"}}> 
+            <ReCAPTCHA   onErrored={errorCapt}  ref={recaptchaRef}   sitekey="6Ld-prciAAAAAOY-Md7hnxjnk4hD5wbh8bK4ld5t" onChange={onChangeCaptcha}/>
+            </div>  
+              <Form.Item status="error" wrapperCol={{span: 24}}> <div className={css.Login}><Button disabled={userFormCapt} style={{width: "100%",background: "rgb(244, 63, 94)", border: "none" }} type="primary" htmlType="submit" className="login-form-button" size="large">Continue</Button></div></Form.Item>
+            </Form>   
+          </div>
+        </div>
+        : null }
          {showBank ?
           <MongolianObot userInfo={userInfo}  mnBack={mnBack} sucessOrder={sucessOrder} sourceData={sourceData} mntUsdPrice={mntUsdPrice} defaultMaxFi={defaultMaxFi} 
           newOrderId={newOrderId}

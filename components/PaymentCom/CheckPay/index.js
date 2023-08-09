@@ -55,10 +55,10 @@ axios.post("/api/post/Gate", sourceBody).then((res)=>{
     setSourceDate(res.data.data);
 }).catch((err)=>{console.log("err", err)})
    
-    const body = {func: "getRate"};
-    const rate  = {
-        func: "getUSDrate"
-        }
+const body = {func: "getRate"};
+const rate  = {
+    func: "getUSDrate"
+}
 axios.post("/api/post/Gate", body).then((res) => { 
         console.log("OBOT: ", res.data.data);
     const obotRate = res.data.data.map.data.map.obotValueCG
@@ -77,120 +77,120 @@ axios.post("/api/post/Gate", body).then((res) => {
         // local const orderIdUrl = urlId.split("http://127.0.0.1:3000/payment?orderid=");
         // server const orderIdUrl = urlId.split("http://127.0.0.1:3000/payment?orderid=");
         // const orderIdUrl = urlId.split("https://pay.obortech.io/payment?orderid=");
-        console.log("orderID: ", router.query.orderid);
-        if(router.query.orderid){ 
-            const body  = {
-                func: "getPayment",
-                orderID:  router.query.orderid,
+
+        // Shalguur getCheckPayment(); 8sariin 8nd here=> getCheckPayment();
+       
+
+    }).catch((err)=>{
+        console.log("err",err);
+    })
+        
+}).catch((err) => {
+    console.log("err: ", err);
+});
+getCheckPayment();
+},[]);
+
+const getCheckPayment = () =>{
+    console.log("orderID: ", router.query.orderid);
+    if(router.query.orderid){ 
+        const body  = {
+            func: "getPayment",
+            orderID:  router.query.orderid,
+        }
+    axios.post("/api/post/Gate", body).then((res)=>{ 
+        console.log("getPayment: ", res.data.data);
+        const getData = res.data.data; 
+        const done = 0;
+        
+        setLoadingPage(false);
+        // source 111 buyu golomtbank bhin bol shalgna
+        // if(getData[0].source === "111"){
+            const check =  golomtTransactionCheck(router.query.orderid);
+            console.log("check: ", check);
+            // true ved golomt-oor tulugdsun
+            if(check){
+                // qpay componentees backSuccessOrder function harah hergtei 
+                // orderid - gaar n itemaa duudah hergtei duudasnii daraaa  payOrders ruu tulbur tulsun method-oo ywuulna
+                // const payOrders = [];
+                // if(localStorage.getItem("pkId")){
+                //     payOrders ={
+                //         func: "payOrders",
+                //         orgID: props.mongolObot === "mongolObotCheck" ? props.orgId : props.orgIdRadio,
+                //         orderID: itemOrderId, 
+                //         amount: props.mntUsdPrice[0].usd+"",
+                //         totalPrice: props.mongolObot === "mongolObot" || props.mongolObot === "mongolObotCheck" ? props.totalPrice : props.price,
+                //         method:  3, // MNT
+                //         paymentMethod: 5,  // Qpay
+                //         coin: 0, 
+                //         description: props.mongolObot === "mongolObotCheck" ? props.userInfo : props.userInfo.description,
+                //         sourceDesc: props.sourceData[4].nameeng,
+                //         source: props.sourceData[4].index_,  
+                //         userPkId: localStorage.getItem("pkId"),
+                //     }
+                // }else {
+                //     payOrders ={
+                //         func: "payOrders",
+                //         orgID: props.mongolObot === "mongolObotCheck" ? props.orgId : props.orgIdRadio,
+                //         orderID: itemOrderId, 
+                //         amount: props.mntUsdPrice[0].usd+"",
+                //         totalPrice: props.mongolObot === "mongolObot" || props.mongolObot === "mongolObotCheck" ? props.totalPrice : props.price,
+                //         method:  3, // MNT
+                //         paymentMethod: 5,  // Qpay
+                //         coin: 0, 
+                //         description: props.mongolObot === "mongolObotCheck" ? props.userInfo : props.userInfo.description,
+                        
+                //         sourceDesc: props.sourceData[4].nameeng,
+                //         source: props.sourceData[4].index_,  
+                //     }
+                // } 
             }
-        axios.post("/api/post/Gate", body).then((res)=>{ 
-            console.log("getPayment: ", res.data.data);
-            const getData = res.data.data; 
-            const done = 0;
-            
-            setLoadingPage(false);
-            // source 111 buyu golomtbank bhin bol shalgna
-            // if(getData[0].source === "111"){
-                const check =  golomtTransactionCheck(router.query.orderid);
-                console.log("check: ", check);
-            // }
-            // 1 tei tentsvv ved
-            if(res.data.data.length === 1){ 
-                console.log("urt 1: ");
-                if(res.data.data[0].status === 0){
-                    console.log("status: ", 0);
-                    setShowCheckPay(false);
-                } else {
-                    console.log("tentsehq");
-                    const doneTwo = 0;
-                    getData.forEach(element => {
-                        // doorh true Successfully order iin datanuudiig haruulna[price, orgID, amount. status]
-                        setSuccesPay(element);
-                        doneTwo += element.amount
-                    }); 
-                    // total price ih buyu tentsvv ved gants tulsun bank - busad ved 2r tulultiin ali neg n dutuu
-                    if(getData[0].totalprice  <= doneTwo){  
-                        console.log("doneTwo: ", getData[0].totalprice);
-                        // doorh true Successfully show hiine
-                        setSuccessOrder(true) 
-                    }else {
-                        res.data.data.forEach(element => { 
-                            setGetPaymentList(element);
-                            setAmount(element.totalprice - element.amount);
-                            // OBOT
-                            if(element.method === 1){
-                                console.log("MNT rate: ",  mntRate);
-                                // Mongol bank vniin dvn
-                                console.log("total price: ", element.totalprice);
-                                setOrgId(element.orgID);
-                                setTotalPrice(element.totalprice);
-                                console.log("Amount: ", element.amount);
-                                let totalSum = element.totalprice - element.amount;
-                                let totalPriceMn = totalSum * mntRate;
-                                console.log("totalPri: ", totalSum);
-                                setOrderId(element.orderID)
-                                setMntPrice([{ usd: totalSum, mnt: totalPriceMn.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,")}]);
+        // }
 
-                                setShowCheckPay(true);
-                                setPayNum(2)
-                                setBankValue(1)
-                                //Mongol bank
-                            }else if(element.method === 3){ 
-                                console.log("OBOT rate: ", obotRate);
-                                let totalSum = element.totalprice - element.amount+0.001;
-                                console.log("obot price dollar: ", totalSum + "$");
-                                const totalObotHuwi = 0;
-                                if(totalSum >= 1){ 
-                                  totalObotHuwi = 1;
-                                }else if(totalSum <= 0.9){
-                                    const str = totalSum.toString();
-                                    const str2 = str.slice(2,3);  
-                                    if(parseInt(str2) >= 1){
-                                    // console.log("100 vrj");
-                                      totalObotHuwi = 100;
-                                    }else {
-                                      //console.log("1000vrj");
-                                      totalObotHuwi = 1000;
-                                    } 
-                                }
-                                console.log("vrjih huwi: ",totalObotHuwi );
-                                const ObotPrice = totalSum * obotRate/ totalObotHuwi;
-                                console.log("obotPrice: ", ObotPrice);
-
-                                setOrgId(element.orgID);
-                                setTotalPrice(element.totalprice);
-                                setOrderId(element.orderID)
-                                setMntPrice([{ usd: ObotPrice.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, "$&,"), mnt: 123}]);
-                                
-                                setShowCheckPay(true);
-                                setPayNum(1);
-                                setBankValue(2)
-
-
-                            }  
-                        });
-                    } 
-                }
-            // 2oos deesh ved 2r tulult 
-            }else if(res.data.data.length >= 2){
-                console.log("urt 2: ");
-                const status = false;
+        // 1 tei tentsvv ved
+        if(res.data.data.length === 1){ 
+            console.log("urt 1: ");
+            if(res.data.data[0].status === 0){
+                console.log("status: ", 0);
+                setShowCheckPay(false);
+            } else {
+                console.log("tentsehq");
+                const doneTwo = 0;
                 getData.forEach(element => {
+                    // doorh true Successfully order iin datanuudiig haruulna[price, orgID, amount. status]
                     setSuccesPay(element);
-                    element.status === 0 ? status = true : null
-                    //setSuccessOrder(true) 
-                    done += element.amount
+                    doneTwo += element.amount
                 }); 
-                if(status){
-                    console.log("done", done);
-                    console.log("object, ", res.data.data[1]);
-               
-                        setGetPaymentList(res.data.data[0]);
-                        setAmount(res.data.data[0].totalprice - res.data.data[0].amount);
+                // total price ih buyu tentsvv ved gants tulsun bank - busad ved 2r tulultiin ali neg n dutuu
+                if(getData[0].totalprice  <= doneTwo){  
+                    console.log("doneTwo: ", getData[0].totalprice);
+                    // doorh true Successfully show hiine
+                    setSuccessOrder(true) 
+                }else {
+                    res.data.data.forEach(element => { 
+                        setGetPaymentList(element);
+                        setAmount(element.totalprice - element.amount);
                         // OBOT
-                        if(res.data.data[1].method === 1){
+                        if(element.method === 1){
+                            console.log("MNT rate: ",  mntRate);
+                            // Mongol bank vniin dvn
+                            console.log("total price: ", element.totalprice);
+                            setOrgId(element.orgID);
+                            setTotalPrice(element.totalprice);
+                            console.log("Amount: ", element.amount);
+                            let totalSum = element.totalprice - element.amount;
+                            let totalPriceMn = totalSum * mntRate;
+                            console.log("totalPri: ", totalSum);
+                            setOrderId(element.orderID)
+                            setMntPrice([{ usd: totalSum, mnt: totalPriceMn.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,")}]);
+
+                            setShowCheckPay(true);
+                            setPayNum(2)
+                            setBankValue(1)
+                            //Mongol bank
+                        }else if(element.method === 3){ 
                             console.log("OBOT rate: ", obotRate);
-                            let totalSum = res.data.data[0].totalprice - res.data.data[0].amount+0.001;
+                            let totalSum = element.totalprice - element.amount+0.001;
                             console.log("obot price dollar: ", totalSum + "$");
                             const totalObotHuwi = 0;
                             if(totalSum >= 1){ 
@@ -210,73 +210,117 @@ axios.post("/api/post/Gate", body).then((res) => {
                             const ObotPrice = totalSum * obotRate/ totalObotHuwi;
                             console.log("obotPrice: ", ObotPrice);
 
-                            setOrgId(res.data.data[1].orgID);
-                            setTotalPrice(res.data.data[1].totalprice);
-                            setOrderId(res.data.data[1].orderID)
+                            setOrgId(element.orgID);
+                            setTotalPrice(element.totalprice);
+                            setOrderId(element.orderID)
                             setMntPrice([{ usd: ObotPrice.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, "$&,"), mnt: 123}]);
-
+                            
                             setShowCheckPay(true);
-                            setPayNum(1)
+                            setPayNum(1);
                             setBankValue(2)
-                            //Mongol bank
-                        }else if(res.data.data[1].method === 3){  
-
-                            console.log("MNT rate: ",  mntRate);
-                            // Mongol bank vniin dvn
-                            console.log("total price: ", res.data.data[1].totalprice);
-                            setOrgId(res.data.data[1].orgID);
-                            setTotalPrice(res.data.data[1].totalprice);
-                            console.log("Amount: ", res.data.data[1].amount);
-                            let totalSum = res.data.data[1].totalprice - res.data.data[1].amount;
-                            let totalPriceMn = totalSum * mntRate;
-                            console.log("totalPri: ", totalSum);
-                            setOrderId(res.data.data[1].orderID)
-                            setMntPrice([{ usd: totalSum, mnt: totalPriceMn.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,")}]);
-
-
-                            setShowCheckPay(true);
-                            setPayNum(2);
-                            setBankValue(1)
 
 
                         }  
-                   
-                    // if(getData[0].totalprice  <= done){
-                    //     console.log("tentsvv");
-                    //     setSuccessOrder(true) 
-                    // }else {
-                    //     message.error("vne dutuu")
-                    // }
-                }else {
-                    console.log("status: 1");
-                    setSuccessOrder(true) 
-                }
+                    });
+                } 
+            }
+        // 2oos deesh ved 2r tulult 
+        }else if(res.data.data.length >= 2){
+            console.log("urt 2: ");
+            const status = false;
+            getData.forEach(element => {
+                setSuccesPay(element);
+                element.status === 0 ? status = true : null
+                //setSuccessOrder(true) 
+                done += element.amount
+            }); 
+            if(status){
+                console.log("done", done);
+                console.log("object, ", res.data.data[1]);
+           
+                    setGetPaymentList(res.data.data[0]);
+                    setAmount(res.data.data[0].totalprice - res.data.data[0].amount);
+                    // OBOT
+                    if(res.data.data[1].method === 1){
+                        console.log("OBOT rate: ", obotRate);
+                        let totalSum = res.data.data[0].totalprice - res.data.data[0].amount+0.001;
+                        console.log("obot price dollar: ", totalSum + "$");
+                        const totalObotHuwi = 0;
+                        if(totalSum >= 1){ 
+                          totalObotHuwi = 1;
+                        }else if(totalSum <= 0.9){
+                            const str = totalSum.toString();
+                            const str2 = str.slice(2,3);  
+                            if(parseInt(str2) >= 1){
+                            // console.log("100 vrj");
+                              totalObotHuwi = 100;
+                            }else {
+                              //console.log("1000vrj");
+                              totalObotHuwi = 1000;
+                            } 
+                        }
+                        console.log("vrjih huwi: ",totalObotHuwi );
+                        const ObotPrice = totalSum * obotRate/ totalObotHuwi;
+                        console.log("obotPrice: ", ObotPrice);
+
+                        setOrgId(res.data.data[1].orgID);
+                        setTotalPrice(res.data.data[1].totalprice);
+                        setOrderId(res.data.data[1].orderID)
+                        setMntPrice([{ usd: ObotPrice.toFixed(3).replace(/\d(?=(\d{3})+\.)/g, "$&,"), mnt: 123}]);
+
+                        setShowCheckPay(true);
+                        setPayNum(1)
+                        setBankValue(2)
+                        //Mongol bank
+                    }else if(res.data.data[1].method === 3){  
+
+                        console.log("MNT rate: ",  mntRate);
+                        // Mongol bank vniin dvn
+                        console.log("total price: ", res.data.data[1].totalprice);
+                        setOrgId(res.data.data[1].orgID);
+                        setTotalPrice(res.data.data[1].totalprice);
+                        console.log("Amount: ", res.data.data[1].amount);
+                        let totalSum = res.data.data[1].totalprice - res.data.data[1].amount;
+                        let totalPriceMn = totalSum * mntRate;
+                        console.log("totalPri: ", totalSum);
+                        setOrderId(res.data.data[1].orderID)
+                        setMntPrice([{ usd: totalSum, mnt: totalPriceMn.toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,")}]);
+
+
+                        setShowCheckPay(true);
+                        setPayNum(2);
+                        setBankValue(1)
+
+
+                    }  
                
-            } else {
-                console.log("urt 3: ");
-                setShowCheckPay(false)
+                // if(getData[0].totalprice  <= done){
+                //     console.log("tentsvv");
+                //     setSuccessOrder(true) 
+                // }else {
+                //     message.error("vne dutuu")
+                // }
+            }else {
+                console.log("status: 1");
+                setSuccessOrder(true) 
             }
            
-            
-            
-        }).catch((err)=>{
-            console.log("err:", err);
-        })
-          
-        }else{ 
-            console.log("undef, ", router.query.orderid);
-            setShowCheckPay(false);
+        } else {
+            console.log("urt 3: ");
+            setShowCheckPay(false)
         }
-
-    }).catch((err)=>{
-        console.log("err",err);
-    })
+       
         
-}).catch((err) => {
-    console.log("err: ", err);
-});
-
-},[])
+        
+    }).catch((err)=>{
+        console.log("err:", err);
+    })
+      
+    }else{ 
+        console.log("undef, ", router.query.orderid);
+        setShowCheckPay(false);
+    }
+}
 const onChange = (e) => {
     // console.log('radio checked', e.target.value);
     setBankValue(e.target.value);
@@ -366,7 +410,9 @@ const hmac256 = (message) => {
     let hash = crypto.createHmac("sha256", 'g2Q)COW6k5MpF4$u').update(msgEncypt);
     return hash.digest("hex");
 }  
-const golomtTransactionCheck = (orderid) =>{
+
+// golomt banknii guilgee shalgah function
+const golomtTransactionCheck = async (orderid) =>{
     const encrypt = hmac256(orderid);
     const body = {
         checksum: encrypt,
@@ -374,7 +420,8 @@ const golomtTransactionCheck = (orderid) =>{
     } 
     console.log("body: ", body);
 
-    axios.post("/api/golomt/post/inquiry", body).then((res)=>{ 
+   await axios.post("/api/golomt/post/inquiry", body).then((res)=>{ 
+    console.log("res: ", res.data);
         if(res.data.message){
             // ogt vvseeq nehemjlel bn
             setGolomBank(false);
@@ -740,12 +787,26 @@ return<div>
     ]}
   />
 </div> : golomtBank ? <div>
-    vne: {golomtBank.amount}₮
+<Result
+    status="success"
+    title="Successfully!"
+    subTitle={"Order number: " + golomtBank.transactionId}
+   
+    extra={[
+        <div style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}> 
+        Price: {golomtBank.amount}₮
+      <Button type="primary" key="console" onClick={()=>router.push("/")} style={{width: "250px"}}>
+        Go Home 
+      </Button>
+      </div> 
+    ]}
+  />
+    {/* vne: {golomtBank.amount}₮
     orderID: {golomtBank.transactionId}
-    aldaa: {golomtBank.errorDesc ? golomtBank.errorDesc : "aldaa bhq"}
+    status: {golomtBank.errorDesc ? golomtBank.errorDesc : "aldaa bhq"} */}
 </div> : 
-
-<Empty /> 
+ ""
+// <Empty /> 
 
 
 }
