@@ -1018,7 +1018,7 @@ key: i, children: i === 0 ?
         </div>
         
         <div className={css.Shiljvvleg}>
-          <div className={css.ShilTitle}>Receiver</div>
+          <div className={css.ShilTitle}>Receiver </div>
           <div className={css.ShilTitle2}> Obortech XXK</div>
           <div className={css.Copy}>  
           <Paragraph copyable={{text: "Obortech XXK"}}></Paragraph>
