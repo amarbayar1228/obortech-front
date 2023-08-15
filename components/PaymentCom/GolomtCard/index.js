@@ -2,24 +2,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Alert, Button, message } from "antd";
 import { useRouter } from "next/router";
-
-const data = {
-            transactionId: "2307194724",
-            amount: "1000",
-            returnType: "POST",
-            callback: "http://127.0.0.1:3000/payment?orderid=23071947211"
-        }
-
 const GolomtBank = (props) =>{
-    const [invoice, setInvoice] = useState(); 
-
     const router = useRouter();
-    useEffect(()=>{ 
-        console.log("props: ", props)
-      
- 
-    },[]);
-
     // item bolon golomt bankruu invoice ilgeej bga function
     const sendItem = async () =>{ 
             const body = [];
